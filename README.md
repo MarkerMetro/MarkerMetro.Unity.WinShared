@@ -1,0 +1,1 @@
+Shared code that can't be placed in a plugin.
