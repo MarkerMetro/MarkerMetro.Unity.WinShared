@@ -3,6 +3,12 @@ Getting Started
 
 This repo contain shared code that shouldn't be placed in a plugin.
 
+Common
+====================
+Shared code between Windows 8 and Windows Phone 8 that has to be in the app project. 
+
+Add the Common folder contents to your WindowsSolution folder (the folder holding your Windows and WP8 projects) and then add a linked file to the CommonMainPage (and any other files in the future) on the root of your projects so code is included correctly. 
+
 AppResLib
 ====================
 
