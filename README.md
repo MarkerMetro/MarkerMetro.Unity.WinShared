@@ -3,7 +3,7 @@ Getting Started
 
 This repo contain shared code that shouldn't be placed in a plugin.
 
-Common
+WindowsSolution/Common
 ====================
 Shared code between Windows 8 and Windows Phone 8 that has to be in the app project. 
 
