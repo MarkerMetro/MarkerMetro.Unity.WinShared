@@ -5,11 +5,12 @@ using System.Threading.Tasks;
 #if WINDOWS_PHONE
 using Microsoft.Phone.Info;
 #endif
+﻿using Windows.System;
 
 #if NETFX_CORE
 namespace Template
 #else
-namespace LostLight    //  <--- Your Windows Phone namespace here!
+namespace CheckoutChallenge    //  <--- Your Windows Phone namespace here!
 #endif
 {
     /**
@@ -37,8 +38,10 @@ namespace LostLight    //  <--- Your Windows Phone namespace here!
          */
         private void Initialize()
         {
+#if WINDOWS_PHONE
             // wire up the configuration file handler:
             DeviceInformation.DoGetEnvironment = GetEnvironment;
+#endif
             if (DisplayMemoryInfo)
                 BeginRecording();
         }
@@ -56,17 +59,18 @@ namespace LostLight    //  <--- Your Windows Phone namespace here!
 
         /**
          * Add this to your DrawingSurfaceBackgroundGrid block in MaingPage.xaml:
-         *  <TextBlock x:Name="memoryStat" Text="0 MB" IsHitTestVisible="False" Visibility="Collapsed"/>
+         *  <TextBlock x:Name="TextBoxMemoryStats" Text="0 MB" IsHitTestVisible="False" Visibility="Collapsed"/>
          */
         private void BeginRecording()
         {
-#if WINDOWS_PHONE
             // start a timer to report memory conditions every 3 seconds 
-            // 
-            memoryStat.Visibility = System.Windows.Visibility.Visible;
+#if WINDOWS_PHONE
+            TextBoxMemoryStats.Visibility = System.Windows.Visibility.Visible;
+
             timer = new Timer(state =>
             {
                 string report = "";
+                
                 report +=
                    "Current: " + (DeviceStatus.ApplicationCurrentMemoryUsage / 1000000).ToString() + "MB\n" +
                    "Peak: " + (DeviceStatus.ApplicationPeakMemoryUsage / 1000000).ToString() + "MB\n" +
@@ -76,7 +80,7 @@ namespace LostLight    //  <--- Your Windows Phone namespace here!
 
                 Deployment.Current.Dispatcher.BeginInvoke(delegate
                 {
-                    memoryStat.Text = report;
+                    TextBoxMemoryStats.Text = report;
                     //Debug.WriteLine(report);
                 });
 
