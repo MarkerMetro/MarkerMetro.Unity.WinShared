@@ -38,10 +38,9 @@ namespace CheckoutChallenge    //  <--- Your Windows Phone namespace here!
          */
         private void Initialize()
         {
-#if WINDOWS_PHONE
             // wire up the configuration file handler:
             DeviceInformation.DoGetEnvironment = GetEnvironment;
-#endif
+
             if (DisplayMemoryInfo)
                 BeginRecording();
         }
