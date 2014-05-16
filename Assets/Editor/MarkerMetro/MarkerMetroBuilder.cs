@@ -19,16 +19,30 @@ public static class MarkerMetroBuilder
     [MenuItem("MarkerMetro/Build.../Windows Store Apps")]
     public static void BuildMetro()
     {
-        Build(BuildTarget.MetroPlayer, MarkerMetro.CommandLineReader.GetCustomArgument("outputPath"));
+        Build(BuildTarget.MetroPlayer, 
+            MarkerMetro.CommandLineReader.GetCustomArgument("outputPath"),
+            () =>
+            {
+                EditorUserBuildSettings.selectedBuildTargetGroup = BuildTargetGroup.Metro;
+                EditorUserBuildSettings.metroBuildType = MetroBuildType.VisualStudioCSharp;
+                EditorUserBuildSettings.metroSDK = MetroSDK.SDK81;
+            });
     }
 
     [MenuItem("MarkerMetro/Build.../Windows Phone 8")]
     public static void BuildWP8()
     {
-        Build(BuildTarget.WP8Player, MarkerMetro.CommandLineReader.GetCustomArgument("outputPath"));
+        Build(BuildTarget.WP8Player,
+            MarkerMetro.CommandLineReader.GetCustomArgument("outputPath"),
+            () =>
+            {
+                EditorUserBuildSettings.selectedBuildTargetGroup = BuildTargetGroup.WP8;
+            });
     }
 
-    public static void Build(BuildTarget target, string outputPath = null)
+    public static void Build(BuildTarget target, 
+        string outputPath = null, 
+        Action beforeBuild = null)
     {
         if (Application.isPlaying)
         {
@@ -54,6 +68,10 @@ public static class MarkerMetroBuilder
                 outputPath = ".";
             Debug.LogWarning("Couldn't get settings file, using outputPath = " + outputPath);
         }
+
+        if(beforeBuild!=null)
+            beforeBuild();
+
         BuildPipeline.BuildPlayer(scenes, outputPath, target, BuildOptions.None);
     }
 
