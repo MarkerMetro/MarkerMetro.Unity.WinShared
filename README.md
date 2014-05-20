@@ -15,6 +15,11 @@ Shared code between Windows 8 and Windows Phone 8 that has to be in the app proj
 
 Add the Common folder and its contents to your WindowsSolution folder (the folder holding your Windows and WP8 projects) and then add a linked file to the CommonMainPage (and any other files in the future) on the root of your projects so code is included correctly. 
 
+Make sure the namespace for CommonMainPage.cs matches that of the MainPage.xaml.cs for the project.
+
+Make sure to add the XAML <TextBlock x:Name="TextBoxMemoryStats" Text="0 MB" IsHitTestVisible="False" Visibility="Collapsed"/>
+to MainPage.xaml, this will show the memory stats.
+
 
 
 AppResLib
