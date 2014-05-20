@@ -17,8 +17,8 @@ Add the Common folder and its contents to your WindowsSolution folder (the folde
 
 Make sure the namespace for CommonMainPage.cs matches that of the MainPage.xaml.cs for the project.
 
-Make sure to add the XAML <TextBlock x:Name="TextBoxMemoryStats" Text="0 MB" IsHitTestVisible="False" Visibility="Collapsed"/>
-to MainPage.xaml, this will show the memory stats.
+Make sure to add the XAML for the TextBlock control to MainPage.xaml, this will show the memory stats.
+For this XAML refer to a previous project such as Checkout Challenge or Lost Light.
 
 
 
