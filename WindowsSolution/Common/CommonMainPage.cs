@@ -4,9 +4,10 @@ using System.Threading;
 using System.Threading.Tasks;
 #if WINDOWS_PHONE
 using Microsoft.Phone.Info;
-#endif
-﻿using Windows.System;
+#elif NETFX_CORE
 using Windows.UI.Xaml;
+#endif
+using Windows.System;
 using MarkerMetro.Unity.WinIntegration;
 using UnityPlayer;
 
@@ -46,7 +47,7 @@ namespace XXXXXXXXXXXXXXXXXXXX   //  <--- Your Windows Phone namespace here!
 
             if (DisplayMemoryInfo)
                 BeginRecording();
-
+#if NETFX_CORE
             // Calls WinIntegration's visibility change delegate:
             Window.Current.VisibilityChanged += (s, e) =>
             {
@@ -56,6 +57,7 @@ namespace XXXXXXXXXXXXXXXXXXXX   //  <--- Your Windows Phone namespace here!
                         Helper.Instance.OnVisibilityChanged(e.Visible);
                 }, false);
             };
+#endif
         }
 
         private DeviceInformation.Environment GetEnvironment()
