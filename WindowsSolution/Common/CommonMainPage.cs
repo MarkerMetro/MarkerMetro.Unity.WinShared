@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 using Microsoft.Phone.Info;
 #endif
 ﻿using Windows.System;
+using Windows.UI.Xaml;
+using MarkerMetro.Unity.WinIntegration;
+using UnityPlayer;
 
 #if NETFX_CORE
 namespace Template
 #else
-namespace CheckoutChallenge    //  <--- Your Windows Phone namespace here!
+namespace XXXXXXXXXXXXXXXXXXXX   //  <--- Your Windows Phone namespace here!
 #endif
 {
     /**
@@ -43,6 +46,16 @@ namespace CheckoutChallenge    //  <--- Your Windows Phone namespace here!
 
             if (DisplayMemoryInfo)
                 BeginRecording();
+
+            // Calls WinIntegration's visibility change delegate:
+            Window.Current.VisibilityChanged += (s, e) =>
+            {
+                AppCallbacks.Instance.InvokeOnAppThread(() =>
+                {
+                    if (Helper.Instance.OnVisibilityChanged != null)
+                        Helper.Instance.OnVisibilityChanged(e.Visible);
+                }, false);
+            };
         }
 
         private DeviceInformation.Environment GetEnvironment()
