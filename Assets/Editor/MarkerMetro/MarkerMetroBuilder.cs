@@ -72,7 +72,9 @@ public static class MarkerMetroBuilder
         if(beforeBuild!=null)
             beforeBuild();
 
-        BuildPipeline.BuildPlayer(scenes, outputPath, target, BuildOptions.None);
+        var error = BuildPipeline.BuildPlayer(scenes, outputPath, target, BuildOptions.None);
+        if (error != "")
+            throw new Exception(error); // ensures exit code != 0.
     }
 
 private static string GetPath(BuildTarget target)
