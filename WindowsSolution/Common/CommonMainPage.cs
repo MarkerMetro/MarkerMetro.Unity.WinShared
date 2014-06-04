@@ -2,19 +2,22 @@
 using System.Windows;
 using System.Threading;
 using System.Threading.Tasks;
-#if WINDOWS_PHONE
-using Microsoft.Phone.Info;
-#elif NETFX_CORE
-using Windows.UI.Xaml;
-#endif
 using Windows.System;
 using MarkerMetro.Unity.WinIntegration;
 using UnityPlayer;
 
+#if WINDOWS_PHONE
+using Microsoft.Phone.Info;
+#elif NETFX_CORE
+using Windows.UI.Xaml;
+using Windows.UI.Notifications;
+using Windows.Data.Xml.Dom;
+#endif
+
 #if NETFX_CORE
 namespace Template
 #else
-namespace XXXXXXXXXXXXXXXXXXXX   //  <--- Your Windows Phone namespace here!
+namespace XXXXXXXXXXXXXXXXXXXX   //  <--- Your Windows Phone MainPage.xaml.cs namespace here!
 #endif
 {
     /**
@@ -51,6 +54,8 @@ namespace XXXXXXXXXXXXXXXXXXXX   //  <--- Your Windows Phone namespace here!
             // Calls WinIntegration's visibility change delegate:
             Window.Current.VisibilityChanged += (s, e) =>
             {
+                if (!e.Visible)
+                    FireTilesUpdate();
                 AppCallbacks.Instance.InvokeOnAppThread(() =>
                 {
                     if (Helper.Instance.OnVisibilityChanged != null)
@@ -104,5 +109,51 @@ namespace XXXXXXXXXXXXXXXXXXXX   //  <--- Your Windows Phone namespace here!
                 TimeSpan.FromSeconds(3));
 #endif
         }
+
+#if NETFX_CORE
+        private void FireTilesUpdate()
+        {
+            // For examples of all possible tile template types go to http://msdn.microsoft.com/library/windows/apps/windows.ui.notifications.tiletemplatetype
+            var squareTile = TileUpdateManager.GetTemplateContent(TileTemplateType.TileSquare150x150Text03); // This template requires a SquareTile image in solution Assets folder!
+            var wideTile = TileUpdateManager.GetTemplateContent(TileTemplateType.TileWide310x150Text01); // This template requires a Wide310x150Logo image in solution Assets folder!
+
+            AppCallbacks.Instance.InvokeOnAppThread(() =>
+            {
+                try
+                {
+                    var wideTexts = wideTile.GetElementsByTagName("text");
+                    var squareTexts = squareTile.GetElementsByTagName("text");
+                    UpdateLiveTiles(wideTexts, squareTexts);
+
+                    AppCallbacks.Instance.InvokeOnUIThread(() =>
+                    {
+                        var updater = TileUpdateManager.CreateTileUpdaterForApplication();
+                        var squareTileNotification = new TileNotification(squareTile);
+                        var wideTileNotification = new TileNotification(wideTile);
+
+                        updater.Update(squareTileNotification);
+                        updater.Update(wideTileNotification);
+                    }, false);
+
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex);
+                }
+            }, false);
+        }
+
+        /**
+         * Updates the Live Tiles.
+         * This method offers access to the texts to the wide and medium tiles, but you can tailor
+         * it to your project's specific needs.
+         * 
+         * To use it, just write the game code bits here to update the texts.
+         * This method already runs in the game thread, no need to call InvokeOnAppThread.
+         */
+        private void UpdateLiveTiles(XmlNodeList wideTexts, XmlNodeList squareTexts) {
+            /* implement this method! */
+        } 
+#endif
     }
 }

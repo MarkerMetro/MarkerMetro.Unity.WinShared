@@ -20,7 +20,9 @@ Make sure the namespace for CommonMainPage.cs matches that of the MainPage.xaml.
 Make sure to add the XAML for the TextBlock control to MainPage.xaml, this will show the memory stats.
 For this XAML refer to a previous project such as Checkout Challenge or Lost Light.
 
+## Live Tiles
 
+*CommonMainPage.cs* offers an implementation of Live Tiles for medium and wide tiles, all you have to do is implement the *UpdateLiveTiles* method, according  to the code comments.
 
 AppResLib
 ====================
