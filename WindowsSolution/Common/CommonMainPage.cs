@@ -7,7 +7,9 @@ using MarkerMetro.Unity.WinIntegration;
 using UnityPlayer;
 
 #if WINDOWS_PHONE
+using System.Linq;
 using Microsoft.Phone.Info;
+using Microsoft.Phone.Shell;
 #elif NETFX_CORE
 using Windows.UI.Xaml;
 using Windows.UI.Notifications;
@@ -142,7 +144,29 @@ namespace XXXXXXXXXXXXXXXXXXXX   //  <--- Your Windows Phone MainPage.xaml.cs na
                 }
             }, false);
         }
+#elif WINDOWS_PHONE
+        internal static void FireTilesUpdate()
+        {
+            UnityApp.BeginInvoke(() =>
+            {
+                try
+                {
+                    ShellTile oTile = ShellTile.ActiveTiles.FirstOrDefault();
+                    if (oTile != null)
+                    {
+                        FlipTileData tileData = UpdateLiveTiles();
+                        if(tileData != null) oTile.Update(tileData);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex);
+                }
+            });
+        }
+#endif
 
+#if NETFX_CORE
         /**
          * Updates the Live Tiles.
          * This method offers access to the texts to the wide and medium tiles, but you can tailor
@@ -154,6 +178,21 @@ namespace XXXXXXXXXXXXXXXXXXXX   //  <--- Your Windows Phone MainPage.xaml.cs na
         private void UpdateLiveTiles(XmlNodeList wideTexts, XmlNodeList squareTexts) {
             /* implement this method! */
         } 
+#elif WINDOWS_PHONE
+        /**
+         * Updates the Live Tiles.
+         * 
+         * To use it, you must create and return a FlipTileData instance filled with the tile contents.
+         * 
+         * Attention:
+         * You have to add a call to FireTilesUpdate on the beggining of the methods Application_Deactivated and 
+         * Application_Closing on App.xaml.cs, like this:
+         * YourNamespace.MainPage.FireTilesUpdate();
+         */
+        private static FlipTileData UpdateLiveTiles()
+        {
+            return null;
+        }
 #endif
     }
 }
