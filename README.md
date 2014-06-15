@@ -48,4 +48,7 @@ So you'll end up with one dll for each language other than English renamed accor
 
 To use the dlls, follow the instructions in the article, section *"To use the localized resource strings in your Windows Phone app"*.
 
+Don't forget to add the AppResLib solution folder to your project's repository. It should sit in the Windows Phone project folder, an example can be found here:
+https://github.wdig.com/MarkerMetro/StarWarsCCGWindows/tree/master/StarWars.WinPhone
+
 **WARNING**: the article states that you should move the `AppResLib.dll.*.mui` files into the Resources folder (step 7). Don't do it!
