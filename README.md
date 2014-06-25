@@ -34,7 +34,7 @@ Once you have made the changes, you can manually run a build on the build server
 
 Once the build has been run, you can then run the bat file above to include the latest binaries.
 
-Marker Metro NuGet Access
+First Time Marker Metro NuGet Access
 =========================
 
 Use  Marker Metro's private [NuGet](http://docs.nuget.org/docs/start-here/installing-nuget) feed: 
