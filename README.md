@@ -8,15 +8,15 @@ UnityProject
 
 This is a sample Unity Project which contains useful code for each new Unity Project. 
 
-Ensure you add the subfolders and their contents to your Unity project. 
+Ensure you add the subfolders and their contents to your Unity project on project commencement
 
 WindowsSolution
 ====================
-This is the base WindowsSolution folder to be used for all Unity Projects. 
+This is the base WindowsSolution folder to be used for all Unity Projects. Copy it across to any new project and add to the root of the client repo.
 
 Run the Init script on the root to rename UnityProject to your product name (e.g LostLight). 
 
-Then build out from Unity to /WindowsSolution/WindowsStore and /WindowsSolution/WindowsPhone
+Then build out from Unity to /WindowsSolution/WindowsStore and /WindowsSolution/WindowsPhone.
 
 AppResLib
 ====================
