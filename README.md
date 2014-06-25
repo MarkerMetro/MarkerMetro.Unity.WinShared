@@ -18,6 +18,46 @@ Run the Init script on the root to rename UnityProject to your product name (e.g
 
 Then build out from Unity to /WindowsSolution/WindowsStore and /WindowsSolution/WindowsPhone.
 
+NuGet
+=====================================================================
+This is the Nuget folder allowing for easy plugin integration to your Unity project. 
+
+By default all Marker Metro plugins are included, but the .csproj file can be edited to exclude unnecessary plugins.
+
+To add/update the plugins you can run the following: \NuGet\Update_NuGet_Packages.bat (ensuring you have set up NuGet Access).
+
+Once you have done this, be sure and push the updates to the dependencies.
+
+If you need to work on any of the dependencies, you will need to open the project from Marker Metro Github and push any changes.
+
+Once you have made the changes, you can manually run a build on the build server (See Automated Builds below)
+
+Once the build has been run, you can then run the bat file above to include the latest binaries.
+
+Marker Metro NuGet Access
+=========================
+
+Use  Marker Metro's private [NuGet](http://docs.nuget.org/docs/start-here/installing-nuget) feed: 
+[http://mmbuild1.cloudapp.net/httpAuth/app/nuget/v1/FeedService.svc/](http://mmbuild1.cloudapp.net/httpAuth/app/nuget/v1/FeedService.svc/)
+If you don't have personal account you can always use Disney's guest account:
+
+*Username*: Disney
+
+*Password*: Disney40cks
+
+This project repository incudes a NuGet folder in the root with *nuget.exe* and it can be used to setup sources and store passwords. To add Marker Metro's Private Feed and remember authentication you can use following command-line:
+
+**./NuGet.exe sources add -Name "Marker Metro Private" -Source "http://mmbuild1.cloudapp.net/httpAuth/app/nuget/v1/FeedService.svc/" -UserName disney -Password Disney40cks**
+
+You can also modify previously added feed using update command:
+
+**./NuGet.exe sources update -Name "Marker Metro Private" -UserName disney -Password Disney40cks**
+
+To list existing sources you can use:
+
+**./NuGet.exe sources**
+
+
 AppResLib
 ====================
 
