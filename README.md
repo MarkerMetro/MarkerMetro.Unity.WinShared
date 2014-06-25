@@ -1,33 +1,67 @@
 Getting Started
 ====================
 
-This repo contain shared code that shouldn't be placed in a plugin.
+This repo contains useful starting framework and code for all Unity projects.
 
-Assets
-======
+UnityProject
+============
 
-Ensure you add the subfolders and their contents to your Unity project. 
+This is a sample Unity Project which contains useful code for each new Unity Project. 
 
+Ensure you add the subfolders and their contents to your Unity project on project commencement
 
-WindowsSolution/Common
+WindowsSolution
 ====================
-Shared code between Windows 8 and Windows Phone 8 that has to be in the app project. 
+This is the base WindowsSolution folder to be used for all Unity Projects. Copy it across to any new project and add to the root of the client repo.
 
-Add the Common folder and its contents to your WindowsSolution folder (the folder holding your Windows and WP8 projects) and then add a linked file to the CommonMainPage (and any other files in the future) on the root of your projects so code is included correctly. 
+Run the Init script on the root to rename UnityProject to your product name (e.g LostLight). 
 
-Make sure the namespace for CommonMainPage.cs matches that of the MainPage.xaml.cs for the project.
+Then build out from Unity to /WindowsSolution/WindowsStore and /WindowsSolution/WindowsPhone.
 
-Make sure to add the XAML for the TextBlock control to MainPage.xaml, this will show the memory stats.
-For this XAML refer to a previous project such as Checkout Challenge or Lost Light.
+NuGet
+=====================================================================
+This is the Nuget folder allowing for easy plugin integration to your Unity project. 
 
-## Live Tiles
+By default all Marker Metro plugins are included, but the .csproj file can be edited to exclude unnecessary plugins.
 
-*CommonMainPage.cs* offers an implementation of Live Tiles for medium and wide tiles, all you have to do is implement the *UpdateLiveTiles* method, according  to the code comments.
+To add/update the plugins you can run the following: \NuGet\Update_NuGet_Packages.bat (ensuring you have set up NuGet Access).
+
+Once you have done this, be sure and push the updates to the dependencies.
+
+If you need to work on any of the dependencies, you will need to open the project from Marker Metro Github and push any changes.
+
+Once you have made the changes, you can manually run a build on the build server (See Automated Builds below)
+
+Once the build has been run, you can then run the bat file above to include the latest binaries.
+
+First Time Marker Metro NuGet Access
+=========================
+
+Use  Marker Metro's private [NuGet](http://docs.nuget.org/docs/start-here/installing-nuget) feed: 
+[http://mmbuild1.cloudapp.net/httpAuth/app/nuget/v1/FeedService.svc/](http://mmbuild1.cloudapp.net/httpAuth/app/nuget/v1/FeedService.svc/)
+If you don't have personal account you can always use Disney's guest account:
+
+*Username*: Disney
+
+*Password*: Disney40cks
+
+This project repository incudes a NuGet folder in the root with *nuget.exe* and it can be used to setup sources and store passwords. To add Marker Metro's Private Feed and remember authentication you can use following command-line:
+
+**./NuGet.exe sources add -Name "Marker Metro Private" -Source "http://mmbuild1.cloudapp.net/httpAuth/app/nuget/v1/FeedService.svc/" -UserName disney -Password Disney40cks**
+
+You can also modify previously added feed using update command:
+
+**./NuGet.exe sources update -Name "Marker Metro Private" -UserName disney -Password Disney40cks**
+
+To list existing sources you can use:
+
+**./NuGet.exe sources**
+
 
 AppResLib
 ====================
 
-This project is used to create localized titles and tile titles in Windows Phone 8.
+This solution is used to create localized titles and tile titles in Windows Phone 8.
 These strings are going to be read from a dll , and there's a dll for each language.
 In order to create these dlls, follow these steps:
 
