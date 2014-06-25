@@ -1,5 +1,9 @@
 ﻿using UnityEngine;
+#if UNITY_WINRT && !UNITY_EDITOR
 using File = UnityEngine.Windows.File;
+#else
+using File = System.IO.File;
+#endif
 
 public class FileHelper {
 

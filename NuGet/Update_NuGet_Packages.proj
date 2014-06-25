@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="UpdateAll" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <NuGetPath>$(MSBuildProjectDirectory)\nuget.exe</NuGetPath>
+    <WorkingPath>$(MSBuildProjectDirectory)\Temp</WorkingPath>
+    <DestinationFolder>$(MSBuildProjectDirectory)\..</DestinationFolder>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <WinLegacy>MarkerMetro.Unity.WinLegacy</WinLegacy>
+    <LitJson>MarkerMetro.Unity.LitJson</LitJson>
+    <JsonFx>MarkerMetro.Unity.JsonFx</JsonFx>
+    <IonicZip>MarkerMetro.Unity.Pathfinding.Ionic.Zip</IonicZip>
+    <Poly2Tri>MarkerMetro.Unity.Poly2Tri</Poly2Tri>
+	<WinIntegration>MarkerMetro.Unity.WinIntegration</WinIntegration>
+</PropertyGroup>
+
+  <Target Name="UpdateAll" DependsOnTargets="Clear;Update;Deploy"/>
+
+  <Target Name="Clear">
+    <RemoveDir Directories="$(WorkingPath)" ContinueOnError="true"/>
+  </Target>
+
+  <Target Name="Update">
+    <Exec Command="$(NuGetPath) install $(WinLegacy) -o $(WorkingPath) -NoCache"/>
+    <Exec Command="$(NuGetPath) install $(LitJson) -o $(WorkingPath) -NoCache"/>	
+	<Exec Command="$(NuGetPath) install $(WinIntegration) -o $(WorkingPath) -NoCache"/>		
+  </Target>
+
+  <Target Name="IncludeWinLegacy">
+    <CreateItem Include="$(WorkingPath)\$(WinLegacy)*\lib\net35\*.dll">
+      <Output TaskParameter="Include" ItemName="Dlls"/>
+    </CreateItem>
+    <CreateItem Include="$(WorkingPath)\$(WinLegacy)*\lib\netcore45\*.dll">
+      <Output TaskParameter="Include" ItemName="MetroDlls"/>
+    </CreateItem>
+    <CreateItem Include="$(WorkingPath)\$(WinLegacy)*\lib\windowsphone8\*.dll">
+      <Output TaskParameter="Include" ItemName="WP8Dlls"/>
+    </CreateItem>
+  </Target>
+
+  <Target Name="IncludeWinIntegration">
+    <CreateItem Include="$(WorkingPath)\$(WinIntegration)*\lib\net35\*.dll">
+      <Output TaskParameter="Include" ItemName="Dlls"/>
+    </CreateItem>
+    <CreateItem Include="$(WorkingPath)\$(WinIntegration)*\lib\netcore45\*.dll">
+      <Output TaskParameter="Include" ItemName="MetroDlls"/>
+    </CreateItem>
+    <CreateItem Include="$(WorkingPath)\$(WinIntegration)*\lib\windowsphone8\*.dll">
+      <Output TaskParameter="Include" ItemName="WP8Dlls"/>
+    </CreateItem>
+  </Target>
+
+  
+  <Target Name="IncludeLitJson">
+    <CreateItem Include="$(WorkingPath)\$(LitJson)*\lib\net35\*.dll">
+      <Output TaskParameter="Include" ItemName="Dlls"/>
+    </CreateItem>
+    <CreateItem Include="$(WorkingPath)\$(LitJson)*\lib\netcore45\*.dll">
+      <Output TaskParameter="Include" ItemName="MetroDlls"/>
+    </CreateItem>
+    <CreateItem Include="$(WorkingPath)\$(LitJson)*\lib\windowsphone8\*.dll">
+      <Output TaskParameter="Include" ItemName="WP8Dlls"/>
+    </CreateItem>
+  </Target>
+
+  <Target Name="IncludeJsonFx">
+    <CreateItem Include="$(WorkingPath)\$(JsonFx)*\lib\net35\*.dll">
+      <Output TaskParameter="Include" ItemName="Dlls"/>
+    </CreateItem>
+
+    <CreateItem Include="$(WorkingPath)\$(JsonFx)*\lib\netcore45\*.dll">
+      <Output TaskParameter="Include" ItemName="MetroDlls"/>
+    </CreateItem>
+
+    <CreateItem Include="$(WorkingPath)\$(JsonFx)*\lib\windowsphone8\*.dll">
+      <Output TaskParameter="Include" ItemName="WP8Dlls"/>
+    </CreateItem>
+  </Target>
+
+  <Target Name="IncludeIonicZip">
+    <CreateItem Include="$(WorkingPath)\$(IonicZip)*\lib\net35\*.dll">
+      <Output TaskParameter="Include" ItemName="Dlls"/>
+    </CreateItem>
+
+    <CreateItem Include="$(WorkingPath)\$(IonicZip)*\lib\netcore45\*.dll">
+      <Output TaskParameter="Include" ItemName="MetroDlls"/>
+    </CreateItem>
+
+    <CreateItem Include="$(WorkingPath)\$(IonicZip)*\lib\windowsphone8\*.dll">
+      <Output TaskParameter="Include" ItemName="WP8Dlls"/>
+    </CreateItem>
+  </Target>
+
+  <Target Name="IncludePoly2Tri">
+    <CreateItem Include="$(WorkingPath)\$(Poly2Tri)*\lib\*.dll">
+      <Output TaskParameter="Include" ItemName="Poly2TriDlls"/>
+    </CreateItem>
+  </Target>
+  
+  <Target Name="Deploy" DependsOnTargets="IncludeWinLegacy;IncludeLitJson;IncludeJsonFx;IncludeIonicZip;IncludePoly2Tri;IncludeWinIntegration">
+    <Copy SourceFiles="@(Dlls)" DestinationFolder="$(DestinationFolder)\Assets\Plugins" />
+    <Copy SourceFiles="@(MetroDlls)" DestinationFolder="$(DestinationFolder)\Assets\Plugins\Metro" />
+    <Copy SourceFiles="@(WP8Dlls)" DestinationFolder="$(DestinationFolder)\Assets\Plugins\WP8" />
+    <Copy SourceFiles="@(Poly2TriDlls)" DestinationFolder="$(DestinationFolder)\Assets\AstarPathfindingProject\Plugins\Poly2Tri" />
+  </Target>
+</Project>

@@ -3,7 +3,7 @@ using System.Windows;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.System;
-using MarkerMetro.Unity.WinIntegration;
+
 using UnityPlayer;
 
 #if WINDOWS_PHONE
@@ -17,9 +17,9 @@ using Windows.Data.Xml.Dom;
 #endif
 
 #if NETFX_CORE
-namespace Template
+namespace UnityProject.Win
 #else
-namespace XXXXXXXXXXXXXXXXXXXX   //  <--- Your Windows Phone MainPage.xaml.cs namespace here!
+namespace UnityProject.WinPhone
 #endif
 {
     /**
@@ -53,16 +53,10 @@ namespace XXXXXXXXXXXXXXXXXXXX   //  <--- Your Windows Phone MainPage.xaml.cs na
             if (DisplayMemoryInfo)
                 BeginRecording();
 #if NETFX_CORE
-            // Calls WinIntegration's visibility change delegate:
             Window.Current.VisibilityChanged += (s, e) =>
             {
                 if (!e.Visible)
                     FireTilesUpdate();
-                AppCallbacks.Instance.InvokeOnAppThread(() =>
-                {
-                    if (Helper.Instance.OnVisibilityChanged != null)
-                        Helper.Instance.OnVisibilityChanged(e.Visible);
-                }, false);
             };
 #endif
         }
@@ -86,7 +80,7 @@ namespace XXXXXXXXXXXXXXXXXXXX   //  <--- Your Windows Phone MainPage.xaml.cs na
         {
             // start a timer to report memory conditions every 3 seconds 
 #if WINDOWS_PHONE
-            TextBoxMemoryStats.Visibility = System.Windows.Visibility.Visible;
+            TextBlockMemoryStats.Visibility = System.Windows.Visibility.Visible;
 
             timer = new Timer(state =>
             {
@@ -101,7 +95,7 @@ namespace XXXXXXXXXXXXXXXXXXXX   //  <--- Your Windows Phone MainPage.xaml.cs na
 
                 Deployment.Current.Dispatcher.BeginInvoke(delegate
                 {
-                    TextBoxMemoryStats.Text = report;
+                    TextBlockMemoryStats.Text = report;
                     //Debug.WriteLine(report);
                 });
 
