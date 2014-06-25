@@ -1,33 +1,27 @@
 Getting Started
 ====================
 
-This repo contain shared code that shouldn't be placed in a plugin.
+This repo contains useful starting framework and code for all Unity projects.
 
-Assets
-======
+UnityProject
+============
+
+This is a sample Unity Project which contains useful code for each new Unity Project. 
 
 Ensure you add the subfolders and their contents to your Unity project. 
 
-
-WindowsSolution/Common
+WindowsSolution
 ====================
-Shared code between Windows 8 and Windows Phone 8 that has to be in the app project. 
+This is the base WindowsSolution folder to be used for all Unity Projects. 
 
-Add the Common folder and its contents to your WindowsSolution folder (the folder holding your Windows and WP8 projects) and then add a linked file to the CommonMainPage (and any other files in the future) on the root of your projects so code is included correctly. 
+Run the Init script on the root to rename UnityProject to your product name (e.g LostLight). 
 
-Make sure the namespace for CommonMainPage.cs matches that of the MainPage.xaml.cs for the project.
-
-Make sure to add the XAML for the TextBlock control to MainPage.xaml, this will show the memory stats.
-For this XAML refer to a previous project such as Checkout Challenge or Lost Light.
-
-## Live Tiles
-
-*CommonMainPage.cs* offers an implementation of Live Tiles for medium and wide tiles, all you have to do is implement the *UpdateLiveTiles* method, according  to the code comments.
+Then build out from Unity to /WindowsSolution/WindowsStore and /WindowsSolution/WindowsPhone
 
 AppResLib
 ====================
 
-This project is used to create localized titles and tile titles in Windows Phone 8.
+This solution is used to create localized titles and tile titles in Windows Phone 8.
 These strings are going to be read from a dll , and there's a dll for each language.
 In order to create these dlls, follow these steps:
 
