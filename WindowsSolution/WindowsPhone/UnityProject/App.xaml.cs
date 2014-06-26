@@ -12,6 +12,9 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using UnityProject.WinPhone;
+using UnityProject.WinPhone.Resources;
+using System.Diagnostics;
 
 namespace UnityProject
 {
@@ -71,19 +74,56 @@ namespace UnityProject
 		{
 		}
 
-		// Code to execute when the application is deactivated (sent to background)
-		// This code will not execute when the application is closing
-		private void Application_Deactivated(object sender, DeactivatedEventArgs e)
-		{
-			UnityPlayer.UnityApp.Deactivate();
-		}
+        // Code to execute when the application is deactivated (sent to background)
+        // This code will not execute when the application is closing
+        void Application_Deactivated(object sender, DeactivatedEventArgs e)
+        {
+            AppDeactivatedOrClosing();
+            UnityPlayer.UnityApp.Deactivate();
+        }
 
-		// Code to execute when the application is closing (eg, user hit Back)
-		// This code will not execute when the application is deactivated
-		private void Application_Closing(object sender, ClosingEventArgs e)
-		{
-			UnityPlayer.UnityApp.Quit();
-		}
+        // Code to execute when the application is closing (eg, user hit Back)
+        // This code will not execute when the application is deactivated
+        void Application_Closing(object sender, ClosingEventArgs e)
+        {
+            AppDeactivatedOrClosing();
+            UnityPlayer.UnityApp.Quit();
+        }
+
+        void AppDeactivatedOrClosing()
+        {
+            if (!MainPage.IsUnityLoaded)
+                return;
+
+            UpdateLiveTile();
+        }
+
+        void UpdateLiveTile()
+        {
+            try
+            {
+                var tile = ShellTile.ActiveTiles.FirstOrDefault();
+
+                if (tile != null)
+                {
+                    var tileData = new FlipTileData
+                    {
+                        BackgroundImage = new Uri("Assets/Tiles/TileFrontMedium.png", UriKind.Relative),
+                        BackContent = "UnityProject",// update with localized content
+                        BackTitle = AppResources.ApplicationTitle,
+                        WideBackgroundImage = new Uri("Assets/Tiles/TileFrontWide.png", UriKind.Relative),
+                        WideBackContent = "UnityProject", // update with localized content
+                        Title = "", //update with localized content
+                    };
+
+                    tile.Update(tileData);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
+        }
 
 		// Code to execute if a navigation fails
 		private void RootFrame_NavigationFailed(object sender, NavigationFailedEventArgs e)

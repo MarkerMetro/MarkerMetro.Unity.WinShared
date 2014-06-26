@@ -160,7 +160,6 @@ namespace UnityProject.WinPhone
             if (_extendedSplashTimer != null)
                 _extendedSplashTimer.Stop();
 
-
             if (DrawingSurfaceBackground.Children.Count > 0)
                 DrawingSurfaceBackground.Children.Remove(ExtendedSplashGrid);
         }
