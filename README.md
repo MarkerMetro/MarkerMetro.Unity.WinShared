@@ -5,12 +5,16 @@ Starting framework code for Unity ports to Windows.
 
 The approach is to copy and paste the necessasry folders across to the client repo as detailed below:
 
-Assets
+Unity  Project
 =======
 
-Copy and paste all subfolders and files to the existing Assets folder in client repo Unity project
+The root of the repo is a blank Unity project with some added assets.
+
+Copy and paste all /Assets subfolders and files to the existing Assets folder in client repo Unity project
 
 The code here helps with automated builds and includes various helper files.
+
+You can build out this project to the WindowsSolution folders as below, note that you should ensure the ProductName in PlayerSettings is "UnityProject" so that everything just works.
 
 WindowsSolution
 ====================
