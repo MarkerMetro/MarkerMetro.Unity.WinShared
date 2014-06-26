@@ -116,6 +116,8 @@ namespace UnityProject.WinPhone
 
 		private void Unity_Loaded()
 		{
+            IsUnityLoaded = true;
+
 			SetupGeolocator();
 
             // initialise plugins
