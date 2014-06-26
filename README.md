@@ -1,14 +1,16 @@
 Getting Started
 ====================
 
-This repo contains useful starting framework and code for all Unity projects.
+Starting framework code for Unity ports to Windows.
 
-UnityProject
-============
+The approach is to copy and paste the necessasry folders across to the client repo as detailed below:
 
-This is a sample Unity Project which contains useful code for each new Unity Project. 
+Assets
+=======
 
-Ensure you add the subfolders and their contents to your Unity project on project commencement
+Copy and paste all subfolders and files to the existing Assets folder in client repo Unity project
+
+The code here helps with automated builds and includes various helper files.
 
 WindowsSolution
 ====================
@@ -20,7 +22,7 @@ Then build out from Unity to /WindowsSolution/WindowsStore and /WindowsSolution/
 
 NuGet
 =====================================================================
-This is the Nuget folder allowing for easy plugin integration to your Unity project. 
+This is the Nuget folder allowing for easy plugin integration to your Unity project. Copy it across to any new project and add to the root of the client repo.
 
 By default all Marker Metro plugins are included, but the .csproj file can be edited to exclude unnecessary plugins.
 
@@ -62,7 +64,12 @@ AppResLib
 ====================
 
 This solution is used to create localized titles and tile titles in Windows Phone 8.
+
+Copy it across to any new project and add to the root of the client repo.
+
 These strings are going to be read from a dll , and there's a dll for each language.
+
+
 In order to create these dlls, follow these steps:
 
  - Open the AppResLib solution and project;
