@@ -14,11 +14,11 @@ The code here helps with automated builds and includes various helper files.
 
 WindowsSolution
 ====================
-This is the base WindowsSolution folder to be used for all Unity Projects. Copy it across to any new project and add to the root of the client repo.
+This is the base WindowsSolution folder to be used for all Unity Projects. Copy it across to any new project and add to the root of the client repo. This contains all the goodness from working on previous projects at the app level.
 
-Run the Init script on the root to rename UnityProject to your product name (e.g LostLight). 
+Run the Init.ps1 script on the root to rename UnityProject to your product name (e.g LostLight). 
 
-Then build out from Unity to /WindowsSolution/WindowsStore and /WindowsSolution/WindowsPhone.
+Then subsequently build out from Unity to /WindowsSolution/WindowsStore and /WindowsSolution/WindowsPhone.
 
 NuGet
 =====================================================================
