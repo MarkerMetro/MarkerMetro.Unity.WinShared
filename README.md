@@ -8,7 +8,7 @@ The approach is to copy and paste the necessasry folders across to the client re
 Unity  Project
 =======
 
-The root of the repo is a blank Unity project with some added assets.
+The root of the repo is a blank Unity project with some added scripts.
 
 Copy and paste all /Assets subfolders and files to the existing Assets folder in client repo Unity project
 
@@ -23,6 +23,8 @@ This is the base WindowsSolution folder to be used for all Unity Projects. Copy 
 Run the Init.ps1 script on the root to rename UnityProject to your product name (e.g LostLight). 
 
 Then subsequently build out from Unity to /WindowsSolution/WindowsStore and /WindowsSolution/WindowsPhone.
+
+Note that visual assets are from the Disney BOLA game so you know exactly which ones to replace.
 
 NuGet
 =====================================================================
