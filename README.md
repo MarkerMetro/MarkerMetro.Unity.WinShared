@@ -3,6 +3,8 @@ Getting Started
 
 Starting framework code for Unity ports to Windows.
 
+Configured for Unity 4.5f6
+
 The approach is to copy and paste the necessasry folders across to the client repo as detailed below:
 
 Unity  Project
