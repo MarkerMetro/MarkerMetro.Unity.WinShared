@@ -158,8 +158,8 @@
     <Content Include="Assets\Tiles\TileFrontMedium.png" />
     <Content Include="Assets\Tiles\TileFrontWide.png" />
     <Content Include="Assets\Tiles\TileSmall.png" />
+    <Content Include="Assets\ExtendedSplashScreenImage.jpg" />
     <Content Include="iap_simulator.xml" />
-    <Content Include="SplashScreenImage.jpg" />
     <Content Include="Assets\AlignmentGrid.png" />
     <Content Include="Assets\ApplicationIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
