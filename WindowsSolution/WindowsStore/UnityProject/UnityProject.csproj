@@ -8,8 +8,8 @@
     <ProjectGuid>{9A513B19-3E02-41BF-8968-58BC58B0A6B3}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Template</RootNamespace>
-    <AssemblyName>Template</AssemblyName>
+    <RootNamespace>UnityProject.Win</RootNamespace>
+    <AssemblyName>UnityProject.Win</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformVersion>8.1</TargetPlatformVersion>
     <MinimumVisualStudioVersion>12</MinimumVisualStudioVersion>

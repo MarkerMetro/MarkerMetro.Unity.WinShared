@@ -2,6 +2,6 @@
 	<PropertyGroup>
 		<UnityInstallationDir>C:\Program Files (x86)\Unity 4.5.0f6\Editor</UnityInstallationDir>
 		<UnityWSAPlayerDir>C:\Program Files (x86)\Unity 4.5.0f6\Editor\Data\PlaybackEngines\MetroSupport</UnityWSAPlayerDir>
-		<UnityProjectDir>C:\Github\markermetro\MarkerMetro.Unity.WinShared\UnityProject</UnityProjectDir>
+		<UnityProjectDir>C:\Github\markermetro\MarkerMetro.Unity.WinShared</UnityProjectDir>
 	</PropertyGroup>
 </Project>

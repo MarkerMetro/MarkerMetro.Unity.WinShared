@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using UnityPlayer;
+using MarkerMetro.Unity.WinIntegration.Store;
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=234227
 
 namespace UnityProject.Win
@@ -35,7 +36,7 @@ namespace UnityProject.Win
 		{
 			this.InitializeComponent();
 			appCallbacks = new AppCallbacks(false);
-			appCallbacks.RenderingStarted += RemoveSplashScreen;
+            appCallbacks.RenderingStarted += AppCallBacks_Initialized;
 		}
 
 		/// <summary>
@@ -78,6 +79,14 @@ namespace UnityProject.Win
 			// just ensure that the window is active
 			if (rootFrame == null && !appCallbacks.IsInitialized())
 			{
+
+                // Initialise Store system
+#if QA || DEBUG
+                StoreManager.Instance.Initialise(true);
+#else
+                StoreManager.Instance.Initialise(false);
+#endif
+
 				var mainPage = new MainPage(splashScreen);
 				Window.Current.Content = mainPage;
 				Window.Current.Activate();
@@ -98,15 +107,25 @@ namespace UnityProject.Win
 			Window.Current.Activate();
 		}
 
-        private void RemoveSplashScreen()
+
+        void AppCallBacks_Initialized()
         {
-            try
-            {
-                MainPage page = (MainPage)Window.Current.Content;
-                page.RemoveSplashScreen();
-            }
-            catch (InvalidCastException)
-            { }
+
+            // wire up dispatcher for plugins
+            MarkerMetro.Unity.WinLegacy.Dispatcher.InvokeOnAppThread = InvokeOnAppThread;
+            MarkerMetro.Unity.WinLegacy.Dispatcher.InvokeOnUIThread = InvokeOnUIThread;
+            MarkerMetro.Unity.WinIntegration.Dispatcher.InvokeOnAppThread = InvokeOnAppThread;
+            MarkerMetro.Unity.WinIntegration.Dispatcher.InvokeOnUIThread = InvokeOnUIThread;
+        }
+
+        public void InvokeOnAppThread(Action callback)
+        {
+            appCallbacks.InvokeOnAppThread(() => callback(), false);
+        }
+
+        public void InvokeOnUIThread(Action callback)
+        {
+            appCallbacks.InvokeOnUIThread(() => callback(), false);
         }
 	}
 }

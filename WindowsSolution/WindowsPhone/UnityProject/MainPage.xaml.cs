@@ -18,6 +18,10 @@ using Windows.Devices.Geolocation;
 
 using UnityApp = UnityPlayer.UnityApp;
 using UnityBridge = WinRTBridge.WinRTBridge;
+using System.Windows.Threading;
+using Microsoft.Phone.Tasks;
+using MarkerMetro.Unity.WinIntegration.Store;
+using System.Threading.Tasks;
 
 namespace UnityProject.WinPhone
 {
@@ -25,15 +29,53 @@ namespace UnityProject.WinPhone
 	{
 		private bool _unityStartedLoading;
 		private bool _useLocation;
+        DispatcherTimer _extendedSplashTimer;
+        public static bool IsUnityLoaded { get; set; }
 
 		// Constructor
 		public MainPage()
 		{
+            Initialize();
+
 			var bridge = new UnityBridge();
 			UnityApp.SetBridge(bridge);
 			InitializeComponent();
 			bridge.Control = DrawingSurfaceBackground;
-		}
+
+            _extendedSplashTimer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(100),
+            };
+            _extendedSplashTimer.Tick += ExtendedSplashTimer_Tick;
+            _extendedSplashTimer.Start();
+
+           
+            // control memory debugging flag here
+            #if QA
+                 //DisplayMemoryInfo = true;
+            #endif
+        }
+
+        /// <summary>
+        /// Allows user to rate app
+        /// </summary>
+        void ShowRateUI()
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                try
+                {
+                    var marketplaceReviewTask = new MarketplaceReviewTask();
+
+
+                    marketplaceReviewTask.Show();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Unable to show MarketplaceReviewTask because of: " + ex.Message);
+                }
+            });
+        }
 
 		private void DrawingSurfaceBackground_Loaded(object sender, RoutedEventArgs e)
 		{
@@ -75,7 +117,53 @@ namespace UnityProject.WinPhone
 		private void Unity_Loaded()
 		{
 			SetupGeolocator();
+
+            // initialise plugins
+            MarkerMetro.Unity.WinLegacy.Dispatcher.InvokeOnAppThread = InvokeOnAppThread;
+            MarkerMetro.Unity.WinLegacy.Dispatcher.InvokeOnUIThread = InvokeOnUIThread;
+            MarkerMetro.Unity.WinIntegration.Dispatcher.InvokeOnAppThread = InvokeOnAppThread;
+            MarkerMetro.Unity.WinIntegration.Dispatcher.InvokeOnUIThread = InvokeOnUIThread;
+
+            //Initialise Store system
+#if QA || DEBUG
+            StoreManager.Instance.Initialise(true);
+#else
+            StoreManager.Instance.Initialise(false);
+#endif
+
 		}
+
+        public void InvokeOnAppThread(System.Action callback)
+        {
+            UnityApp.BeginInvoke(() => callback());
+        }
+        public void InvokeOnUIThread(System.Action callback)
+        {
+            Dispatcher.BeginInvoke(() => callback());
+        }
+
+        async void ExtendedSplashTimer_Tick(object sender, EventArgs e)
+        {
+            var increment = _extendedSplashTimer.Interval.TotalMilliseconds * 10;
+            if (!IsUnityLoaded && SplashProgress.Value <= (SplashProgress.Maximum - increment))
+                SplashProgress.Value += increment;
+            else
+            {
+                SplashProgress.Value = SplashProgress.Maximum;
+                await Task.Delay(250);
+                RemoveExtendedSplash();
+                _extendedSplashTimer.Stop();
+            }
+        }
+        void RemoveExtendedSplash()
+        {
+            if (_extendedSplashTimer != null)
+                _extendedSplashTimer.Stop();
+
+
+            if (DrawingSurfaceBackground.Children.Count > 0)
+                DrawingSurfaceBackground.Children.Remove(ExtendedSplashGrid);
+        }
 
 		private void PhoneApplicationPage_BackKeyPress(object sender, CancelEventArgs e)
 		{

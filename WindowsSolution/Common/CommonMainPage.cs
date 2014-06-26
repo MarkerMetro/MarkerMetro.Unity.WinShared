@@ -39,8 +39,7 @@ namespace UnityProject.WinPhone
          * Exhibits information about memory usage in the game screen. WP8 only.
          * 
          */
-        private bool DisplayMemoryInfo = false;
-
+        internal bool DisplayMemoryInfo = false;
 
         /**
          * Call this on MainPage.xaml.cs.
@@ -52,16 +51,10 @@ namespace UnityProject.WinPhone
 
             if (DisplayMemoryInfo)
                 BeginRecording();
-#if NETFX_CORE
-            Window.Current.VisibilityChanged += (s, e) =>
-            {
-                if (!e.Visible)
-                    FireTilesUpdate();
-            };
-#endif
+
         }
 
-        private DeviceInformation.Environment GetEnvironment()
+        internal DeviceInformation.Environment GetEnvironment()
         {
 #if QA
             return DeviceInformation.Environment.QA;
@@ -106,87 +99,5 @@ namespace UnityProject.WinPhone
 #endif
         }
 
-#if NETFX_CORE
-        private void FireTilesUpdate()
-        {
-            // For examples of all possible tile template types go to http://msdn.microsoft.com/library/windows/apps/windows.ui.notifications.tiletemplatetype
-            var squareTile = TileUpdateManager.GetTemplateContent(TileTemplateType.TileSquare150x150Text03); // This template requires a SquareTile image in solution Assets folder!
-            var wideTile = TileUpdateManager.GetTemplateContent(TileTemplateType.TileWide310x150Text01); // This template requires a Wide310x150Logo image in solution Assets folder!
-
-            AppCallbacks.Instance.InvokeOnAppThread(() =>
-            {
-                try
-                {
-                    var wideTexts = wideTile.GetElementsByTagName("text");
-                    var squareTexts = squareTile.GetElementsByTagName("text");
-                    UpdateLiveTiles(wideTexts, squareTexts);
-
-                    AppCallbacks.Instance.InvokeOnUIThread(() =>
-                    {
-                        var updater = TileUpdateManager.CreateTileUpdaterForApplication();
-                        var squareTileNotification = new TileNotification(squareTile);
-                        var wideTileNotification = new TileNotification(wideTile);
-
-                        updater.Update(squareTileNotification);
-                        updater.Update(wideTileNotification);
-                    }, false);
-
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine(ex);
-                }
-            }, false);
-        }
-#elif WINDOWS_PHONE
-        internal static void FireTilesUpdate()
-        {
-            UnityApp.BeginInvoke(() =>
-            {
-                try
-                {
-                    ShellTile oTile = ShellTile.ActiveTiles.FirstOrDefault();
-                    if (oTile != null)
-                    {
-                        FlipTileData tileData = UpdateLiveTiles();
-                        if(tileData != null) oTile.Update(tileData);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine(ex);
-                }
-            });
-        }
-#endif
-
-#if NETFX_CORE
-        /**
-         * Updates the Live Tiles.
-         * This method offers access to the texts to the wide and medium tiles, but you can tailor
-         * it to your project's specific needs.
-         * 
-         * To use it, just write the game code bits here to update the texts.
-         * This method already runs in the game thread, no need to call InvokeOnAppThread.
-         */
-        private void UpdateLiveTiles(XmlNodeList wideTexts, XmlNodeList squareTexts) {
-            /* implement this method! */
-        } 
-#elif WINDOWS_PHONE
-        /**
-         * Updates the Live Tiles.
-         * 
-         * To use it, you must create and return a FlipTileData instance filled with the tile contents.
-         * 
-         * Attention:
-         * You have to add a call to FireTilesUpdate on the beggining of the methods Application_Deactivated and 
-         * Application_Closing on App.xaml.cs, like this:
-         * YourNamespace.MainPage.FireTilesUpdate();
-         */
-        private static FlipTileData UpdateLiveTiles()
-        {
-            return null;
-        }
-#endif
     }
 }

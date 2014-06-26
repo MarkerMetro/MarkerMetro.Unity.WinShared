@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns="http://schemas.microsoft.com/appx/2010/manifest">
-  <Identity Name="UnityProject" Publisher="CN=DefaultCompany" Version="1.0.0.0" ProcessorArchitecture="x86" />
+  <Identity Name="UnityProject" Publisher="CN=58DECE39-D5D0-4293-AAA0-9AF8484F12E2" Version="1.0.0.0" ProcessorArchitecture="x86" />
   <Properties>
     <DisplayName>UnityProject</DisplayName>
-    <PublisherDisplayName>DefaultCompany</PublisherDisplayName>
+    <PublisherDisplayName>Disney</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Prerequisites>
@@ -11,14 +11,21 @@
     <OSMaxVersionTested>6.2.1</OSMaxVersionTested>
   </Prerequisites>
   <Resources>
-    <Resource Language="x-generate" />
+    <!-- add supported languages here-->
+    <Resource Language="en-US" />
+    <Resource Language="pt-BR" />
+    <Resource Language="es-419" />
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="UnityProject.Win.App">
-      <m2:VisualElements DisplayName="UnityProject.Win" Square150x150Logo="Assets\MediumTile.png" Square30x30Logo="Assets\SmallLogo.png" Description="UnityProject" ForegroundText="light" BackgroundColor="#000000">
-        <m2:DefaultTile ShortName="UnityProject" DefaultSize="square150x150Logo">
+      <m2:VisualElements DisplayName="ms-resource:AppName" Square150x150Logo="Assets\Logo.png" Square30x30Logo="Assets\SmallLogo.png" Description="UnityProject" ForegroundText="dark" BackgroundColor="#9EE444" ToastCapable="false">
+        <m2:DefaultTile ShortName="ms-resource:AppName" DefaultSize="square150x150Logo" Wide310x150Logo="Assets\WideLogo.png">
         </m2:DefaultTile>
-        <m2:SplashScreen Image="Assets\SplashScreen.png" />
+        <m2:SplashScreen Image="Assets\SplashScreenImage.png" BackgroundColor="#000000" />
+        <m2:InitialRotationPreference>
+          <m2:Rotation Preference="landscape" />
+        </m2:InitialRotationPreference>
+        <m2:ApplicationView MinWidth="width500" />
       </m2:VisualElements>
     </Application>
   </Applications>
