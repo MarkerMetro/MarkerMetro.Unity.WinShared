@@ -24,7 +24,7 @@ NuGet
 =====================================================================
 This is the Nuget folder allowing for easy plugin integration to your Unity project. Copy it across to any new project and add to the root of the client repo.
 
-By default all Marker Metro plugins are included, but the .csproj file can be edited to exclude unnecessary plugins.
+By default core Marker Metro plugins are included (WinLegacy, WinIntegration and LitJson), but the .csproj file can be edited to maintain plugin list.
 
 To add/update the plugins you can run the following: \NuGet\Update_NuGet_Packages.bat (ensuring you have set up NuGet Access).
 
