@@ -13,7 +13,7 @@ using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 
-namespace UnityProject.WinPhone
+namespace UnityProject
 {
 	public partial class App : Application
 	{
