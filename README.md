@@ -14,17 +14,17 @@ The code here helps with automated builds and includes various helper files.
 
 WindowsSolution
 ====================
-This is the base WindowsSolution folder to be used for all Unity Projects. Copy it across to any new project and add to the root of the client repo.
+This is the base WindowsSolution folder to be used for all Unity Projects. Copy it across to any new project and add to the root of the client repo. This contains all the goodness from working on previous projects at the app level.
 
-Run the Init script on the root to rename UnityProject to your product name (e.g LostLight). 
+Run the Init.ps1 script on the root to rename UnityProject to your product name (e.g LostLight). 
 
-Then build out from Unity to /WindowsSolution/WindowsStore and /WindowsSolution/WindowsPhone.
+Then subsequently build out from Unity to /WindowsSolution/WindowsStore and /WindowsSolution/WindowsPhone.
 
 NuGet
 =====================================================================
 This is the Nuget folder allowing for easy plugin integration to your Unity project. Copy it across to any new project and add to the root of the client repo.
 
-By default all Marker Metro plugins are included, but the .csproj file can be edited to exclude unnecessary plugins.
+By default core Marker Metro plugins are included (WinLegacy, WinIntegration and LitJson), but the .csproj file can be edited to maintain plugin list.
 
 To add/update the plugins you can run the following: \NuGet\Update_NuGet_Packages.bat (ensuring you have set up NuGet Access).
 
