@@ -35,11 +35,12 @@ namespace UnityProject.WinPhone
 		// Constructor
 		public MainPage()
 		{
-            Initialize();
-
 			var bridge = new UnityBridge();
 			UnityApp.SetBridge(bridge);
 			InitializeComponent();
+
+            Initialize();
+
 			bridge.Control = DrawingSurfaceBackground;
 
             _extendedSplashTimer = new DispatcherTimer
@@ -157,6 +158,7 @@ namespace UnityProject.WinPhone
                 _extendedSplashTimer.Stop();
             }
         }
+
         void RemoveExtendedSplash()
         {
             if (_extendedSplashTimer != null)

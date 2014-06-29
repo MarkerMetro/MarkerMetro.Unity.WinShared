@@ -10,10 +10,12 @@ using UnityPlayer;
 using System.Linq;
 using Microsoft.Phone.Info;
 using Microsoft.Phone.Shell;
+using MarkerMetro.WinIntegration.Facebook;
 #elif NETFX_CORE
 using Windows.UI.Xaml;
 using Windows.UI.Notifications;
 using Windows.Data.Xml.Dom;
+using MarkerMetro.WinIntegration.Facebook;
 #endif
 
 #if NETFX_CORE
@@ -51,6 +53,9 @@ namespace UnityProject.WinPhone
 
             if (DisplayMemoryInfo)
                 BeginRecording();
+
+            // set the fb web interface
+            FB.SetPlatformInterface(web);
 
         }
 

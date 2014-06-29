@@ -134,6 +134,9 @@
   <ItemGroup>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Facebook">
+      <HintPath>.\Facebook.dll</HintPath>
+    </Reference>
     <Reference Include="LitJson">
       <HintPath>.\LitJson.dll</HintPath>
     </Reference>
@@ -244,7 +247,7 @@ echo UnityProjectDir '$(UnityProjectDir)'
 echo Copying assemblies...
 copy /Y "$(ProjectDir)Unprocessed\*" "$(ProjectDir)"
 echo Running AssemblyConverter...
-"$(UnityWSAPlayerDir)\Tools\AssemblyConverter.exe" -platform=wsa81 "$(ProjectDir)\Assembly-CSharp-firstpass.dll" "$(ProjectDir)\UnityEngine.dll" "$(ProjectDir)\WinRTLegacy.dll" "$(ProjectDir)\LitJson.dll" "$(ProjectDir)\MarkerMetro.Unity.WinLegacy.dll" "$(ProjectDir)\MarkerMetro.Unity.WinIntegration.dll"
+"$(UnityWSAPlayerDir)\Tools\AssemblyConverter.exe" -platform=wsa81 "$(ProjectDir)\Assembly-CSharp-firstpass.dll" "$(ProjectDir)\UnityEngine.dll" "$(ProjectDir)\WinRTLegacy.dll" "$(ProjectDir)\LitJson.dll" "$(ProjectDir)\MarkerMetro.Unity.WinLegacy.dll" "$(ProjectDir)\MarkerMetro.Unity.WinIntegration.dll" "$(ProjectDir)\Facebook.dll" 
 echo AssemblyConverter done.
 </PreBuildEvent>
   </PropertyGroup>

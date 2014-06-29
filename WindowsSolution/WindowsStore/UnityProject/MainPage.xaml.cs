@@ -44,9 +44,9 @@ namespace UnityProject.Win
 
         public MainPage(SplashScreen splashScreen)
         {
-            Initialize();
-
             this.InitializeComponent();
+
+            Initialize();
 
             splash = splashScreen;
             GetSplashBackgroundColor();
@@ -259,7 +259,7 @@ namespace UnityProject.Win
                 byte g = (byte)((value & 0x0000FF00) >> 8);
                 byte b = (byte)(value & 0x000000FF);
 
-                CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.High, delegate()
+                await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.High, delegate()
                 {
                     ExtendedSplashGrid.Background = new SolidColorBrush(Color.FromArgb(0xFF, r, g, b));
                 });
