@@ -103,6 +103,7 @@
     <Compile Include="..\..\Common\CommonMainPage.cs">
       <Link>Common\CommonMainPage.cs</Link>
     </Compile>
+    <Compile Include="Controls\FBWebView.xaml.cs" />
     <Compile Include="GameSettingsFlyout.xaml.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -175,6 +176,10 @@
     <Reference Include="Assembly-CSharp-firstpass.dll">
       <HintPath>.\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
+    <Page Include="Controls\FBWebView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="GameSettingsFlyout.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
