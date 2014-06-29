@@ -3,11 +3,13 @@ Getting Started
 
 Starting framework code for Unity ports to Windows.
 
+You can view an overview of the architecture here:
+https://www.dropbox.com/s/w8wt0au5602vl57/MarkerMetro.Unity.WinShared.jpg
+
 Configured for Unity 4.5f6
 
-The approach is to copy and paste the necessary folders across to the client repo as detailed below:
+The approach when starting a new porting project is to simply copy and paste the necessary folders across to the client repo as detailed below:
 
-![Marker Metro Unity Win Shared Architecture](https://www.dropbox.com/s/w8wt0au5602vl57/MarkerMetro.Unity.WinShared.jpg)
 
 Unity  Project
 =======
