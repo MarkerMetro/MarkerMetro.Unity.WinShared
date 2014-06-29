@@ -2,7 +2,7 @@
 <Package xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns="http://schemas.microsoft.com/appx/2010/manifest">
   <Identity Name="UnityProject" Publisher="CN=58DECE39-D5D0-4293-AAA0-9AF8484F12E2" Version="1.0.0.0" ProcessorArchitecture="x86" />
   <Properties>
-    <DisplayName>UnityProject</DisplayName>
+    <DisplayName>ms-resource:AppName</DisplayName>
     <PublisherDisplayName>Disney</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
