@@ -6,7 +6,7 @@ Starting framework code for Unity ports to Windows.
 You can view an overview of the architecture here:
 https://www.dropbox.com/s/w8wt0au5602vl57/MarkerMetro.Unity.WinShared.jpg
 
-Configured for Unity 4.5f6
+Configured and tested with: Unity 4.5f6, and Unity 4.5.1f3
 
 The approach when starting a new porting project is to simply copy and paste the necessary folders across to the client repo as detailed below:
 
