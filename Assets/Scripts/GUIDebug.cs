@@ -13,7 +13,7 @@ public class GUIDebug : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-#if WINDOWS_PHONE || NETFX_CORE
+#if !UNITY_EDITOR
 		app_version_.text = "AppVersion: " + Helper.Instance.GetAppVersion();
 		language_.text = "Language: " + Helper.Instance.GetAppLanguage();
 		device_id_.text = "Device ID: " + Helper.Instance.GetUserDeviceId();
@@ -24,7 +24,7 @@ public class GUIDebug : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-#if WINDOWS_PHONE || NETFX_CORE	
+#if !UNITY_EDITOR	
 		language_.text = "Language: " + Helper.Instance.GetAppLanguage();
 		internet_.text = "Is Online: " + Helper.Instance.HasInternetConnection;
 #endif
