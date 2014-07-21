@@ -107,3 +107,5 @@ https://github.wdig.com/MarkerMetro/StarWarsCCGWindows/tree/master/StarWars.WinP
 **WARNING**: the article states that you should move the `AppResLib.dll.*.mui` files into the Resources folder (step 7). Don't do it!
 
 **WARNING**: In order for localisation changes to be displayed correctly in the store, the manifest must have the appropriate culture codes defined for each *.mui file.  These codes must have a language and a region set, for example "ru-RU" (russian for russia).  Failing this step will mean that the title in the store will not be substituted as expected.
+
+**WARNING**: Temporarily renaming the *.mui files to have a dll extension allows them to be modified within the windows solution, however this can cause them to lose their content flag.  Make sure that in the file properties they are set as 'content', not 'none'.
