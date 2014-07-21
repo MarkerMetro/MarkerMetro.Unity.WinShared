@@ -105,3 +105,5 @@ Don't forget to add the AppResLib solution folder to your project's repository. 
 https://github.wdig.com/MarkerMetro/StarWarsCCGWindows/tree/master/StarWars.WinPhone
 
 **WARNING**: the article states that you should move the `AppResLib.dll.*.mui` files into the Resources folder (step 7). Don't do it!
+
+**WARNING**: In order for localisation changes to be displayed correctly in the store, the manifest must have the appropriate culture codes defined for each *.mui file.  These codes must have a language and a region set, for example "ru-RU" (russian for russia).  Failing this step will mean that the title in the store will not be substituted as expected.
