@@ -109,3 +109,10 @@ https://github.wdig.com/MarkerMetro/StarWarsCCGWindows/tree/master/StarWars.WinP
 **WARNING**: In order for localisation changes to be displayed correctly in the store, the manifest must have the appropriate culture codes defined for each *.mui file.  These codes must have a language and a region set, for example "ru-RU" (russian for russia).  Failing this step will mean that the title in the store will not be substituted as expected.
 
 **WARNING**: Temporarily renaming the *.mui files to have a dll extension allows them to be modified within the windows solution, however this can cause them to lose their content flag.  Make sure that in the file properties they are set as 'content', not 'none'.
+
+Memory Optimization
+====================
+
+There is a script that tries to optimize assets settings to lower memory usage, which is useful specially for Windows Phone 8.
+You can find it at `\Assets\Editor\MarkerMetro\MemoryOptimizer.cs`.
+Please refer to the code documentation for instructions on how to use it.
