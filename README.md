@@ -11,12 +11,12 @@ Configured and tested with: Unity 4.5f6, and Unity 4.5.1f3
 The approach when starting a new porting project is to simply copy and paste the necessary folders across to the client repo as detailed below:
 
 
-Unity  Project
+Unity Project
 =======
 
 The root of the repo is a blank Unity project with some added scripts.
 
-Copy and paste all /Assets subfolders and files to the existing Assets folder in client repo Unity project
+Copy and paste all /Assets subfolders and files to the existing Assets folder in client repo's Unity project (normally on root but could be in a sub folder)
 
 The code here helps with automated builds and includes various helper files.
 
@@ -34,7 +34,7 @@ Note that visual assets are from the Disney BOLA game so you know exactly which 
 
 NuGet
 =====================================================================
-This is the Nuget folder allowing for easy plugin integration to your Unity project. Copy it across to any new project and add to the root of the client repo.
+This is the Nuget folder allowing for easy plugin integration to your Unity project. Copy it across to any new project and add to the root of the client repo's Unity project (normally on root but could be in a sub folder)
 
 By default core Marker Metro plugins are included (WinLegacy, WinIntegration and LitJson), but the .csproj file can be edited to maintain plugin list.
 
