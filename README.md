@@ -16,7 +16,7 @@ Unity Project
 
 The root of the repo is a blank Unity project with some added scripts.
 
-Copy and paste all /Assets subfolders and files to the existing Assets folder in client repo's Unity project (normally on root but could be in a sub folder)
+Copy and paste all /Assets subfolders and files and the .gitignore to the existing Assets folder in client repo's Unity project (normally on root but could be in a sub folder)
 
 The code here helps with automated builds and includes various helper files.
 
