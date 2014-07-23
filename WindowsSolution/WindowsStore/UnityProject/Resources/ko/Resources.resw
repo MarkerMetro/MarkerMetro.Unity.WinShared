@@ -121,46 +121,46 @@
     <value>UnityProject</value>
   </data>
   <data name="GameSettingsFlyout.Title" xml:space="preserve">
-    <value>Game Settings</value>
+    <value>게임 설정</value>
   </data>
   <data name="GameSettingsFlyout_Music.Header" xml:space="preserve">
-    <value>Music</value>
+    <value>음악</value>
   </data>
   <data name="GameSettingsFlyout_Music.OffContent" xml:space="preserve">
-    <value>OFF</value>
+    <value>끄기</value>
   </data>
   <data name="GameSettingsFlyout_Music.OnContent" xml:space="preserve">
-    <value>ON</value>
+    <value>켜기</value>
   </data>
   <data name="GameSettingsFlyout_Sounds.Header" xml:space="preserve">
-    <value>Sounds</value>
+    <value>사운드</value>
   </data>
   <data name="GameSettingsFlyout_Sounds.OffContent" xml:space="preserve">
-    <value>OFF</value>
+    <value>끄기</value>
   </data>
   <data name="GameSettingsFlyout_Sounds.OnContent" xml:space="preserve">
-    <value>ON</value>
+    <value>켜기</value>
   </data>
   <data name="OFT_Disclosure" xml:space="preserve">
     <value>이 모바일 앱은 앱 내 결제가 가능합니다. 앱 내 결제는 실제 돈으로 지불되며 귀하의 계정으로 요금이 부과됩니다. 앱 내 구매 기능을 변경하려면 상점 계정의 설정에서 조정하세요.</value>
   </data>
   <data name="SettingsCharm_CustomerSupport" xml:space="preserve">
-    <value>Customer Support</value>
+    <value>고객 지원</value>
   </data>
   <data name="SettingsCharm_CustomerSupport_Url" xml:space="preserve">
     <value>http://disneyinteractivestudios.custhelp.com/</value>
   </data>
   <data name="SettingsCharm_PrivacyPolicy" xml:space="preserve">
-    <value>Privacy Policy</value>
+    <value>개인 정보 보호 정책</value>
   </data>
   <data name="SettingsCharm_PrivacyPolicy_Url" xml:space="preserve">
     <value>http://disneyprivacycenter.com/</value>
   </data>
   <data name="SettingsCharm_Settings" xml:space="preserve">
-    <value>Game Settings</value>
+    <value>게임 설정</value>
   </data>
   <data name="SettingsCharm_TermsOfUse" xml:space="preserve">
-    <value>Terms of Use</value>
+    <value>사용 약관</value>
   </data>
   <data name="SettingsCharm_TermsOfUse_Url" xml:space="preserve">
     <value>http://disneytermsofuse.com/</value>

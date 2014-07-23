@@ -121,10 +121,10 @@
     <value>UnityProject</value>
   </data>
   <data name="GameSettingsFlyout.Title" xml:space="preserve">
-    <value>Game Settings</value>
+    <value>Impostazioni di gioco</value>
   </data>
   <data name="GameSettingsFlyout_Music.Header" xml:space="preserve">
-    <value>Music</value>
+    <value>Musica</value>
   </data>
   <data name="GameSettingsFlyout_Music.OffContent" xml:space="preserve">
     <value>OFF</value>
@@ -133,7 +133,7 @@
     <value>ON</value>
   </data>
   <data name="GameSettingsFlyout_Sounds.Header" xml:space="preserve">
-    <value>Sounds</value>
+    <value>Suoni</value>
   </data>
   <data name="GameSettingsFlyout_Sounds.OffContent" xml:space="preserve">
     <value>OFF</value>
@@ -145,22 +145,22 @@
     <value>In questa app mobile sono presenti acquisti in-app. Questi acquisti hanno un costo in valuta reale, che sarà addebitato sul tuo account. Per regolare la possibilità di effettuare acquisti in-app, modifica le impostazioni del tuo dispositivo.</value>
   </data>
   <data name="SettingsCharm_CustomerSupport" xml:space="preserve">
-    <value>Customer Support</value>
+    <value>Assistenza Clienti</value>
   </data>
   <data name="SettingsCharm_CustomerSupport_Url" xml:space="preserve">
     <value>http://disneyinteractivestudios.custhelp.com/</value>
   </data>
   <data name="SettingsCharm_PrivacyPolicy" xml:space="preserve">
-    <value>Privacy Policy</value>
+    <value>Politica sulla privacy</value>
   </data>
   <data name="SettingsCharm_PrivacyPolicy_Url" xml:space="preserve">
     <value>http://disneyprivacycenter.com/</value>
   </data>
   <data name="SettingsCharm_Settings" xml:space="preserve">
-    <value>Game Settings</value>
+    <value>Impostazioni di gioco</value>
   </data>
   <data name="SettingsCharm_TermsOfUse" xml:space="preserve">
-    <value>Terms of Use</value>
+    <value>Condizioni d'uso</value>
   </data>
   <data name="SettingsCharm_TermsOfUse_Url" xml:space="preserve">
     <value>http://disneytermsofuse.com/</value>

@@ -121,46 +121,46 @@
     <value>UnityProject</value>
   </data>
   <data name="GameSettingsFlyout.Title" xml:space="preserve">
-    <value>Game Settings</value>
+    <value>&gt;ゲーム設定</value>
   </data>
   <data name="GameSettingsFlyout_Music.Header" xml:space="preserve">
-    <value>Music</value>
+    <value>音楽</value>
   </data>
   <data name="GameSettingsFlyout_Music.OffContent" xml:space="preserve">
-    <value>OFF</value>
+    <value>オフ</value>
   </data>
   <data name="GameSettingsFlyout_Music.OnContent" xml:space="preserve">
-    <value>ON</value>
+    <value>オン</value>
   </data>
   <data name="GameSettingsFlyout_Sounds.Header" xml:space="preserve">
-    <value>Sounds</value>
+    <value>効果音</value>
   </data>
   <data name="GameSettingsFlyout_Sounds.OffContent" xml:space="preserve">
-    <value>OFF</value>
+    <value>オフ</value>
   </data>
   <data name="GameSettingsFlyout_Sounds.OnContent" xml:space="preserve">
-    <value>ON</value>
+    <value>オン</value>
   </data>
   <data name="OFT_Disclosure" xml:space="preserve">
     <value>このモバイルアプリにはアプリ内課金があります。アプリ内課金では実際のお金による支払いが発生し、あなたのアカウントに請求されます。アプリ内課金の設定を変更するにストア アカウントの設定を変更してください。</value>
   </data>
   <data name="SettingsCharm_CustomerSupport" xml:space="preserve">
-    <value>Customer Support</value>
+    <value>カスタマーサポート</value>
   </data>
   <data name="SettingsCharm_CustomerSupport_Url" xml:space="preserve">
     <value>http://disneyinteractivestudios.custhelp.com/</value>
   </data>
   <data name="SettingsCharm_PrivacyPolicy" xml:space="preserve">
-    <value>Privacy Policy</value>
+    <value>プライバシーポリシー</value>
   </data>
   <data name="SettingsCharm_PrivacyPolicy_Url" xml:space="preserve">
     <value>http://disneyprivacycenter.com/</value>
   </data>
   <data name="SettingsCharm_Settings" xml:space="preserve">
-    <value>Game Settings</value>
+    <value>&gt;ゲーム設定</value>
   </data>
   <data name="SettingsCharm_TermsOfUse" xml:space="preserve">
-    <value>Terms of Use</value>
+    <value>ご利用規約</value>
   </data>
   <data name="SettingsCharm_TermsOfUse_Url" xml:space="preserve">
     <value>http://disneytermsofuse.com/</value>

@@ -121,46 +121,46 @@
     <value>UnityProject</value>
   </data>
   <data name="GameSettingsFlyout.Title" xml:space="preserve">
-    <value>Game Settings</value>
+    <value>遊戲設定</value>
   </data>
   <data name="GameSettingsFlyout_Music.Header" xml:space="preserve">
-    <value>Music</value>
+    <value>音樂</value>
   </data>
   <data name="GameSettingsFlyout_Music.OffContent" xml:space="preserve">
-    <value>OFF</value>
+    <value>關閉</value>
   </data>
   <data name="GameSettingsFlyout_Music.OnContent" xml:space="preserve">
-    <value>ON</value>
+    <value>開啟</value>
   </data>
   <data name="GameSettingsFlyout_Sounds.Header" xml:space="preserve">
-    <value>Sounds</value>
+    <value>音效</value>
   </data>
   <data name="GameSettingsFlyout_Sounds.OffContent" xml:space="preserve">
-    <value>OFF</value>
+    <value>關閉</value>
   </data>
   <data name="GameSettingsFlyout_Sounds.OnContent" xml:space="preserve">
-    <value>ON</value>
+    <value>開啟</value>
   </data>
   <data name="OFT_Disclosure" xml:space="preserve">
     <value>此行動應用程式具有應用程式內購買功能。應用程式內購買功能需向您的帳戶收取實際費用。若要控制應用程式內購買功能，請調整市集帳戶中的設定。</value>
   </data>
   <data name="SettingsCharm_CustomerSupport" xml:space="preserve">
-    <value>Customer Support</value>
+    <value>客戶支援</value>
   </data>
   <data name="SettingsCharm_CustomerSupport_Url" xml:space="preserve">
     <value>http://disneyinteractivestudios.custhelp.com/</value>
   </data>
   <data name="SettingsCharm_PrivacyPolicy" xml:space="preserve">
-    <value>Privacy Policy</value>
+    <value>隱私權政策</value>
   </data>
   <data name="SettingsCharm_PrivacyPolicy_Url" xml:space="preserve">
     <value>http://disneyprivacycenter.com/</value>
   </data>
   <data name="SettingsCharm_Settings" xml:space="preserve">
-    <value>Game Settings</value>
+    <value>設定</value>
   </data>
   <data name="SettingsCharm_TermsOfUse" xml:space="preserve">
-    <value>Terms of Use</value>
+    <value>使用條款</value>
   </data>
   <data name="SettingsCharm_TermsOfUse_Url" xml:space="preserve">
     <value>http://disneytermsofuse.com/</value>

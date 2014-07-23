@@ -121,46 +121,46 @@
     <value>UnityProject</value>
   </data>
   <data name="GameSettingsFlyout.Title" xml:space="preserve">
-    <value>Game Settings</value>
+    <value>音频设置</value>
   </data>
   <data name="GameSettingsFlyout_Music.Header" xml:space="preserve">
-    <value>Music</value>
+    <value>音乐</value>
   </data>
   <data name="GameSettingsFlyout_Music.OffContent" xml:space="preserve">
-    <value>OFF</value>
+    <value>关闭</value>
   </data>
   <data name="GameSettingsFlyout_Music.OnContent" xml:space="preserve">
-    <value>ON</value>
+    <value>打开</value>
   </data>
   <data name="GameSettingsFlyout_Sounds.Header" xml:space="preserve">
-    <value>Sounds</value>
+    <value>音效</value>
   </data>
   <data name="GameSettingsFlyout_Sounds.OffContent" xml:space="preserve">
-    <value>OFF</value>
+    <value>关闭</value>
   </data>
   <data name="GameSettingsFlyout_Sounds.OnContent" xml:space="preserve">
-    <value>ON</value>
+    <value>打开</value>
   </data>
   <data name="OFT_Disclosure" xml:space="preserve">
     <value>本应用包含内购。内购会消费现实货币，相关款项会从您的账户收取。如您希望管理内购功能，请在商店中调整您的帐户设置。</value>
   </data>
   <data name="SettingsCharm_CustomerSupport" xml:space="preserve">
-    <value>Customer Support</value>
+    <value>支持</value>
   </data>
   <data name="SettingsCharm_CustomerSupport_Url" xml:space="preserve">
     <value>http://disneyinteractivestudios.custhelp.com/</value>
   </data>
   <data name="SettingsCharm_PrivacyPolicy" xml:space="preserve">
-    <value>Privacy Policy</value>
+    <value>隐私政策</value>
   </data>
   <data name="SettingsCharm_PrivacyPolicy_Url" xml:space="preserve">
     <value>http://disneyprivacycenter.com/</value>
   </data>
   <data name="SettingsCharm_Settings" xml:space="preserve">
-    <value>Game Settings</value>
+    <value>游戏设置</value>
   </data>
   <data name="SettingsCharm_TermsOfUse" xml:space="preserve">
-    <value>Terms of Use</value>
+    <value>使用条款</value>
   </data>
   <data name="SettingsCharm_TermsOfUse_Url" xml:space="preserve">
     <value>http://disneytermsofuse.com/</value>
