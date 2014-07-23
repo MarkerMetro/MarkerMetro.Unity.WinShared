@@ -15,7 +15,7 @@
     <TargetFrameworkVersion>v8.0</TargetFrameworkVersion>
     <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
     <SilverlightApplication>true</SilverlightApplication>
-    <SupportedCultures />
+    <SupportedCultures>de;en-US;es;fr;it;ja;ko;pt-BR;ru;zh-CN;zh-TW</SupportedCultures>
     <XapOutputs>true</XapOutputs>
     <GenerateSilverlightManifest>true</GenerateSilverlightManifest>
     <XapFilename>UnityProject_$(Configuration)_$(Platform).xap</XapFilename>

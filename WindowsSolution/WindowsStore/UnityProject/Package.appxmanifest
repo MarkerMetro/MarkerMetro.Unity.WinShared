@@ -12,9 +12,7 @@
   </Prerequisites>
   <Resources>
     <!-- add supported languages here-->
-    <Resource Language="en-US" />
-    <Resource Language="pt-BR" />
-    <Resource Language="es-419" />
+    <Resource Language="x-generate"/>
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="UnityProject.Win.App">

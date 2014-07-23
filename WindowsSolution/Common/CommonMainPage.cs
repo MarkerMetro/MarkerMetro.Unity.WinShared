@@ -117,11 +117,11 @@ namespace UnityProject.WinPhone
         /// <remarks>
         /// If your game does not contain IAP, don't call this method
         /// </remarks>
+#if WINDOWS_PHONE
         void CheckForOFT()
         {
             try
             {
-#if WINDOWS_PHONE
                 var appSettings = IsolatedStorageSettings.ApplicationSettings;
 
                 if (!appSettings.Contains("OFT"))
@@ -131,7 +131,17 @@ namespace UnityProject.WinPhone
                     appSettings["OFT"] = true;
                     appSettings.Save();
                 }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
+        }
 #elif NETFX_CORE
+        async void CheckForOFT()
+        {
+            try
+            {
                 var settings = ApplicationData.Current.LocalSettings;
 
                 if (!settings.Values.ContainsKey("OFT"))
@@ -145,12 +155,12 @@ namespace UnityProject.WinPhone
 
                     settings.Values.Add("OFT", true);
                 }
-#endif
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.ToString());
             }
         }
+#endif
     }
 }
