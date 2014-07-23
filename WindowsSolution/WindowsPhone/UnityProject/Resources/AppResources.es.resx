@@ -120,4 +120,7 @@
   <data name="ApplicationTitle" xml:space="preserve">
     <value>UnityProject</value>
   </data>
+  <data name="OFT_Disclosure" xml:space="preserve">
+    <value>Esta aplicación para dispositivos móviles permite hacer compras desde la aplicación. Las compras en aplicaciones cuestan dinero real y se cargan a tu cuenta. Puedes cambiar los ajustes en tu cuenta de la Tienda para controlar las compras en aplicaciones.</value>
+  </data>
 </root>

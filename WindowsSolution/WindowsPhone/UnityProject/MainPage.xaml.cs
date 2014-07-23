@@ -22,13 +22,15 @@ using System.Windows.Threading;
 using Microsoft.Phone.Tasks;
 using MarkerMetro.Unity.WinIntegration.Store;
 using System.Threading.Tasks;
+using UnityProject.WinPhone.Resources;
+using System.Diagnostics;
 
 namespace UnityProject.WinPhone
 {
 	public partial class MainPage : PhoneApplicationPage
 	{
-		private bool _unityStartedLoading;
-		private bool _useLocation;
+		bool _unityStartedLoading;
+		bool _useLocation;
         DispatcherTimer _extendedSplashTimer;
         public static bool IsUnityLoaded { get; set; }
 
@@ -78,7 +80,7 @@ namespace UnityProject.WinPhone
             });
         }
 
-		private void DrawingSurfaceBackground_Loaded(object sender, RoutedEventArgs e)
+		void DrawingSurfaceBackground_Loaded(object sender, RoutedEventArgs e)
 		{
 			if (!_unityStartedLoading)
 			{
@@ -115,7 +117,7 @@ namespace UnityProject.WinPhone
 			}
 		}
 
-		private void Unity_Loaded()
+		void Unity_Loaded()
 		{
             IsUnityLoaded = true;
 
@@ -133,7 +135,7 @@ namespace UnityProject.WinPhone
 #else
             StoreManager.Instance.Initialise(false);
 #endif
-
+            CheckForOFT();
 		}
 
         public void InvokeOnAppThread(System.Action callback)
@@ -168,12 +170,12 @@ namespace UnityProject.WinPhone
                 DrawingSurfaceBackground.Children.Remove(ExtendedSplashGrid);
         }
 
-		private void PhoneApplicationPage_BackKeyPress(object sender, CancelEventArgs e)
+		void PhoneApplicationPage_BackKeyPress(object sender, CancelEventArgs e)
 		{
 			e.Cancel = UnityApp.BackButtonPressed();
 		}
 
-		private void PhoneApplicationPage_OrientationChanged(object sender, OrientationChangedEventArgs e)
+		void PhoneApplicationPage_OrientationChanged(object sender, OrientationChangedEventArgs e)
 		{
 			UnityApp.SetOrientation((int)e.Orientation);
 		}
@@ -196,7 +198,7 @@ namespace UnityProject.WinPhone
             }
         }
 
-		private void SetupGeolocator()
+		void SetupGeolocator()
         {
             if (!_useLocation)
                 return;
