@@ -31,7 +31,7 @@ public class GUIStart : MonoBehaviour {
 
         // Third Button Login to Quit
         if(GUI.Button(new Rect( box_x + 10 , box_y + 130, box_width - 20, 40), "Quit")) {
-
+            Application.Quit();
         }
 	}
 }

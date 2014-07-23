@@ -7,6 +7,8 @@ public class GameMaster : MonoBehaviour {
 	public GameObject 	gui_start_;
 	public GameObject 	gui_play_;
 	public GameObject 	gui_end_;
+	public GameObject	gui_store_;
+
 	public GUIText 		gui_matches_;
 	public GUIText 		gui_remaining_;
 	public GUIText 		gui_result_;
@@ -32,7 +34,8 @@ public class GameMaster : MonoBehaviour {
 		GS_START,
 		GS_PLAYING,
 		GS_END,
-		GS_WAITING
+		GS_WAITING,
+		GS_STORE
 	};
 
 	// Use this for initialization
@@ -69,7 +72,7 @@ public class GameMaster : MonoBehaviour {
 			{
 				// Loss
 				ChangeState( GAME_STATE.GS_END );
-				gui_result_.text = "YOU LOSS";
+				gui_result_.text = "YOU LOSE";
 			}
 		}
 	}
@@ -84,11 +87,12 @@ public class GameMaster : MonoBehaviour {
 				gui_start_.SetActive( true );
 				gui_end_.SetActive( false );
 				gui_play_.SetActive( false );
+				gui_store_.SetActive( false );
 				state_ = state;
 
 				remaining_moves_ = max_moves_;
 				number_matches_ = 0;
-				gui_result_.text = "YOU LOSS";
+				gui_result_.text = "YOU LOSE";
 
 				SetupTiles();
 			}
@@ -98,6 +102,7 @@ public class GameMaster : MonoBehaviour {
 				gui_start_.SetActive( false );
 				gui_end_.SetActive( false );
 				gui_play_.SetActive( true );
+				gui_store_.SetActive( false );
 				state_ = state;
 
 				if ( current_switched_1 != null )
@@ -119,12 +124,22 @@ public class GameMaster : MonoBehaviour {
 				gui_start_.SetActive( false );
 				gui_end_.SetActive( true );
 				gui_play_.SetActive( false );
+				gui_store_.SetActive( false );
 				state_ = state;
 			}
 			break;
 			case GAME_STATE.GS_WAITING:
 			{
 				waiting_timer_ = 0.0f;
+				state_ = state;
+			}
+			break;
+			case GAME_STATE.GS_STORE:
+			{
+				gui_start_.SetActive( false );
+				gui_end_.SetActive( false );
+				gui_play_.SetActive( false );
+				gui_store_.SetActive( true );
 				state_ = state;
 			}
 			break;
