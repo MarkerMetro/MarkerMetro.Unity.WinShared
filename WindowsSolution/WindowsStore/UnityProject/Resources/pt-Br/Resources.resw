@@ -141,6 +141,9 @@
   <data name="GameSettingsFlyout_Sounds.OnContent" xml:space="preserve">
     <value>LIGADO</value>
   </data>
+  <data name="OFT_Disclosure" xml:space="preserve">
+    <value>Este aplicativo móvel contém compras dentro do aplicativo. Compras no App custam dinheiro de verdade e são cobradas em sua conta. Para controlar sua habilidade para fazer compras no aplicativo, ajuste as Configurações na sua conta na Loja.</value>
+  </data>
   <data name="SettingsCharm_CustomerSupport" xml:space="preserve">
     <value>Suporte ao Cliente</value>
   </data>

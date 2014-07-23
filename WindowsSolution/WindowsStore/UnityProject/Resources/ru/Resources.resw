@@ -121,48 +121,48 @@
     <value>UnityProject</value>
   </data>
   <data name="GameSettingsFlyout.Title" xml:space="preserve">
-    <value>Ajustes del juego</value>
+    <value>Game Settings</value>
   </data>
   <data name="GameSettingsFlyout_Music.Header" xml:space="preserve">
-    <value>Música</value>
+    <value>Music</value>
   </data>
   <data name="GameSettingsFlyout_Music.OffContent" xml:space="preserve">
-    <value>NO</value>
+    <value>OFF</value>
   </data>
   <data name="GameSettingsFlyout_Music.OnContent" xml:space="preserve">
-    <value>SÍ</value>
+    <value>ON</value>
   </data>
   <data name="GameSettingsFlyout_Sounds.Header" xml:space="preserve">
-    <value>Sonidos</value>
+    <value>Sounds</value>
   </data>
   <data name="GameSettingsFlyout_Sounds.OffContent" xml:space="preserve">
-    <value>NO</value>
+    <value>OFF</value>
   </data>
   <data name="GameSettingsFlyout_Sounds.OnContent" xml:space="preserve">
-    <value>SÍ</value>
+    <value>ON</value>
   </data>
   <data name="OFT_Disclosure" xml:space="preserve">
-    <value>Esta aplicación para dispositivos móviles permite hacer compras desde la aplicación. Las compras en aplicaciones cuestan dinero real y se cargan a tu cuenta. Puedes cambiar los ajustes en tu cuenta de la Tienda para controlar las compras en aplicaciones.</value>
+    <value>Данное мобильное приложение поддерживает встроенные покупки. Встроенные покупки стоят реальных денег, которые будут списаны с вашей учетной записи. Включить или отключить возможность встроенных покупок можно  в разделе настроек вашей учетной записи в Магазине.</value>
   </data>
   <data name="SettingsCharm_CustomerSupport" xml:space="preserve">
-    <value>Servicio técnico</value>
+    <value>Customer Support</value>
   </data>
   <data name="SettingsCharm_CustomerSupport_Url" xml:space="preserve">
     <value>http://disneyinteractivestudios.custhelp.com/</value>
   </data>
   <data name="SettingsCharm_PrivacyPolicy" xml:space="preserve">
-    <value>Política de privacidad</value>
+    <value>Privacy Policy</value>
   </data>
   <data name="SettingsCharm_PrivacyPolicy_Url" xml:space="preserve">
-    <value>http://disneyprivacycenter.com/privacy-policy-translations/spanish-latin-american/</value>
+    <value>http://disneyprivacycenter.com/</value>
   </data>
   <data name="SettingsCharm_Settings" xml:space="preserve">
-    <value>Ajustes del juego</value>
+    <value>Game Settings</value>
   </data>
   <data name="SettingsCharm_TermsOfUse" xml:space="preserve">
-    <value>Condiciones de uso</value>
+    <value>Terms of Use</value>
   </data>
   <data name="SettingsCharm_TermsOfUse_Url" xml:space="preserve">
-    <value>http://disneytermsofuse.com/spanish-latin-american/</value>
+    <value>http://disneytermsofuse.com/</value>
   </data>
 </root>

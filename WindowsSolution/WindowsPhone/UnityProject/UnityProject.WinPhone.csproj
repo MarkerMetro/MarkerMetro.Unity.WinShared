@@ -242,6 +242,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\AppResources.nl.resx" />
+    <EmbeddedResource Include="Resources\AppResources.ko.resx" />
+    <EmbeddedResource Include="Resources\AppResources.ja.resx" />
+    <EmbeddedResource Include="Resources\AppResources.zh-TW.resx" />
+    <EmbeddedResource Include="Resources\AppResources.zh-CN.resx" />
+    <EmbeddedResource Include="Resources\AppResources.ru.resx" />
+    <EmbeddedResource Include="Resources\AppResources.tr.resx" />
+    <EmbeddedResource Include="Resources\AppResources.no.resx" />
+    <EmbeddedResource Include="Resources\AppResources.fi.resx" />
+    <EmbeddedResource Include="Resources\AppResources.pl.resx" />
+    <EmbeddedResource Include="Resources\AppResources.da.resx" />
     <EmbeddedResource Include="Resources\AppResources.de.resx" />
     <EmbeddedResource Include="Resources\AppResources.it.resx" />
     <EmbeddedResource Include="Resources\AppResources.fr.resx" />
