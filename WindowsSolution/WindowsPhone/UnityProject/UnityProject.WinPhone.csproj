@@ -133,11 +133,13 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResolutionHelper.cs" />
     <Compile Include="Resources\AppResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>AppResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="ScaledLocalizedImageLocator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -160,10 +162,12 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\ExtendedSplashScreenImage.Screen-720p.jpg" />
+    <Content Include="Assets\ExtendedSplashScreenImage.Screen-WVGA.jpg" />
+    <Content Include="Assets\ExtendedSplashScreenImage.Screen-WXGA.jpg" />
     <Content Include="Assets\Tiles\TileFrontMedium.png" />
     <Content Include="Assets\Tiles\TileFrontWide.png" />
     <Content Include="Assets\Tiles\TileSmall.png" />
-    <Content Include="Assets\ExtendedSplashScreenImage.jpg" />
     <Content Include="iap_simulator.xml" />
     <Content Include="Assets\AlignmentGrid.png" />
     <Content Include="Assets\ApplicationIcon.png">

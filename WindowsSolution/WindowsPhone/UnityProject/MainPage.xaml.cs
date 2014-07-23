@@ -10,6 +10,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Info;
@@ -116,6 +117,21 @@ namespace UnityProject.WinPhone
 				DrawingSurfaceBackground.SetBackgroundManipulationHandler(UnityApp.GetManipulationHandler());
 			}
 		}
+
+
+        /// <summary> 
+        /// Choose which Extended Splash Screen to display based on device resolution
+        /// Expectation is that the screens are named "ExtendedSplashScreenImage.Screen-{res}.png
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void ExtendedSplashImage_Loaded(object sender, RoutedEventArgs e)
+        {
+            Image img = sender as Image;
+            BitmapImage bitmap_image = new BitmapImage();
+            bitmap_image.UriSource = ScaledLocalizedImageLocator.Current["Assets/ExtendedSplashScreenImage.jpg"];
+            img.Source = bitmap_image;
+        }
 
 		void Unity_Loaded()
 		{
