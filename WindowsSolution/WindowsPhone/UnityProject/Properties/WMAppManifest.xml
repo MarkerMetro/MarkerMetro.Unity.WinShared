@@ -4,14 +4,16 @@
   <Languages xmlns="">
     <Language code="zh-Hans" />
     <Language code="zh-Hant" />
-    <Language code="ko" />
-    <Language code="it" />
-    <Language code="fr" />
-    <Language code="de" />
-    <Language code="ja" />
     <Language code="pt-BR" />
-    <Language code="ru" />
-    <Language code="es" />
+    <Language code="fr-FR" />
+    <Language code="de-DE" />
+    <Language code="it-IT" />
+    <Language code="ja-JP" />
+    <Language code="ko-KR" />
+    <Language code="ru-RU" />
+    <Language code="es-MX" />
+    <Language code="es-419" />
+    <Language code="es-ES" />
   </Languages>
   <!-- Supported languages here, but also in the csproj SupportedCultures element -->
   <!--<Languages xmlns="">
