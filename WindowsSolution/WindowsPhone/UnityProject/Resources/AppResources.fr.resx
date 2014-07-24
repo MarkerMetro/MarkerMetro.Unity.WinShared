@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -121,6 +121,6 @@
     <value>UnityProject</value>
   </data>
   <data name="OFT_Disclosure" xml:space="preserve">
-    <value>This mobile app contains in app purchases. In app purchases cost real money and are charged to your account. To control the ability to make in-app purchases, adjust the Settings in your Store account.</value>
+    <value>Cette application mobile contient des achats intégrés. Ils nécessitent de l'argent réel et sont facturés sur votre compte. Pour contrôler cette fonctionnalité, ajustez les paramètres de votre appareil.</value>
   </data>
 </root>

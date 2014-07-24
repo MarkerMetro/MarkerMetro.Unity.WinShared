@@ -35,9 +35,9 @@ namespace UnityProject.Win
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private SplashScreen splash;
-        private Rect splashImageRect;
-        private WindowSizeChangedEventHandler onResizeHandler;
+        SplashScreen splash;
+        Rect splashImageRect;
+        WindowSizeChangedEventHandler onResizeHandler;
         static SettingsPane settingsPane;
         DispatcherTimer extendedSplashTimer;
         bool isUnityLoaded;
@@ -66,7 +66,6 @@ namespace UnityProject.Win
             extendedSplashTimer.Interval = TimeSpan.FromMilliseconds(100);
             extendedSplashTimer.Tick += ExtendedSplashTimer_Tick;
             extendedSplashTimer.Start();
-
         }
 
         /// <summary>
@@ -222,7 +221,7 @@ namespace UnityProject.Win
             OnResize();
         }
 
-        private void OnResize()
+        void OnResize()
         {
             if (splash != null)
             {
@@ -231,14 +230,15 @@ namespace UnityProject.Win
             }
         }
 
-        private void PositionImage()
+        void PositionImage()
         {
             ExtendedSplashImage.SetValue(Canvas.LeftProperty, splashImageRect.X);
             ExtendedSplashImage.SetValue(Canvas.TopProperty, splashImageRect.Y);
             ExtendedSplashImage.Height = splashImageRect.Height;
             ExtendedSplashImage.Width = splashImageRect.Width;
         }
-        private async void GetSplashBackgroundColor()
+
+        async void GetSplashBackgroundColor()
         {
             try
             {
@@ -281,6 +281,8 @@ namespace UnityProject.Win
                 Window.Current.SizeChanged -= onResizeHandler;
                 onResizeHandler = null;
             }
+
+            CheckForOFT();
         }
 
 		protected override Windows.UI.Xaml.Automation.Peers.AutomationPeer OnCreateAutomationPeer()

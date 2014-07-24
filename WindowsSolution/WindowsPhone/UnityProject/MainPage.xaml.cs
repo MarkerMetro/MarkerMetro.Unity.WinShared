@@ -1,3 +1,5 @@
+using MarkerMetro.Unity.WinIntegration.Facebook;
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,6 +12,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Info;
@@ -22,13 +25,15 @@ using System.Windows.Threading;
 using Microsoft.Phone.Tasks;
 using MarkerMetro.Unity.WinIntegration.Store;
 using System.Threading.Tasks;
+using UnityProject.WinPhone.Resources;
+using System.Diagnostics;
 
 namespace UnityProject.WinPhone
 {
 	public partial class MainPage : PhoneApplicationPage
 	{
-		private bool _unityStartedLoading;
-		private bool _useLocation;
+		bool _unityStartedLoading;
+		bool _useLocation;
         DispatcherTimer _extendedSplashTimer;
         public static bool IsUnityLoaded { get; set; }
 
@@ -38,7 +43,7 @@ namespace UnityProject.WinPhone
 			var bridge = new UnityBridge();
 			UnityApp.SetBridge(bridge);
 			InitializeComponent();
-
+			FB.SetPlatformInterface(web);
             Initialize();
 
 			bridge.Control = DrawingSurfaceBackground;
@@ -78,7 +83,7 @@ namespace UnityProject.WinPhone
             });
         }
 
-		private void DrawingSurfaceBackground_Loaded(object sender, RoutedEventArgs e)
+		void DrawingSurfaceBackground_Loaded(object sender, RoutedEventArgs e)
 		{
 			if (!_unityStartedLoading)
 			{
@@ -115,7 +120,22 @@ namespace UnityProject.WinPhone
 			}
 		}
 
-		private void Unity_Loaded()
+
+        /// <summary> 
+        /// Choose which Extended Splash Screen to display based on device resolution
+        /// Expectation is that the screens are named "ExtendedSplashScreenImage.Screen-{res}.png
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void ExtendedSplashImage_Loaded(object sender, RoutedEventArgs e)
+        {
+            Image img = sender as Image;
+            BitmapImage bitmap_image = new BitmapImage();
+            bitmap_image.UriSource = ScaledLocalizedImageLocator.Current["Assets/ExtendedSplashScreenImage.jpg"];
+            img.Source = bitmap_image;
+        }
+
+		void Unity_Loaded()
 		{
             IsUnityLoaded = true;
 
@@ -133,7 +153,7 @@ namespace UnityProject.WinPhone
 #else
             StoreManager.Instance.Initialise(false);
 #endif
-
+            CheckForOFT();
 		}
 
         public void InvokeOnAppThread(System.Action callback)
@@ -168,12 +188,21 @@ namespace UnityProject.WinPhone
                 DrawingSurfaceBackground.Children.Remove(ExtendedSplashGrid);
         }
 
-		private void PhoneApplicationPage_BackKeyPress(object sender, CancelEventArgs e)
+		void PhoneApplicationPage_BackKeyPress(object sender, CancelEventArgs e)
 		{
-			e.Cancel = UnityApp.BackButtonPressed();
+			if (web.Visibility != Visibility.Collapsed)
+            {
+                web.Finish();
+
+                e.Cancel = true;
+            }
+            else
+            {
+                e.Cancel = UnityApp.BackButtonPressed();
+            }
 		}
 
-		private void PhoneApplicationPage_OrientationChanged(object sender, OrientationChangedEventArgs e)
+		void PhoneApplicationPage_OrientationChanged(object sender, OrientationChangedEventArgs e)
 		{
 			UnityApp.SetOrientation((int)e.Orientation);
 		}
@@ -196,7 +225,7 @@ namespace UnityProject.WinPhone
             }
         }
 
-		private void SetupGeolocator()
+		void SetupGeolocator()
         {
             if (!_useLocation)
                 return;

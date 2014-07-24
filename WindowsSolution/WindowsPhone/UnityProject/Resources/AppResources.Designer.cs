@@ -68,5 +68,14 @@ namespace UnityProject.WinPhone.Resources {
                 return ResourceManager.GetString("ApplicationTitle", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This mobile app contains in app purchases. In app purchases cost real money and are charged to your account. To control the ability to make in-app purchases, adjust the Settings in your Store account..
+        /// </summary>
+        public static string OFT_Disclosure {
+            get {
+                return ResourceManager.GetString("OFT_Disclosure", resourceCulture);
+            }
+        }
     }
 }

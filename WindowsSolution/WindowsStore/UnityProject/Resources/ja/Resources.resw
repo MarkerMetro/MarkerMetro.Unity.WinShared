@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,10 +117,52 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ApplicationTitle" xml:space="preserve">
+  <data name="AppName" xml:space="preserve">
     <value>UnityProject</value>
   </data>
+  <data name="GameSettingsFlyout.Title" xml:space="preserve">
+    <value>&gt;ゲーム設定</value>
+  </data>
+  <data name="GameSettingsFlyout_Music.Header" xml:space="preserve">
+    <value>音楽</value>
+  </data>
+  <data name="GameSettingsFlyout_Music.OffContent" xml:space="preserve">
+    <value>オフ</value>
+  </data>
+  <data name="GameSettingsFlyout_Music.OnContent" xml:space="preserve">
+    <value>オン</value>
+  </data>
+  <data name="GameSettingsFlyout_Sounds.Header" xml:space="preserve">
+    <value>効果音</value>
+  </data>
+  <data name="GameSettingsFlyout_Sounds.OffContent" xml:space="preserve">
+    <value>オフ</value>
+  </data>
+  <data name="GameSettingsFlyout_Sounds.OnContent" xml:space="preserve">
+    <value>オン</value>
+  </data>
   <data name="OFT_Disclosure" xml:space="preserve">
-    <value>This mobile app contains in app purchases. In app purchases cost real money and are charged to your account. To control the ability to make in-app purchases, adjust the Settings in your Store account.</value>
+    <value>このモバイルアプリにはアプリ内課金があります。アプリ内課金では実際のお金による支払いが発生し、あなたのアカウントに請求されます。アプリ内課金の設定を変更するにストア アカウントの設定を変更してください。</value>
+  </data>
+  <data name="SettingsCharm_CustomerSupport" xml:space="preserve">
+    <value>カスタマーサポート</value>
+  </data>
+  <data name="SettingsCharm_CustomerSupport_Url" xml:space="preserve">
+    <value>http://disneyinteractivestudios.custhelp.com/</value>
+  </data>
+  <data name="SettingsCharm_PrivacyPolicy" xml:space="preserve">
+    <value>プライバシーポリシー</value>
+  </data>
+  <data name="SettingsCharm_PrivacyPolicy_Url" xml:space="preserve">
+    <value>http://disneyprivacycenter.com/</value>
+  </data>
+  <data name="SettingsCharm_Settings" xml:space="preserve">
+    <value>&gt;ゲーム設定</value>
+  </data>
+  <data name="SettingsCharm_TermsOfUse" xml:space="preserve">
+    <value>ご利用規約</value>
+  </data>
+  <data name="SettingsCharm_TermsOfUse_Url" xml:space="preserve">
+    <value>http://disneytermsofuse.com/</value>
   </data>
 </root>

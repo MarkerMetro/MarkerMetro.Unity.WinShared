@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,10 +117,52 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ApplicationTitle" xml:space="preserve">
+  <data name="AppName" xml:space="preserve">
     <value>UnityProject</value>
   </data>
+  <data name="GameSettingsFlyout.Title" xml:space="preserve">
+    <value>게임 설정</value>
+  </data>
+  <data name="GameSettingsFlyout_Music.Header" xml:space="preserve">
+    <value>음악</value>
+  </data>
+  <data name="GameSettingsFlyout_Music.OffContent" xml:space="preserve">
+    <value>끄기</value>
+  </data>
+  <data name="GameSettingsFlyout_Music.OnContent" xml:space="preserve">
+    <value>켜기</value>
+  </data>
+  <data name="GameSettingsFlyout_Sounds.Header" xml:space="preserve">
+    <value>사운드</value>
+  </data>
+  <data name="GameSettingsFlyout_Sounds.OffContent" xml:space="preserve">
+    <value>끄기</value>
+  </data>
+  <data name="GameSettingsFlyout_Sounds.OnContent" xml:space="preserve">
+    <value>켜기</value>
+  </data>
   <data name="OFT_Disclosure" xml:space="preserve">
-    <value>This mobile app contains in app purchases. In app purchases cost real money and are charged to your account. To control the ability to make in-app purchases, adjust the Settings in your Store account.</value>
+    <value>이 모바일 앱은 앱 내 결제가 가능합니다. 앱 내 결제는 실제 돈으로 지불되며 귀하의 계정으로 요금이 부과됩니다. 앱 내 구매 기능을 변경하려면 상점 계정의 설정에서 조정하세요.</value>
+  </data>
+  <data name="SettingsCharm_CustomerSupport" xml:space="preserve">
+    <value>고객 지원</value>
+  </data>
+  <data name="SettingsCharm_CustomerSupport_Url" xml:space="preserve">
+    <value>http://disneyinteractivestudios.custhelp.com/</value>
+  </data>
+  <data name="SettingsCharm_PrivacyPolicy" xml:space="preserve">
+    <value>개인 정보 보호 정책</value>
+  </data>
+  <data name="SettingsCharm_PrivacyPolicy_Url" xml:space="preserve">
+    <value>http://disneyprivacycenter.com/</value>
+  </data>
+  <data name="SettingsCharm_Settings" xml:space="preserve">
+    <value>게임 설정</value>
+  </data>
+  <data name="SettingsCharm_TermsOfUse" xml:space="preserve">
+    <value>사용 약관</value>
+  </data>
+  <data name="SettingsCharm_TermsOfUse_Url" xml:space="preserve">
+    <value>http://disneytermsofuse.com/</value>
   </data>
 </root>

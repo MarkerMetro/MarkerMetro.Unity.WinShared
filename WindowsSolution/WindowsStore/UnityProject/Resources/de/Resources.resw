@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,10 +117,52 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ApplicationTitle" xml:space="preserve">
+  <data name="AppName" xml:space="preserve">
     <value>UnityProject</value>
   </data>
+  <data name="GameSettingsFlyout.Title" xml:space="preserve">
+    <value>Spieleinstellungen</value>
+  </data>
+  <data name="GameSettingsFlyout_Music.Header" xml:space="preserve">
+    <value>Musik</value>
+  </data>
+  <data name="GameSettingsFlyout_Music.OffContent" xml:space="preserve">
+    <value>Aus</value>
+  </data>
+  <data name="GameSettingsFlyout_Music.OnContent" xml:space="preserve">
+    <value>Ein</value>
+  </data>
+  <data name="GameSettingsFlyout_Sounds.Header" xml:space="preserve">
+    <value>Soundeffekte</value>
+  </data>
+  <data name="GameSettingsFlyout_Sounds.OffContent" xml:space="preserve">
+    <value>Aus</value>
+  </data>
+  <data name="GameSettingsFlyout_Sounds.OnContent" xml:space="preserve">
+    <value>Ein</value>
+  </data>
   <data name="OFT_Disclosure" xml:space="preserve">
-    <value>This mobile app contains in app purchases. In app purchases cost real money and are charged to your account. To control the ability to make in-app purchases, adjust the Settings in your Store account.</value>
+    <value>Diese mobile App enthält In-App-Käufe. In-App-Käufe kosten richtiges Geld und werden von Ihrem Konto abgebucht. Um In-App-Käufe zu kontrollieren, passen Sie die Geräteeinstellungen an.</value>
+  </data>
+  <data name="SettingsCharm_CustomerSupport" xml:space="preserve">
+    <value>Kundendienst</value>
+  </data>
+  <data name="SettingsCharm_CustomerSupport_Url" xml:space="preserve">
+    <value>http://disneyinteractivestudios.custhelp.com/</value>
+  </data>
+  <data name="SettingsCharm_PrivacyPolicy" xml:space="preserve">
+    <value>Datenschutz</value>
+  </data>
+  <data name="SettingsCharm_PrivacyPolicy_Url" xml:space="preserve">
+    <value>http://disneyprivacycenter.com/</value>
+  </data>
+  <data name="SettingsCharm_Settings" xml:space="preserve">
+    <value>Spieleinstellungen</value>
+  </data>
+  <data name="SettingsCharm_TermsOfUse" xml:space="preserve">
+    <value>Bedingungen</value>
+  </data>
+  <data name="SettingsCharm_TermsOfUse_Url" xml:space="preserve">
+    <value>http://disneytermsofuse.com/</value>
   </data>
 </root>

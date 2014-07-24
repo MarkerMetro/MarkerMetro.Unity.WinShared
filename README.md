@@ -11,12 +11,12 @@ Configured and tested with: Unity 4.5f6, and Unity 4.5.1f3
 The approach when starting a new porting project is to simply copy and paste the necessary folders across to the client repo as detailed below:
 
 
-Unity  Project
+Unity Project
 =======
 
 The root of the repo is a blank Unity project with some added scripts.
 
-Copy and paste all /Assets subfolders and files to the existing Assets folder in client repo Unity project
+Copy and paste all /Assets subfolders and files and the .gitignore to the existing Assets folder in client repo's Unity project (normally on root but could be in a sub folder)
 
 The code here helps with automated builds and includes various helper files.
 
@@ -34,7 +34,7 @@ Note that visual assets are from the Disney BOLA game so you know exactly which 
 
 NuGet
 =====================================================================
-This is the Nuget folder allowing for easy plugin integration to your Unity project. Copy it across to any new project and add to the root of the client repo.
+This is the Nuget folder allowing for easy plugin integration to your Unity project. Copy it across to any new project and add to the root of the client repo's Unity project (normally on root but could be in a sub folder)
 
 By default core Marker Metro plugins are included (WinLegacy, WinIntegration and LitJson), but the .csproj file can be edited to maintain plugin list.
 
@@ -105,3 +105,14 @@ Don't forget to add the AppResLib solution folder to your project's repository. 
 https://github.wdig.com/MarkerMetro/StarWarsCCGWindows/tree/master/StarWars.WinPhone
 
 **WARNING**: the article states that you should move the `AppResLib.dll.*.mui` files into the Resources folder (step 7). Don't do it!
+
+**WARNING**: In order for localisation changes to be displayed correctly in the store, the manifest must have the appropriate culture codes defined for each *.mui file.  These codes must have a language and a region set, for example "ru-RU" (russian for russia).  Failing this step will mean that the title in the store will not be substituted as expected.
+
+**WARNING**: Temporarily renaming the *.mui files to have a dll extension allows them to be modified within the windows solution, however this can cause them to lose their content flag.  Make sure that in the file properties they are set as 'content', not 'none'.
+
+Memory Optimization
+====================
+
+There is a script that tries to optimize assets settings to lower memory usage, which is useful specially for Windows Phone 8.
+You can find it at `\Assets\Editor\MarkerMetro\MemoryOptimizer.cs`.
+Please refer to the code documentation for instructions on how to use it.

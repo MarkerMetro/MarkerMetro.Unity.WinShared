@@ -112,6 +112,14 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <None Include="MetroTestCertificate.pfx" />
+    <PRIResource Include="Resources\zh-TW\Resources.resw" />
+    <PRIResource Include="Resources\zh-CN\Resources.resw" />
+    <PRIResource Include="Resources\ru\Resources.resw" />
+    <PRIResource Include="Resources\ko\Resources.resw" />
+    <PRIResource Include="Resources\ja\Resources.resw" />
+    <PRIResource Include="Resources\it\Resources.resw" />
+    <PRIResource Include="Resources\fr\Resources.resw" />
+    <PRIResource Include="Resources\de\Resources.resw" />
     <PRIResource Include="Resources\en-US\Resources.resw" />
     <PRIResource Include="Resources\pt-Br\Resources.resw" />
     <PRIResource Include="Resources\es-419\Resources.resw" />
