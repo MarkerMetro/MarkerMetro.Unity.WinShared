@@ -1,3 +1,5 @@
+using MarkerMetro.Unity.WinIntegration.Facebook;
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -41,7 +43,7 @@ namespace UnityProject.WinPhone
 			var bridge = new UnityBridge();
 			UnityApp.SetBridge(bridge);
 			InitializeComponent();
-
+			FB.SetPlatformInterface(web);
             Initialize();
 
 			bridge.Control = DrawingSurfaceBackground;
@@ -188,7 +190,16 @@ namespace UnityProject.WinPhone
 
 		void PhoneApplicationPage_BackKeyPress(object sender, CancelEventArgs e)
 		{
-			e.Cancel = UnityApp.BackButtonPressed();
+			if (web.Visibility != Visibility.Collapsed)
+            {
+                web.Finish();
+
+                e.Cancel = true;
+            }
+            else
+            {
+                e.Cancel = UnityApp.BackButtonPressed();
+            }
 		}
 
 		void PhoneApplicationPage_OrientationChanged(object sender, OrientationChangedEventArgs e)
