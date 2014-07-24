@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+using MarkerMetro.Unity.WinIntegration.Facebook;
 public class GUIStart : MonoBehaviour {
 
 	void OnGUI()
@@ -16,19 +17,24 @@ public class GUIStart : MonoBehaviour {
 		int box_y = half_height - box_height / 2;
 
         GUI.Box(new Rect( box_x, box_y, box_width, box_height), "Main Menu");
-    
+
+        GameObject game_master = GameObject.Find("GameMaster");
+        GameMaster game_script = game_master.GetComponent<GameMaster>();
+
         // Make the first button. If it is pressed, Start Game
         if(GUI.Button(new Rect( box_x + 10 , box_y + 30, box_width - 20, 40), "Start Game")) {
-            GameObject game_master = GameObject.Find("GameMaster");
-            GameMaster script = game_master.GetComponent<GameMaster>();
-            script.ChangeState( GameMaster.GAME_STATE.GS_PLAYING );
+            game_script.ChangeState(GameMaster.GAME_STATE.GS_PLAYING);
         }
 
-        // Second Button Login to FB
-        if(GUI.Button(new Rect( box_x + 10 , box_y + 80, box_width - 20, 40), "Login")) {
-
+        if ( !FB.IsLoggedIn )
+        {
+            // Second Button Login to FB
+            if (GUI.Button(new Rect(box_x + 10, box_y + 80, box_width - 20, 40), "Login"))
+            {
+                FB.Login("email,publish_actions", game_script.FBLoginCallback);
+            }
         }
-
+        
         // Third Button Login to Quit
         if(GUI.Button(new Rect( box_x + 10 , box_y + 130, box_width - 20, 40), "Quit")) {
             Application.Quit();

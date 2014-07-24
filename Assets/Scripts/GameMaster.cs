@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
+using MarkerMetro.Unity.WinIntegration.Facebook;
+
 public class GameMaster : MonoBehaviour {
 
 	public GameObject 	gui_start_;
@@ -44,6 +46,11 @@ public class GameMaster : MonoBehaviour {
 		CreateTiles();
 		ChangeState( GAME_STATE.GS_START );
 	}
+
+    void Awake()
+    {
+        FB.Init(SetFBInit, "682783485145217", OnHideUnity);
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -216,4 +223,33 @@ public class GameMaster : MonoBehaviour {
 		remaining_moves_ += 5;
 		SetGUIText();
 	}
+
+    private void SetFBInit()
+    {
+        Debug.Log("Set FB Init");
+        if ( FB.IsLoggedIn )
+        {
+            Debug.Log("Already logged in to FB");
+            OnFBLoggedIn();
+        }
+    }
+
+    private void OnHideUnity( bool is_hiding )
+    {
+        Debug.Log("OnHideUnity");
+    }
+
+    public void FBLoginCallback( FBResult result )
+    {
+        Debug.Log("LoginCallback");
+        if ( FB.IsLoggedIn )
+        {
+            OnFBLoggedIn();
+        }
+    }
+
+    private void OnFBLoggedIn()
+    {
+        Debug.Log("Logged In to FB ID: " + FB.UserId);
+    }
 }
