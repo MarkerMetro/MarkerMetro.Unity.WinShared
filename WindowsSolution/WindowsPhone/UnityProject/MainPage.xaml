@@ -6,6 +6,7 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:unityproject="clr-namespace:UnityProject.WinPhone"
     mc:Ignorable="d"
     xmlns:localControls="clr-namespace:UnityProject.WinPhone.Controls"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
@@ -20,7 +21,7 @@
             <ProgressBar x:Name="SplashProgress" Foreground="#FFFFFFFF" Background="#FF000000" Maximum="25000" Width="320" Height="25" Margin="0,200,0,0" RenderTransformOrigin="0.5,0.5"/>
         </Grid>
         <TextBlock x:Name="TextBlockMemoryStats" Text="0 MB" IsHitTestVisible="False" Visibility="Collapsed"/>
-        <localControls:FBWebView x:Name="web" Visibility="Collapsed" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+        <unityproject:FBWebViewWP8 x:Name="web" Visibility="Collapsed" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
     </DrawingSurfaceBackgroundGrid>
 
 </phone:PhoneApplicationPage>
