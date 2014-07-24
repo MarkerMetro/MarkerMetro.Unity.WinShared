@@ -11,7 +11,7 @@ using UnityPlayer;
 using System.Linq;
 using Microsoft.Phone.Info;
 using Microsoft.Phone.Shell;
-using MarkerMetro.WinIntegration.Facebook;
+using MarkerMetro.Unity.WinIntegration.Facebook;
 using System.IO.IsolatedStorage;
 using UnityProject.WinPhone.Resources;
 #elif NETFX_CORE
@@ -21,7 +21,7 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Notifications;
 using Windows.Data.Xml.Dom;
-using MarkerMetro.WinIntegration.Facebook;
+using MarkerMetro.Unity.WinIntegration.Facebook;
 
 #endif
 
