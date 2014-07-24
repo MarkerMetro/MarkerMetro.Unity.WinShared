@@ -27,6 +27,7 @@ using MarkerMetro.Unity.WinIntegration.Store;
 using System.Threading.Tasks;
 using UnityProject.WinPhone.Resources;
 using System.Diagnostics;
+using MarkerMetro.Common.Converters;
 
 namespace UnityProject.WinPhone
 {
@@ -57,7 +58,7 @@ namespace UnityProject.WinPhone
 
            
             // control memory debugging flag here
-            #if QA
+            #if DEBUG || QA
                  //DisplayMemoryInfo = true;
             #endif
         }
@@ -119,21 +120,6 @@ namespace UnityProject.WinPhone
 				DrawingSurfaceBackground.SetBackgroundManipulationHandler(UnityApp.GetManipulationHandler());
 			}
 		}
-
-
-        /// <summary> 
-        /// Choose which Extended Splash Screen to display based on device resolution
-        /// Expectation is that the screens are named "ExtendedSplashScreenImage.Screen-{res}.png
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void ExtendedSplashImage_Loaded(object sender, RoutedEventArgs e)
-        {
-            Image img = sender as Image;
-            BitmapImage bitmap_image = new BitmapImage();
-            bitmap_image.UriSource = ScaledLocalizedImageLocator.Current["Assets/ExtendedSplashScreenImage.jpg"];
-            img.Source = bitmap_image;
-        }
 
 		void Unity_Loaded()
 		{
