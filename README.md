@@ -11,6 +11,14 @@ Configured and tested with: Unity 4.5f6, and Unity 4.5.1f3
 The approach when starting a new porting project is to simply copy and paste the necessary folders across to the client repo as detailed below:
 
 
+Build Server Setup
+==================
+It's important to copy the build steps and tweak for your project as required, see the steps here:
+
+http://mmbuild2.markermetro.com:9091/admin/editBuildRunners.html?id=buildType:MarkerMetroUnityWinShared_CI
+http://mmbuild2.markermetro.com:9091/admin/editBuildRunners.html?id=buildType:MarkerMetroUnityWinShared_Release
+
+
 Unity Project
 =======
 
@@ -32,7 +40,7 @@ Then subsequently build out from Unity to /WindowsSolution/WindowsStore and /Win
 
 Note that visual assets are from the Disney BOLA game so you know exactly which ones to replace.
 
-NuGet
+NuGet Plugins
 =====================================================================
 This is the Nuget folder allowing for easy plugin integration to your Unity project. Copy it across to any new project and add to the root of the client repo's Unity project (normally on root but could be in a sub folder)
 
