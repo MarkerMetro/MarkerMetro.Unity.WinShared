@@ -155,7 +155,7 @@
       <HintPath>..\..\packages\MarkerMetro.Common.PCL.2.35\lib\portable-net45+win+WindowsPhoneApp81+wp80\MarkerMetro.Common.dll</HintPath>
     </Reference>
     <Reference Include="MarkerMetro.Common.WinUniversal">
-      <HintPath>..\..\packages\MarkerMetro.Common.2.35\lib\portable-win81+wpa81\MarkerMetro.Common.WinUniversal.dll</HintPath>
+      <HintPath>..\..\packages\MarkerMetro.Common.2.37\lib\portable-win81+wpa81\MarkerMetro.Common.WinUniversal.dll</HintPath>
     </Reference>
     <Reference Include="MarkerMetro.Unity.WinIntegration">
       <HintPath>.\MarkerMetro.Unity.WinIntegration.dll</HintPath>
