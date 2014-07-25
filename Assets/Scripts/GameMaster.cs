@@ -47,23 +47,14 @@ public class GameMaster : MonoBehaviour {
 		GS_STORE
 	};
 
-	// Use this for initialization
 	void Start () {
 
 		CreateTiles();
 		ChangeState( GAME_STATE.GS_START );
 
-#if UNITY_WINRT
         FB.Init(SetFBInit, "682783485145217", OnHideUnity);
-#endif
 	}
-
-    void Awake()
-    {
-
-    }
 	
-	// Update is called once per frame
 	void Update () {
 		if ( state_ == GAME_STATE.GS_WAITING )
 		{
@@ -165,6 +156,7 @@ public class GameMaster : MonoBehaviour {
 		}
 	}
 
+    // Create the tiles initially
 	void CreateTiles()
 	{
 		GameObject tile_base = GameObject.Find("GameTile");
@@ -178,6 +170,8 @@ public class GameMaster : MonoBehaviour {
 		}
 	}
 
+    // Set the tiles up for each run of the game.  If the player has any facebook friends associated with the app they will
+    // be used before the hardcoded pictures
 	void SetupTiles()
 	{
 		int number_tiles = tiles_.Count;
@@ -216,6 +210,7 @@ public class GameMaster : MonoBehaviour {
 		}
 	}
 
+    // Called when a tile is tapped, if first keep a ref if second check for a match
 	public void OnTileSwitch( Tile script )
 	{
 		if ( current_switched_1 == null )
@@ -247,6 +242,7 @@ public class GameMaster : MonoBehaviour {
 		gui_remaining_.text = "Moves Remaining: " + remaining_moves_.ToString();
 	}
 
+    // This will be called by the IAP 
 	public void AddMoves()
 	{
 		remaining_moves_ += 5;
@@ -291,6 +287,7 @@ public class GameMaster : MonoBehaviour {
         StartCoroutine(RefreshFBStatus());
     }
 
+    // Set the players name and picture
     private IEnumerator RefreshFBStatus()
     {
         TextMesh text = (TextMesh)login_name_.GetComponent<TextMesh>();
@@ -313,7 +310,10 @@ public class GameMaster : MonoBehaviour {
         }
     }
 
-
+    // Request the players friends
+    // As per FB API v2.0 You can only request friends that have installed and logged in on the app, 
+    // you can no longer poll all the players friends.
+    // https://developers.facebook.com/bugs/1502515636638396/
     public void PopulateFriends()
     {
         if ( FB.IsLoggedIn )
@@ -323,6 +323,7 @@ public class GameMaster : MonoBehaviour {
         }
     }
 
+    // Parse the json and request the friend pictures
     private void GetFriendsCallback( FBResult result )
     {
         if (result.Error != null)
@@ -358,6 +359,7 @@ public class GameMaster : MonoBehaviour {
         }
     }
 
+    // Load a picture into the texture
     private IEnumerator GetFBPicture(string id, Texture2D texture)
     {     
         WWW url = new WWW("https" + "://graph.facebook.com/" + id + "/picture?type=large");
