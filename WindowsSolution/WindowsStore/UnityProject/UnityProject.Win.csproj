@@ -16,6 +16,8 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <PackageCertificateKeyFile>MetroTestCertificate.pfx</PackageCertificateKeyFile>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <UnityConfig>debug</UnityConfig>
@@ -112,6 +114,7 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <None Include="MetroTestCertificate.pfx" />
+    <None Include="packages.config" />
     <PRIResource Include="Resources\zh-TW\Resources.resw" />
     <PRIResource Include="Resources\zh-CN\Resources.resw" />
     <PRIResource Include="Resources\ru\Resources.resw" />
@@ -150,6 +153,12 @@
     </Reference>
     <Reference Include="LitJson">
       <HintPath>.\LitJson.dll</HintPath>
+    </Reference>
+    <Reference Include="MarkerMetro.Common">
+      <HintPath>..\..\packages\MarkerMetro.Common.PCL.2.35\lib\portable-net45+win+WindowsPhoneApp81+wp80\MarkerMetro.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="MarkerMetro.Common.WinUniversal">
+      <HintPath>..\..\packages\MarkerMetro.Common.2.37\lib\portable-win81+wpa81\MarkerMetro.Common.WinUniversal.dll</HintPath>
     </Reference>
     <Reference Include="MarkerMetro.Unity.WinIntegration">
       <HintPath>.\MarkerMetro.Unity.WinIntegration.dll</HintPath>
@@ -261,6 +270,13 @@ echo Running AssemblyConverter...
 "$(UnityWSAPlayerDir)\Tools\AssemblyConverter.exe" -platform=wsa81 "$(ProjectDir)\Assembly-CSharp-firstpass.dll" "$(ProjectDir)\Assembly-CSharp.dll" "$(ProjectDir)\UnityEngine.dll" "$(ProjectDir)\WinRTLegacy.dll" "$(ProjectDir)\LitJson.dll" "$(ProjectDir)\MarkerMetro.Unity.WinLegacy.dll" "$(ProjectDir)\MarkerMetro.Unity.WinIntegration.dll" "$(ProjectDir)\Facebook.dll" 
 echo AssemblyConverter done.</PreBuildEvent>
   </PropertyGroup>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
