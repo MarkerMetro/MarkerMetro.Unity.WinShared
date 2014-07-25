@@ -42,9 +42,5 @@ public class GUIStore : MonoBehaviour {
             GameMaster script = game_master.GetComponent<GameMaster>();
             script.ChangeState( GameMaster.GAME_STATE.GS_PLAYING );
         }
-
-
-		string to_edit = "Type Here";
-		to_edit = GUI.TextField (new Rect (200, 200, 200, 80), to_edit);
-	}
+    }
 }

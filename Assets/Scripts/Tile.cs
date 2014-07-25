@@ -15,11 +15,11 @@ public class Tile : MonoBehaviour {
 	
 	}
 
-	public void SetImage( string image_name )
+	public void SetImage( string image_name, Texture2D texture )
 	{
 		name_ = image_name;
 		Renderer renderer = GetComponent<MeshRenderer>().renderer;
-		renderer.material.mainTexture = Resources.Load(image_name) as Texture;
+		renderer.material.mainTexture = texture;
 		transform.rotation = Quaternion.AngleAxis(180, Vector3.up);
 	}
 

@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 using MarkerMetro.Unity.WinIntegration.Facebook;
+using LitJson;
 
 public class GameMaster : MonoBehaviour {
 
@@ -10,6 +12,9 @@ public class GameMaster : MonoBehaviour {
 	public GameObject 	gui_play_;
 	public GameObject 	gui_end_;
 	public GameObject	gui_store_;
+    public GameObject   facebook_image_;
+    public GameObject   login_name_;
+    public GameObject   number_friends_;
 
 	public GUIText 		gui_matches_;
 	public GUIText 		gui_remaining_;
@@ -26,6 +31,8 @@ public class GameMaster : MonoBehaviour {
 	private int max_moves_ = 15;
 	private int remaining_moves_ = 0;
 	private int number_matches_ = 0;
+
+    private Dictionary<string, Texture2D> facebook_friends_ = new Dictionary<string, Texture2D>();
 
 	const int rows_ = 4;
 	const int cols_ = 4;
@@ -45,11 +52,15 @@ public class GameMaster : MonoBehaviour {
 
 		CreateTiles();
 		ChangeState( GAME_STATE.GS_START );
+
+#if UNITY_WINRT
+        FB.Init(SetFBInit, "682783485145217", OnHideUnity);
+#endif
 	}
 
     void Awake()
     {
-        FB.Init(SetFBInit, "682783485145217", OnHideUnity);
+
     }
 	
 	// Update is called once per frame
@@ -101,7 +112,7 @@ public class GameMaster : MonoBehaviour {
 				number_matches_ = 0;
 				gui_result_.text = "YOU LOSE";
 
-				SetupTiles();
+                SetupTiles();
 			}
 			break;
 			case GAME_STATE.GS_PLAYING:
@@ -173,17 +184,35 @@ public class GameMaster : MonoBehaviour {
 		for ( int i = 0; i < number_tiles; ++i )
 		{
 			var temp = tiles_[i];
-			int random_index = Random.Range( i, tiles_.Count );
+			int random_index = UnityEngine.Random.Range( i, tiles_.Count );
 			tiles_[i] = tiles_[ random_index ];
 			tiles_[ random_index ] = temp;
 		}
 
 		for ( int i = 0; i < number_tiles / 2; ++i )
 		{
+            string name = names_[i];
+            Texture2D texture = Resources.Load(name) as Texture2D;
+
+            if ( facebook_friends_.Count > i )
+            {
+                int count = 0;
+                foreach ( var item in facebook_friends_ )
+                {
+                    if ( count == i )
+                    {
+                        name = item.Key;
+                        texture = item.Value;
+                        break;
+                    }
+                    ++count;
+                }
+            }
+
 			Tile script_1 = tiles_[i * 2].GetComponent<Tile>();
-			script_1.SetImage( names_[i] );
+			script_1.SetImage( names_[i], texture );
 			Tile script_2 = tiles_[i * 2 + 1].GetComponent<Tile>();
-			script_2.SetImage( names_[i] );
+			script_2.SetImage( names_[i], texture );
 		}
 	}
 
@@ -224,17 +253,21 @@ public class GameMaster : MonoBehaviour {
 		SetGUIText();
 	}
 
+
+    //
+    // Facebook Test Functions
+    //
     private void SetFBInit()
     {
         Debug.Log("Set FB Init");
         if ( FB.IsLoggedIn )
         {
             Debug.Log("Already logged in to FB");
-            OnFBLoggedIn();
+            StartCoroutine(RefreshFBStatus());
         }
     }
 
-    private void OnHideUnity( bool is_hiding )
+    private void OnHideUnity( bool hide_unity )
     {
         Debug.Log("OnHideUnity");
     }
@@ -244,12 +277,96 @@ public class GameMaster : MonoBehaviour {
         Debug.Log("LoginCallback");
         if ( FB.IsLoggedIn )
         {
-            OnFBLoggedIn();
+            StartCoroutine(RefreshFBStatus());
         }
     }
 
-    private void OnFBLoggedIn()
+    public IEnumerator FBLogoutCallback()
     {
-        Debug.Log("Logged In to FB ID: " + FB.UserId);
+        while ( FB.IsLoggedIn )
+        {
+            yield return null;
+        }
+
+        StartCoroutine(RefreshFBStatus());
+    }
+
+    private IEnumerator RefreshFBStatus()
+    {
+        TextMesh text = (TextMesh)login_name_.GetComponent<TextMesh>();
+        Renderer renderer = facebook_image_.GetComponent<MeshRenderer>().renderer;
+        if ( FB.IsLoggedIn )
+        {
+            text.text = FB.UserName;
+            Texture2D texture = new Texture2D(128, 128, TextureFormat.DXT1, false);
+
+            yield return StartCoroutine(GetFBPicture(FB.UserId, texture));
+
+            renderer.material.mainTexture = texture;
+        }
+        else
+        {
+            text.text = "Not Logged In";
+            renderer.material.mainTexture = null;
+            TextMesh number_text = (TextMesh)number_friends_.GetComponent<TextMesh>();
+            number_text.text = "No Friends";
+        }
+    }
+
+
+    public void PopulateFriends()
+    {
+        if ( FB.IsLoggedIn )
+        {
+            // Get the friends
+            FB.API("/me/friends", HttpMethod.GET, GetFriendsCallback);
+        }
+    }
+
+    private void GetFriendsCallback( FBResult result )
+    {
+        if (result.Error != null)
+        {
+            Debug.Log("Failed to get FB Friends");
+            return;
+        }
+
+        try
+        {
+            facebook_friends_.Clear();
+            JsonData data = JsonMapper.ToObject(result.Text);
+
+            JsonData friends = data["data"];
+            for (int i = 0; i < friends.Count; ++i)
+            {
+                JsonData friend = friends[i];
+                string name = (string)friend["name"];
+                string id = (string)friend["id"];
+                Texture2D texture = new Texture2D(128, 128, TextureFormat.DXT1, false);
+                StartCoroutine(GetFBPicture(id, texture));
+
+                facebook_friends_.Add(name, texture);
+            }
+
+            TextMesh text = (TextMesh)number_friends_.GetComponent<TextMesh>();
+            text.text = "Friends: " + facebook_friends_.Count;
+            SetupTiles();
+        }
+        catch( Exception e )
+        {
+            Debug.Log(e.Message);
+        }
+    }
+
+    private IEnumerator GetFBPicture(string id, Texture2D texture)
+    {     
+        WWW url = new WWW("https" + "://graph.facebook.com/" + id + "/picture?type=large");
+
+        while (!url.isDone)
+        {
+            yield return null;
+        }
+  
+        url.LoadImageIntoTexture(texture);
     }
 }
