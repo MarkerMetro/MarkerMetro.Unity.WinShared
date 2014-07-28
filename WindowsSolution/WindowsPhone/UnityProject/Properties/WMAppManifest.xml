@@ -20,7 +20,7 @@
     <Language code="es" />
     <Language code="pt-BR" />
   </Languages>-->
-  <App xmlns="" ProductID="{40E4A3DD-858C-46B0-B30E-85CC3936870B}" Title="UnityProject" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.games" Author="Disney" Description="" Publisher="Disney" PublisherID="{58DECE39-D5D0-4293-AAA0-9AF8484F12E2}">
+  <App xmlns="" ProductID="{40E4A3DD-858C-46B0-B30E-85CC3936870B}" Title="@AppResLib.dll,-100" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.games" Author="Disney" Description="@AppResLib.dll,-101" Publisher="Disney" PublisherID="{58DECE39-D5D0-4293-AAA0-9AF8484F12E2}">
     <IconPath IsRelative="true" IsResource="false">Assets\ApplicationIcon.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_IDENTITY_DEVICE" />
@@ -39,8 +39,7 @@
           <SmallImageURI IsRelative="true" IsResource="false">Assets\Tiles\TileSmall.png</SmallImageURI>
           <Count>0</Count>
           <BackgroundImageURI IsRelative="true" IsResource="false">Assets\Tiles\TileFrontMedium.png</BackgroundImageURI>
-          <Title>
-          </Title>
+          <Title>@AppResLib.dll,-102</Title>
           <BackContent>
           </BackContent>
           <BackBackgroundImageURI>

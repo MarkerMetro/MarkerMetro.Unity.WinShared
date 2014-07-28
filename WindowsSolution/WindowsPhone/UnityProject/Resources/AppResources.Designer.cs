@@ -61,6 +61,33 @@ namespace UnityProject.WinPhone.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Application Description.
+        /// </summary>
+        public static string ApplicationDescription {
+            get {
+                return ResourceManager.GetString("ApplicationDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to App Disp Name.
+        /// </summary>
+        public static string ApplicationDisplayName {
+            get {
+                return ResourceManager.GetString("ApplicationDisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Application Tile Title.
+        /// </summary>
+        public static string ApplicationTileTitle {
+            get {
+                return ResourceManager.GetString("ApplicationTileTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to UnityProject.
         /// </summary>
         public static string ApplicationTitle {

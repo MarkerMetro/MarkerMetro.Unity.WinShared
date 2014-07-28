@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\packages\MarkerMetro.WindowsPhone.AppResLibGenerator.1.0.0.11\build\windowsphone8\MarkerMetro.WindowsPhone.AppResLibGenerator.props" Condition="Exists('..\..\packages\MarkerMetro.WindowsPhone.AppResLibGenerator.1.0.0.11\build\windowsphone8\MarkerMetro.WindowsPhone.AppResLibGenerator.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Master</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">ARM</Platform>
@@ -27,6 +28,7 @@
     <UnityDevelopmentPlayer>true</UnityDevelopmentPlayer>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <NuGetPackageImportStamp>cf2ed266</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <UnityConfig>release</UnityConfig>
@@ -220,7 +222,8 @@
       <HintPath>.\LitJson.dll</HintPath>
     </Reference>
     <Reference Include="MarkerMetro.Common">
-      <HintPath>..\..\packages\MarkerMetro.Common.PCL.2.35\lib\portable-net45+win+WindowsPhoneApp81+wp80\MarkerMetro.Common.dll</HintPath>
+      <HintPath>..\..\packages\MarkerMetro.Common.PCL.2.37\lib\portable-net45+win+WindowsPhoneApp81+wp80\MarkerMetro.Common.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="MarkerMetro.Common.WP8, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -280,5 +283,8 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+    <Error Condition="!Exists('..\..\packages\MarkerMetro.WindowsPhone.AppResLibGenerator.1.0.0.11\build\windowsphone8\MarkerMetro.WindowsPhone.AppResLibGenerator.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\MarkerMetro.WindowsPhone.AppResLibGenerator.1.0.0.11\build\windowsphone8\MarkerMetro.WindowsPhone.AppResLibGenerator.props'))" />
+    <Error Condition="!Exists('..\..\packages\MarkerMetro.WindowsPhone.AppResLibGenerator.1.0.0.11\build\windowsphone8\MarkerMetro.WindowsPhone.AppResLibGenerator.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\MarkerMetro.WindowsPhone.AppResLibGenerator.1.0.0.11\build\windowsphone8\MarkerMetro.WindowsPhone.AppResLibGenerator.targets'))" />
   </Target>
+  <Import Project="..\..\packages\MarkerMetro.WindowsPhone.AppResLibGenerator.1.0.0.11\build\windowsphone8\MarkerMetro.WindowsPhone.AppResLibGenerator.targets" Condition="Exists('..\..\packages\MarkerMetro.WindowsPhone.AppResLibGenerator.1.0.0.11\build\windowsphone8\MarkerMetro.WindowsPhone.AppResLibGenerator.targets')" />
 </Project>
