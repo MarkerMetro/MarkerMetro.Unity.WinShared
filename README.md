@@ -22,9 +22,13 @@ http://mmbuild2.markermetro.com:9091/admin/editBuildRunners.html?id=buildType:Ma
 Unity Project
 =======
 
-The root of the repo is a blank Unity project with some added scripts.
+The root of the repo is a small Unity project for testing purposes.
 
-Copy and paste all /Assets subfolders and files and the .gitignore to the existing Assets folder in client repo's Unity project (normally on root but could be in a sub folder)
+Copy and paste the following /Assets subfolders and files and the .gitignore to the existing Assets folder in client repo's Unity project (normally on root but could be in a sub folder)
+Assets/MetroTestCertificate.pfx
+Assets/MetroTestCertificate.pfx.meta
+Assets/Editor/*
+Assets/Plugins/*
 
 The code here helps with automated builds and includes various helper files.
 
