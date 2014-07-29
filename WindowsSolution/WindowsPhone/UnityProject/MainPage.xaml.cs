@@ -62,28 +62,8 @@ namespace UnityProject.WinPhone
                  //DisplayMemoryInfo = true;
             #endif
         }
-
-        /// <summary>
-        /// Allows user to rate app
-        /// </summary>
-        void ShowRateUI()
-        {
-            Dispatcher.BeginInvoke(() =>
-            {
-                try
-                {
-                    var marketplaceReviewTask = new MarketplaceReviewTask();
-
-
-                    marketplaceReviewTask.Show();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Unable to show MarketplaceReviewTask because of: " + ex.Message);
-                }
-            });
-        }
-
+	
+	
 		void DrawingSurfaceBackground_Loaded(object sender, RoutedEventArgs e)
 		{
 			if (!_unityStartedLoading)
