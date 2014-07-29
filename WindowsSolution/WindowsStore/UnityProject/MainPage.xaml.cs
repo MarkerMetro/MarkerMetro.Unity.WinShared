@@ -117,28 +117,7 @@ namespace UnityProject.Win
                 await Launcher.LaunchUriAsync(new Uri(url, UriKind.Absolute));
             }, false);
         }
-
-        /// <summary>
-        /// This method can be used to show the rating screen
-        /// </summary>
-        async void ShowRateUI()
-        {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                async () =>
-                {
-                    try
-                    {
-                        var data = Package.Current.Id.FamilyName;
-                        Debug.WriteLine(data);
-                        await Launcher.LaunchUriAsync(new Uri("ms-windows-store:REVIEW?PFN=" + data));
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.WriteLine("Unable to show MarketplaceReviewTask because of: " + ex.Message);
-                    }
-                });
-        }
-
+	
         async void OnWindowVisibilityChanged(object sender, VisibilityChangedEventArgs e)
         {
             if (!AppCallbacks.Instance.IsInitialized()) return;
