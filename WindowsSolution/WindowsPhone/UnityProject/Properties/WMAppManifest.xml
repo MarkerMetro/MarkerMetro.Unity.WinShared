@@ -2,8 +2,8 @@
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
   <DefaultLanguage xmlns="" code="en-US" />
   <Languages xmlns="">
-    <Language code="zh-Hans" />
-    <Language code="zh-Hant" />
+    <Language code="zh-TW" />
+    <Language code="zh-CN" />
     <Language code="pt-BR" />
     <Language code="fr-FR" />
     <Language code="de-DE" />
@@ -12,15 +12,19 @@
     <Language code="ko-KR" />
     <Language code="ru-RU" />
     <Language code="es-MX" />
-    <Language code="es-419" />
     <Language code="es-ES" />
   </Languages>
-  <!-- Supported languages here, but also in the csproj SupportedCultures element -->
-  <!--<Languages xmlns="">
-    <Language code="es" />
-    <Language code="pt-BR" />
-  </Languages>-->
-  <App xmlns="" ProductID="{40E4A3DD-858C-46B0-B30E-85CC3936870B}" Title="@AppResLib.dll,-100" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.games" Author="Disney" Description="@AppResLib.dll,-101" Publisher="Disney" PublisherID="{58DECE39-D5D0-4293-AAA0-9AF8484F12E2}">
+  <App 
+    xmlns="" 
+    ProductID="{40E4A3DD-858C-46B0-B30E-85CC3936870B}" 
+    Title="@AppResLib.dll,-100" 
+    RuntimeType="Silverlight" 
+    Version="1.0.0.0" 
+    Genre="apps.games" 
+    Author="Disney" 
+    Description="@AppResLib.dll,-101" 
+    Publisher="Disney" 
+    PublisherID="{58DECE39-D5D0-4293-AAA0-9AF8484F12E2}">
     <IconPath IsRelative="true" IsResource="false">Assets\ApplicationIcon.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_IDENTITY_DEVICE" />
