@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+using UnityEngine;
+using System;
 #if UNITY_WINRT && !UNITY_EDITOR
 using File = UnityEngine.Windows.File;
 #else
@@ -36,5 +37,10 @@ public class FileHelper {
     public static void WriteAllText(string path, string text) 
     {
         File.WriteAllBytes(path, System.Text.Encoding.UTF8.GetBytes(text));
+    }
+    
+    public static string[] ReadAllLines(string path)
+    {
+        return ReadAllText(path).Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
     }
 }
