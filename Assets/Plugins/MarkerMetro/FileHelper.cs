@@ -37,4 +37,9 @@ public class FileHelper {
     {
         File.WriteAllBytes(path, System.Text.Encoding.UTF8.GetBytes(text));
     }
+    
+    public static string[] ReadAllLines(string path)
+    {
+        return ReadAllText(path).Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+    }
 }
