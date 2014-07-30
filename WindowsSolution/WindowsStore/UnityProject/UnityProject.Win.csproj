@@ -15,9 +15,12 @@
     <MinimumVisualStudioVersion>12</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>MetroTestCertificate.pfx</PackageCertificateKeyFile>
+    <PackageCertificateKeyFile>UnityProject.Win_StoreKey.pfx</PackageCertificateKeyFile>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxBundlePlatforms>x86|arm</AppxBundlePlatforms>
+    <PackageCertificateThumbprint>7FC4DCB6F5001A2BCC5B59E6ECE68E8EE9FA78C6</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <UnityConfig>debug</UnityConfig>
@@ -115,6 +118,7 @@
     </AppxManifest>
     <None Include="MetroTestCertificate.pfx" />
     <None Include="packages.config" />
+    <None Include="UnityProject.Win_StoreKey.pfx" />
     <PRIResource Include="Resources\zh-TW\Resources.resw" />
     <PRIResource Include="Resources\zh-CN\Resources.resw" />
     <PRIResource Include="Resources\ru\Resources.resw" />
@@ -141,6 +145,7 @@
     <Content Include="Assets\SplashScreen.scale-100.png" />
     <Content Include="Assets\MediumTile.scale-100.png" />
     <Content Include="iap_simulator.xml" />
+    <None Include="Package.StoreAssociation.xml" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>
