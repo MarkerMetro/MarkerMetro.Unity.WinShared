@@ -59,14 +59,14 @@ Submission To Store
 =====================
 Both the Windows Phone and Windows Store apps are submitted to the actual stores. 
 
-To access portals use http://dev.windows.com/
+To access portals use http://dev.windows.com/ (markermetro@live.com account, yell if you need access)
 
 Windows Phone App: http://www.windowsphone.com/s?appid=3d4131e7-bc32-4688-a486-e3ee6d2310cb
 Windows Store App: [link]
 
 They are submitted using the markermetro@live.com developer account and allow us to test out features not otherwise possible in development. For example, application name localization in the store.
 
-NuGet Plugins
+Unity Plugins from NuGet
 =====================================================================
 This is the Nuget folder allowing for easy plugin integration to your Unity project. Copy it across to any new project and add to the root of the client repo's Unity project (normally on root but could be in a sub folder)
 
@@ -82,11 +82,14 @@ Once you have made the changes, you can manually run a build on the build server
 
 Once the build has been run, you can then run the bat file above to include the latest binaries.
 
-NOTE: UnityProject.WindowsPhone does reference nuget.org package [AppResLibGenerator] (https://www.nuget.org/packages/MarkerMetro.WindowsPhone.AppResLibGenerator/) [package source code] (https://github.com/MarkerMetro/AppResLibGenerator) that is used during the build process to automatically generate AppResLib.dll[*.mui] files and add them to the project.
 
+Windows Phone App Name Localization
+=====================================
+
+The WindowsWP8 App UnityProject.WindowsPhone references a public NuGet package [AppResLibGenerator] (https://www.nuget.org/packages/MarkerMetro.WindowsPhone.AppResLibGenerator/) [package source code] (https://github.com/MarkerMetro/AppResLibGenerator) that is used during the build process to automatically generate AppResLib.dll[*.mui] files and add them to the project for app name localization. See that project's read me for more information.
 
 First Time Marker Metro NuGet Access
-=========================
+=====================================
 
 Use  Marker Metro's private [NuGet](http://docs.nuget.org/docs/start-here/installing-nuget) feed: 
 [http://mmbuild1.cloudapp.net/httpAuth/app/nuget/v1/FeedService.svc/](http://mmbuild1.cloudapp.net/httpAuth/app/nuget/v1/FeedService.svc/)
