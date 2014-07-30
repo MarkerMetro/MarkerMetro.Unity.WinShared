@@ -8,24 +8,28 @@ https://www.dropbox.com/s/w8wt0au5602vl57/MarkerMetro.Unity.WinShared.jpg
 
 Configured and tested with: Unity 4.5f6, and Unity 4.5.1f3
 
-The approach when starting a new porting project is to simply copy and paste the necessary folders across to the client repo as detailed below:
+We're always updating this repo as it's so important, see the [Trello board of tasks](https://trello.com/b/3fs7qjuz/unity-win-shared-related-plugins)
+
 
 Setup
 ==================
+
+The approach when starting a new porting project is to simply copy and paste the Unity Project and Windows Solution and across to the client repo as detailed below:
 
 ## The Unity Project
 
 The root of the repo is a small Unity project for testing purposes.
 
 Copy and paste the following /Assets subfolders and files and the .gitignore to the existing Assets folder in client repo's Unity project (normally on root but could be in a sub folder)
-Assets/MetroTestCertificate.pfx
-Assets/MetroTestCertificate.pfx.meta
-Assets/Editor/*
-Assets/Plugins/*
+
+* Assets/Editor/*
+* Assets/Plugins/*
+* Assets/MetroTestCertificate.pfx
+* Assets/MetroTestCertificate.pfx.meta
 
 The code here helps with automated builds and includes various helper files.
 
-You can build out this project to the WindowsSolution folders as below, note that you should ensure the ProductName in PlayerSettings is "UnityProject" so that everything just works.
+You can build out the Unity Project to the WindowsSolution folder as below, note that you should ensure the ProductName in PlayerSettings is "UnityProject" so that everything just works.
 
 ## The Windows Solution
 
@@ -39,7 +43,7 @@ Note that visual assets are from the Disney BOLA game so you know exactly which 
 
 ## The Build Server 
 
-It's important to copy the build steps and tweak for your project as required, see the steps here:
+It's important once your game is building to set up the build server and copy the build steps and tweak for your project as required, see the steps here:
 
 http://mmbuild2.markermetro.com:9091/admin/editBuildRunners.html?id=buildType:MarkerMetroUnityWinShared_CI
 http://mmbuild2.markermetro.com:9091/admin/editBuildRunners.html?id=buildType:MarkerMetroUnityWinShared_Release
