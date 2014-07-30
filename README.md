@@ -44,6 +44,28 @@ Then subsequently build out from Unity to /WindowsSolution/WindowsStore and /Win
 
 Note that visual assets are from the Disney BOLA game so you know exactly which ones to replace.
 
+Localization
+============
+Windows Store app manifest is using AppName and AppDescription resources to localize store name, application name and description.
+
+Windows Phone manifest is using build-process generated AppResLib.dll[*.mui] files that pull strings from resources:
+- ApplicationTitle is used to generate resource string 100, wich is used to Application Display Name
+- ApplicationTileTitle is used to generate resource string 101, wich is used to set Tile Title in manifest
+- ApplicationDescription is used to generate resource string 102, which is used to set Application Description
+
+If any of these strings are missing from resources, AppResLibGenerator will report a warning.
+
+Submission To Store
+=====================
+Both the Windows Phone and Windows Store apps are submitted to the actual stores. 
+
+To access portals use http://dev.windows.com/
+
+Windows Phone App: http://www.windowsphone.com/s?appid=3d4131e7-bc32-4688-a486-e3ee6d2310cb
+Windows Store App: [link]
+
+They are submitted using the markermetro@live.com developer account and allow us to test out features not otherwise possible in development. For example, application name localization in the store.
+
 NuGet Plugins
 =====================================================================
 This is the Nuget folder allowing for easy plugin integration to your Unity project. Copy it across to any new project and add to the root of the client repo's Unity project (normally on root but could be in a sub folder)
@@ -59,6 +81,8 @@ If you need to work on any of the dependencies, you will need to open the projec
 Once you have made the changes, you can manually run a build on the build server (See Automated Builds below)
 
 Once the build has been run, you can then run the bat file above to include the latest binaries.
+
+NOTE: UnityProject.WindowsPhone does reference nuget.org package [AppResLibGenerator] (https://github.com/MarkerMetro/AppResLibGenerator) that is used during the build process to automatically generate AppResLib.dll[*.mui] files and add them to the project.
 
 First Time Marker Metro NuGet Access
 =========================
@@ -83,44 +107,6 @@ To list existing sources you can use:
 
 **./NuGet.exe sources**
 
-
-AppResLib
-====================
-
-This solution is used to create localized titles and tile titles in Windows Phone 8.
-
-Copy it across to any new project and add to the root of the client repo.
-
-These strings are going to be read from a dll , and there's a dll for each language.
-
-
-In order to create these dlls, follow these steps:
-
- - Open the AppResLib solution and project;
- - Expand the 'Resource Files' folder under the project
- - Double click on 'AppResLib.rc'
- - The Resource View pane will open, expand the 'String Table' folder
- - Double-click on the 'String Table' item in the folder;
- - Change the 'ID' and 'Caption' cells to the values for the language you wish to the build the DLL for. 
- - Make sure the 'Value' column has a unique number, as this is how the key will be referenced.
- - You only need to specify localisation keys for text displayed on live tiles, such as the app name and high score etc. 
- - Build the project (use 'Release' configuration!), the generated dll 'AppResLib.dll' can be found under '/WinShared/AppResLib/Release/'.  (If it is not there make sure you are looking at the correct Release folder, as there are two that are generated)
- - For the English values dll, rename it to 'AppResLibLangNeutral.dll', for other languages rename the dll to the name defined in the table found here:
- 
-http://msdn.microsoft.com/en-us/library/windowsphone/develop/ff967550%28v=vs.105%29.aspx
-
-So you'll end up with one dll for each language other than English renamed according to the table, and one 'AppResLibLangNeutral.dll'.
-
-To use the dlls, follow the instructions in the article, section *"To use the localized resource strings in your Windows Phone app"*.
-
-Don't forget to add the AppResLib solution folder to your project's repository. It should sit in the Windows Phone project folder, an example can be found here:
-https://github.wdig.com/MarkerMetro/StarWarsCCGWindows/tree/master/StarWars.WinPhone
-
-**WARNING**: the article states that you should move the `AppResLib.dll.*.mui` files into the Resources folder (step 7). Don't do it!
-
-**WARNING**: In order for localisation changes to be displayed correctly in the store, the manifest must have the appropriate culture codes defined for each *.mui file.  These codes must have a language and a region set, for example "ru-RU" (russian for russia).  Failing this step will mean that the title in the store will not be substituted as expected.
-
-**WARNING**: Temporarily renaming the *.mui files to have a dll extension allows them to be modified within the windows solution, however this can cause them to lose their content flag.  Make sure that in the file properties they are set as 'content', not 'none'.
 
 Memory Optimization
 ====================
