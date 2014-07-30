@@ -44,6 +44,14 @@ Then subsequently build out from Unity to /WindowsSolution/WindowsStore and /Win
 
 Note that visual assets are from the Disney BOLA game so you know exactly which ones to replace.
 
+Submission To Store
+=====================
+Both the Windows Phone and Windows Store apps are submitted to the actual stores. 
+
+[Links]
+
+They are submitted using the markermetro@live.com developer account and allow us to test out features not otherwise possible in development. For example, application name localization in the store.
+
 NuGet Plugins
 =====================================================================
 This is the Nuget folder allowing for easy plugin integration to your Unity project. Copy it across to any new project and add to the root of the client repo's Unity project (normally on root but could be in a sub folder)
