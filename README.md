@@ -19,8 +19,8 @@ http://mmbuild2.markermetro.com:9091/admin/editBuildRunners.html?id=buildType:Ma
 http://mmbuild2.markermetro.com:9091/admin/editBuildRunners.html?id=buildType:MarkerMetroUnityWinShared_Release
 
 
-Unity Project
-=======
+The Unity Project
+==================
 
 The root of the repo is a small Unity project for testing purposes.
 
@@ -34,7 +34,7 @@ The code here helps with automated builds and includes various helper files.
 
 You can build out this project to the WindowsSolution folders as below, note that you should ensure the ProductName in PlayerSettings is "UnityProject" so that everything just works.
 
-WindowsSolution
+The Windows Solution
 ====================
 This is the base WindowsSolution folder to be used for all Unity Projects. Copy it across to any new project and add to the root of the client repo. This contains all the goodness from working on previous projects at the app level.
 
@@ -44,8 +44,8 @@ Then subsequently build out from Unity to /WindowsSolution/WindowsStore and /Win
 
 Note that visual assets are from the Disney BOLA game so you know exactly which ones to replace.
 
-Localization
-============
+App Name Localization
+======================
 
 Windows Store app manifest uses AppName and AppDescription resources to localize the store name, application name and description.
 
@@ -85,6 +85,12 @@ Once you have made the changes, you can manually run a build on the build server
 
 Once the build has been run, you can then run the bat file above to include the latest binaries.
 
+Windows Phone Low Memory Optimization
+====================
+
+There is a script that tries to optimize assets settings to lower memory usage, which is useful specially for Windows Phone 8.
+You can find it at `\Assets\Editor\MarkerMetro\MemoryOptimizer.cs`.
+Please refer to the code documentation for instructions on how to use it.
 
 First Time Marker Metro NuGet Access
 =====================================
@@ -110,9 +116,3 @@ To list existing sources you can use:
 **./NuGet.exe sources**
 
 
-Memory Optimization
-====================
-
-There is a script that tries to optimize assets settings to lower memory usage, which is useful specially for Windows Phone 8.
-You can find it at `\Assets\Editor\MarkerMetro\MemoryOptimizer.cs`.
-Please refer to the code documentation for instructions on how to use it.
