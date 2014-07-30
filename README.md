@@ -44,6 +44,17 @@ Then subsequently build out from Unity to /WindowsSolution/WindowsStore and /Win
 
 Note that visual assets are from the Disney BOLA game so you know exactly which ones to replace.
 
+Localization
+============
+Windows Store app manifest is using AppName and AppDescription resources to localize store name, application name and description.
+
+Windows Phone manifest is using build-process generated AppResLib.dll[*.mui] files that pull strings from resources:
+- ApplicationTitle is used to generate resource string 100, wich is used to Application Display Name
+- ApplicationTileTitle is used to generate resource string 101, wich is used to set Tile Title in manifest
+- ApplicationDescription is used to generate resource string 102, which is used to set Application Description
+
+If any of these strings are missing from resources, AppResLibGenerator will report a warning.
+
 Submission To Store
 =====================
 Both the Windows Phone and Windows Store apps are submitted to the actual stores. 
