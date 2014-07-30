@@ -82,7 +82,8 @@ Once you have made the changes, you can manually run a build on the build server
 
 Once the build has been run, you can then run the bat file above to include the latest binaries.
 
-NOTE: UnityProject.WindowsPhone does reference nuget.org package [AppResLibGenerator] (https://github.com/MarkerMetro/AppResLibGenerator) that is used during the build process to automatically generate AppResLib.dll[*.mui] files and add them to the project.
+NOTE: UnityProject.WindowsPhone does reference nuget.org package [AppResLibGenerator] (https://www.nuget.org/packages/MarkerMetro.WindowsPhone.AppResLibGenerator/) [package source code] (https://github.com/MarkerMetro/AppResLibGenerator) that is used during the build process to automatically generate AppResLib.dll[*.mui] files and add them to the project.
+
 
 First Time Marker Metro NuGet Access
 =========================
