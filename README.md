@@ -10,17 +10,10 @@ Configured and tested with: Unity 4.5f6, and Unity 4.5.1f3
 
 The approach when starting a new porting project is to simply copy and paste the necessary folders across to the client repo as detailed below:
 
-
-Build Server Setup
+Setup
 ==================
-It's important to copy the build steps and tweak for your project as required, see the steps here:
 
-http://mmbuild2.markermetro.com:9091/admin/editBuildRunners.html?id=buildType:MarkerMetroUnityWinShared_CI
-http://mmbuild2.markermetro.com:9091/admin/editBuildRunners.html?id=buildType:MarkerMetroUnityWinShared_Release
-
-
-The Unity Project
-==================
+## The Unity Project
 
 The root of the repo is a small Unity project for testing purposes.
 
@@ -34,8 +27,8 @@ The code here helps with automated builds and includes various helper files.
 
 You can build out this project to the WindowsSolution folders as below, note that you should ensure the ProductName in PlayerSettings is "UnityProject" so that everything just works.
 
-The Windows Solution
-====================
+## The Windows Solution
+
 This is the base WindowsSolution folder to be used for all Unity Projects. Copy it across to any new project and add to the root of the client repo. This contains all the goodness from working on previous projects at the app level.
 
 Run the Init.ps1 script on the root to rename UnityProject to your product name (e.g LostLight). 
@@ -44,8 +37,16 @@ Then subsequently build out from Unity to /WindowsSolution/WindowsStore and /Win
 
 Note that visual assets are from the Disney BOLA game so you know exactly which ones to replace.
 
-App Name Localization
-======================
+## The Build Server 
+
+It's important to copy the build steps and tweak for your project as required, see the steps here:
+
+http://mmbuild2.markermetro.com:9091/admin/editBuildRunners.html?id=buildType:MarkerMetroUnityWinShared_CI
+http://mmbuild2.markermetro.com:9091/admin/editBuildRunners.html?id=buildType:MarkerMetroUnityWinShared_Release
+
+# Guidance
+
+## App Name Localization
 
 Windows Store app manifest uses AppName and AppDescription resources to localize the store name, application name and description.
 
@@ -58,8 +59,8 @@ If any of these strings are missing from resources, AppResLibGenerator will repo
 
 AppResLibGenerator is referenced as [Nuget Package](https://www.nuget.org/packages/MarkerMetro.WindowsPhone.AppResLibGenerator/) and is also on [Github](https://github.com/MarkerMetro/AppResLibGenerator)
  
-Submission To Store
-=====================
+## Submission To Store
+
 Both the Windows Phone and Windows Store apps are submitted to the actual stores. 
 
 To access portals use http://dev.windows.com/ (markermetro@live.com account, yell if you need access)
@@ -69,8 +70,8 @@ Windows Store App: [link]
 
 They are submitted using the markermetro@live.com developer account and allow us to test out features not otherwise possible in development. For example, application name localization in the store.
 
-Unity Plugins from NuGet
-=====================================================================
+## Unity Plugins from NuGet
+
 This is the Nuget folder allowing for easy plugin integration to your Unity project. Copy it across to any new project and add to the root of the client repo's Unity project (normally on root but could be in a sub folder)
 
 By default core Marker Metro plugins are included (WinLegacy, WinIntegration and LitJson), but the .csproj file can be edited to maintain plugin list.
@@ -85,16 +86,15 @@ Once you have made the changes, you can manually run a build on the build server
 
 Once the build has been run, you can then run the bat file above to include the latest binaries.
 
-Windows Phone Low Memory Optimization
-====================
+## Windows Phone Low Memory Optimization
 
 There is a script that tries to optimize assets settings to lower memory usage, which is useful specially for Windows Phone 8.
 You can find it at `\Assets\Editor\MarkerMetro\MemoryOptimizer.cs`.
 Please refer to the code documentation for instructions on how to use it.
 
-First Time Marker Metro NuGet Access
-=====================================
+## First Time Marker Metro NuGet Access
 
+ 
 Use  Marker Metro's private [NuGet](http://docs.nuget.org/docs/start-here/installing-nuget) feed: 
 [http://mmbuild1.cloudapp.net/httpAuth/app/nuget/v1/FeedService.svc/](http://mmbuild1.cloudapp.net/httpAuth/app/nuget/v1/FeedService.svc/)
 If you don't have personal account you can always use Disney's guest account:
