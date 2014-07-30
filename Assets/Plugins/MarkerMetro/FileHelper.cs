@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+using UnityEngine;
+using System;
 #if UNITY_WINRT && !UNITY_EDITOR
 using File = UnityEngine.Windows.File;
 #else
