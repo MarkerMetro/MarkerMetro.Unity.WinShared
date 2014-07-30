@@ -46,15 +46,18 @@ Note that visual assets are from the Disney BOLA game so you know exactly which 
 
 Localization
 ============
-Windows Store app manifest is using AppName and AppDescription resources to localize store name, application name and description.
 
-Windows Phone manifest is using build-process generated AppResLib.dll[*.mui] files that pull strings from resources:
+Windows Store app manifest uses AppName and AppDescription resources to localize the store name, application name and description.
+
+Windows Phone manifest uses a build-process generated AppResLib.dll[*.mui] files that pull strings from resources automatically:
 - ApplicationTitle is used to generate resource string 100, wich is used to Application Display Name
 - ApplicationTileTitle is used to generate resource string 101, wich is used to set Tile Title in manifest
 - ApplicationDescription is used to generate resource string 102, which is used to set Application Description
 
 If any of these strings are missing from resources, AppResLibGenerator will report a warning.
 
+AppResLibGenerator is referenced as [Nuget Package](https://www.nuget.org/packages/MarkerMetro.WindowsPhone.AppResLibGenerator/) and is also on [Github](https://github.com/MarkerMetro/AppResLibGenerator)
+ 
 Submission To Store
 =====================
 Both the Windows Phone and Windows Store apps are submitted to the actual stores. 
@@ -82,11 +85,6 @@ Once you have made the changes, you can manually run a build on the build server
 
 Once the build has been run, you can then run the bat file above to include the latest binaries.
 
-
-Windows Phone App Name Localization
-=====================================
-
-The WindowsWP8 App UnityProject.WindowsPhone references a public NuGet package [AppResLibGenerator] (https://www.nuget.org/packages/MarkerMetro.WindowsPhone.AppResLibGenerator/) [package source code] (https://github.com/MarkerMetro/AppResLibGenerator) that is used during the build process to automatically generate AppResLib.dll[*.mui] files and add them to the project for app name localization. See that project's read me for more information.
 
 First Time Marker Metro NuGet Access
 =====================================
