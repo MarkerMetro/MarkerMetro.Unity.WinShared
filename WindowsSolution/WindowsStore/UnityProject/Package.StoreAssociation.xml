@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <StoreAssociation xmlns="http://schemas.microsoft.com/appx/2010/storeassociation">
-  <Publisher>CN=F24BFEBB-F657-49B6-9EC8-DFEA707F6DDD</Publisher>
-  <PublisherDisplayName>nz bee</PublisherDisplayName>
+  <Publisher>CN=8B5166DE-0FDF-4254-A728-EC95A6956D4B</Publisher>
+  <PublisherDisplayName>Marker Metro</PublisherDisplayName>
   <GeneratePackageHash>http://www.w3.org/2001/04/xmlenc#sha256</GeneratePackageHash>
   <SupportedLocales>
     <Language Code="af" InMinimumRequirementSet="false" />
@@ -348,22 +348,27 @@
     <Language Code="zu-za" InMinimumRequirementSet="false" />
   </SupportedLocales>
   <ProductReservedInfo>
-    <MainPackageIdentityName>51200nzbee.AppDispName</MainPackageIdentityName>
+    <MainPackageIdentityName>MarkerMetro.UnityProject</MainPackageIdentityName>
     <ReservedNames>
-      <ReservedName>App Disp Name</ReservedName>
+      <ReservedName>UnityProject</ReservedName>
+      <ReservedName>UnityProject DE</ReservedName>
+      <ReservedName>UnityProject 419</ReservedName>
+      <ReservedName>UnityProject FR</ReservedName>
+      <ReservedName>UnityProject IT</ReservedName>
+      <ReservedName>UnityProject JA</ReservedName>
+      <ReservedName>UnityProject KO</ReservedName>
+      <ReservedName>UnityProject BR</ReservedName>
+      <ReservedName>UnityProject RU</ReservedName>
+      <ReservedName>UnityProject CN</ReservedName>
+      <ReservedName>UnityProject TW</ReservedName>
     </ReservedNames>
   </ProductReservedInfo>
   <AccountPackageIdentityNames>
-    <MainPackageIdentityName>51200nzbee.ForLater</MainPackageIdentityName>
-    <MainPackageIdentityName>51200nzbee.AucklandTraffic</MainPackageIdentityName>
-    <MainPackageIdentityName>51200nzbee.Fallacies</MainPackageIdentityName>
-    <MainPackageIdentityName>51200nzbee.HiddenWorlds.Beta</MainPackageIdentityName>
-    <MainPackageIdentityName>51200nzbee.MonstersUniversityBeta</MainPackageIdentityName>
-    <MainPackageIdentityName>51200nzbee.NZCellSites</MainPackageIdentityName>
-    <MainPackageIdentityName>51200nzbee.NZTraffic</MainPackageIdentityName>
-    <MainPackageIdentityName>51200nzbee.Skeptoid</MainPackageIdentityName>
-    <MainPackageIdentityName>51200nzbee.SydneyTraffic</MainPackageIdentityName>
-    <MainPackageIdentityName>51200nzbee.xkcdarchives</MainPackageIdentityName>
+    <MainPackageIdentityName>MarkerMetro.CineJax</MainPackageIdentityName>
+    <MainPackageIdentityName>MarkerMetro.MovieMaster</MainPackageIdentityName>
+    <MainPackageIdentityName>MarkerMetro.MovieJax</MainPackageIdentityName>
+    <MainPackageIdentityName>MarkerMetro.MovieJaxBeta</MainPackageIdentityName>
+    <MainPackageIdentityName>MarkerMetro.WheelOfFortuneBeta</MainPackageIdentityName>
   </AccountPackageIdentityNames>
-  <PackageInfoList LandingUrl="https://appdev.microsoft.com:443/StorePortals/Developer/Catalog/ReleaseAnchor/1ed2978a-d7a1-40eb-83e4-e21953ed4f8b" />
+  <PackageInfoList LandingUrl="https://appdev.microsoft.com:443/StorePortals/Developer/Catalog/ReleaseAnchor/95dd8f17-e4f9-4ab0-afb8-986e2ea41248" />
 </StoreAssociation>

@@ -20,7 +20,7 @@
     <RestorePackages>true</RestorePackages>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <AppxBundlePlatforms>x86|arm</AppxBundlePlatforms>
-    <PackageCertificateThumbprint>7FC4DCB6F5001A2BCC5B59E6ECE68E8EE9FA78C6</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>64D565624F5010B09BBED5C62203AE6DF09B6E87</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <UnityConfig>debug</UnityConfig>

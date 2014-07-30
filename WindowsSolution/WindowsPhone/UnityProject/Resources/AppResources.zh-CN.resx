@@ -118,16 +118,16 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ApplicationDescription" xml:space="preserve">
-    <value>Application Description CN</value>
+    <value>UnityProject Description CN</value>
   </data>
   <data name="ApplicationDisplayName" xml:space="preserve">
-    <value>App Disp Name CN</value>
+    <value>UnityProject CN</value>
   </data>
   <data name="ApplicationTileTitle" xml:space="preserve">
-    <value>Application Tile Title CN</value>
+    <value>UnityProject CN</value>
   </data>
   <data name="ApplicationTitle" xml:space="preserve">
-    <value>UnityProject</value>
+    <value>UnityProject CN</value>
   </data>
   <data name="OFT_Disclosure" xml:space="preserve">
     <value>本应用包含内购。内购会消费现实货币，相关款项会从您的账户收取。如您希望管理内购功能，请在商店中调整您的帐户设置。</value>

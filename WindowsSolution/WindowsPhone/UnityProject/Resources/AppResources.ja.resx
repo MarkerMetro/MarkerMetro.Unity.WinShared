@@ -118,16 +118,16 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ApplicationDescription" xml:space="preserve">
-    <value>Application Description JA</value>
+    <value>UnityProject Description JA</value>
   </data>
   <data name="ApplicationDisplayName" xml:space="preserve">
-    <value>App Disp Name JA</value>
+    <value>UnityProject JA</value>
   </data>
   <data name="ApplicationTileTitle" xml:space="preserve">
-    <value>Application Tile Title JA</value>
+    <value>UnityProject JA</value>
   </data>
   <data name="ApplicationTitle" xml:space="preserve">
-    <value>UnityProject</value>
+    <value>UnityProject JA</value>
   </data>
   <data name="OFT_Disclosure" xml:space="preserve">
     <value>このモバイルアプリにはアプリ内課金があります。アプリ内課金では実際のお金による支払いが発生し、あなたのアカウントに請求されます。アプリ内課金の設定を変更するにストア アカウントの設定を変更してください。</value>

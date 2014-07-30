@@ -118,16 +118,16 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ApplicationDescription" xml:space="preserve">
-    <value>Application Description KO</value>
+    <value>UnityProject Description KO</value>
   </data>
   <data name="ApplicationDisplayName" xml:space="preserve">
-    <value>App Disp Name KO</value>
+    <value>UnityProject KO</value>
   </data>
   <data name="ApplicationTileTitle" xml:space="preserve">
-    <value>Application Tile Title KO</value>
+    <value>UnityProject KO</value>
   </data>
   <data name="ApplicationTitle" xml:space="preserve">
-    <value>UnityProject</value>
+    <value>UnityProject KO</value>
   </data>
   <data name="OFT_Disclosure" xml:space="preserve">
     <value>이 모바일 앱은 앱 내 결제가 가능합니다. 앱 내 결제는 실제 돈으로 지불되며 귀하의 계정으로 요금이 부과됩니다. 앱 내 구매 기능을 변경하려면 상점 계정의 설정에서 조정하세요.</value>

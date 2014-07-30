@@ -118,16 +118,16 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ApplicationDescription" xml:space="preserve">
-    <value>Application Description ES</value>
+    <value>UnityProject Description ES</value>
   </data>
   <data name="ApplicationDisplayName" xml:space="preserve">
-    <value>App Disp Name ES</value>
+    <value>UnityProject ES</value>
   </data>
   <data name="ApplicationTileTitle" xml:space="preserve">
-    <value>Application Tile Title ES</value>
+    <value>UnityProject ES</value>
   </data>
   <data name="ApplicationTitle" xml:space="preserve">
-    <value>UnityProject</value>
+    <value>UnityProject ES</value>
   </data>
   <data name="OFT_Disclosure" xml:space="preserve">
     <value>Esta aplicación para dispositivos móviles permite hacer compras desde la aplicación. Las compras en aplicaciones cuestan dinero real y se cargan a tu cuenta. Puedes cambiar los ajustes en tu cuenta de la Tienda para controlar las compras en aplicaciones.</value>

@@ -118,16 +118,16 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ApplicationDescription" xml:space="preserve">
-    <value>Application Description RU</value>
+    <value>UnityProject Description RU</value>
   </data>
   <data name="ApplicationDisplayName" xml:space="preserve">
-    <value>App Disp Name RU</value>
+    <value>UnityProject RU</value>
   </data>
   <data name="ApplicationTileTitle" xml:space="preserve">
-    <value>Application Tile Title RU</value>
+    <value>UnityProject RU</value>
   </data>
   <data name="ApplicationTitle" xml:space="preserve">
-    <value>UnityProject</value>
+    <value>UnityProject RU</value>
   </data>
   <data name="OFT_Disclosure" xml:space="preserve">
     <value>Данное мобильное приложение поддерживает встроенные покупки. Встроенные покупки стоят реальных денег, которые будут списаны с вашей учетной записи. Включить или отключить возможность встроенных покупок можно  в разделе настроек вашей учетной записи в Магазине.</value>

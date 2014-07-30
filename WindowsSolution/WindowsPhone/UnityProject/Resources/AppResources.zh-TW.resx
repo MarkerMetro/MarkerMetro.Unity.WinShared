@@ -118,16 +118,16 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ApplicationDescription" xml:space="preserve">
-    <value>Application Description TW</value>
+    <value>UnityProject Description TW</value>
   </data>
   <data name="ApplicationDisplayName" xml:space="preserve">
-    <value>App Disp Name TW</value>
+    <value>UnityProject TW</value>
   </data>
   <data name="ApplicationTileTitle" xml:space="preserve">
-    <value>Application Tile Title TW</value>
+    <value>UnityProject TW</value>
   </data>
   <data name="ApplicationTitle" xml:space="preserve">
-    <value>UnityProject</value>
+    <value>UnityProject TW</value>
   </data>
   <data name="OFT_Disclosure" xml:space="preserve">
     <value>此行動應用程式具有應用程式內購買功能。應用程式內購買功能需向您的帳戶收取實際費用。若要控制應用程式內購買功能，請調整市集帳戶中的設定。</value>

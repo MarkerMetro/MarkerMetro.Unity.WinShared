@@ -118,16 +118,16 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ApplicationDescription" xml:space="preserve">
-    <value>Application Description DE</value>
+    <value>UnityProject Description DE</value>
   </data>
   <data name="ApplicationDisplayName" xml:space="preserve">
-    <value>App Disp Name DE</value>
+    <value>UnityProject DE</value>
   </data>
   <data name="ApplicationTileTitle" xml:space="preserve">
-    <value>Application Tile Title DE</value>
+    <value>UnityProject DE</value>
   </data>
   <data name="ApplicationTitle" xml:space="preserve">
-    <value>UnityProject</value>
+    <value>UnityProject DE</value>
   </data>
   <data name="OFT_Disclosure" xml:space="preserve">
     <value>Diese mobile App enthält In-App-Käufe. In-App-Käufe kosten richtiges Geld und werden von Ihrem Konto abgebucht. Um In-App-Käufe zu kontrollieren, passen Sie die Geräteeinstellungen an.</value>

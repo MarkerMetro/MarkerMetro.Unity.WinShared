@@ -15,6 +15,7 @@
 /*.pidb
 /*.booproj
 *.mui
+BundleArtifacts/
 
 # UnityVS Plugin
 UnityVS*

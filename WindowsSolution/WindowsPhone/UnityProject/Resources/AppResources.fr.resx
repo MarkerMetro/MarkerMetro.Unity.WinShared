@@ -118,16 +118,16 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ApplicationDescription" xml:space="preserve">
-    <value>Application Description FR</value>
+    <value>UnityProject Description FR</value>
   </data>
   <data name="ApplicationDisplayName" xml:space="preserve">
-    <value>App Disp Name FR</value>
+    <value>UnityProject FR</value>
   </data>
   <data name="ApplicationTileTitle" xml:space="preserve">
-    <value>Application Tile Title FR</value>
+    <value>UnityProject FR</value>
   </data>
   <data name="ApplicationTitle" xml:space="preserve">
-    <value>UnityProject</value>
+    <value>UnityProject FR</value>
   </data>
   <data name="OFT_Disclosure" xml:space="preserve">
     <value>Cette application mobile contient des achats intégrés. Ils nécessitent de l'argent réel et sont facturés sur votre compte. Pour contrôler cette fonctionnalité, ajustez les paramètres de votre appareil.</value>

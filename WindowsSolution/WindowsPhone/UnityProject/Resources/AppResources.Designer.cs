@@ -61,7 +61,7 @@ namespace UnityProject.WinPhone.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Application Description.
+        ///   Looks up a localized string similar to UnityProject Description.
         /// </summary>
         public static string ApplicationDescription {
             get {
@@ -70,7 +70,7 @@ namespace UnityProject.WinPhone.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to App Disp Name.
+        ///   Looks up a localized string similar to UnityProject.
         /// </summary>
         public static string ApplicationDisplayName {
             get {
@@ -79,7 +79,7 @@ namespace UnityProject.WinPhone.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Application Tile Title.
+        ///   Looks up a localized string similar to UnityProject.
         /// </summary>
         public static string ApplicationTileTitle {
             get {

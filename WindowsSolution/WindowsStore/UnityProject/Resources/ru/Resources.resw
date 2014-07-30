@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AppDescription" xml:space="preserve">
-    <value>App Description RU</value>
+    <value>UnityProject Description RU</value>
   </data>
   <data name="AppName" xml:space="preserve">
-    <value>App Disp Name RU</value>
+    <value>UnityProject RU</value>
   </data>
   <data name="GameSettingsFlyout.Title" xml:space="preserve">
     <value>Параметры игры</value>
