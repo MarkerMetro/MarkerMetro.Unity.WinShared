@@ -6,8 +6,7 @@ Starting framework code for Unity ports to Windows.
 You can view an overview of the architecture here:
 https://www.dropbox.com/s/w8wt0au5602vl57/MarkerMetro.Unity.WinShared.jpg
 
-The latest version of Unity used can be found here:
-http://mmbuild2.markermetro.com:9091/admin/editBuildParams.html?id=buildType:MarkerMetroUnityWinShared_CI
+Use the [correct version of Unity](http://mmbuild2.markermetro.com:9091/admin/editBuildParams.html?id=buildType:MarkerMetroUnityWinShared_CI) with new projects.
 
 We're always updating this repo as it's so important, see the [Trello board of tasks](https://trello.com/b/3fs7qjuz/unity-win-shared-related-plugins)
 
