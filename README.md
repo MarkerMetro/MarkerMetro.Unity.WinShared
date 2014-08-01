@@ -16,6 +16,9 @@ Setup
 
 The approach when starting a new porting project is to simply copy and paste the Unity Project and Windows Solution and across to the client repo as detailed below:
 
+## Git Ignore
+Copy across the .gitignore 
+
 ## The Unity Project
 
 The root of the repo is a small Unity project for testing purposes.
@@ -35,7 +38,7 @@ You can build out the Unity Project to the WindowsSolution folder as below, note
 
 This is the base WindowsSolution folder to be used for all Unity Projects. Copy it across to any new project and add to the root of the client repo. This contains all the goodness from working on previous projects at the app level.
 
-Run the Init.ps1 script on the root to rename UnityProject to your product name (e.g LostLight). 
+Run the Init.ps1 script on the root to rename UnityProject to your product name (e.g LostLight). Note that the product name is what is displayed in the "Product Name" field in Unity. For consistency, check Player Settings on Windows Store to ensure name is used consistently. 
 
 Then subsequently build out from Unity to /WindowsSolution/WindowsStore and /WindowsSolution/WindowsPhone.
 
