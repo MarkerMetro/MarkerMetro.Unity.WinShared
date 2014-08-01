@@ -24,6 +24,7 @@ namespace UnityProject.WinPhone.Controls
             web.Navigating += NavigationStarted;
             web.NavigationFailed += NavigationFailed;
             web.NavigateToString("");
+            web.IsScriptEnabled = true;
             _prog = new ProgressIndicator()
             {
                 IsIndeterminate = true,
