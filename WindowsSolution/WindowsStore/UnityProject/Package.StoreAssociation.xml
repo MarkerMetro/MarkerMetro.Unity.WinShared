@@ -348,7 +348,7 @@
     <Language Code="zu-za" InMinimumRequirementSet="false" />
   </SupportedLocales>
   <ProductReservedInfo>
-    <MainPackageIdentityName>MarkerMetro.UnityProject</MainPackageIdentityName>
+    <MainPackageIdentityName>UnityProject</MainPackageIdentityName>
     <ReservedNames>
       <ReservedName>UnityProject</ReservedName>
       <ReservedName>UnityProject DE</ReservedName>
