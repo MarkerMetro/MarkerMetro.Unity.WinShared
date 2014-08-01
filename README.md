@@ -44,12 +44,10 @@ Then subsequently build out from Unity to /WindowsSolution/WindowsStore and /Win
 
 Note that visual assets are from the Disney BOLA game so you know exactly which ones to replace.
 
-## The Build Server 
+## Creating New Project on Build Server 
 
-It's important once your game is building to set up the build server and copy the build steps and tweak for your project as required, see the steps here:
-
-http://mmbuild2.markermetro.com:9091/admin/editBuildRunners.html?id=buildType:MarkerMetroUnityWinShared_CI
-http://mmbuild2.markermetro.com:9091/admin/editBuildRunners.html?id=buildType:MarkerMetroUnityWinShared_Release
+See the step by step guide here to setting up new projects on the build server based on WinShared.
+https://github.com/MarkerMetro/MarkerMetro.Wiki/wiki/Setting-up-builds#unity-games
 
 # Guidance
 
