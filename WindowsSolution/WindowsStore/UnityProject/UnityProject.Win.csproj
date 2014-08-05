@@ -118,9 +118,9 @@
     </AppxManifest>
     <None Include="MetroTestCertificate.pfx" />
     <None Include="packages.config" />
+    <PRIResource Include="Resources\zh-Hans\Resources.resw" />
+    <PRIResource Include="Resources\zh-Hant\Resources.resw" />
     <None Include="UnityProject.Win_StoreKey.pfx" />
-    <PRIResource Include="Resources\zh-TW\Resources.resw" />
-    <PRIResource Include="Resources\zh-CN\Resources.resw" />
     <PRIResource Include="Resources\ru\Resources.resw" />
     <PRIResource Include="Resources\ko\Resources.resw" />
     <PRIResource Include="Resources\ja\Resources.resw" />
