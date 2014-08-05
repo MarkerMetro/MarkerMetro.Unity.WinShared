@@ -37,7 +37,13 @@ namespace UnityProject.Win
 			this.InitializeComponent();
 			appCallbacks = new AppCallbacks(false);
             appCallbacks.RenderingStarted += AppCallBacks_Initialized;
+            UnhandledException += App_UnhandledException;
 		}
+
+        void App_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            MarkerMetro.Unity.WinIntegration.SharedLogger.Instance.Send(e.Exception);
+        }
 
 		/// <summary>
 		/// Invoked when application is launched through protocol.

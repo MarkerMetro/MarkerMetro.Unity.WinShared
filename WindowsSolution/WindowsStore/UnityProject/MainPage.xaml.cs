@@ -186,6 +186,8 @@ namespace UnityProject.Win
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
+
+                MarkerMetro.Unity.WinIntegration.SharedLogger.Instance.Send(ex);
             }
         }
 
