@@ -63,7 +63,25 @@ Windows Phone manifest uses a build-process generated AppResLib.dll[*.mui] files
 If any of these strings are missing from resources, AppResLibGenerator will report a warning.
 
 AppResLibGenerator is referenced as [Nuget Package](https://www.nuget.org/packages/MarkerMetro.WindowsPhone.AppResLibGenerator/) and is also on [Github](https://github.com/MarkerMetro/AppResLibGenerator)
- 
+
+## Raygun.io Integration
+
+_WinShared_ has, by default, integration into [Raygun.io](https://raygun.io/) error reporting system. Integration is setup by default to Windows Store and Windows Phone projects (unhandled exception handlers) using `MarkerMetro.Unity.WinIntegration.SharedLogger` class. 
+
+### To use Raygun.io
+
+1. Create a new project on [Raygun.io](https://raygun.io/)
+2. Get **API Key** from the Raygun portal
+3. Replace the **API Key** in `SharedLogger` classes in Windows Store and Windows Phone projects
+4. In _Unity_ attach Logger.cs to first object that starts or register from another startup _Unity_ class using `Application.RegisterLogCallback(Logger.HandleException);` - this will allow reporting of _Unity_ errors using Raygun integration
+
+### To disable Raygun.io
+
+Repeat for both Windows Store and Windows Phone projects:
+
+1. In `App.App` (constructor) remove following line: `MarkerMetro.Unity.WinIntegration.SharedLogger.Instance = new RaygunSharedLogger();`
+2. If you want, you can remove following classes: `RaygunSharedLogger, WrappedException` and in Unity: `Logger`
+
 ## Submission To Store
 
 Both the Windows Phone and Windows Store apps are submitted to the actual stores. 
@@ -98,7 +116,6 @@ You can find it at `\Assets\Editor\MarkerMetro\MemoryOptimizer.cs`.
 Please refer to the code documentation for instructions on how to use it.
 
 ## First Time Marker Metro NuGet Access
-
  
 Use  Marker Metro's private [NuGet](http://docs.nuget.org/docs/start-here/installing-nuget) feed: 
 [http://mmbuild1.cloudapp.net/httpAuth/app/nuget/v1/FeedService.svc/](http://mmbuild1.cloudapp.net/httpAuth/app/nuget/v1/FeedService.svc/)
