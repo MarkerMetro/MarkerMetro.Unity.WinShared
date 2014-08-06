@@ -14,7 +14,7 @@ namespace UnityProject.WinPhone
             () => new RaygunClient("J5M66WHC/fIcZWudEXXGOw==")
             {
                 ApplicationVersion = Helper.Instance.GetAppVersion(),
-                User = Helper.Instance.GetUserDeviceId(),
+                // User = Helper.Instance.GetUserDeviceId(),
                 // UserInfo = 
             });
 

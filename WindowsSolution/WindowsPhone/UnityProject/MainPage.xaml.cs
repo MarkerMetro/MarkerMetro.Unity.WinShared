@@ -218,5 +218,20 @@ namespace UnityProject.WinPhone
                 UnityApp.SetupGeolocator(null, null);
             }
         }
+
+        ///////////////////////////////////////////////////////////////////////////
+        // IZ: Note this is for testing error reporting facilities (like Raygun.io)
+        // Please remove from production code:
+        void Crash_Click(object sender, EventArgs e)
+        {
+            throw new InvalidOperationException("This is a test crash from Windows Phone solution");
+        }
+        ///////////////////////////////////////////////////////////////////////////
+        // IZ: Note this is for testing error reporting facilities (like Raygun.io)
+        // Please remove from production code:
+        void HideAppBar_Click(object sender, EventArgs e)
+        {
+            ApplicationBar.IsVisible = false;
+        }
 	}
 }

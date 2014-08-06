@@ -128,7 +128,7 @@ namespace UnityProject
         }
 
 		// Code to execute if a navigation fails
-		private void RootFrame_NavigationFailed(object sender, NavigationFailedEventArgs e)
+		void RootFrame_NavigationFailed(object sender, NavigationFailedEventArgs e)
 		{
 			if (System.Diagnostics.Debugger.IsAttached)
 			{
@@ -140,14 +140,22 @@ namespace UnityProject
 		// Code to execute on Unhandled Exceptions
 		void Application_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
 		{
-           if (System.Diagnostics.Debugger.IsAttached)
+            try
             {
-                // An unhandled exception has occurred; break into the debugger
-                System.Diagnostics.Debugger.Break();
+                if (System.Diagnostics.Debugger.IsAttached)
+                {
+                    // An unhandled exception has occurred; break into the debugger
+                    System.Diagnostics.Debugger.Break();
+                }
+                else
+                {
+                    MarkerMetro.Unity.WinIntegration.SharedLogger.Instance.Send(e.ExceptionObject);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MarkerMetro.Unity.WinIntegration.SharedLogger.Instance.Send(e.ExceptionObject);
+                Debug.WriteLine("FAILED to report unhandled exception:");
+                Debug.WriteLine(ex.ToString());
             }
 		}
 
