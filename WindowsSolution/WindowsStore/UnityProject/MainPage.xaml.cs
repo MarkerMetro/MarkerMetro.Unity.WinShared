@@ -25,6 +25,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Windows.UI.Popups;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -108,6 +109,31 @@ namespace UnityProject.Win
                 new SettingsCommand(Guid.NewGuid(),
                     loader.GetString("SettingsCharm_PrivacyPolicy"),
                     h => OnViewUrl(loader.GetString("SettingsCharm_PrivacyPolicy_Url"))));
+            ///////////////////////////////////////////////////////////////////////////
+            // IZ: Note this is for testing error reporting facilities (like Raygun.io)
+            // Please remove from production code:
+            args.Request.ApplicationCommands.Add(
+                new SettingsCommand(Guid.NewGuid(),
+                    "Crash",
+                    h => Crash()));
+        }
+
+        ///////////////////////////////////////////////////////////////////////////
+        // IZ: Note this is for testing error reporting facilities (like Raygun.io)
+        // Please remove from production code:
+        static async void Crash()
+        {
+            var dialog = new MessageDialog("Do you want to cause the crash to test error reporting?", "Crash?")
+            {
+               CancelCommandIndex = 1,
+            };
+            dialog.Commands.Add(new UICommand("Yes"));
+            dialog.Commands.Add(new UICommand("No"));
+
+            var result = await dialog.ShowAsync();
+
+            if(result.Label=="Yes")
+                throw new InvalidOperationException("This is a test crash from Windows Store solution");
         }
 
         static void OnViewUrl(string url)
