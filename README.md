@@ -74,13 +74,22 @@ _WinShared_ has, by default, integration into [Raygun.io](https://raygun.io/) er
 2. Get **API Key** from the Raygun portal
 3. Replace the **API Key** in `SharedLogger` classes in Windows Store and Windows Phone projects
 4. In _Unity_ attach Logger.cs to first object that starts or register from another startup _Unity_ class using `Application.RegisterLogCallback(Logger.HandleException);` - this will allow reporting of _Unity_ errors using Raygun integration
+5. Remove all test crashes (in Windows Store project there's extra menu item on settings chrarm; in Windows Phone project there's AppBar that can be removed all togehter)
 
 ### To disable Raygun.io
 
 Repeat for both Windows Store and Windows Phone projects:
 
 1. In `App.App` (constructor) remove following line: `MarkerMetro.Unity.WinIntegration.SharedLogger.Instance = new RaygunSharedLogger();`
-2. If you want, you can remove following classes: `RaygunSharedLogger, WrappedException` and in Unity: `Logger`
+2. Remove all test crashes (in Windows Store project there's extra menu item on settings chrarm; in Windows Phone project there's AppBar that can be removed all togehter)
+3. If you want, you can remove following classes: `RaygunSharedLogger, WrappedException` and in Unity: `Logger`
+ 
+### Test exceptions/crashes
+
+In _WinShared_ project there are 3 locations from which test exceptions are thrown. These are to be removed from production code and are there just to prove that application does report exceptions properly:
+1. **Windows Store** project has extra Settings charm menu item **Crash**
+2. **Windows Phone** project has AppBar in the `MainPage.xaml.cs` that should be removed all together
+3. **Unity** project has extra button in `UIStart.cs`
 
 ## Submission To Store
 
