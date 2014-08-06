@@ -58,10 +58,19 @@ public class GUIStart : MonoBehaviour {
         }
 
         y_modifier += 50;
-        
+
+        // IZ: Test crash button
+        if (GUI.Button(new Rect(box_x + 10, box_y + y_modifier, box_width - 20, 40), "Throw an exception"))
+        {
+            throw new System.Exception("This is test exception from Unity code");
+        }
+
+        y_modifier += 50;
+
         // Third Button Login to Quit
-        if(GUI.Button(new Rect( box_x + 10 , box_y + y_modifier, box_width - 20, 40), "Quit")) {
+        if (GUI.Button(new Rect(box_x + 10, box_y + y_modifier, box_width - 20, 40), "Quit"))
+        {
             Application.Quit();
         }
-	}
+    }
 }
