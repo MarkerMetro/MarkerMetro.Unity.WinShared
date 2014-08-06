@@ -111,6 +111,8 @@
     <Compile Include="Controls\FBWebView.xaml.cs" />
     <Compile Include="GameSettingsFlyout.xaml.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RaygunSharedLogger.cs" />
+    <Compile Include="WrappedException.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -121,6 +123,8 @@
     <PRIResource Include="Resources\zh-Hans\Resources.resw" />
     <PRIResource Include="Resources\zh-Hant\Resources.resw" />
     <None Include="UnityProject.Win_StoreKey.pfx" />
+    <PRIResource Include="Resources\zh-Hant\Resources.resw" />
+    <PRIResource Include="Resources\zh-Hans\Resources.resw" />
     <PRIResource Include="Resources\ru\Resources.resw" />
     <PRIResource Include="Resources\ko\Resources.resw" />
     <PRIResource Include="Resources\ja\Resources.resw" />
@@ -171,6 +175,9 @@
     </Reference>
     <Reference Include="MarkerMetro.Unity.WinLegacy">
       <HintPath>.\MarkerMetro.Unity.WinLegacy.dll</HintPath>
+    </Reference>
+    <Reference Include="Mindscape.Raygun4Net.WindowsStore">
+      <HintPath>..\..\packages\Mindscape.Raygun4Net.3.2.0\lib\portable-net45+win81+wpa81+windows81\Mindscape.Raygun4Net.WindowsStore.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine">
       <HintPath>.\UnityEngine.dll</HintPath>

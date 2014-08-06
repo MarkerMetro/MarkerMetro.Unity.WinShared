@@ -108,7 +108,7 @@ public class GameMaster : MonoBehaviour {
 			break;
 			case GAME_STATE.GS_PLAYING:
 			{
-				gui_start_.SetActive( false );
+                gui_start_.SetActive(false);
 				gui_end_.SetActive( false );
 				gui_play_.SetActive( true );
 				gui_store_.SetActive( false );

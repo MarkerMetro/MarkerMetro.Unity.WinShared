@@ -31,6 +31,8 @@ namespace UnityProject
 		/// </summary>
 		public App()
 		{
+            MarkerMetro.Unity.WinIntegration.SharedLogger.Instance = new RaygunSharedLogger();
+
 			// Global handler for uncaught exceptions.
 			UnhandledException += Application_UnhandledException;
 
@@ -64,13 +66,13 @@ namespace UnityProject
 
 		// Code to execute when the application is launching (eg, from Start)
 		// This code will not execute when the application is reactivated
-		private void Application_Launching(object sender, LaunchingEventArgs e)
+		void Application_Launching(object sender, LaunchingEventArgs e)
 		{
 		}
 
 		// Code to execute when the application is activated (brought to foreground)
 		// This code will not execute when the application is first launched
-		private void Application_Activated(object sender, ActivatedEventArgs e)
+		void Application_Activated(object sender, ActivatedEventArgs e)
 		{
 		}
 
@@ -138,7 +140,7 @@ namespace UnityProject
 		// Code to execute on Unhandled Exceptions
 		void Application_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
 		{
-            if (System.Diagnostics.Debugger.IsAttached)
+           if (System.Diagnostics.Debugger.IsAttached)
             {
                 // An unhandled exception has occurred; break into the debugger
                 System.Diagnostics.Debugger.Break();

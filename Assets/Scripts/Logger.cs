@@ -4,12 +4,18 @@ using Mindscape.Raygun4Unity;
 
 public class Logger : MonoBehaviour 
 {
+    public static void Initialize()
+    {
+        if(MarkerMetro.Unity.WinIntegration.SharedLogger.Instance==null)
+            MarkerMetro.Unity.WinIntegration.SharedLogger.Instance = new RaygunSharedLogger();
+    }
+
 	// Use this for initialization
 	void Start () 
     {
-        Application.RegisterLogCallback(HandleException);
+        Initialize();
 
-        MarkerMetro.Unity.WinIntegration.SharedLogger.Instance = new RaygunSharedLogger();
+        Application.RegisterLogCallback(HandleException);
 	}
 
     class RaygunSharedLogger : MarkerMetro.Unity.WinIntegration.SharedLogger
@@ -21,18 +27,32 @@ public class Logger : MonoBehaviour
         };
 
 
-        override public void Send(System.Exception ex)
+        override public void Send(System.Exception exception)
         {
-            client.Send(ex);
+            try
+            {
+                client.Send(exception);
+            }
+            catch (System.Exception ex)
+            {
+                Debug.Log(ex.ToString());
+            }
         }
 
         override public void Send(string message, string stackTrace)
         {
-            client.Send(message, stackTrace);
+            try
+            {
+                client.Send(message, stackTrace);
+            }
+            catch (System.Exception ex)
+            {
+                Debug.Log(ex.ToString());
+            }
         }
     }
 
-    void HandleException(string message, string stackTrace, LogType type)
+    public static void HandleException(string message, string stackTrace, LogType type)
     {
         if (type == LogType.Exception || type == LogType.Error)
             MarkerMetro.Unity.WinIntegration.SharedLogger.Instance.Send(message, stackTrace);

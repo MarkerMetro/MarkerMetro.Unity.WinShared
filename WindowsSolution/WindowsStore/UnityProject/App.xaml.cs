@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using UnityPlayer;
 using MarkerMetro.Unity.WinIntegration.Store;
+using System.Diagnostics;
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=234227
 
 namespace UnityProject.Win
@@ -35,6 +36,9 @@ namespace UnityProject.Win
 		public App()
 		{
 			this.InitializeComponent();
+
+            MarkerMetro.Unity.WinIntegration.SharedLogger.Instance = new RaygunSharedLogger();
+
 			appCallbacks = new AppCallbacks(false);
             appCallbacks.RenderingStarted += AppCallBacks_Initialized;
             UnhandledException += App_UnhandledException;
@@ -42,7 +46,14 @@ namespace UnityProject.Win
 
         void App_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            MarkerMetro.Unity.WinIntegration.SharedLogger.Instance.Send(e.Exception);
+            try
+            {
+                MarkerMetro.Unity.WinIntegration.SharedLogger.Instance.Send(e.Exception);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
         }
 
 		/// <summary>
@@ -76,7 +87,7 @@ namespace UnityProject.Win
 			InitializeUnity(args.Arguments, args.SplashScreen);
 		}
 
-		private void InitializeUnity(string args, Windows.ApplicationModel.Activation.SplashScreen splashScreen)
+		void InitializeUnity(string args, Windows.ApplicationModel.Activation.SplashScreen splashScreen)
 		{
 			appCallbacks.SetAppArguments(args);
 			Frame rootFrame = Window.Current.Content as Frame;
