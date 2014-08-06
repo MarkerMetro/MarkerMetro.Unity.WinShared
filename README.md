@@ -93,14 +93,14 @@ In _WinShared_ project there are 3 locations from which test exceptions are thro
 
 ## Submission To Store
 
-Both the Windows Phone and Windows Store apps are submitted to the actual stores. 
+The Windows Phone APp has been published to the store as a beta. The Windows Store app could not yet get through certification.
 
 To access portals use http://dev.windows.com/ (markermetro@live.com account, yell if you need access)
 
 Windows Phone App: http://www.windowsphone.com/s?appid=3d4131e7-bc32-4688-a486-e3ee6d2310cb
-Windows Store App: [link]
+Windows Store App: [TBC, currently not easily possible]
 
-They are submitted using the markermetro@live.com developer account and allow us to test out features not otherwise possible in development. For example, application name localization in the store.
+This allows us to test out features not otherwise possible in development. For example, application name localization.
 
 ## Unity Plugins from NuGet
 
