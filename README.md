@@ -19,9 +19,9 @@ The approach when starting a new porting project is to simply copy and paste the
 
 ## The Unity Project
 
-The root of the repo is a small Unity project for testing purposes.
+The root of the repo contains a Unity project created for testing purposes, however it houses a number of useful scripts that we want to make use of in all projects.
 
-Copy and paste the following folders and files into the root of client repo's Unity project. It is normally on root but could be in a sub folder, so make sure you copy to the correct location.
+Copy and paste just the following folders and files into the root of client repo's Unity project. The client repo will normally have it on root but could be in a sub folder, so make sure you copy to the correct location.
 
 * .gitignore - Up to date git ignore for Unity projects
 * /Nuget/* - helper scripts to bring in Nuget based plugins to Unity
