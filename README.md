@@ -49,7 +49,7 @@ https://github.com/MarkerMetro/MarkerMetro.Wiki/wiki/Setting-up-builds#unity-gam
 
 ## Configuring Exception Logging
 
-Exception logging is disabled by default, see the section on Raygun.IO integration below on how to configure and enable.
+Exception logging is disabled by default, see the [Raygun.IO integration](https://github.com/MarkerMetro/MarkerMetro.Unity.WinShared/blob/master/README.md#raygunio-integration) on how to set up.
 
 # Guidance
 
