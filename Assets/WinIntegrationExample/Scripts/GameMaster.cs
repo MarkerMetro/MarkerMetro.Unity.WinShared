@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
-
 using MarkerMetro.Unity.WinIntegration.Facebook;
 using LitJson;
 
@@ -52,7 +51,9 @@ public class GameMaster : MonoBehaviour {
 		CreateTiles();
 		ChangeState( GAME_STATE.GS_START );
 
+#if UNITY_METRO && !UNITY_EDITOR
         FB.Init(SetFBInit, "682783485145217", OnHideUnity);
+#endif		
 	}
 	
 	void Update () {

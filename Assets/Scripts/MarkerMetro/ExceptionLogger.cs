@@ -14,7 +14,14 @@ public class ExceptionLogger : MonoBehaviour
     {
         if (type == LogType.Exception || type == LogType.Error)
         {
-            MarkerMetro.Unity.WinIntegration.ExceptionLogger.Instance.Send(message, stackTrace);
+            try
+            {
+                MarkerMetro.Unity.WinIntegration.ExceptionLogger.Instance.Send(message, stackTrace);
+            }
+            catch 
+            { 
+                // not sure there's much useful we can do here 
+            }
         }
     }
 }
