@@ -75,7 +75,7 @@ Go straight to 3. if you have an api key provided by the client.
 
 1. Create a new project on [Raygun.io](https://raygun.io/)
 2. Get **API Key** from the Raygun portal
-3. Replace the **API Key** in /WindowsSolution/Common/CommonMainPage.Initialize() method.
+3. Replace the **API Key** in /WindowsSolution/Common/CommonMainPage.Initialize() method and uncomment the line.
 4. In _Unity_ attach /Assets/Scripts/MarkerMetro/ExceptionLogger.cs to first object that starts, this will allow reporting of _Unity_ errors using Raygun integration
 
 ### To disable Raygun.io
