@@ -16,21 +16,19 @@ Setup
 
 The approach when starting a new porting project is to simply copy and paste the Unity Project and Windows Solution and across to the client repo as detailed below:
 
-## Git Ignore
-Copy across the .gitignore 
 
 ## The Unity Project
 
 The root of the repo is a small Unity project for testing purposes.
 
-Copy and paste the following /Assets subfolders and files and the .gitignore to the existing Assets folder in client repo's Unity project (normally on root but could be in a sub folder)
+Copy and paste the following folders and files into the client repo's Unity project. It is normally on root but could be in a sub folder. 
 
+* .gitignore
 * Assets/Editor/*
 * Assets/Plugins/*
-* Assets/MetroTestCertificate.pfx
-* Assets/MetroTestCertificate.pfx.meta
+* Assets/Scripts/MarkerMetro/*
 
-The code here helps with automated builds and includes various helper files.
+The code here helps with automated builds and includes various helper scripts.
 
 You can build out the Unity Project to the WindowsSolution folder as below, note that you should ensure the ProductName in PlayerSettings is "UnityProject" so that everything just works.
 
@@ -49,6 +47,10 @@ Note that visual assets are from the Disney BOLA game so you know exactly which 
 See the step by step guide here to setting up new projects on the build server based on WinShared.
 https://github.com/MarkerMetro/MarkerMetro.Wiki/wiki/Setting-up-builds#unity-games
 
+## Configuring Exception Logging
+
+Exception logging is disabled by default, see the section on Raygun.IO integration below on how to configure and enable.
+
 # Guidance
 
 ## App Name Localization
@@ -66,30 +68,28 @@ AppResLibGenerator is referenced as [Nuget Package](https://www.nuget.org/packag
 
 ## Raygun.io Integration
 
-_WinShared_ has, by default, integration into [Raygun.io](https://raygun.io/) error reporting system. Integration is setup by default to Windows Store and Windows Phone projects (unhandled exception handlers) using `MarkerMetro.Unity.WinIntegration.SharedLogger` class. 
+[Raygun.io](https://raygun.io/) can be used for exception logging. This is enabled via MarkerMetro.Unity.WinIntegration.ExceptionLogger. Integration is disabled by default. 
 
-### To use Raygun.io
+### To enable Raygun.io
+
+Go straight to 3. if you have an api key provided by the client.
 
 1. Create a new project on [Raygun.io](https://raygun.io/)
 2. Get **API Key** from the Raygun portal
-3. Replace the **API Key** in `SharedLogger` classes in Windows Store and Windows Phone projects
-4. In _Unity_ attach Logger.cs to first object that starts or register from another startup _Unity_ class using `Application.RegisterLogCallback(Logger.HandleException);` - this will allow reporting of _Unity_ errors using Raygun integration
-5. Remove all test crashes (in Windows Store project there's extra menu item on settings chrarm; in Windows Phone project there's AppBar that can be removed all togehter)
+3. Replace the **API Key** in /WindowsSolution/Common/CommonMainPage.Initialize() method.
+4. In _Unity_ attach /Assets/Scripts/MarkerMetro/ExceptionLogger.cs to first object that starts, this will allow reporting of _Unity_ errors using Raygun integration
 
 ### To disable Raygun.io
 
-Repeat for both Windows Store and Windows Phone projects:
-
-1. In `App.App` (constructor) remove following line: `MarkerMetro.Unity.WinIntegration.SharedLogger.Instance = new RaygunSharedLogger();`
-2. Remove all test crashes (in Windows Store project there's extra menu item on settings chrarm; in Windows Phone project there's AppBar that can be removed all togehter)
-3. If you want, you can remove following classes: `RaygunSharedLogger, WrappedException` and in Unity: `Logger`
+Comment out the line to initialize the ExceptionLogger here: /WindowsSolution/Common/CommonMainPage.Initialize()
  
-### Test exceptions/crashes
+### Testing exceptions/crashes
 
-In _WinShared_ project there are 3 locations from which test exceptions are thrown. These are to be removed from production code and are there just to prove that application does report exceptions properly:
-1. **Windows Store** project has extra Settings charm menu item **Crash**
-2. **Windows Phone** project has AppBar in the `MainPage.xaml.cs` that should be removed all together
-3. **Unity** project has extra button in `UIStart.cs`
+In _WinShared_ project there are 3 locations from which test exceptions can be thrown. 
+
+1. **Windows Store** project has extra Settings charm menu item **Crash** (only for Debug)
+2. **Windows Phone** project has AppBar to allow crash testing (only for Debug)
+3. **Unity** project has extra button in `UIStart.cs` in FaceFlip.unity test scene
 
 ## Submission To Store
 
