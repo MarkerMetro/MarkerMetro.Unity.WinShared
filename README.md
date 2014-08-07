@@ -21,23 +21,24 @@ The approach when starting a new porting project is to simply copy and paste the
 
 The root of the repo is a small Unity project for testing purposes.
 
-Copy and paste the following folders and files into the client repo's Unity project. It is normally on root but could be in a sub folder. 
+Copy and paste the following folders and files into the root of client repo's Unity project. It is normally on root but could be in a sub folder, so make sure you copy to the correct location.
 
-* .gitignore
-* Assets/Editor/* - helper editors scripts
-* Assets/Plugins/* - plugin binaries and scripts
-* Assets/Scripts/* - helper game scripts
-* Assets/WinIntegrationExample/* - see FaceFlip.unity a small game with win integration test points (optional)
+* .gitignore - Up to date git ignore for Unity projects
+* /Nuget/* - helper scripts to bring in Nuget based plugins to Unity
+* /Assets/Editor/* - helper editors scripts
+* /Assets/Plugins/* - plugin binaries and scripts
+* /Assets/Scripts/* - helper game scripts
+* /Assets/WinIntegrationExample/* - see FaceFlip.unity a small game with win integration test points (optional)
 
-You can then build out the Unity Project to the WindowsSolution folder as below, note that you should ensure the ProductName in PlayerSettings is "UnityProject" so that everything just works.
+Ensure that the ProductName in PlayerSettings is correct and matches the game name. It this value that will be used to script the Windows Solution and set up the build server.
 
 ## The Windows Solution
 
-This is the base WindowsSolution folder to be used for all Unity Projects. Copy it across to any new project and add to the root of the client repo. This contains all the goodness from working on previous projects at the app level.
+This is the base WindowsSolution folder to be used for all Unity Projects. Copy it across to any new project and always add to the root of the client repo. This contains the Windows Store and Windows Phone apps.
 
-Run the Init.ps1 script on the root to rename UnityProject to your product name (e.g LostLight). Note that the product name is what is displayed in the "Product Name" field in Unity. For consistency, check Player Settings on Windows Store to ensure name is used consistently. 
+*Run the Init.ps1 script on the root to rename UnityProject to the ProductName used in Unity Player Settings* (e.g LostLight). 
 
-Then subsequently build out from Unity to /WindowsSolution/WindowsStore and /WindowsSolution/WindowsPhone.
+You can then subsequently build out from Unity to /WindowsSolution/WindowsStore and /WindowsSolution/WindowsPhone.
 
 Note that visual assets are from the Disney BOLA game so you know exactly which ones to replace.
 
@@ -51,6 +52,8 @@ https://github.com/MarkerMetro/MarkerMetro.Wiki/wiki/Setting-up-builds#unity-gam
 Exception logging is disabled by default, see the [Raygun.IO integration](https://github.com/MarkerMetro/MarkerMetro.Unity.WinShared/blob/master/README.md#raygunio-integration) on how to set up.
 
 # Guidance
+
+Provided here is guidance for working with WinShared based projects which you should read and understand but are not directly related to setting up a new project.
 
 ## App Name Localization
 
