@@ -40,7 +40,6 @@ namespace UnityProject.Win
 			this.InitializeComponent();
 
 			appCallbacks = new AppCallbacks(false);
-            appCallbacks.RenderingStarted += AppCallBacks_Initialized;
             UnhandledException += App_UnhandledException;
 		}
 
@@ -115,10 +114,11 @@ namespace UnityProject.Win
 				appCallbacks.SetKeyboardTriggerControl(mainPage);
                 appCallbacks.SetSwapChainPanel(mainPage.GetSwapChainPanel());
 
-
 				appCallbacks.SetCoreWindowEvents(Window.Current.CoreWindow);
 
 				appCallbacks.InitializeD3DXAML();
+
+                AppCallBacks_Initialized();
 			}
 
 			Window.Current.Activate();
@@ -127,7 +127,6 @@ namespace UnityProject.Win
 
         void AppCallBacks_Initialized()
         {
-
             // wire up dispatcher for plugins
             MarkerMetro.Unity.WinLegacy.Dispatcher.InvokeOnAppThread = InvokeOnAppThread;
             MarkerMetro.Unity.WinLegacy.Dispatcher.InvokeOnUIThread = InvokeOnUIThread;

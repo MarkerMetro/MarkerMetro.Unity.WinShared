@@ -5,7 +5,7 @@ public class ExceptionLogger : MonoBehaviour
 {
 
 	// Use this for initialization
-	void Start () 
+	void Awake () 
     {
         Application.RegisterLogCallback(HandleException);
 	}
