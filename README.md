@@ -24,13 +24,12 @@ The root of the repo is a small Unity project for testing purposes.
 Copy and paste the following folders and files into the client repo's Unity project. It is normally on root but could be in a sub folder. 
 
 * .gitignore
-* Assets/Editor/*
-* Assets/Plugins/*
-* Assets/Scripts/MarkerMetro/*
+* Assets/Editor/* - helper editors scripts
+* Assets/Plugins/* - plugin binaries and scripts
+* Assets/Scripts/* - helper game scripts
+* Assets/WinIntegrationExample/* - see FaceFL=lip.unity a small game with win integration test points (optional)
 
-The code here helps with automated builds and includes various helper scripts.
-
-You can build out the Unity Project to the WindowsSolution folder as below, note that you should ensure the ProductName in PlayerSettings is "UnityProject" so that everything just works.
+You can then build out the Unity Project to the WindowsSolution folder as below, note that you should ensure the ProductName in PlayerSettings is "UnityProject" so that everything just works.
 
 ## The Windows Solution
 
@@ -89,7 +88,7 @@ In _WinShared_ project there are 3 locations from which test exceptions can be t
 
 1. **Windows Store** project has extra Settings charm menu item **Crash** (only for Debug)
 2. **Windows Phone** project has AppBar to allow crash testing (only for Debug)
-3. **Unity** project has extra button in `UIStart.cs` in FaceFlip.unity test scene
+3. **Unity** project has extra button in `UIStart.cs` in /Assets/WinIntegrationExample/FaceFlip.unity test scene
 
 ## Submission To Store
 
