@@ -41,10 +41,19 @@ namespace UnityProject.WinPhone
 		// Constructor
 		public MainPage()
 		{
+            // control memory debugging flag for WP8 here
+#if DEBUG || QA
+            //DisplayMemoryInfo = true;
+#endif
+
 			var bridge = new UnityBridge();
 			UnityApp.SetBridge(bridge);
 			InitializeComponent();
-			FB.SetPlatformInterface(web);
+
+#if DEBUG
+            ApplicationBar.IsVisible = true;
+#endif
+
             Initialize();
 
 			bridge.Control = DrawingSurfaceBackground;
@@ -56,11 +65,6 @@ namespace UnityProject.WinPhone
             _extendedSplashTimer.Tick += ExtendedSplashTimer_Tick;
             _extendedSplashTimer.Start();
 
-           
-            // control memory debugging flag here
-            #if DEBUG || QA
-                 //DisplayMemoryInfo = true;
-            #endif
         }
 	
 	
@@ -219,16 +223,11 @@ namespace UnityProject.WinPhone
             }
         }
 
-        ///////////////////////////////////////////////////////////////////////////
-        // IZ: Note this is for testing error reporting facilities (like Raygun.io)
-        // Please remove from production code:
         void Crash_Click(object sender, EventArgs e)
         {
             throw new InvalidOperationException("This is a test crash from Windows Phone solution");
         }
-        ///////////////////////////////////////////////////////////////////////////
-        // IZ: Note this is for testing error reporting facilities (like Raygun.io)
-        // Please remove from production code:
+
         void HideAppBar_Click(object sender, EventArgs e)
         {
             ApplicationBar.IsVisible = false;

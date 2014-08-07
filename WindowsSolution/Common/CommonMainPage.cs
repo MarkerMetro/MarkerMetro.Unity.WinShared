@@ -14,6 +14,7 @@ using Microsoft.Phone.Shell;
 using MarkerMetro.Unity.WinIntegration.Facebook;
 using System.IO.IsolatedStorage;
 using UnityProject.WinPhone.Resources;
+
 #elif NETFX_CORE
 using Windows.Storage;
 using Windows.ApplicationModel.Resources;
@@ -22,7 +23,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Notifications;
 using Windows.Data.Xml.Dom;
 using MarkerMetro.Unity.WinIntegration.Facebook;
-
 #endif
 
 #if NETFX_CORE
@@ -46,15 +46,18 @@ namespace UnityProject.WinPhone
 
         /**
          * Exhibits information about memory usage in the game screen. WP8 only.
-         * 
          */
-        internal bool DisplayMemoryInfo = false;
+        internal bool DisplayMemoryInfo = false; 
 
         /**
          * Call this on MainPage.xaml.cs.
          */
         private void Initialize()
         {
+
+            // initialize exception logger (api key is MM's test app by default, change to client's or comment out for no logging)
+            MarkerMetro.Unity.WinIntegration.ExceptionLogger.Instance.Initialize("J5M66WHC/fIcZWudEXXGOw=="); 
+
             // wire up the configuration file handler:
             DeviceInformation.DoGetEnvironment = GetEnvironment;
 

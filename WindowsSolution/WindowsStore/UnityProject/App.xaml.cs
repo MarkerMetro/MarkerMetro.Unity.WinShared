@@ -22,6 +22,8 @@ using System.Diagnostics;
 
 namespace UnityProject.Win
 {
+
+
 	/// <summary>
 	/// Provides application-specific behavior to supplement the default Application class.
 	/// </summary>
@@ -37,8 +39,6 @@ namespace UnityProject.Win
 		{
 			this.InitializeComponent();
 
-            MarkerMetro.Unity.WinIntegration.SharedLogger.Instance = new RaygunSharedLogger();
-
 			appCallbacks = new AppCallbacks(false);
             appCallbacks.RenderingStarted += AppCallBacks_Initialized;
             UnhandledException += App_UnhandledException;
@@ -48,7 +48,7 @@ namespace UnityProject.Win
         {
             try
             {
-                MarkerMetro.Unity.WinIntegration.SharedLogger.Instance.Send(e.Exception);
+                MarkerMetro.Unity.WinIntegration.ExceptionLogger.Instance.Send(e.Exception);
             }
             catch (Exception ex)
             {

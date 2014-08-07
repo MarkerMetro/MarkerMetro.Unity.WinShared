@@ -109,18 +109,17 @@ namespace UnityProject.Win
                 new SettingsCommand(Guid.NewGuid(),
                     loader.GetString("SettingsCharm_PrivacyPolicy"),
                     h => OnViewUrl(loader.GetString("SettingsCharm_PrivacyPolicy_Url"))));
-            ///////////////////////////////////////////////////////////////////////////
-            // IZ: Note this is for testing error reporting facilities (like Raygun.io)
-            // Please remove from production code:
+
+#if DEBUG
             args.Request.ApplicationCommands.Add(
                 new SettingsCommand(Guid.NewGuid(),
                     "Crash",
                     h => Crash()));
+#endif
         }
 
-        ///////////////////////////////////////////////////////////////////////////
-        // IZ: Note this is for testing error reporting facilities (like Raygun.io)
-        // Please remove from production code:
+#if DEBUG
+
         static async void Crash()
         {
             var dialog = new MessageDialog("Do you want to cause the crash to test error reporting?", "Crash?")
@@ -135,6 +134,8 @@ namespace UnityProject.Win
             if(result.Label=="Yes")
                 throw new InvalidOperationException("This is a test crash from Windows Store solution");
         }
+
+#endif
 
         static void OnViewUrl(string url)
         {
@@ -213,7 +214,7 @@ namespace UnityProject.Win
             {
                 Debug.WriteLine(ex);
 
-                MarkerMetro.Unity.WinIntegration.SharedLogger.Instance.Send(ex);
+                MarkerMetro.Unity.WinIntegration.ExceptionLogger.Instance.Send(ex);
             }
         }
 

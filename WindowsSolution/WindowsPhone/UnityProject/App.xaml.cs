@@ -31,7 +31,6 @@ namespace UnityProject
 		/// </summary>
 		public App()
 		{
-            MarkerMetro.Unity.WinIntegration.SharedLogger.Instance = new RaygunSharedLogger();
 
 			// Global handler for uncaught exceptions.
 			UnhandledException += Application_UnhandledException;
@@ -149,7 +148,7 @@ namespace UnityProject
                 }
                 else
                 {
-                    MarkerMetro.Unity.WinIntegration.SharedLogger.Instance.Send(e.ExceptionObject);
+                    MarkerMetro.Unity.WinIntegration.ExceptionLogger.Instance.Send(e.ExceptionObject);
                 }
             }
             catch (Exception ex)

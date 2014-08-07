@@ -28,10 +28,8 @@
         <localControls:FBWebView x:Name="web" Visibility="Collapsed" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
     </DrawingSurfaceBackgroundGrid>
 
-    <!-- IZ: This for testing error reporting facilities,
-    please remove from production code: -->
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar Opacity="0.3"
+        <shell:ApplicationBar Opacity="0.3" IsVisible="False"
                               Mode="Minimized">
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem Text="hide appbar"
