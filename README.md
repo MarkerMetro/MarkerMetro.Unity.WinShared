@@ -27,7 +27,7 @@ Copy and paste the following folders and files into the client repo's Unity proj
 * Assets/Editor/* - helper editors scripts
 * Assets/Plugins/* - plugin binaries and scripts
 * Assets/Scripts/* - helper game scripts
-* Assets/WinIntegrationExample/* - see FaceFL=lip.unity a small game with win integration test points (optional)
+* Assets/WinIntegrationExample/* - see FaceFlip.unity a small game with win integration test points (optional)
 
 You can then build out the Unity Project to the WindowsSolution folder as below, note that you should ensure the ProductName in PlayerSettings is "UnityProject" so that everything just works.
 
