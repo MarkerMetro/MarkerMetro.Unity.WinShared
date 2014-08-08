@@ -17,9 +17,8 @@ namespace UnityProject
          */
         void InitializeExceptionLogger()
         {
-            const string RaygunAppKey = "J5M66WHC/fIcZWudEXXGOw==";
-
-            MarkerMetro.Unity.WinIntegration.ExceptionLogger.Initialize(RaygunAppKey);
+            // get a Raygun API key for client and uncomment next line
+            // MarkerMetro.Unity.WinIntegration.ExceptionLogger.Initialize("J5M66WHC/fIcZWudEXXGOw==");
         }
     }
 }
