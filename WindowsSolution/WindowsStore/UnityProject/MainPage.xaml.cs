@@ -132,7 +132,7 @@ namespace UnityProject.Win
             var result = await dialog.ShowAsync();
 
             if(result.Label=="Yes")
-                throw new InvalidOperationException("This is a test crash from Windows Store solution");
+                throw new InvalidOperationException("A test crash from Windows Store solution!");
         }
 
 #endif

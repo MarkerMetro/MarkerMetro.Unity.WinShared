@@ -125,6 +125,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\..\Common\CommonApp.cs">
+      <Link>CommonApp.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\CommonMainPage.cs">
       <Link>Common\CommonMainPage.cs</Link>
     </Compile>

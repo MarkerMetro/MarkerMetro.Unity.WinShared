@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using MarkerMetro.Unity.WinIntegration;
 
 public class ExceptionLogger : MonoBehaviour 
 {
@@ -18,9 +19,10 @@ public class ExceptionLogger : MonoBehaviour
             {
                 MarkerMetro.Unity.WinIntegration.ExceptionLogger.Instance.Send(message, stackTrace);
             }
-            catch 
+            catch (System.Exception ex)
             { 
                 // not sure there's much useful we can do here 
+                Debug.LogWarning(string.Format("Failed to handle exception: {0} - because of: {1}", message, ex.Message));
             }
         }
     }

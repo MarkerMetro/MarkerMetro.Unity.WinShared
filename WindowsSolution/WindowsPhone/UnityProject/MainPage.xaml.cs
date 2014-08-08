@@ -28,6 +28,7 @@ using System.Threading.Tasks;
 using UnityProject.WinPhone.Resources;
 using System.Diagnostics;
 using MarkerMetro.Common.Converters;
+using Microsoft.Phone.Shell;
 
 namespace UnityProject.WinPhone
 {
@@ -50,10 +51,6 @@ namespace UnityProject.WinPhone
 			UnityApp.SetBridge(bridge);
 			InitializeComponent();
 
-#if DEBUG
-            ApplicationBar.IsVisible = true;
-#endif
-
             Initialize();
 
 			bridge.Control = DrawingSurfaceBackground;
@@ -65,6 +62,7 @@ namespace UnityProject.WinPhone
             _extendedSplashTimer.Tick += ExtendedSplashTimer_Tick;
             _extendedSplashTimer.Start();
 
+            AddDebugAppBar();
         }
 	
 	
@@ -223,14 +221,29 @@ namespace UnityProject.WinPhone
             }
         }
 
-        void Crash_Click(object sender, EventArgs e)
+        /// <summary>
+        /// This method adds Application Bar with menu items to test exception handling
+        /// </summary>
+        /// <remarks>
+        /// Change conditional or remove when no longer needed
+        /// </remarks>
+        [Conditional("DEBUG")]
+        void AddDebugAppBar()
         {
-            throw new InvalidOperationException("This is a test crash from Windows Phone solution");
-        }
-
-        void HideAppBar_Click(object sender, EventArgs e)
-        {
-            ApplicationBar.IsVisible = false;
+            ApplicationBar = new ApplicationBar() 
+            {
+                Mode = ApplicationBarMode.Minimized,
+                Opacity = 0.3,
+            };
+            var hideCrash = new ApplicationBarMenuItem("hide");
+            hideCrash.Click += (s, e) => ApplicationBar.IsVisible = false;
+            ApplicationBar.MenuItems.Add(hideCrash);
+            var cmdCrash = new ApplicationBarMenuItem("crash");
+            cmdCrash.Click += (s, e) => 
+            {
+                throw new InvalidOperationException("Test crash from Windows Phone project!"); 
+            };
+            ApplicationBar.MenuItems.Add(cmdCrash);
         }
 	}
 }

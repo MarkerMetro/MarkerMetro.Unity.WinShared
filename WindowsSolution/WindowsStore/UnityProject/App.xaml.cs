@@ -29,15 +29,17 @@ namespace UnityProject.Win
 	/// </summary>
 	sealed partial class App : Application
 	{
-		private WinRTBridge.WinRTBridge _bridge;
-		private AppCallbacks appCallbacks;
+		WinRTBridge.WinRTBridge _bridge;
+		AppCallbacks appCallbacks;
 		/// <summary>
 		/// Initializes the singleton application object.  This is the first line of authored code
 		/// executed, and as such is the logical equivalent of main() or WinMain().
 		/// </summary>
 		public App()
 		{
-			this.InitializeComponent();
+            InitializeExceptionLogger();
+
+            this.InitializeComponent();
 
 			appCallbacks = new AppCallbacks(false);
             UnhandledException += App_UnhandledException;

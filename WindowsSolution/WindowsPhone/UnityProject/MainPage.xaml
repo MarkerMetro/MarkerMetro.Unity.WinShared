@@ -28,16 +28,4 @@
         <localControls:FBWebView x:Name="web" Visibility="Collapsed" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
     </DrawingSurfaceBackgroundGrid>
 
-    <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar Opacity="0.3" IsVisible="False"
-                              Mode="Minimized">
-            <shell:ApplicationBar.MenuItems>
-                <shell:ApplicationBarMenuItem Text="hide appbar"
-                                          Click="HideAppBar_Click"/>
-                <shell:ApplicationBarMenuItem Text="crash"
-                                          Click="Crash_Click"/>
-
-            </shell:ApplicationBar.MenuItems>
-        </shell:ApplicationBar>
-    </phone:PhoneApplicationPage.ApplicationBar>
 </phone:PhoneApplicationPage>
