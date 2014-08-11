@@ -13,7 +13,7 @@
 
 function Change-ProjectName([Parameter(Mandatory=$true)][String]$newPath, [Parameter(Mandatory=$true)][String]$name)
 {
-    Get-ChildItem $newPath -include *.xaml,*.csproj,*.cs,*,*.resw,.sln,*.appxmanifest,*StoreAssociation.xml,*AppManifest.xml -recurse | Where-Object {$_.Attributes -ne "Directory"} | ForEach-Object { (Get-Content $_) -replace "UnityProject",$name | Set-Content -path $_ }
+    Get-ChildItem $newPath -include *.xaml,*.csproj,*.cs,*.resw,.sln,*.appxmanifest,*StoreAssociation.xml,*AppManifest.xml -recurse | Where-Object {$_.Attributes -ne "Directory"} | ForEach-Object { (Get-Content $_) -replace "UnityProject",$name | Set-Content -path $_ }
     Get-ChildItem $newPath -recurse | % { if ( $_.Name.Contains("UnityProject")) { Rename-Item $_.FullName $_.Name.Replace("UnityProject",$name) } }
 }
 
@@ -62,6 +62,7 @@ Write-Host ('Copying NuGet files and folders to: ' + $targetRepoPath + '...')
 robocopy (ScriptSubDirectory 'NuGet') (Join-Path $targetRepoPath 'NuGet') /e | Out-Null
 
 Write-Host ('Copying Unity files and folders to: ' + $unityProjectTargetPath + '...')
+robocopy (ScriptSubDirectory 'Assets') (Join-Path $unityProjectTargetPath 'Assets') /e | Out-Null
 robocopy (ScriptSubDirectory 'Assets') (Join-Path $unityProjectTargetPath 'Assets') /e | Out-Null
 robocopy (ScriptSubDirectory 'ProjectSettings') (Join-Path $unityProjectTargetPath 'ProjectSettings') /e | Out-Null
 
