@@ -69,5 +69,7 @@ robocopy (ScriptSubDirectory 'ProjectSettings') (Join-Path $unityProjectTargetPa
 Write-Host ('Copying WindowsSolution files and folders to: ' + $targetRepoPath + '...')
 robocopy (ScriptSubDirectory 'WindowsSolution') (Join-Path $targetRepoPath 'WindowsSolution') /e | Out-Null
 
+Copy-Item (ScriptSubDirectory '.gitignore') $targetRepoPath -Force
+
 Write-Host ('Setting Project Name to: ' + $projectName + '...')
 Change-ProjectName $targetRepoPath $projectName
