@@ -51,7 +51,7 @@ public class GameMaster : MonoBehaviour {
 		CreateTiles();
 		ChangeState( GAME_STATE.GS_START );
 
-#if UNITY_METRO && !UNITY_EDITOR
+#if ( UNITY_METRO || UNITY_WP8 ) && !UNITY_EDITOR
         FB.Init(SetFBInit, "682783485145217", OnHideUnity);
 #endif		
 	}
@@ -323,6 +323,19 @@ public class GameMaster : MonoBehaviour {
             FB.API("/me/friends", HttpMethod.GET, GetFriendsCallback);
         }
     }
+
+
+    public void InviteFriends()
+    {
+        if ( FB.IsLoggedIn )
+        {
+            FB.AppRequest(message: "Come Play FaceFlip!", callback: (result) =>
+            {
+                Debug.Log(result.Text);
+            });
+        }
+    }
+
 
     // Parse the json and request the friend pictures
     private void GetFriendsCallback( FBResult result )

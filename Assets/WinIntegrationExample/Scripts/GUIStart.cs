@@ -11,7 +11,7 @@ public class GUIStart : MonoBehaviour {
 		int half_height = Screen.height / 2;
 
 		int box_width = 200;
-		int box_height = 230;
+		int box_height = 330;
 
 		int box_x = half_width - box_width / 2;
 		int box_y = half_height - box_height / 2;
@@ -41,7 +41,7 @@ public class GUIStart : MonoBehaviour {
         }
         else
         {
-            // Second Button Login to FB
+            // Second Button Logout to FB
             if (GUI.Button(new Rect(box_x + 10, box_y + y_modifier, box_width - 20, 40), "Logout"))
             {
                 FB.Logout();
@@ -50,10 +50,18 @@ public class GUIStart : MonoBehaviour {
 
             y_modifier += 50;
 
-            // Second Button Login to FB
+            // Get Friends That Play the game
             if (GUI.Button(new Rect(box_x + 10, box_y + y_modifier, box_width - 20, 40), "Get Friends"))
             {
                 game_script.PopulateFriends();
+            }
+
+            y_modifier += 50;
+
+            // Invite friends that don't play
+            if (GUI.Button(new Rect(box_x + 10, box_y + y_modifier, box_width - 20, 40), "Invite Friends"))
+            {
+                game_script.InviteFriends();
             }
         }
 
