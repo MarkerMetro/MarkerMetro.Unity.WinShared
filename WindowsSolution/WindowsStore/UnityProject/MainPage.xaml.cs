@@ -181,23 +181,25 @@ namespace UnityProject.Win
                 string frontWideImagePath = "/Assets/WideLogo.png";
                 string backWideImagePath = "/Assets/Logo.png";
 
-                string mediumText1 = "Level"; // Don't forget to localise
+                string mediumText1 = "Level"; // **Don't forget to localise**
                 string mediumText2 = "Score";
                 string mediumText3 = "Time";
                 string mediumText4 = "Coins";
 
-                string mediumData1 = "99"; // This data should come from a game class
+                string mediumData1 = "99"; // **This data should come from a game class**
                 string mediumData2 = "1234";
                 string mediumData3 = "11:22";
                 string mediumData4 = "7";
 
-                string wideText1 = "Highest Level"; // Wide tile can only display three lines of text
-                string wideText2 = "High Score";
-                string wideText3 = "Total Time";
+                string wideText1 = mediumText1; // **These can be made different if more detail is wanted for wide tile**
+                string wideText2 = mediumText2;
+                string wideText3 = mediumText3;
+                string wideText4 = mediumText4;
 
-                string wideData1 = "99";
-                string wideData2 = "1234";
-                string wideData3 = "11:22";
+                string wideData1 = mediumData1;
+                string wideData2 = mediumData2;
+                string wideData3 = mediumData3;
+                string wideData4 = mediumData4;
                 //
                 //***********************************************
 
@@ -245,6 +247,7 @@ namespace UnityProject.Win
                 wideTextList[0].InnerText = string.Format("{0}: {1}", wideText1, wideData1);
                 wideTextList[1].InnerText = string.Format("{0}: {1}", wideText2, wideData2);
                 wideTextList[2].InnerText = string.Format("{0}: {1}", wideText3, wideData3);
+                wideTextList[3].InnerText = string.Format("{0}: {1}", wideText4, wideData4);
 
                 // Each notification requires the data for the wide and medium tiles
                 // One notification for the front, and one for the back
