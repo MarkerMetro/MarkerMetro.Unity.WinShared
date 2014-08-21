@@ -250,8 +250,8 @@ namespace UnityProject.Win
                 // One notification for the front, and one for the back
                 // Join the templates.
                 // Access 'visual' element of medium which contains medium 'binding' element
-                XmlElement frontVisual = frontMediumTemplate.GetElementsByTagName("visual").Single();
-                XmlElement backVisual = backMediumTemplate.GetElementsByTagName("visual").Single();
+                IXmlNode frontVisual = frontMediumTemplate.GetElementsByTagName("visual").Single();
+                IXmlNode backVisual = backMediumTemplate.GetElementsByTagName("visual").Single();
                 //add 'wide' binding element to it
                 frontVisual.AppendChild(frontMediumTemplate.ImportNode(frontWideBinding, true)); 
                 backVisual.AppendChild(backMediumTemplate.ImportNode(backWideBinding, true));
