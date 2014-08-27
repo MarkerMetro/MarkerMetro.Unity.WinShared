@@ -69,13 +69,16 @@ namespace UnityProject.WinPhone.Controls
 
         public void Finish()
         {
-            StopProgress();
-            _onError = null;
-            _onStart = null;
-            _onFinished = null;
-            web.NavigateToString("");
-            this.Visibility = Visibility.Collapsed;
-            IsActive = false;
+            Dispatcher.BeginInvoke(() =>
+            {
+                StopProgress();
+                _onError = null;
+                _onStart = null;
+                _onFinished = null;
+                web.NavigateToString("");
+                this.Visibility = Visibility.Collapsed;
+                IsActive = false;
+            });
         }
 
         public bool IsActive
