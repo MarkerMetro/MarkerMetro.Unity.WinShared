@@ -63,13 +63,14 @@ robocopy (ScriptSubDirectory 'NuGet') (Join-Path $targetRepoPath 'NuGet') /e | O
 
 Write-Host ('Copying Unity files and folders to: ' + $unityProjectTargetPath + '...')
 robocopy (ScriptSubDirectory 'Assets') (Join-Path $unityProjectTargetPath 'Assets') /e | Out-Null
-robocopy (ScriptSubDirectory 'Assets') (Join-Path $unityProjectTargetPath 'Assets') /e | Out-Null
-robocopy (ScriptSubDirectory 'ProjectSettings') (Join-Path $unityProjectTargetPath 'ProjectSettings') /e | Out-Null
+#robocopy (ScriptSubDirectory 'Assets') (Join-Path $unityProjectTargetPath 'Assets') /e | Out-Null
+#should not be copied to a new game
+#robocopy (ScriptSubDirectory 'ProjectSettings') (Join-Path $unityProjectTargetPath 'ProjectSettings') /e | Out-Null
 
 Write-Host ('Copying WindowsSolution files and folders to: ' + $targetRepoPath + '...')
 robocopy (ScriptSubDirectory 'WindowsSolution') (Join-Path $targetRepoPath 'WindowsSolution') /e | Out-Null
 
-Copy-Item (ScriptSubDirectory '.gitignore') $targetRepoPath -Force
+Copy-Item (ScriptSubDirectory '.gitignore') $unityProjectTargetPath -Force
 
 Write-Host ('Setting Project Name to: ' + $projectName + '...')
 Change-ProjectName $targetRepoPath $projectName
