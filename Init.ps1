@@ -58,8 +58,8 @@ if(!(Test-Path $unityProjectTargetPath -PathType Container))
     mkdir $unityProjectTargetPath 
 }
 
-Write-Host ('Copying NuGet files and folders to: ' + $targetRepoPath + '...')
-robocopy (ScriptSubDirectory 'NuGet') (Join-Path $targetRepoPath 'NuGet') /e | Out-Null
+Write-Host ('Copying NuGet files and folders to: ' + $unityProjectTargetPath + '...')
+robocopy (ScriptSubDirectory 'NuGet') (Join-Path $unityProjectTargetPath 'NuGet') /e | Out-Null
 
 Write-Host ('Copying Unity files and folders to: ' + $unityProjectTargetPath + '...')
 robocopy (ScriptSubDirectory 'Assets') (Join-Path $unityProjectTargetPath 'Assets') /e | Out-Null
