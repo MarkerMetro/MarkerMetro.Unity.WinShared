@@ -27,14 +27,13 @@ You will need to provide following:
 2) UnityProjectTargetDir - subdirectory under _TargetRepoPath_ that contains Unity project (can be empty, if it is in the root of repo, for example: `Unity` for Unity project to be in `C:\Code\SomeProject\Unity`)
 3) ProjectName - name of new project. Script will rename Windows projects, namespaces and solutions to match this name.
 
-
 ## The Unity Project
 
 The root of the repo contains a Unity project created for testing purposes, however it houses a number of useful scripts that we want to make use of in all projects.
 
 If you don't use _Init.ps1_ to initialize the project you can copy and paste just the following folders and files into the root of client repo's Unity project. The client repo will normally have it on root but could be in a sub folder, so make sure you copy to the correct location.
 
-* .gitignore - Up to date git ignore for Unity projects
+* .gitignore - Up to date git ignore for Unity projects (you should manually merge this if there is an existing one)
 * /Nuget/* - helper scripts to bring in Nuget based plugins to Unity
 * /Assets/Editor/* - helper editors scripts
 * /Assets/Plugins/* - plugin binaries and scripts
