@@ -48,8 +48,6 @@ This is the base WindowsSolution folder to be used for all Unity Projects. Copy 
 
 You can then subsequently build out from Unity to /WindowsSolution/WindowsStore and /WindowsSolution/WindowsPhone.
 
-Note that visual assets are from the Disney BOLA game so you know exactly which ones to replace.
-
 ## Creating New Project on Build Server 
 
 See the step by step guide here to setting up new projects on the build server based on WinShared.
@@ -138,11 +136,7 @@ Please refer to the code documentation for instructions on how to use it.
  
 Use  Marker Metro's private [NuGet](http://docs.nuget.org/docs/start-here/installing-nuget) feed: 
 [http://mmbuild1.cloudapp.net/httpAuth/app/nuget/v1/FeedService.svc/](http://mmbuild1.cloudapp.net/httpAuth/app/nuget/v1/FeedService.svc/)
-If you don't have personal account you can always use Disney's guest account:
-
-*Username*: Disney
-
-*Password*: Disney40cks
+If you don't have personal account please see the Marker Metro wiki for login information.
 
 This project repository incudes a NuGet folder in the root with *nuget.exe* and it can be used to setup sources and store passwords. To add Marker Metro's Private Feed and remember authentication you can use following command-line:
 
