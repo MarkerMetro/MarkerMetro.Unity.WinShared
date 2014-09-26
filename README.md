@@ -140,11 +140,11 @@ If you don't have personal account please see the Marker Metro wiki for login in
 
 This project repository incudes a NuGet folder in the root with *nuget.exe* and it can be used to setup sources and store passwords. To add Marker Metro's Private Feed and remember authentication you can use following command-line:
 
-**./NuGet.exe sources add -Name "Marker Metro Private" -Source "http://mmbuild1.cloudapp.net/httpAuth/app/nuget/v1/FeedService.svc/" -UserName disney -Password Disney40cks**
+**./NuGet.exe sources add -Name "Marker Metro Private" -Source "http://mmbuild1.cloudapp.net/httpAuth/app/nuget/v1/FeedService.svc/" -UserName USERNAME -Password PASSWORD**
 
 You can also modify previously added feed using update command:
 
-**./NuGet.exe sources update -Name "Marker Metro Private" -UserName disney -Password Disney40cks**
+**./NuGet.exe sources update -Name "Marker Metro Private" -UserName USERNAME -Password PASSWORD**
 
 To list existing sources you can use:
 
