@@ -158,9 +158,9 @@ namespace UnityProject.WinPhone
 
 		void PhoneApplicationPage_BackKeyPress(object sender, CancelEventArgs e)
 		{
-			if (web.Visibility != Visibility.Collapsed)
+			if (web.IsActive)
             {
-                web.Finish();
+                web.Cancel();
 
                 e.Cancel = true;
             }

@@ -272,6 +272,14 @@ public class GameMaster : MonoBehaviour {
     public void FBLoginCallback( FBResult result )
     {
         Debug.Log("LoginCallback");
+        if (result.Error != null)
+        {
+            Debug.Log("Login error occurred");
+            if (result.Error == "-1")
+            {
+                Debug.Log("Login was cancelled");
+            }
+        }
         if ( FB.IsLoggedIn )
         {
             StartCoroutine(RefreshFBStatus());

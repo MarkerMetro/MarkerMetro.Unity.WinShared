@@ -3,6 +3,7 @@ using MarkerMetro.Unity.WinIntegration.Facebook;
 using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.Web;
 
 namespace UnityProject.Win.Controls
 {
@@ -64,21 +65,34 @@ namespace UnityProject.Win.Controls
             }, false);
         }
 
-        public void Finish()
+        public void Cancel()
         {
-            UnityPlayer.AppCallbacks.Instance.InvokeOnUIThread(() => CloseFB(), true);
+            if (IsActive)
+            {
+                UnityPlayer.AppCallbacks.Instance.InvokeOnAppThread(() =>
+                {
+                    if (_onError != null)
+                        _onError(null, -1, _state);
+                    Finish();
+                }, false);
+           
+            }
         }
 
-        void CloseFB()
+        public void Finish()
         {
-            _onError = null;
-            _onStart = null;
-            _onFinished = null;
-            web.Stop();
-            this.Visibility = Visibility.Collapsed;
-            UnityPlayer.AppCallbacks.Instance.UnitySetInput(true);
-            IsActive = false;
+            UnityPlayer.AppCallbacks.Instance.InvokeOnUIThread(() =>
+            {
+                _onError = null;
+                _onStart = null;
+                _onFinished = null;
+                web.Stop();
+                this.Visibility = Visibility.Collapsed;
+                UnityPlayer.AppCallbacks.Instance.UnitySetInput(true);
+                IsActive = false;
+            }, true);
         }
+
 
         public bool IsActive
         {
@@ -96,6 +110,7 @@ namespace UnityProject.Win.Controls
             _onFinished = finishedCallback;
             _onStart = startedCallback;
             _onError = onError;
+
             _state = state;
 
             UnityPlayer.AppCallbacks.Instance.InvokeOnUIThread(() =>
@@ -109,7 +124,7 @@ namespace UnityProject.Win.Controls
 
         void backButton_Click(object sender, RoutedEventArgs e)
         {
-            CloseFB();
+            Cancel();
         }
     }
 }

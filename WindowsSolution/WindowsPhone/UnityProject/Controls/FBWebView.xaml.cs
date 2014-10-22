@@ -33,6 +33,17 @@ namespace UnityProject.WinPhone.Controls
             };
         }
 
+        public void Cancel()
+        {
+            if (IsActive)
+            {
+                StopProgress();
+                if (_onError != null)
+                    _onError(null, -1, _state);
+                Finish();
+            }
+        }
+
         private void StartProgress()
         {
             SystemTray.IsVisible = true;
@@ -75,8 +86,11 @@ namespace UnityProject.WinPhone.Controls
                 _onError = null;
                 _onStart = null;
                 _onFinished = null;
-                web.NavigateToString("");
-                this.Visibility = Visibility.Collapsed;
+                if (web.Visibility == Visibility.Visible)
+                {
+                    web.NavigateToString("");
+                    this.Visibility = Visibility.Collapsed;
+                }
                 IsActive = false;
             });
         }
