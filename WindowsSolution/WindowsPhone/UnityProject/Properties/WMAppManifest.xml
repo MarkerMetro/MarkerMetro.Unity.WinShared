@@ -62,6 +62,9 @@
         </TemplateFlip>
       </PrimaryToken>
     </Tokens>
+    <Extensions>
+      <Protocol Name="fb540541885996234" NavUriFragment="encodedLaunchUri=%s" TaskID="_default" />
+    </Extensions>    
     <ActivatableClasses>
       <InProcessServer>
         <Path>BridgeInterface.winmd</Path>

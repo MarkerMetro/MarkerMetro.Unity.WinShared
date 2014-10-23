@@ -31,12 +31,20 @@ public class GUIStart : MonoBehaviour {
 
         y_modifier += 50;
 
-        if ( !FB.IsLoggedIn )
+#if UNITY_WP8 && !UNITY_EDITOR
+        if (!FBNative.IsLoggedIn)
+#else
+        if (!FB.IsLoggedIn)
+#endif
         {
             // Second Button Login to FB
             if (GUI.Button(new Rect(box_x + 10, box_y + y_modifier, box_width - 20, 40), "Login"))
             {
-                FB.Login("email,publish_actions,user_friends", game_script.FBLoginCallback);
+#if (UNITY_WP8 && !UNITY_EDITOR)
+                FBNative.Login("email,publish_actions,user_friends");
+#else
+                FB.Login("email,publish_actions,user_friends", game_script.FBLoginCallback); // TO DO login callback
+#endif           
             }
         }
         else
@@ -44,7 +52,11 @@ public class GUIStart : MonoBehaviour {
             // Second Button Logout to FB
             if (GUI.Button(new Rect(box_x + 10, box_y + y_modifier, box_width - 20, 40), "Logout"))
             {
+#if (UNITY_WP8 && !UNITY_EDITOR)
+                FBNative.Logout();
+#else
                 FB.Logout();
+#endif
                 StartCoroutine(game_script.FBLogoutCallback());
             }
 

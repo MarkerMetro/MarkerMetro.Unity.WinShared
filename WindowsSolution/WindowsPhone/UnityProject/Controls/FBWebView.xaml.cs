@@ -9,7 +9,7 @@ using Microsoft.Phone.Shell;
 
 namespace UnityProject.WinPhone.Controls
 {
-    public partial class FBWebView : UserControl, IWebInterface
+  public partial class FBWebView : UserControl, IWebInterface
     {
         private NavigationEventCallback _onFinished;
         private NavigationErrorCallback _onError;
@@ -86,11 +86,8 @@ namespace UnityProject.WinPhone.Controls
                 _onError = null;
                 _onStart = null;
                 _onFinished = null;
-                if (web.Visibility == Visibility.Visible)
-                {
-                    web.NavigateToString("");
-                    this.Visibility = Visibility.Collapsed;
-                }
+                web.NavigateToString("");
+                this.Visibility = Visibility.Collapsed;
                 IsActive = false;
             });
         }
@@ -103,6 +100,7 @@ namespace UnityProject.WinPhone.Controls
 
         public void Navigate(
             Uri uri,
+            bool showUi, // This is ignored on WP8 because of issues navigating when the web view is collapsed
             NavigationEventCallback finishedCallback,
             NavigationErrorCallback onError,
             object state = null,
@@ -115,10 +113,15 @@ namespace UnityProject.WinPhone.Controls
 
             Dispatcher.BeginInvoke(() =>
             {
-                this.Visibility = Visibility.Visible;
+                this.Visibility = showUi ? Visibility.Visible : Visibility.Collapsed;
                 IsActive = true;
                 web.Navigate(uri);
             });
+        }
+
+        public void ClearCookies()
+        {
+            web.ClearCookiesAsync();
         }
     }
 }

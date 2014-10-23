@@ -51,8 +51,10 @@ public class GameMaster : MonoBehaviour {
 		CreateTiles();
 		ChangeState( GAME_STATE.GS_START );
 
-#if ( UNITY_METRO || UNITY_WP8 ) && !UNITY_EDITOR
+#if (UNITY_METRO && !UNITY_EDITOR)
         FB.Init(SetFBInit, "682783485145217", OnHideUnity);
+#elif (UNITY_WP8 && !UNITY_EDITOR)
+        FBNative.Init(SetFBInit, OnHideUnity);
 #endif		
 	}
 	
@@ -257,7 +259,11 @@ public class GameMaster : MonoBehaviour {
     private void SetFBInit()
     {
         Debug.Log("Set FB Init");
-        if ( FB.IsLoggedIn )
+#if UNITY_WP8 && !UNITY_EDITOR
+        if (FBNative.IsLoggedIn)
+#else
+        if (FB.IsLoggedIn)
+#endif
         {
             Debug.Log("Already logged in to FB");
             StartCoroutine(RefreshFBStatus());
@@ -280,7 +286,11 @@ public class GameMaster : MonoBehaviour {
                 Debug.Log("Login was cancelled");
             }
         }
-        if ( FB.IsLoggedIn )
+#if UNITY_WP8 && !UNITY_EDITOR
+        if (!FBNative.IsLoggedIn)
+#else
+        if (!FB.IsLoggedIn)
+#endif
         {
             StartCoroutine(RefreshFBStatus());
         }
@@ -288,7 +298,11 @@ public class GameMaster : MonoBehaviour {
 
     public IEnumerator FBLogoutCallback()
     {
-        while ( FB.IsLoggedIn )
+#if UNITY_WP8 && !UNITY_EDITOR
+        while (FBNative.IsLoggedIn)
+#else
+        while (FB.IsLoggedIn)
+#endif
         {
             yield return null;
         }
@@ -301,14 +315,24 @@ public class GameMaster : MonoBehaviour {
     {
         TextMesh text = (TextMesh)login_name_.GetComponent<TextMesh>();
         Renderer renderer = facebook_image_.GetComponent<MeshRenderer>().renderer;
-        if ( FB.IsLoggedIn )
+#if UNITY_WP8 && !UNITY_EDITOR
+        if (FBNative.IsLoggedIn)
+#else
+        if (FB.IsLoggedIn)
+#endif
         {
-            text.text = FB.UserName;
+#if (UNITY_METRO && !UNITY_EDITOR) 
+            text.text = FB.UserName; 
             Texture2D texture = new Texture2D(128, 128, TextureFormat.DXT1, false);
 
             yield return StartCoroutine(GetFBPicture(FB.UserId, texture));
 
             renderer.material.mainTexture = texture;
+#else
+            // TODO picture and name not yet supported on FBNative
+            text.text = "Logged In (picture and name to do!)";
+            yield break;
+#endif
         }
         else
         {
@@ -325,19 +349,36 @@ public class GameMaster : MonoBehaviour {
     // https://developers.facebook.com/bugs/1502515636638396/
     public void PopulateFriends()
     {
-        if ( FB.IsLoggedIn )
+#if UNITY_WP8 && !UNITY_EDITOR
+        if (FBNative.IsLoggedIn)
+#else
+        if (FB.IsLoggedIn)
+#endif
         {
+#if UNITY_WP8 && !UNITY_EDITOR
+            // Get the friends
+            FBNative.API("/me/friends", HttpMethod.GET, GetFriendsCallback);
+#else
             // Get the friends
             FB.API("/me/friends", HttpMethod.GET, GetFriendsCallback);
+#endif
         }
     }
 
 
     public void InviteFriends()
     {
-        if ( FB.IsLoggedIn )
+#if UNITY_WP8 && !UNITY_EDITOR
+        if (FBNative.IsLoggedIn)
+#else
+        if (FB.IsLoggedIn)
+#endif
         {
+#if UNITY_WP8 && !UNITY_EDITOR
+            FBNative.AppRequest(message: "Come Play FaceFlip!", callback: (result) =>
+#else
             FB.AppRequest(message: "Come Play FaceFlip!", callback: (result) =>
+#endif
             {
                 Debug.Log(result.Text);
             });

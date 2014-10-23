@@ -64,8 +64,12 @@ namespace UnityProject.WinPhone
             if (DisplayMemoryInfo)
                 BeginRecording();
 
-            // set the fb web interface
+#if NETFX_CORE
+
+            // set the fb web interface (only for Win8.1)
             FB.SetPlatformInterface(web);
+
+#endif
 
         }
 

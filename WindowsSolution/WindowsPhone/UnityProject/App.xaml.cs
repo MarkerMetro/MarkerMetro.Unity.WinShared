@@ -62,6 +62,8 @@ namespace UnityProject
 				PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
 			}
 
+            RootFrame.UriMapper = new Facebook.Client.FacebookUriMapper();
+
 		}
 
 		// Code to execute when the application is launching (eg, from Start)

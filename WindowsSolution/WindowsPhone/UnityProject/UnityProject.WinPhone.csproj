@@ -155,6 +155,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Content Include="FacebookConfig.xml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Content>
     <Page Include="MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -223,6 +227,10 @@
     </Reference>
     <Reference Include="Facebook">
       <HintPath>.\Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="Facebook.Client, Version=0.9.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\Facebook.Client.dll</HintPath>
     </Reference>
     <Reference Include="LitJson">
       <HintPath>.\LitJson.dll</HintPath>
