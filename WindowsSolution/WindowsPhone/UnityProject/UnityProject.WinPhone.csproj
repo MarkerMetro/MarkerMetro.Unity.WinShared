@@ -155,10 +155,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Content Include="FacebookConfig.xml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Content>
     <Page Include="MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -243,7 +239,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\MarkerMetro.Common.2.37\lib\wp8\MarkerMetro.Common.WP8.dll</HintPath>
     </Reference>
-    <Reference Include="MarkerMetro.Unity.WinIntegration">
+    <Reference Include="MarkerMetro.Unity.WinIntegration, Version=1.6.0.139, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>.\MarkerMetro.Unity.WinIntegration.dll</HintPath>
     </Reference>
     <Reference Include="MarkerMetro.Unity.WinLegacy">

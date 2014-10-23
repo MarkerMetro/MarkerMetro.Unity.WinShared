@@ -25,6 +25,8 @@ using Windows.Data.Xml.Dom;
 using MarkerMetro.Unity.WinIntegration.Facebook;
 #endif
 
+using DeviceInformation = Assets.Plugins.MarkerMetro.DeviceInformation;
+
 #if NETFX_CORE
 namespace UnityProject.Win
 #else

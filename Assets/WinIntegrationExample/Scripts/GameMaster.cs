@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using MarkerMetro.Unity.WinIntegration.Facebook;
+using MarkerMetro.Unity.WinIntegration.Resources;
 using LitJson;
 
 public class GameMaster : MonoBehaviour {
@@ -50,13 +51,13 @@ public class GameMaster : MonoBehaviour {
 
 		CreateTiles();
 		ChangeState( GAME_STATE.GS_START );
-
 #if (UNITY_METRO && !UNITY_EDITOR)
-        FB.Init(SetFBInit, "682783485145217", OnHideUnity);
+        FB.Init(SetFBInit, Assets.Plugins.MarkerMetro.Constants.FBAppId, OnHideUnity);
 #elif (UNITY_WP8 && !UNITY_EDITOR)
-        FBNative.Init(SetFBInit, OnHideUnity);
-#endif		
-	}
+        FBNative.Init(SetFBInit, Assets.Plugins.MarkerMetro.Constants.FBAppId, OnHideUnity);
+        //FBNative.OnFBLoginSuccess = FBLoginSuccess;
+#endif
+    }
 	
 	void Update () {
 		if ( state_ == GAME_STATE.GS_WAITING )
@@ -272,9 +273,12 @@ public class GameMaster : MonoBehaviour {
 
     private void OnHideUnity( bool hide_unity )
     {
-        Debug.Log("OnHideUnity");
+        Debug.Log("OnHideUnity" + hide_unity);
     }
 
+#if UNITY_WP8 && !UNITY_EDITOR
+    // TODO FB Login Success Event Handler Here
+#else
     public void FBLoginCallback( FBResult result )
     {
         Debug.Log("LoginCallback");
@@ -286,15 +290,13 @@ public class GameMaster : MonoBehaviour {
                 Debug.Log("Login was cancelled");
             }
         }
-#if UNITY_WP8 && !UNITY_EDITOR
-        if (!FBNative.IsLoggedIn)
-#else
         if (!FB.IsLoggedIn)
-#endif
         {
             StartCoroutine(RefreshFBStatus());
         }
     }
+
+#endif
 
     public IEnumerator FBLogoutCallback()
     {

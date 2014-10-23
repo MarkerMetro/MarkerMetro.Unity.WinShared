@@ -62,6 +62,7 @@ namespace UnityProject
 				PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
 			}
 
+            // ensure facebook protocal uris are handled appropriately
             RootFrame.UriMapper = new Facebook.Client.FacebookUriMapper();
 
 		}
@@ -76,6 +77,10 @@ namespace UnityProject
 		// This code will not execute when the application is first launched
 		void Application_Activated(object sender, ActivatedEventArgs e)
 		{
+            if (e.IsApplicationInstancePreserved)
+            {
+      
+            }
 		}
 
         // Code to execute when the application is deactivated (sent to background)
@@ -175,6 +180,9 @@ namespace UnityProject
 			// Create the frame but don't set it as RootVisual yet; this allows the splash
 			// screen to remain active until the application is ready to render.
 			RootFrame = new PhoneApplicationFrame();
+
+            RootFrame.Navigating += RootFrame_Navigating;
+
 			RootFrame.Navigated += CompleteInitializePhoneApplication;
 
 			// Handle navigation failures
@@ -191,6 +199,16 @@ namespace UnityProject
 			phoneApplicationInitialized = true;
 		}
 
+        void RootFrame_Navigating(object sender, NavigatingCancelEventArgs e)
+        {
+            // cancel any navigation for facebook protocol activation
+            var fbProtocolMatch = String.Format("/Protocol?encodedLaunchUri=fb{0}", Assets.Plugins.MarkerMetro.Constants.FBAppId);
+            if (e.Uri.ToString().StartsWith(fbProtocolMatch))
+            {
+                e.Cancel = true;
+                var test = MarkerMetro.Unity.WinIntegration.Facebook.FBNative.IsLoggedIn;
+            }
+        }
         
         void RootFrame_Unobscured(object sender, EventArgs e)
         {
