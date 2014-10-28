@@ -239,7 +239,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\MarkerMetro.Common.2.37\lib\wp8\MarkerMetro.Common.WP8.dll</HintPath>
     </Reference>
-    <Reference Include="MarkerMetro.Unity.WinIntegration, Version=1.6.0.139, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="MarkerMetro.Unity.WinIntegration, Version=1.6.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>.\MarkerMetro.Unity.WinIntegration.dll</HintPath>
     </Reference>

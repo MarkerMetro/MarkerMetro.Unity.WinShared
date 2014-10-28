@@ -16,7 +16,7 @@
   </Languages>
   <App 
     xmlns="" 
-    ProductID="{40E4A3DD-858C-46B0-B30E-85CC3936870B}" 
+    ProductID="{EC21CF10-964F-4F3D-A272-2C9CACCC5B8C}" 
     Title="@AppResLib.dll,-100" 
     RuntimeType="Silverlight" 
     Version="1.0.0.0" 
