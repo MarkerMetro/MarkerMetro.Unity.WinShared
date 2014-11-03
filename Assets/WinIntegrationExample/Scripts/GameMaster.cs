@@ -328,6 +328,8 @@ public class GameMaster : MonoBehaviour {
     // Set the players name and picture
     private IEnumerator RefreshFBStatus()
     {
+        yield return new WaitForEndOfFrame();
+
         TextMesh text = (TextMesh)login_name_.GetComponent<TextMesh>();
         Renderer renderer = facebook_image_.GetComponent<MeshRenderer>().renderer;
 #if UNITY_WP8 && !UNITY_EDITOR
