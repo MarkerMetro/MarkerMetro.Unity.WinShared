@@ -158,9 +158,9 @@ namespace UnityProject.WinPhone
 
 		void PhoneApplicationPage_BackKeyPress(object sender, CancelEventArgs e)
 		{
-			if (web.IsActive)
+            if (FBNative.FBSessionClient != null && FBNative.FBSessionClient.WebDialog.IsActive)
             {
-                web.Cancel();
+                FBNative.FBSessionClient.WebDialog.Cancel();
 
                 e.Cancel = true;
             }
