@@ -134,7 +134,6 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\FBWebView.xaml.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -151,10 +150,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
-    <Page Include="Controls\FBWebView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -224,6 +219,10 @@
     <Reference Include="Facebook">
       <HintPath>.\Facebook.dll</HintPath>
     </Reference>
+    <Reference Include="Facebook.Client, Version=0.9.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\Facebook.Client.dll</HintPath>
+    </Reference>
     <Reference Include="LitJson">
       <HintPath>.\LitJson.dll</HintPath>
     </Reference>
@@ -235,7 +234,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\MarkerMetro.Common.2.37\lib\wp8\MarkerMetro.Common.WP8.dll</HintPath>
     </Reference>
-    <Reference Include="MarkerMetro.Unity.WinIntegration">
+    <Reference Include="MarkerMetro.Unity.WinIntegration, Version=1.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>.\MarkerMetro.Unity.WinIntegration.dll</HintPath>
     </Reference>
     <Reference Include="MarkerMetro.Unity.WinLegacy">
@@ -282,6 +282,9 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controls\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />

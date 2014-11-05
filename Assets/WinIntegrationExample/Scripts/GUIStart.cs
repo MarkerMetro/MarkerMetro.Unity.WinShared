@@ -2,6 +2,13 @@
 using System.Collections;
 
 using MarkerMetro.Unity.WinIntegration.Facebook;
+
+#if UNITY_WP8 && !UNITY_EDITOR
+using FBWin = MarkerMetro.Unity.WinIntegration.Facebook.FBNative;
+#else
+using FBWin = MarkerMetro.Unity.WinIntegration.Facebook.FB;
+#endif
+
 public class GUIStart : MonoBehaviour {
 
 	void OnGUI()
@@ -31,12 +38,17 @@ public class GUIStart : MonoBehaviour {
 
         y_modifier += 50;
 
-        if ( !FB.IsLoggedIn )
+        if (!FBWin.IsLoggedIn)
         {
             // Second Button Login to FB
             if (GUI.Button(new Rect(box_x + 10, box_y + y_modifier, box_width - 20, 40), "Login"))
             {
-                FB.Login("email,publish_actions,user_friends", game_script.FBLoginCallback);
+#if (UNITY_WP8 && !UNITY_EDITOR)
+                FBWin.Login("email,publish_actions,user_friends");
+#else
+                // win 8.1 we can use a callback
+                FBWin.Login("email,publish_actions,user_friends", game_script.FBLoginCallback); // TO DO login callback
+#endif           
             }
         }
         else
@@ -44,7 +56,7 @@ public class GUIStart : MonoBehaviour {
             // Second Button Logout to FB
             if (GUI.Button(new Rect(box_x + 10, box_y + y_modifier, box_width - 20, 40), "Logout"))
             {
-                FB.Logout();
+                FBWin.Logout();
                 StartCoroutine(game_script.FBLogoutCallback());
             }
 

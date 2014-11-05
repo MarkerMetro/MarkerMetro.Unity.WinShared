@@ -25,6 +25,8 @@ using Windows.Data.Xml.Dom;
 using MarkerMetro.Unity.WinIntegration.Facebook;
 #endif
 
+using DeviceInformation = Assets.Plugins.MarkerMetro.DeviceInformation;
+
 #if NETFX_CORE
 namespace UnityProject.Win
 #else
@@ -64,8 +66,12 @@ namespace UnityProject.WinPhone
             if (DisplayMemoryInfo)
                 BeginRecording();
 
-            // set the fb web interface
+#if NETFX_CORE
+
+            // set the fb web interface (only for Win8.1)
             FB.SetPlatformInterface(web);
+
+#endif
 
         }
 

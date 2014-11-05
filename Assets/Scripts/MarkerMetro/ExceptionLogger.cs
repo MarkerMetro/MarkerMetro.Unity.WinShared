@@ -1,29 +1,34 @@
 ﻿using UnityEngine;
 using System.Collections;
-using MarkerMetro.Unity.WinIntegration;
+using WinIntegration = MarkerMetro.Unity.WinIntegration;
 
-public class ExceptionLogger : MonoBehaviour 
+namespace Assets.Scripts.MarkerMetro
 {
 
-	// Use this for initialization
-	void Awake () 
+    public class ExceptionLogger : MonoBehaviour
     {
-        Application.RegisterLogCallback(HandleException);
-	}
 
-    public static void HandleException(string message, string stackTrace, LogType type)
-    {
-        if (type == LogType.Exception || type == LogType.Error)
+        // Use this for initialization
+        void Awake()
         {
-            try
+            Application.RegisterLogCallback(HandleException);
+        }
+
+        public static void HandleException(string message, string stackTrace, LogType type)
+        {
+            if (type == LogType.Exception || type == LogType.Error)
             {
-                MarkerMetro.Unity.WinIntegration.ExceptionLogger.Instance.Send(message, stackTrace);
-            }
-            catch (System.Exception ex)
-            { 
-                // not sure there's much useful we can do here 
-                Debug.LogWarning(string.Format("Failed to handle exception: {0} - because of: {1}", message, ex.Message));
+                try
+                {
+                    WinIntegration.ExceptionLogger.Instance.Send(message, stackTrace);
+                }
+                catch (System.Exception ex)
+                {
+                    // not sure there's much useful we can do here 
+                    Debug.LogWarning(string.Format("Failed to handle exception: {0} - because of: {1}", message, ex.Message));
+                }
             }
         }
     }
+
 }

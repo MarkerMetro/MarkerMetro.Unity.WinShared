@@ -3,7 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using MarkerMetro.Unity.WinIntegration.Facebook;
+using MarkerMetro.Unity.WinIntegration.Resources;
 using LitJson;
+
+#if UNITY_WP8 && !UNITY_EDITOR
+using FBWin = MarkerMetro.Unity.WinIntegration.Facebook.FBNative;
+#else
+using FBWin = MarkerMetro.Unity.WinIntegration.Facebook.FB;
+#endif
 
 public class GameMaster : MonoBehaviour {
 
@@ -50,11 +57,13 @@ public class GameMaster : MonoBehaviour {
 
 		CreateTiles();
 		ChangeState( GAME_STATE.GS_START );
+        FBWin.Init(SetFBInit, Assets.Plugins.MarkerMetro.Constants.FBAppId, OnHideUnity);
+#if (UNITY_WP8 && !UNITY_EDITOR)
+        // wire event handler that will be used after login when app resumes on wp8
+        FBWin.OnFBLoginComplete = FBLoginComplete;
+#endif
 
-#if ( UNITY_METRO || UNITY_WP8 ) && !UNITY_EDITOR
-        FB.Init(SetFBInit, "682783485145217", OnHideUnity);
-#endif		
-	}
+    }
 	
 	void Update () {
 		if ( state_ == GAME_STATE.GS_WAITING )
@@ -257,7 +266,7 @@ public class GameMaster : MonoBehaviour {
     private void SetFBInit()
     {
         Debug.Log("Set FB Init");
-        if ( FB.IsLoggedIn )
+        if (FBWin.IsLoggedIn)
         {
             Debug.Log("Already logged in to FB");
             StartCoroutine(RefreshFBStatus());
@@ -266,29 +275,51 @@ public class GameMaster : MonoBehaviour {
 
     private void OnHideUnity( bool hide_unity )
     {
-        Debug.Log("OnHideUnity");
+        Debug.Log("OnHideUnity" + hide_unity);
     }
 
+#if UNITY_WP8 && !UNITY_EDITOR
+
+    private void FBLoginComplete(bool success, string error)
+    {
+        Debug.Log("WP8 LoginCallback");
+        if (error != null)
+        {
+            Debug.Log("WP8 Login error occurred");
+            Debug.Log(error);
+        }
+        if (FBNative.IsLoggedIn)
+        {
+            StartCoroutine(RefreshFBStatus());
+        }
+    }
+#else
+    /// <summary>
+    /// callback used only on Win 8.1
+    /// </summary>
+    /// <param name="result"></param>
     public void FBLoginCallback( FBResult result )
     {
-        Debug.Log("LoginCallback");
+        Debug.Log("Win 8.1 LoginCallback");
         if (result.Error != null)
         {
-            Debug.Log("Login error occurred");
+            Debug.Log("Win 8.1 Login error occurred");
             if (result.Error == "-1")
             {
-                Debug.Log("Login was cancelled");
+                Debug.Log("Win 8.1 Login was cancelled");
             }
         }
-        if ( FB.IsLoggedIn )
+        if (FB.IsLoggedIn)
         {
             StartCoroutine(RefreshFBStatus());
         }
     }
 
+#endif
+
     public IEnumerator FBLogoutCallback()
     {
-        while ( FB.IsLoggedIn )
+        while (FBWin.IsLoggedIn)
         {
             yield return null;
         }
@@ -299,16 +330,24 @@ public class GameMaster : MonoBehaviour {
     // Set the players name and picture
     private IEnumerator RefreshFBStatus()
     {
+        yield return new WaitForEndOfFrame();
+
         TextMesh text = (TextMesh)login_name_.GetComponent<TextMesh>();
         Renderer renderer = facebook_image_.GetComponent<MeshRenderer>().renderer;
-        if ( FB.IsLoggedIn )
+        if (FBWin.IsLoggedIn)
         {
-            text.text = FB.UserName;
+#if (UNITY_METRO && !UNITY_EDITOR) 
+            text.text = FB.UserName; 
             Texture2D texture = new Texture2D(128, 128, TextureFormat.DXT1, false);
 
             yield return StartCoroutine(GetFBPicture(FB.UserId, texture));
 
             renderer.material.mainTexture = texture;
+#else
+            // TODO picture and name not yet supported on FBNative
+            text.text = "Logged In (picture and name to do!)";
+            yield break;
+#endif
         }
         else
         {
@@ -325,19 +364,18 @@ public class GameMaster : MonoBehaviour {
     // https://developers.facebook.com/bugs/1502515636638396/
     public void PopulateFriends()
     {
-        if ( FB.IsLoggedIn )
+        if (FBWin.IsLoggedIn)
         {
             // Get the friends
-            FB.API("/me/friends", HttpMethod.GET, GetFriendsCallback);
+            FBWin.API("/me/friends", HttpMethod.GET, GetFriendsCallback);
         }
     }
 
-
     public void InviteFriends()
     {
-        if ( FB.IsLoggedIn )
+        if (FBWin.IsLoggedIn)
         {
-            FB.AppRequest(message: "Come Play FaceFlip!", callback: (result) =>
+            FBWin.AppRequest(message: "Come Play FaceFlip!", callback: (result) =>
             {
                 Debug.Log(result.Text);
             });
@@ -390,7 +428,7 @@ public class GameMaster : MonoBehaviour {
         {
             yield return null;
         }
-  
+        
         url.LoadImageIntoTexture(texture);
     }
 }

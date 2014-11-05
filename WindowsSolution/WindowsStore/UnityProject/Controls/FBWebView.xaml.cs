@@ -75,7 +75,7 @@ namespace UnityProject.Win.Controls
                         _onError(null, -1, _state);
                     Finish();
                 }, false);
-           
+
             }
         }
 
@@ -87,12 +87,12 @@ namespace UnityProject.Win.Controls
                 _onStart = null;
                 _onFinished = null;
                 web.Stop();
+                web.NavigateToString("");
                 this.Visibility = Visibility.Collapsed;
                 UnityPlayer.AppCallbacks.Instance.UnitySetInput(true);
                 IsActive = false;
             }, true);
         }
-
 
         public bool IsActive
         {
@@ -102,6 +102,7 @@ namespace UnityProject.Win.Controls
 
         public void Navigate(
             Uri uri,
+            bool showUi,
             NavigationEventCallback finishedCallback,
             NavigationErrorCallback onError,
             object state = null,
@@ -115,8 +116,9 @@ namespace UnityProject.Win.Controls
 
             UnityPlayer.AppCallbacks.Instance.InvokeOnUIThread(() =>
             {
-                this.Visibility = Visibility.Visible;
-                UnityPlayer.AppCallbacks.Instance.UnitySetInput(false);
+                this.Visibility = showUi ? Visibility.Visible : Visibility.Collapsed;
+                if (showUi)
+                    UnityPlayer.AppCallbacks.Instance.UnitySetInput(false);
                 IsActive = true;
                 web.Navigate(uri);
             }, false);
@@ -125,6 +127,15 @@ namespace UnityProject.Win.Controls
         void backButton_Click(object sender, RoutedEventArgs e)
         {
             Cancel();
+        }
+
+        public void ClearCookies()
+        {
+            var filter = new Windows.Web.Http.Filters.HttpBaseProtocolFilter();
+            var cookies = filter.CookieManager;
+            var jar = cookies.GetCookies(new Uri("https://www.facebook.com"));
+            foreach (var c in jar)
+                cookies.DeleteCookie(c);
         }
     }
 }

@@ -1,21 +1,26 @@
 ﻿using System;
 
-public static class DeviceInformation
+namespace Assets.Plugins.MarkerMetro
 {
-    public static Func<Environment> DoGetEnvironment;
 
-    public static Environment GetEnvironment()
+    public static class DeviceInformation
     {
-        if (DoGetEnvironment != null)
-            return DoGetEnvironment();
-        else
-            return Environment.Dev;
+        public static Func<Environment> DoGetEnvironment;
+
+        public static Environment GetEnvironment()
+        {
+            if (DoGetEnvironment != null)
+                return DoGetEnvironment();
+            else
+                return Environment.Dev;
+        }
+
+        public enum Environment
+        {
+            Dev,
+            QA,
+            Production
+        }
     }
 
-    public enum Environment
-    {
-        Dev,
-        QA,
-        Production
-    }
 }
