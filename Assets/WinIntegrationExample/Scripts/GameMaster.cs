@@ -6,6 +6,12 @@ using MarkerMetro.Unity.WinIntegration.Facebook;
 using MarkerMetro.Unity.WinIntegration.Resources;
 using LitJson;
 
+#if UNITY_WP8 && !UNITY_EDITOR
+using FBWin = MarkerMetro.Unity.WinIntegration.Facebook.FBNative;
+#else
+using FBWin = MarkerMetro.Unity.WinIntegration.Facebook.FB;
+#endif
+
 public class GameMaster : MonoBehaviour {
 
 	public GameObject 	gui_start_;
@@ -51,11 +57,10 @@ public class GameMaster : MonoBehaviour {
 
 		CreateTiles();
 		ChangeState( GAME_STATE.GS_START );
-#if (UNITY_METRO && !UNITY_EDITOR)
-        FB.Init(SetFBInit, Assets.Plugins.MarkerMetro.Constants.FBAppId, OnHideUnity);
-#elif (UNITY_WP8 && !UNITY_EDITOR)
-        FBNative.Init(SetFBInit, Assets.Plugins.MarkerMetro.Constants.FBAppId, OnHideUnity);
-        FBNative.OnFBLoginComplete = FBLoginComplete;
+        FBWin.Init(SetFBInit, Assets.Plugins.MarkerMetro.Constants.FBAppId, OnHideUnity);
+#if (UNITY_WP8 && !UNITY_EDITOR)
+        // wire event handler that will be used after login when app resumes on wp8
+        FBWin.OnFBLoginComplete = FBLoginComplete;
 #endif
 
     }
@@ -261,11 +266,7 @@ public class GameMaster : MonoBehaviour {
     private void SetFBInit()
     {
         Debug.Log("Set FB Init");
-#if UNITY_WP8 && !UNITY_EDITOR
-        if (FBNative.IsLoggedIn)
-#else
-        if (FB.IsLoggedIn)
-#endif
+        if (FBWin.IsLoggedIn)
         {
             Debug.Log("Already logged in to FB");
             StartCoroutine(RefreshFBStatus());
@@ -278,12 +279,13 @@ public class GameMaster : MonoBehaviour {
     }
 
 #if UNITY_WP8 && !UNITY_EDITOR
+
     private void FBLoginComplete(bool success, string error)
     {
-        Debug.Log("LoginCallback");
+        Debug.Log("WP8 LoginCallback");
         if (error != null)
         {
-            Debug.Log("Login error occurred");
+            Debug.Log("WP8 Login error occurred");
             Debug.Log(error);
         }
         if (FBNative.IsLoggedIn)
@@ -292,15 +294,19 @@ public class GameMaster : MonoBehaviour {
         }
     }
 #else
+    /// <summary>
+    /// callback used only on Win 8.1
+    /// </summary>
+    /// <param name="result"></param>
     public void FBLoginCallback( FBResult result )
     {
-        Debug.Log("LoginCallback");
+        Debug.Log("Win 8.1 LoginCallback");
         if (result.Error != null)
         {
-            Debug.Log("Login error occurred");
+            Debug.Log("Win 8.1 Login error occurred");
             if (result.Error == "-1")
             {
-                Debug.Log("Login was cancelled");
+                Debug.Log("Win 8.1 Login was cancelled");
             }
         }
         if (FB.IsLoggedIn)
@@ -313,11 +319,7 @@ public class GameMaster : MonoBehaviour {
 
     public IEnumerator FBLogoutCallback()
     {
-#if UNITY_WP8 && !UNITY_EDITOR
-        while (FBNative.IsLoggedIn)
-#else
-        while (FB.IsLoggedIn)
-#endif
+        while (FBWin.IsLoggedIn)
         {
             yield return null;
         }
@@ -332,11 +334,7 @@ public class GameMaster : MonoBehaviour {
 
         TextMesh text = (TextMesh)login_name_.GetComponent<TextMesh>();
         Renderer renderer = facebook_image_.GetComponent<MeshRenderer>().renderer;
-#if UNITY_WP8 && !UNITY_EDITOR
-        if (FBNative.IsLoggedIn)
-#else
-        if (FB.IsLoggedIn)
-#endif
+        if (FBWin.IsLoggedIn)
         {
 #if (UNITY_METRO && !UNITY_EDITOR) 
             text.text = FB.UserName; 
@@ -366,36 +364,18 @@ public class GameMaster : MonoBehaviour {
     // https://developers.facebook.com/bugs/1502515636638396/
     public void PopulateFriends()
     {
-#if UNITY_WP8 && !UNITY_EDITOR
-        if (FBNative.IsLoggedIn)
-#else
-        if (FB.IsLoggedIn)
-#endif
+        if (FBWin.IsLoggedIn)
         {
-#if UNITY_WP8 && !UNITY_EDITOR
             // Get the friends
-            FBNative.API("/me/friends", HttpMethod.GET, GetFriendsCallback);
-#else
-            // Get the friends
-            FB.API("/me/friends", HttpMethod.GET, GetFriendsCallback);
-#endif
+            FBWin.API("/me/friends", HttpMethod.GET, GetFriendsCallback);
         }
     }
 
-
     public void InviteFriends()
     {
-#if UNITY_WP8 && !UNITY_EDITOR
-        if (FBNative.IsLoggedIn)
-#else
-        if (FB.IsLoggedIn)
-#endif
+        if (FBWin.IsLoggedIn)
         {
-#if UNITY_WP8 && !UNITY_EDITOR
-            FBNative.AppRequest(message: "Come Play FaceFlip!", callback: (result) =>
-#else
-            FB.AppRequest(message: "Come Play FaceFlip!", callback: (result) =>
-#endif
+            FBWin.AppRequest(message: "Come Play FaceFlip!", callback: (result) =>
             {
                 Debug.Log(result.Text);
             });
