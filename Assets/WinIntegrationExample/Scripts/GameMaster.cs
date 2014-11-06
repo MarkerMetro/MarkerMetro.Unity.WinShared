@@ -336,13 +336,18 @@ public class GameMaster : MonoBehaviour {
         Renderer renderer = facebook_image_.GetComponent<MeshRenderer>().renderer;
         if (FBWin.IsLoggedIn)
         {
-#if (UNITY_METRO && !UNITY_EDITOR) 
+#if (UNITY_METRO && !UNITY_EDITOR)
             text.text = FB.UserName; 
             Texture2D texture = new Texture2D(128, 128, TextureFormat.DXT1, false);
 
             yield return StartCoroutine(GetFBPicture(FB.UserId, texture));
 
             renderer.material.mainTexture = texture;
+#elif UNITY_WP8 && !UNITY_EDITOR
+            FBNative.GetCurrentUser((user) =>
+            {
+                StartCoroutine(SetFBStatus(user));
+            });
 #else
             // TODO picture and name not yet supported on FBNative
             text.text = "Logged In (picture and name to do!)";
@@ -356,6 +361,19 @@ public class GameMaster : MonoBehaviour {
             TextMesh number_text = (TextMesh)number_friends_.GetComponent<TextMesh>();
             number_text.text = "No Friends";
         }
+    }
+
+    private IEnumerator SetFBStatus (FBUser user)
+    {
+        TextMesh text = (TextMesh)login_name_.GetComponent<TextMesh>();
+        Renderer fbImageRenderer = facebook_image_.GetComponent<MeshRenderer>().renderer;
+
+        text.text = user.Name;
+        Texture2D texture = new Texture2D(128, 128, TextureFormat.DXT1, false);
+
+        yield return StartCoroutine(GetFBPicture(user.Id, texture));
+
+        fbImageRenderer.material.mainTexture = texture;
     }
 
     // Request the players friends
