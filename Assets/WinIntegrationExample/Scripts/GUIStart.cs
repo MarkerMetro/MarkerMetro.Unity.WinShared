@@ -75,6 +75,14 @@ public class GUIStart : MonoBehaviour {
             {
                 game_script.InviteFriends();
             }
+
+            y_modifier += 50;
+
+            // Post feed
+            if (GUI.Button(new Rect(box_x + 10, box_y + y_modifier, box_width - 20, 40), "Post Feed"))
+            {
+                game_script.PostFeed();
+            }
         }
 
         y_modifier += 50;

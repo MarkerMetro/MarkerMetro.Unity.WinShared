@@ -396,7 +396,8 @@ public class GameMaster : MonoBehaviour {
             FBWin.AppRequest(message: "Come Play FaceFlip!", callback: (result) =>
             {
                 Debug.Log(result.Text);
-                Debug.Log(result.Json.ToString());
+                if (result.Json != null)
+                    Debug.Log(result.Json.ToString());
             }, title: "FaceFlip Invite");
 
 
@@ -411,6 +412,24 @@ public class GameMaster : MonoBehaviour {
         }
     }
 
+    public void PostFeed()
+    {
+        if (FBWin.IsLoggedIn)
+        {
+            FBWin.Feed(toId: "10152837634773832",
+                link: "http://www.markermetro.com",
+                linkName: "linkName",
+                linkCaption: "linkCaption",
+                linkDescription: "linkDescription",
+                picture: "https://pbs.twimg.com/profile_images/1668748982/icon-metro-tw-128_normal.png",
+                callback: (result) =>
+            {
+                Debug.Log(result.Text);
+                if (result.Json != null)
+                    Debug.Log(result.Json.ToString());
+            });
+        }
+    }
 
     // Parse the json and request the friend pictures
     private void GetFriendsCallback( FBResult result )
