@@ -206,7 +206,6 @@ namespace UnityProject
             if (e.Uri.ToString().StartsWith(fbProtocolMatch))
             {
                 e.Cancel = true;
-                var test = MarkerMetro.Unity.WinIntegration.Facebook.FBNative.IsLoggedIn;
             }
         }
         
