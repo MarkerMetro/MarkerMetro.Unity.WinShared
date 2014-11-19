@@ -393,7 +393,12 @@ public class GameMaster : MonoBehaviour {
     {
         if (FBWin.IsLoggedIn)
         {
-            FBWin.AppRequest(message: "Come Play FaceFlip!", callback: (result) =>
+#if UNITY_WP8 && !UNITY_EDITOR
+            FBWin.AppRequestViaBrowser
+#else
+            FBWin.AppRequest
+#endif
+            (message: "Come Play FaceFlip!", callback: (result) =>
             {
                 Debug.Log(result.Text);
                 if (result.Json != null)
@@ -416,7 +421,12 @@ public class GameMaster : MonoBehaviour {
     {
         if (FBWin.IsLoggedIn)
         {
-            FBWin.Feed(toId: "10152837634773832",
+#if UNITY_WP8 && !UNITY_EDITOR
+            FBWin.FeedViaBrowser
+#else
+            FBWin.Feed
+#endif
+            (
                 link: "http://www.markermetro.com",
                 linkName: "linkName",
                 linkCaption: "linkCaption",
