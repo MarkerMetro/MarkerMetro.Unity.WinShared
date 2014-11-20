@@ -43,12 +43,7 @@ public class GUIStart : MonoBehaviour {
             // Second Button Login to FB
             if (GUI.Button(new Rect(box_x + 10, box_y + y_modifier, box_width - 20, 40), "Login"))
             {
-#if (UNITY_WP8 && !UNITY_EDITOR)
-                FBWin.Login("email,publish_actions,user_friends");
-#else
-                // win 8.1 we can use a callback
-                FBWin.Login("email,publish_actions,user_friends", game_script.FBLoginCallback); // TO DO login callback
-#endif           
+                FBWin.Login("email,publish_actions,user_friends", game_script.FBLoginCallback);
             }
         }
         else

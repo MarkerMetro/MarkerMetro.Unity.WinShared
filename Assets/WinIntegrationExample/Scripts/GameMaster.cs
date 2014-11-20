@@ -58,11 +58,6 @@ public class GameMaster : MonoBehaviour {
 		CreateTiles();
 		ChangeState( GAME_STATE.GS_START );
         FBWin.Init(SetFBInit, Assets.Plugins.MarkerMetro.Constants.FBAppId, OnHideUnity);
-#if (UNITY_WP8 && !UNITY_EDITOR)
-        // wire event handler that will be used after login when app resumes on wp8
-        FBWin.OnFBLoginComplete = FBLoginComplete;
-#endif
-
     }
 	
 	void Update () {
@@ -278,44 +273,26 @@ public class GameMaster : MonoBehaviour {
         Debug.Log("OnHideUnity" + hide_unity);
     }
 
-#if UNITY_WP8 && !UNITY_EDITOR
-
-    private void FBLoginComplete(bool success, string error)
-    {
-        Debug.Log("WP8 LoginCallback");
-        if (error != null)
-        {
-            Debug.Log("WP8 Login error occurred");
-            Debug.Log(error);
-        }
-        if (FBNative.IsLoggedIn)
-        {
-            StartCoroutine(RefreshFBStatus());
-        }
-    }
-#else
     /// <summary>
-    /// callback used only on Win 8.1
+    /// login callback
     /// </summary>
     /// <param name="result"></param>
     public void FBLoginCallback( FBResult result )
     {
-        Debug.Log("Win 8.1 LoginCallback");
+        Debug.Log("LoginCallback");
         if (result.Error != null)
         {
-            Debug.Log("Win 8.1 Login error occurred");
+            Debug.Log("Login error occurred");
             if (result.Error == "-1")
             {
-                Debug.Log("Win 8.1 Login was cancelled");
+                Debug.Log("Login was cancelled");
             }
         }
-        if (FB.IsLoggedIn)
+        if (FBWin.IsLoggedIn)
         {
             StartCoroutine(RefreshFBStatus());
         }
     }
-
-#endif
 
     public IEnumerator FBLogoutCallback()
     {
@@ -393,16 +370,11 @@ public class GameMaster : MonoBehaviour {
     {
         if (FBWin.IsLoggedIn)
         {
-#if UNITY_WP8 && !UNITY_EDITOR
-            FBWin.AppRequestViaBrowser
-#else
-            FBWin.AppRequest
-#endif
-            (message: "Come Play FaceFlip!", callback: (result) =>
+            FBWin.AppRequest(message: "Come Play FaceFlip!", callback: (result) =>
             {
-                Debug.Log(result.Text);
+                Debug.Log("AppRequest result: " + result.Text);
                 if (result.Json != null)
-                    Debug.Log(result.Json.ToString());
+                    Debug.Log("AppRequest Json: " + result.Json.ToString());
             }, title: "FaceFlip Invite");
 
 
@@ -421,12 +393,7 @@ public class GameMaster : MonoBehaviour {
     {
         if (FBWin.IsLoggedIn)
         {
-#if UNITY_WP8 && !UNITY_EDITOR
-            FBWin.FeedViaBrowser
-#else
-            FBWin.Feed
-#endif
-            (
+            FBWin.Feed(
                 link: "http://www.markermetro.com",
                 linkName: "linkName",
                 linkCaption: "linkCaption",
@@ -434,9 +401,9 @@ public class GameMaster : MonoBehaviour {
                 picture: "https://pbs.twimg.com/profile_images/1668748982/icon-metro-tw-128_normal.png",
                 callback: (result) =>
             {
-                Debug.Log(result.Text);
+                Debug.Log("Feed result: " + result.Text);
                 if (result.Json != null)
-                    Debug.Log(result.Json.ToString());
+                    Debug.Log("Feed Json: " + result.Json.ToString());
             });
         }
     }
