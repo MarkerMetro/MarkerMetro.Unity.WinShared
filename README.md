@@ -38,7 +38,7 @@ If you don't use _Init.ps1_ to initialize the project you can copy and paste jus
 * /Assets/Editor/* - helper editors scripts
 * /Assets/Plugins/* - plugin binaries and scripts
 * /Assets/Scripts/* - helper game scripts
-* /Assets/WinIntegrationExample/* - see FaceFlip.unity a small game with win integration test points (optional)
+* /Assets/WinIntegrationExample/* - see FaceFlip.unity a small game with win integration test points (optional, but you can test out facebook, exception logging, and some helper class method outputs for example)
 
 Ensure that the ProductName in PlayerSettings is correct and matches the game name. It this value that will be used to script the Windows Solution and set up the build server.
 
@@ -52,12 +52,6 @@ You can then subsequently build out from Unity to /WindowsSolution/WindowsStore 
 
 See the step by step guide here to setting up new projects on the build server based on WinShared.
 https://github.com/MarkerMetro/MarkerMetro.Wiki/wiki/Setting-up-builds#unity-games
-
-## Configuring Exception Logging
-
-Exception logging is disabled by default. We support both BugSense and Raygunio. 
-
-See the [Exception Logging](https://github.com/MarkerMetro/MarkerMetro.Unity.WinIntegration/blob/master/README.md#exception-logging) section in WinIntegration on how to set up and manage exception logging.
 
 # Guidance
 
