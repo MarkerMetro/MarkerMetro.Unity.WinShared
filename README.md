@@ -57,7 +57,7 @@ https://github.com/MarkerMetro/MarkerMetro.Wiki/wiki/Setting-up-builds#unity-gam
 
 Exception logging is disabled by default. We support both BugSense and Raygunio. 
 
-For RaygunIO, see the [Raygun.IO integration](https://github.com/MarkerMetro/MarkerMetro.Unity.WinShared/blob/master/README.md#raygunio-integration) on how to set up.
+See the [Exception Logging](https://github.com/MarkerMetro/MarkerMetro.Unity.WinIntegration/blob/master/README.md#exception-logging) section in WinIntegration on how to set up and manage exception logging.
 
 # Guidance
 
@@ -75,31 +75,6 @@ Windows Phone manifest uses a build-process generated AppResLib.dll[*.mui] files
 If any of these strings are missing from resources, AppResLibGenerator will report a warning.
 
 AppResLibGenerator is referenced as [Nuget Package](https://www.nuget.org/packages/MarkerMetro.WindowsPhone.AppResLibGenerator/) and is also on [Github](https://github.com/MarkerMetro/AppResLibGenerator)
-
-## Raygun.io Integration
-
-[Raygun.io](https://raygun.io/) can be used for exception logging. This is enabled via MarkerMetro.Unity.WinIntegration.ExceptionLogger. Integration is disabled by default. 
-
-### To enable Raygun.io
-
-Go straight to 3. if you have an api key provided by the client.
-
-1. Create a new project on [Raygun.io](https://raygun.io/)
-2. Get **API Key** from the Raygun portal
-3. Replace the **API Key** in /WindowsSolution/Common/CommonApp.InitializeExceptionLogger() method and uncomment the lines.
-4. In _Unity_ attach /Assets/Scripts/MarkerMetro/ExceptionLogger.cs to first object that starts, this will allow reporting of _Unity_ errors using Raygun integration
-
-### To disable Raygun.io
-
-Comment out the line to initialize the ExceptionLogger here: /WindowsSolution/Common/CommonApp.InitializeExceptionLogger()
- 
-### Testing exceptions/crashes
-
-In _WinShared_ project there are 3 locations from which test exceptions can be thrown. 
-
-1. **Windows Store** project has extra Settings charm menu item **Crash** (only for Debug)
-2. **Windows Phone** project has AppBar to allow crash testing (only for Debug)
-3. **Unity** project has extra button in `UIStart.cs` in /Assets/WinIntegrationExample/FaceFlip.unity test scene
 
 ## Submission To Store
 
