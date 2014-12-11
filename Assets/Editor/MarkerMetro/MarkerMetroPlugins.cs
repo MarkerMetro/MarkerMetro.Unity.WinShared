@@ -3,11 +3,12 @@ using UnityEditor;
 using System;
 using System.Collections;
 using System.Diagnostics;
+using PluginSource = MarkerMetroSettings.PluginSource;
 
 public static class MarkerMetroPlugins
 {
     /// <summary>
-    /// Configure local WinLegacy/WinIntegration solution directories
+    /// Configure Plugin update source, local WinLegacy/WinIntegration solution directories
     /// </summary>
     [MenuItem("MarkerMetro/Plugins/Configure", priority = 1)]
     public static void Configure()
@@ -16,20 +17,26 @@ public static class MarkerMetroPlugins
     }
 
     /// <summary>
-    /// Build local WinLegacy/WinIntegration and copy the dlls to the appropriate plugin folders
+    /// Update Plugins
     /// </summary>
-    [MenuItem("MarkerMetro/Plugins/Build Local", priority = 2)]
-    public static void BuildLocal()
+    [MenuItem("MarkerMetro/Plugins/Update", priority = 2)]
+    public static void UpdatePlugins()
     {
-
+        if ((PluginSource)MarkerMetroSettings.CurrentPluginSource == PluginSource.Nuget)
+        {
+            UpdateFromNuGet();
+        }
+        else
+        {
+            UpdateLocal();
+        }
     }
 
     /// <summary>
     /// Attempt to execute the Update_NuGet_Packages.bat file.
     /// Show any errors/success in a message box.
     /// </summary>
-    [MenuItem("MarkerMetro/Plugins/Refresh from Nuget", priority = 3)]
-    public static void RefreshFromNuget()
+    static void UpdateFromNuGet ()
     {
         string cmdPath = "cmd.exe";
         string nugetUpdateDir = MarkerMetroSettings.NugetScriptsDir;
@@ -37,7 +44,8 @@ public static class MarkerMetroPlugins
 
         Process process = null;
 
-        try {
+        try
+        {
             process = new Process();
             process.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
             process.StartInfo.UseShellExecute = false;
@@ -51,21 +59,26 @@ public static class MarkerMetroPlugins
             int exitCode = process.ExitCode;
             if (exitCode == 0)
             {
-                EditorUtility.DisplayDialog("Refresh from Nuget", "Refresh from Nuget completed.", "OK");
+                EditorUtility.DisplayDialog("Update from NuGet", "Update from NuGet completed.", "OK");
             }
             else
             {
-                EditorUtility.DisplayDialog("Refresh from Nuget", "Refresh from Nuget failed with exit code: " + exitCode, "OK");
+                EditorUtility.DisplayDialog("Update from NuGet", "Update from NuGet failed with exit code: " + exitCode, "OK");
             }
-        } 
+        }
         catch (Exception e)
         {
-            EditorUtility.DisplayDialog("Refresh from Nuget", "Exception: " + e, "OK");
+            EditorUtility.DisplayDialog("Update from NuGet", "Exception: " + e, "OK");
         }
         finally
         {
             if (process != null)
                 process.Close();
         }
+    }
+
+    static void UpdateLocal ()
+    {
+
     }
 }

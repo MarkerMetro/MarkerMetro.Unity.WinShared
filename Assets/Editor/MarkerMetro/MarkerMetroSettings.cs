@@ -4,7 +4,19 @@ using UnityEditor;
 /// <summary>
 /// Helper class to Get/Set user config to EditorPrefs
 /// </summary>
-public static class MarkerMetroSettings {
+public static class MarkerMetroSettings
+{
+    public enum PluginSource
+    {
+        Nuget,
+        Local
+    }
+
+    public enum BuildConfig
+    {
+        Debug,
+        Release
+    }
 
     /// <summary>
     /// Get/Set WinLegacy solution directory
@@ -40,5 +52,23 @@ public static class MarkerMetroSettings {
     {
         get { return EditorPrefs.GetString("MMNugetScriptsFilename", "Update_NuGet_Packages.bat"); }
         set { EditorPrefs.SetString("MMNugetScriptsFilename", value); }
+    }
+
+    /// <summary>
+    /// Get/Set current plugin update source
+    /// </summary>
+    static public int CurrentPluginSource
+    {
+        get { return EditorPrefs.GetInt("MMPluginSource", 0); }
+        set { EditorPrefs.SetInt("MMPluginSource", value); }
+    }
+
+    /// <summary>
+    /// Get/Set current build configuration
+    /// </summary>
+    static public int CurrentBuildConfig
+    {
+        get { return EditorPrefs.GetInt("MMBuildConfig", 0); }
+        set { EditorPrefs.SetInt("MMBuildConfig", value); }
     }
 }

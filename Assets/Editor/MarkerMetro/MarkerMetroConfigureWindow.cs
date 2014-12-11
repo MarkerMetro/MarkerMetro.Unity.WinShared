@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.Collections;
+using BuildConfig = MarkerMetroSettings.BuildConfig;
+using PluginSource = MarkerMetroSettings.PluginSource;
 
 public class MarkerMetroConfigureWindow : EditorWindow
 {
@@ -14,9 +16,13 @@ public class MarkerMetroConfigureWindow : EditorWindow
     string _winLegacyDir;
     string _winIntegrationDir;
     string _nugetDir;
+    PluginSource _pluginSource;
+    BuildConfig _buildConfig;
 
     void OnEnable ()
     {
+        _pluginSource = (PluginSource)MarkerMetroSettings.CurrentPluginSource;
+        _buildConfig = (BuildConfig)MarkerMetroSettings.CurrentBuildConfig;
         _winLegacyDir = MarkerMetroSettings.WinLegacyDir;
         _winIntegrationDir = MarkerMetroSettings.WinIntegrationDir;
         _nugetDir = MarkerMetroSettings.NugetScriptsDir;
@@ -24,9 +30,31 @@ public class MarkerMetroConfigureWindow : EditorWindow
 
     void OnGUI ()
     {
+        DrawUpdateSource();
+        if (_pluginSource == PluginSource.Local)
+            DrawBuildConfig();
         DrawChooseDir(DirType.WinLegacy);
         DrawChooseDir(DirType.WinIntegration);
         DrawChooseDir(DirType.NuGet);
+    }
+
+    void DrawUpdateSource ()
+    {
+        GUILayout.Space(5f);
+        GUI.changed = false;
+        _pluginSource = (PluginSource)EditorGUILayout.EnumPopup("Plugin Source", _pluginSource, GUILayout.MaxWidth(250f));
+        if (GUI.changed)
+            MarkerMetroSettings.CurrentPluginSource = (int)_pluginSource;
+        GUILayout.Space(10f);
+    }
+
+    void DrawBuildConfig ()
+    {
+        GUI.changed = false;
+        _buildConfig = (BuildConfig)EditorGUILayout.EnumPopup("Build Local", _buildConfig, GUILayout.MaxWidth(250f));
+        if (GUI.changed)
+            MarkerMetroSettings.CurrentBuildConfig = (int)_buildConfig;
+        GUILayout.Space(10f);
     }
 
     void DrawChooseDir(DirType dirType)
@@ -34,7 +62,6 @@ public class MarkerMetroConfigureWindow : EditorWindow
         string dir = GetDir(dirType);
 
         EditorGUILayout.BeginVertical();
-        GUILayout.Space(5f);
         GUILayout.Label(dirType.ToString() + " Dir:");
         EditorGUILayout.BeginHorizontal();
         
