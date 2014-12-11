@@ -7,15 +7,33 @@ using System.Diagnostics;
 public static class MarkerMetroPlugins
 {
     /// <summary>
+    /// Configure local WinLegacy/WinIntegration solution directories
+    /// </summary>
+    [MenuItem("MarkerMetro/Plugins/Configure", priority = 1)]
+    public static void Configure()
+    {
+        EditorWindow.GetWindow<MarkerMetroConfigureWindow>(false, "Configure", true).Show();
+    }
+
+    /// <summary>
+    /// Build local WinLegacy/WinIntegration and copy the dlls to the appropriate plugin folders
+    /// </summary>
+    [MenuItem("MarkerMetro/Plugins/Build Local", priority = 2)]
+    public static void BuildLocal()
+    {
+
+    }
+
+    /// <summary>
     /// Attempt to execute the Update_NuGet_Packages.bat file.
     /// Show any errors/success in a message box.
     /// </summary>
-    [MenuItem("MarkerMetro/Plugins/Refresh from Nuget")]
+    [MenuItem("MarkerMetro/Plugins/Refresh from Nuget", priority = 3)]
     public static void RefreshFromNuget()
     {
         string cmdPath = "cmd.exe";
-        string nugetUpdateDir = Application.dataPath + "\\..\\NuGet\\";
-        string nugetUpdateFilename = "Update_NuGet_Packages.bat";
+        string nugetUpdateDir = MarkerMetroSettings.NugetScriptsDir;
+        string nugetUpdateFilename = MarkerMetroSettings.NugetScriptsFilename;
 
         Process process = null;
 
