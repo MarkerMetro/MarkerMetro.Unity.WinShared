@@ -1,122 +1,140 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.Collections;
-using BuildConfig = MarkerMetroSettings.BuildConfig;
-using PluginSource = MarkerMetroSettings.PluginSource;
+using BuildConfig = Assets.Editor.MarkerMetro.MarkerMetroSettings.BuildConfig;
+using PluginSource = Assets.Editor.MarkerMetro.MarkerMetroSettings.PluginSource;
 
-public class MarkerMetroConfigureWindow : EditorWindow
+namespace Assets.Editor.MarkerMetro
 {
-    enum DirType
+    public class MarkerMetroConfigureWindow : EditorWindow
     {
-        WinLegacy,
-        WinIntegration,
-        NuGet
-    }
-
-    string _winLegacyDir;
-    string _winIntegrationDir;
-    string _nugetDir;
-    PluginSource _pluginSource;
-    BuildConfig _buildConfig;
-
-    void OnEnable ()
-    {
-        _pluginSource = (PluginSource)MarkerMetroSettings.CurrentPluginSource;
-        _buildConfig = (BuildConfig)MarkerMetroSettings.CurrentBuildConfig;
-        _winLegacyDir = MarkerMetroSettings.WinLegacyDir;
-        _winIntegrationDir = MarkerMetroSettings.WinIntegrationDir;
-        _nugetDir = MarkerMetroSettings.NugetScriptsDir;
-    }
-
-    void OnGUI ()
-    {
-        DrawUpdateSource();
-        if (_pluginSource == PluginSource.Local)
-            DrawBuildConfig();
-        DrawChooseDir(DirType.WinLegacy);
-        DrawChooseDir(DirType.WinIntegration);
-        DrawChooseDir(DirType.NuGet);
-    }
-
-    void DrawUpdateSource ()
-    {
-        GUILayout.Space(5f);
-        GUI.changed = false;
-        _pluginSource = (PluginSource)EditorGUILayout.EnumPopup("Plugin Source", _pluginSource, GUILayout.MaxWidth(250f));
-        if (GUI.changed)
-            MarkerMetroSettings.CurrentPluginSource = (int)_pluginSource;
-        GUILayout.Space(10f);
-    }
-
-    void DrawBuildConfig ()
-    {
-        GUI.changed = false;
-        _buildConfig = (BuildConfig)EditorGUILayout.EnumPopup("Build Local", _buildConfig, GUILayout.MaxWidth(250f));
-        if (GUI.changed)
-            MarkerMetroSettings.CurrentBuildConfig = (int)_buildConfig;
-        GUILayout.Space(10f);
-    }
-
-    void DrawChooseDir(DirType dirType)
-    {
-        string dir = GetDir(dirType);
-
-        EditorGUILayout.BeginVertical();
-        GUILayout.Label(dirType.ToString() + " Dir:");
-        EditorGUILayout.BeginHorizontal();
-        
-        EditorGUILayout.BeginVertical();
-        GUILayout.Space(4f);
-        GUILayout.Label(dir, "AS TextArea", GUILayout.Height(20f));
-        EditorGUILayout.EndVertical();
-        GUILayout.Space(3f);
-        if (GUILayout.Button("Choose", "LargeButtonMid", GUILayout.Height(20f), GUILayout.ExpandWidth(false)))
+        enum DirType
         {
-            dir = EditorUtility.OpenFolderPanel("Choose Folder", Application.dataPath, "");
-            if (!string.IsNullOrEmpty(dir))
+            WinLegacy,
+            WinIntegration,
+            NuGet
+        }
+
+        string _winLegacyDir;
+        string _winIntegrationDir;
+        string _nugetDir;
+        PluginSource _pluginSource;
+        BuildConfig _buildConfig;
+
+        void OnEnable()
+        {
+            _pluginSource = (PluginSource)MarkerMetroSettings.CurrentPluginSource;
+            _buildConfig = (BuildConfig)MarkerMetroSettings.CurrentBuildConfig;
+            _winLegacyDir = MarkerMetroSettings.WinLegacyDir;
+            _winIntegrationDir = MarkerMetroSettings.WinIntegrationDir;
+            _nugetDir = MarkerMetroSettings.NugetScriptsDir;
+        }
+
+        void OnGUI()
+        {
+            DrawUpdateSource();
+            if (_pluginSource == PluginSource.Local)
+                DrawBuildConfig();
+            DrawChooseDir(DirType.WinLegacy);
+            DrawChooseDir(DirType.WinIntegration);
+            DrawChooseDir(DirType.NuGet);
+        }
+
+        /// <summary>
+        /// GUI for Update Source
+        /// </summary>
+        void DrawUpdateSource()
+        {
+            GUILayout.Space(5f);
+            GUI.changed = false;
+            _pluginSource = (PluginSource)EditorGUILayout.EnumPopup("Plugin Source", _pluginSource, GUILayout.MaxWidth(250f));
+            if (GUI.changed)
+                MarkerMetroSettings.CurrentPluginSource = (int)_pluginSource;
+            GUILayout.Space(10f);
+        }
+
+        /// <summary>
+        /// GUI for Build Config
+        /// </summary>
+        void DrawBuildConfig()
+        {
+            GUI.changed = false;
+            _buildConfig = (BuildConfig)EditorGUILayout.EnumPopup("Build Local", _buildConfig, GUILayout.MaxWidth(250f));
+            if (GUI.changed)
+                MarkerMetroSettings.CurrentBuildConfig = (int)_buildConfig;
+            GUILayout.Space(10f);
+        }
+
+        /// <summary>
+        /// GUI for selecting directory
+        /// </summary>
+        void DrawChooseDir(DirType dirType)
+        {
+            string dir = GetDir(dirType);
+
+            EditorGUILayout.BeginVertical();
+            GUILayout.Label(dirType.ToString() + " Dir:");
+            EditorGUILayout.BeginHorizontal();
+
+            EditorGUILayout.BeginVertical();
+            GUILayout.Space(4f);
+            GUILayout.Label(dir, "AS TextArea", GUILayout.Height(20f));
+            EditorGUILayout.EndVertical();
+            GUILayout.Space(3f);
+            if (GUILayout.Button("Choose", "LargeButtonMid", GUILayout.Height(20f), GUILayout.ExpandWidth(false)))
             {
-                SetDir(dirType, dir);
+                dir = EditorUtility.OpenFolderPanel("Choose Folder", Application.dataPath, "");
+                if (!string.IsNullOrEmpty(dir))
+                {
+                    SetDir(dirType, dir);
+                }
             }
+            EditorGUILayout.EndHorizontal();
+            GUILayout.Space(10f);
+            EditorGUILayout.EndVertical();
         }
-        EditorGUILayout.EndHorizontal();
-        GUILayout.Space(10f);
-        EditorGUILayout.EndVertical();
-    }
 
-    string GetDir (DirType dirType)
-    {
-        string dir = string.Empty;
-        switch (dirType)
+        /// <summary>
+        /// Return cached dir based on DirType
+        /// </summary>
+        string GetDir(DirType dirType)
         {
-            case DirType.WinLegacy:
-                dir = _winLegacyDir;
-                break;
-            case DirType.WinIntegration:
-                dir = _winIntegrationDir;
-                break;
-            case DirType.NuGet:
-                dir = _nugetDir;
-                break;
+            string dir = string.Empty;
+            switch (dirType)
+            {
+                case DirType.WinLegacy:
+                    dir = _winLegacyDir;
+                    break;
+                case DirType.WinIntegration:
+                    dir = _winIntegrationDir;
+                    break;
+                case DirType.NuGet:
+                    dir = _nugetDir;
+                    break;
+            }
+            return dir;
         }
-        return dir;
-    }
 
-    void SetDir (DirType dirType, string dir)
-    {
-        switch (dirType)
+        /// <summary>
+        /// Store dir of DirType to EditorPrefs
+        /// </summary>
+        void SetDir(DirType dirType, string dir)
         {
-            case DirType.WinLegacy:
-                _winLegacyDir = dir;
-                MarkerMetroSettings.WinLegacyDir = _winLegacyDir;
-                break;
-            case DirType.WinIntegration:
-                _winIntegrationDir = dir;
-                MarkerMetroSettings.WinIntegrationDir = _winIntegrationDir;
-                break;
-            case DirType.NuGet:
-                _nugetDir = dir;
-                MarkerMetroSettings.NugetScriptsDir = _nugetDir;
-                break;
+            switch (dirType)
+            {
+                case DirType.WinLegacy:
+                    _winLegacyDir = dir;
+                    MarkerMetroSettings.WinLegacyDir = _winLegacyDir;
+                    break;
+                case DirType.WinIntegration:
+                    _winIntegrationDir = dir;
+                    MarkerMetroSettings.WinIntegrationDir = _winIntegrationDir;
+                    break;
+                case DirType.NuGet:
+                    _nugetDir = dir;
+                    MarkerMetroSettings.NugetScriptsDir = _nugetDir;
+                    break;
+            }
         }
     }
 }

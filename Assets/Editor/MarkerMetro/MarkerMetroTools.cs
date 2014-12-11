@@ -1,13 +1,14 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-public static class MarkerMetroTools
+namespace Assets.Editor.MarkerMetro
 {
-    [MenuItem("MarkerMetro/Player Prefs/Delete All")]
-    public static void DeletePlayerPrefs()
+    public static class MarkerMetroTools
     {
-        PlayerPrefs.DeleteAll();
+        [MenuItem("MarkerMetro/Player Prefs/Delete All")]
+        public static void DeletePlayerPrefs()
+        {
+            PlayerPrefs.DeleteAll();
+        }
     }
-
-
 }
