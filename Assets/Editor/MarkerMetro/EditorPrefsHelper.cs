@@ -38,12 +38,17 @@ namespace Assets.Editor.MarkerMetro
             set { EditorPrefs.SetString("MMWinIntegrationDir", value); }
         }
 
+        static public string UnityPluginsDir
+        {
+            get { return System.IO.Path.GetFullPath(Application.dataPath + "\\Plugins"); }
+        }
+
         /// <summary>
         /// Get/Set Nuget scripts directory.
         /// </summary>
         static public string NugetScriptsDir
         {
-            get { return EditorPrefs.GetString("MMNugetScriptsDir", System.IO.Path.GetFullPath(Application.dataPath + "\\..\\NuGet\\")); }
+            get { return EditorPrefs.GetString("MMNugetScriptsDir", System.IO.Path.GetFullPath(Application.dataPath + "\\..\\NuGet")); }
             set { EditorPrefs.SetString("MMNugetScriptsDir", value); }
         }
 

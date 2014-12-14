@@ -33,6 +33,7 @@ namespace Assets.Editor.MarkerMetro
             {
                 UpdateLocal();
             }
+            AssetDatabase.Refresh();
         }
 
         /// <summary>
@@ -41,7 +42,7 @@ namespace Assets.Editor.MarkerMetro
         /// </summary>
         static void UpdateFromNuGet()
         {
-            string cmdPath = "cmd.exe";
+            var cmdPath = "cmd.exe";
             string dir = EditorPrefsHelper.NugetScriptsDir;
             string batchFilename = EditorPrefsHelper.NugetScriptsFilename;
 
@@ -76,7 +77,9 @@ namespace Assets.Editor.MarkerMetro
             finally
             {
                 if (process != null)
+                {
                     process.Close();
+                }
             }
         }
 
@@ -97,9 +100,9 @@ namespace Assets.Editor.MarkerMetro
                 return;
             }
 
-            string cmdPath = "cmd.exe";
+            var cmdPath = "cmd.exe";
             string dir = EditorPrefsHelper.NugetScriptsDir;
-            string batchFilename = "Build_Local.bat";
+            var batchFilename = "Build_Local.bat";
 
             Process process = null;
 
@@ -110,7 +113,8 @@ namespace Assets.Editor.MarkerMetro
                 process.StartInfo.UseShellExecute = false;
                 process.StartInfo.FileName = cmdPath;
                 process.StartInfo.WorkingDirectory = dir;
-                process.StartInfo.Arguments = "/c " + batchFilename + " " + EditorPrefsHelper.WinLegacyDir + " " + EditorPrefsHelper.WinIntegrationDir + " " + ((BuildConfig)EditorPrefsHelper.CurrentBuildConfig).ToString();
+                process.StartInfo.Arguments = "/c " + batchFilename + " " + EditorPrefsHelper.WinLegacyDir + " " + EditorPrefsHelper.WinIntegrationDir +
+                    " " + EditorPrefsHelper.UnityPluginsDir + " " + ((BuildConfig)EditorPrefsHelper.CurrentBuildConfig).ToString();
                 process.EnableRaisingEvents = true;
                 process.Start();
 
@@ -132,67 +136,10 @@ namespace Assets.Editor.MarkerMetro
             finally
             {
                 if (process != null)
+                {
                     process.Close();
-            }
-        }
-
-        static void BuildPlugin(string pluginName)
-        {
-            string cmdPath = "cmd.exe";
-            string dir = GetPluginDir(pluginName);
-            if (string.IsNullOrEmpty(dir))
-            {
-                EditorUtility.DisplayDialog("Build " + pluginName, "Error: Failed to get plugin directory.", "OK");
-                return;
-            }
-            string batchFilename = "Build.bat";
-
-            Process process = null;
-
-            try
-            {
-                process = new Process();
-                process.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
-                process.StartInfo.UseShellExecute = false;
-                process.StartInfo.FileName = cmdPath;
-                process.StartInfo.WorkingDirectory = dir;
-                process.StartInfo.Arguments = "/c " + batchFilename + " " + ((BuildConfig)EditorPrefsHelper.CurrentBuildConfig).ToString();
-                process.EnableRaisingEvents = true;
-                process.Start();
-
-                process.WaitForExit();
-                int exitCode = process.ExitCode;
-                if (exitCode == 0)
-                {
-                    EditorUtility.DisplayDialog("Build " + pluginName, "Build " + pluginName + " completed.", "OK");
-                }
-                else
-                {
-                    EditorUtility.DisplayDialog("Build " + pluginName, "Build " + pluginName +" failed with exit code: " + exitCode + ".", "OK");
                 }
             }
-            catch (Exception e)
-            {
-                EditorUtility.DisplayDialog("Build " + pluginName, "Exception: " + e, "OK");
-            }
-            finally
-            {
-                if (process != null)
-                    process.Close();
-            }
-        }
-
-        static string GetPluginDir (string pluginName)
-        {
-            if (pluginName == "WinLegacy")
-            {
-                return EditorPrefsHelper.WinLegacyDir;
-            }
-            else if (pluginName == "WinIntegration")
-            {
-                return EditorPrefsHelper.WinIntegrationDir;
-            }
-            return null;
         }
     }
 }

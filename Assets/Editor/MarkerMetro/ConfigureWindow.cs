@@ -6,7 +6,7 @@ using PluginSource = Assets.Editor.MarkerMetro.EditorPrefsHelper.PluginSource;
 
 namespace Assets.Editor.MarkerMetro
 {
-    public class ConfigureWindow : EditorWindow
+    internal sealed class ConfigureWindow : EditorWindow
     {
         enum DirType
         {
@@ -34,7 +34,9 @@ namespace Assets.Editor.MarkerMetro
         {
             DrawUpdateSource();
             if (_pluginSource == PluginSource.Local)
+            {
                 DrawBuildConfig();
+            }
             DrawChooseDir(DirType.WinLegacy);
             DrawChooseDir(DirType.WinIntegration);
             DrawChooseDir(DirType.NuGet);
@@ -49,7 +51,9 @@ namespace Assets.Editor.MarkerMetro
             GUI.changed = false;
             _pluginSource = (PluginSource)EditorGUILayout.EnumPopup("Plugin Source", _pluginSource, GUILayout.MaxWidth(250f));
             if (GUI.changed)
+            {
                 EditorPrefsHelper.CurrentPluginSource = (int)_pluginSource;
+            }
             GUILayout.Space(10f);
         }
 
@@ -61,7 +65,9 @@ namespace Assets.Editor.MarkerMetro
             GUI.changed = false;
             _buildConfig = (BuildConfig)EditorGUILayout.EnumPopup("Build Local", _buildConfig, GUILayout.MaxWidth(250f));
             if (GUI.changed)
+            {
                 EditorPrefsHelper.CurrentBuildConfig = (int)_buildConfig;
+            }
             GUILayout.Space(10f);
         }
 
