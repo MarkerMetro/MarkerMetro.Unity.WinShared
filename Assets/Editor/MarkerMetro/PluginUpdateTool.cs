@@ -3,8 +3,8 @@ using UnityEditor;
 using System;
 using System.Collections;
 using System.Diagnostics;
-using PluginSource = Assets.Editor.MarkerMetro.EditorPrefsHelper.PluginSource;
-using BuildConfig = Assets.Editor.MarkerMetro.EditorPrefsHelper.BuildConfig;
+using PluginSource = Assets.Editor.MarkerMetro.PluginConfigHelper.PluginSource;
+using BuildConfig = Assets.Editor.MarkerMetro.PluginConfigHelper.BuildConfig;
 
 namespace Assets.Editor.MarkerMetro
 {
@@ -25,7 +25,7 @@ namespace Assets.Editor.MarkerMetro
         [MenuItem("MarkerMetro/Plugins/Update", priority = 2)]
         public static void UpdatePlugins()
         {
-            if ((PluginSource)EditorPrefsHelper.CurrentPluginSource == PluginSource.Nuget)
+            if ((PluginSource)PluginConfigHelper.CurrentPluginSource == PluginSource.Nuget)
             {
                 UpdateFromNuGet();
             }
@@ -43,8 +43,8 @@ namespace Assets.Editor.MarkerMetro
         static void UpdateFromNuGet()
         {
             var cmdPath = "cmd.exe";
-            string dir = EditorPrefsHelper.NugetScriptsDir;
-            string batchFilename = EditorPrefsHelper.NugetScriptsFilename;
+            string dir = PluginConfigHelper.NugetScriptsDir;
+            string batchFilename = PluginConfigHelper.NugetScriptsFilename;
 
             Process process = null;
 
@@ -94,14 +94,14 @@ namespace Assets.Editor.MarkerMetro
 
         static void BuildPlugin()
         {
-            if (string.IsNullOrEmpty(EditorPrefsHelper.WinLegacyDir) || string.IsNullOrEmpty(EditorPrefsHelper.WinIntegrationDir))
+            if (string.IsNullOrEmpty(PluginConfigHelper.WinLegacyDir) || string.IsNullOrEmpty(PluginConfigHelper.WinIntegrationDir))
             {
                 EditorUtility.DisplayDialog("Build Plugin", "Error: Failed to get plugin directory.", "OK");
                 return;
             }
 
             var cmdPath = "cmd.exe";
-            string dir = EditorPrefsHelper.NugetScriptsDir;
+            string dir = PluginConfigHelper.NugetScriptsDir;
             var batchFilename = "Build_Local.bat";
 
             Process process = null;
@@ -113,8 +113,8 @@ namespace Assets.Editor.MarkerMetro
                 process.StartInfo.UseShellExecute = false;
                 process.StartInfo.FileName = cmdPath;
                 process.StartInfo.WorkingDirectory = dir;
-                process.StartInfo.Arguments = "/c " + batchFilename + " " + EditorPrefsHelper.WinLegacyDir + " " + EditorPrefsHelper.WinIntegrationDir +
-                    " " + EditorPrefsHelper.UnityPluginsDir + " " + ((BuildConfig)EditorPrefsHelper.CurrentBuildConfig).ToString();
+                process.StartInfo.Arguments = "/c " + batchFilename + " " + PluginConfigHelper.WinLegacyDir + " " + PluginConfigHelper.WinIntegrationDir +
+                    " " + PluginConfigHelper.UnityPluginsDir + " " + ((BuildConfig)PluginConfigHelper.CurrentBuildConfig).ToString();
                 process.EnableRaisingEvents = true;
                 process.Start();
 

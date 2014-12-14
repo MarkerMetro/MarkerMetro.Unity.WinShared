@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.Collections;
-using BuildConfig = Assets.Editor.MarkerMetro.EditorPrefsHelper.BuildConfig;
-using PluginSource = Assets.Editor.MarkerMetro.EditorPrefsHelper.PluginSource;
+using BuildConfig = Assets.Editor.MarkerMetro.PluginConfigHelper.BuildConfig;
+using PluginSource = Assets.Editor.MarkerMetro.PluginConfigHelper.PluginSource;
 
 namespace Assets.Editor.MarkerMetro
 {
@@ -23,11 +23,11 @@ namespace Assets.Editor.MarkerMetro
 
         void OnEnable()
         {
-            _pluginSource = (PluginSource)EditorPrefsHelper.CurrentPluginSource;
-            _buildConfig = (BuildConfig)EditorPrefsHelper.CurrentBuildConfig;
-            _winLegacyDir = EditorPrefsHelper.WinLegacyDir;
-            _winIntegrationDir = EditorPrefsHelper.WinIntegrationDir;
-            _nugetDir = EditorPrefsHelper.NugetScriptsDir;
+            _pluginSource = (PluginSource)PluginConfigHelper.CurrentPluginSource;
+            _buildConfig = (BuildConfig)PluginConfigHelper.CurrentBuildConfig;
+            _winLegacyDir = PluginConfigHelper.WinLegacyDir;
+            _winIntegrationDir = PluginConfigHelper.WinIntegrationDir;
+            _nugetDir = PluginConfigHelper.NugetScriptsDir;
         }
 
         void OnGUI()
@@ -52,7 +52,7 @@ namespace Assets.Editor.MarkerMetro
             _pluginSource = (PluginSource)EditorGUILayout.EnumPopup("Plugin Source", _pluginSource, GUILayout.MaxWidth(250f));
             if (GUI.changed)
             {
-                EditorPrefsHelper.CurrentPluginSource = (int)_pluginSource;
+                PluginConfigHelper.CurrentPluginSource = (int)_pluginSource;
             }
             GUILayout.Space(10f);
         }
@@ -66,7 +66,7 @@ namespace Assets.Editor.MarkerMetro
             _buildConfig = (BuildConfig)EditorGUILayout.EnumPopup("Build Local", _buildConfig, GUILayout.MaxWidth(250f));
             if (GUI.changed)
             {
-                EditorPrefsHelper.CurrentBuildConfig = (int)_buildConfig;
+                PluginConfigHelper.CurrentBuildConfig = (int)_buildConfig;
             }
             GUILayout.Space(10f);
         }
@@ -131,15 +131,15 @@ namespace Assets.Editor.MarkerMetro
             {
                 case DirType.WinLegacy:
                     _winLegacyDir = dir;
-                    EditorPrefsHelper.WinLegacyDir = _winLegacyDir;
+                    PluginConfigHelper.WinLegacyDir = _winLegacyDir;
                     break;
                 case DirType.WinIntegration:
                     _winIntegrationDir = dir;
-                    EditorPrefsHelper.WinIntegrationDir = _winIntegrationDir;
+                    PluginConfigHelper.WinIntegrationDir = _winIntegrationDir;
                     break;
                 case DirType.NuGet:
                     _nugetDir = dir;
-                    EditorPrefsHelper.NugetScriptsDir = _nugetDir;
+                    PluginConfigHelper.NugetScriptsDir = _nugetDir;
                     break;
             }
         }
