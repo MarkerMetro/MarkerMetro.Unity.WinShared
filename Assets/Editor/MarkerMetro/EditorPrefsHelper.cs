@@ -4,9 +4,9 @@ using UnityEditor;
 namespace Assets.Editor.MarkerMetro
 {
     /// <summary>
-    /// Helper class to Get/Set user config to EditorPrefs
+    /// Helper class to Get/Set user config to EditorPrefs.
     /// </summary>
-    public static class MarkerMetroSettings
+    public static class EditorPrefsHelper
     {
         public enum PluginSource
         {
@@ -21,7 +21,7 @@ namespace Assets.Editor.MarkerMetro
         }
 
         /// <summary>
-        /// Get/Set WinLegacy solution directory
+        /// Get/Set WinLegacy solution directory.
         /// </summary>
         static public string WinLegacyDir
         {
@@ -30,7 +30,7 @@ namespace Assets.Editor.MarkerMetro
         }
 
         /// <summary>
-        /// Get/Set WinIntegration solution directory
+        /// Get/Set WinIntegration solution directory.
         /// </summary>
         static public string WinIntegrationDir
         {
@@ -39,16 +39,16 @@ namespace Assets.Editor.MarkerMetro
         }
 
         /// <summary>
-        /// Get/Set Nuget scripts directory
+        /// Get/Set Nuget scripts directory.
         /// </summary>
         static public string NugetScriptsDir
         {
-            get { return EditorPrefs.GetString("MMNugetScriptsDir", Application.dataPath + "\\..\\NuGet\\"); }
+            get { return EditorPrefs.GetString("MMNugetScriptsDir", System.IO.Path.GetFullPath(Application.dataPath + "\\..\\NuGet\\")); }
             set { EditorPrefs.SetString("MMNugetScriptsDir", value); }
         }
 
         /// <summary>
-        /// Get/Set Nuget scripts filename
+        /// Get/Set Nuget scripts filename.
         /// </summary>
         static public string NugetScriptsFilename
         {
@@ -57,7 +57,7 @@ namespace Assets.Editor.MarkerMetro
         }
 
         /// <summary>
-        /// Get/Set current plugin update source
+        /// Get/Set current plugin update source.
         /// </summary>
         static public int CurrentPluginSource
         {
@@ -66,7 +66,7 @@ namespace Assets.Editor.MarkerMetro
         }
 
         /// <summary>
-        /// Get/Set current build configuration
+        /// Get/Set current build configuration.
         /// </summary>
         static public int CurrentBuildConfig
         {

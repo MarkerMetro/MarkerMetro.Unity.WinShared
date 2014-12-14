@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.Collections;
-using BuildConfig = Assets.Editor.MarkerMetro.MarkerMetroSettings.BuildConfig;
-using PluginSource = Assets.Editor.MarkerMetro.MarkerMetroSettings.PluginSource;
+using BuildConfig = Assets.Editor.MarkerMetro.EditorPrefsHelper.BuildConfig;
+using PluginSource = Assets.Editor.MarkerMetro.EditorPrefsHelper.PluginSource;
 
 namespace Assets.Editor.MarkerMetro
 {
-    public class MarkerMetroConfigureWindow : EditorWindow
+    public class ConfigureWindow : EditorWindow
     {
         enum DirType
         {
@@ -23,11 +23,11 @@ namespace Assets.Editor.MarkerMetro
 
         void OnEnable()
         {
-            _pluginSource = (PluginSource)MarkerMetroSettings.CurrentPluginSource;
-            _buildConfig = (BuildConfig)MarkerMetroSettings.CurrentBuildConfig;
-            _winLegacyDir = MarkerMetroSettings.WinLegacyDir;
-            _winIntegrationDir = MarkerMetroSettings.WinIntegrationDir;
-            _nugetDir = MarkerMetroSettings.NugetScriptsDir;
+            _pluginSource = (PluginSource)EditorPrefsHelper.CurrentPluginSource;
+            _buildConfig = (BuildConfig)EditorPrefsHelper.CurrentBuildConfig;
+            _winLegacyDir = EditorPrefsHelper.WinLegacyDir;
+            _winIntegrationDir = EditorPrefsHelper.WinIntegrationDir;
+            _nugetDir = EditorPrefsHelper.NugetScriptsDir;
         }
 
         void OnGUI()
@@ -41,7 +41,7 @@ namespace Assets.Editor.MarkerMetro
         }
 
         /// <summary>
-        /// GUI for Update Source
+        /// GUI for Update Source.
         /// </summary>
         void DrawUpdateSource()
         {
@@ -49,24 +49,24 @@ namespace Assets.Editor.MarkerMetro
             GUI.changed = false;
             _pluginSource = (PluginSource)EditorGUILayout.EnumPopup("Plugin Source", _pluginSource, GUILayout.MaxWidth(250f));
             if (GUI.changed)
-                MarkerMetroSettings.CurrentPluginSource = (int)_pluginSource;
+                EditorPrefsHelper.CurrentPluginSource = (int)_pluginSource;
             GUILayout.Space(10f);
         }
 
         /// <summary>
-        /// GUI for Build Config
+        /// GUI for Build Config.
         /// </summary>
         void DrawBuildConfig()
         {
             GUI.changed = false;
             _buildConfig = (BuildConfig)EditorGUILayout.EnumPopup("Build Local", _buildConfig, GUILayout.MaxWidth(250f));
             if (GUI.changed)
-                MarkerMetroSettings.CurrentBuildConfig = (int)_buildConfig;
+                EditorPrefsHelper.CurrentBuildConfig = (int)_buildConfig;
             GUILayout.Space(10f);
         }
 
         /// <summary>
-        /// GUI for selecting directory
+        /// GUI for selecting directory.
         /// </summary>
         void DrawChooseDir(DirType dirType)
         {
@@ -95,7 +95,7 @@ namespace Assets.Editor.MarkerMetro
         }
 
         /// <summary>
-        /// Return cached dir based on DirType
+        /// Return cached dir based on DirType.
         /// </summary>
         string GetDir(DirType dirType)
         {
@@ -116,23 +116,24 @@ namespace Assets.Editor.MarkerMetro
         }
 
         /// <summary>
-        /// Store dir of DirType to EditorPrefs
+        /// Store dir of DirType to EditorPrefs.
         /// </summary>
         void SetDir(DirType dirType, string dir)
         {
+            dir = System.IO.Path.GetFullPath(dir);
             switch (dirType)
             {
                 case DirType.WinLegacy:
                     _winLegacyDir = dir;
-                    MarkerMetroSettings.WinLegacyDir = _winLegacyDir;
+                    EditorPrefsHelper.WinLegacyDir = _winLegacyDir;
                     break;
                 case DirType.WinIntegration:
                     _winIntegrationDir = dir;
-                    MarkerMetroSettings.WinIntegrationDir = _winIntegrationDir;
+                    EditorPrefsHelper.WinIntegrationDir = _winIntegrationDir;
                     break;
                 case DirType.NuGet:
                     _nugetDir = dir;
-                    MarkerMetroSettings.NugetScriptsDir = _nugetDir;
+                    EditorPrefsHelper.NugetScriptsDir = _nugetDir;
                     break;
             }
         }
