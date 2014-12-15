@@ -8,8 +8,14 @@ using BuildConfig = Assets.Editor.MarkerMetro.PluginConfigHelper.BuildConfig;
 
 namespace Assets.Editor.MarkerMetro
 {
-    public static class PluginUpdateTool
+    internal static class PluginUpdateTool
     {
+        const float ExpectedUpdateTime = 15f;
+
+        static Process CmdProcess;
+        static float UpdateStartTime;
+        static string ErrorMessage;
+
         /// <summary>
         /// Configure Plugin update source, local WinLegacy/WinIntegration solution directories.
         /// </summary>
@@ -25,121 +31,141 @@ namespace Assets.Editor.MarkerMetro
         [MenuItem("MarkerMetro/Plugins/Update", priority = 2)]
         public static void UpdatePlugins()
         {
+            if (CmdProcess != null)
+            {
+                DisplayDialog("Error: Still updating");
+                return;
+            }
+
+            UpdateStartTime = (float)EditorApplication.timeSinceStartup;
+
             if ((PluginSource)PluginConfigHelper.CurrentPluginSource == PluginSource.Nuget)
             {
-                UpdateFromNuGet();
+                UpdatePlugins(true);
             }
             else
             {
-                UpdateLocal();
+                if (string.IsNullOrEmpty(PluginConfigHelper.WinLegacyDir) || string.IsNullOrEmpty(PluginConfigHelper.WinIntegrationDir))
+                {
+                    DisplayDialog("Error: Failed to get plugin directory.");
+                    return;
+                }
+                else
+                {
+                    UpdatePlugins(false);
+                }
             }
+        }
+
+        /// <summary>
+        /// Attempt to execute the Update_NuGet_Packages.bat file, or attemp to build the csproj file using MSBuild exe call 
+        /// and copy the resultant dlls to the appropriate plugins folders.
+        /// Show any errors/success in a message box.
+        /// </summary>
+        static void UpdatePlugins(bool fromNuGet)
+        {
+            var cmdPath = "cmd.exe";
+            string dir = PluginConfigHelper.NugetScriptsDir;
+            string batchFilename = fromNuGet ? PluginConfigHelper.NugetScriptsFilename : "Build_Local.bat";
+
+            try
+            {
+                CmdProcess = new Process();
+                CmdProcess.StartInfo.CreateNoWindow = true;
+                CmdProcess.StartInfo.UseShellExecute = false;
+                CmdProcess.StartInfo.FileName = cmdPath;
+                CmdProcess.StartInfo.WorkingDirectory = dir;
+                CmdProcess.StartInfo.Arguments = "/c " + batchFilename;
+                if (!fromNuGet)
+                {
+                    CmdProcess.StartInfo.Arguments = CmdProcess.StartInfo.Arguments + " " + PluginConfigHelper.WinLegacyDir + " " + PluginConfigHelper.WinIntegrationDir +
+                    " " + PluginConfigHelper.UnityPluginsDir + " " + ((BuildConfig)PluginConfigHelper.CurrentBuildConfig).ToString();
+                }
+                CmdProcess.StartInfo.RedirectStandardOutput = true;
+                CmdProcess.EnableRaisingEvents = true;
+
+                CmdProcess.OutputDataReceived += ProcessOutputDataReceived;
+                EditorApplication.update += UpdateProgressBar;
+
+                CmdProcess.Start();
+                CmdProcess.BeginOutputReadLine();
+            }
+            catch (Exception e)
+            {
+                DisplayDialog("Exception: " + e);
+                if (CmdProcess != null)
+                {
+                    CmdProcess.Close();
+                    CmdProcess = null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Display a progress bar while updating.
+        /// </summary>
+        static void UpdateProgressBar ()
+        {
+            if (CmdProcess == null || CmdProcess.HasExited)
+            {
+                UpdateEnded();
+
+                if (CmdProcess != null)
+                {
+                    int exitCode = CmdProcess.ExitCode;
+                    if (exitCode == 0)
+                    {
+                        DisplayDialog("Update Plugins completed.");
+                    }
+                    else
+                    {
+                        DisplayDialog("Update Plugins failed with exit code: " + exitCode);
+                    }
+
+                    CmdProcess.Close();
+                    CmdProcess = null;
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(ErrorMessage))
+                    {
+                        DisplayDialog(ErrorMessage);
+                    }
+                }
+            }
+            else
+            {
+                float progress = ((float)EditorApplication.timeSinceStartup - UpdateStartTime) / ExpectedUpdateTime;
+                EditorUtility.DisplayProgressBar("Updating", "Updating plugins", progress);
+            }
+        }
+
+        /// <summary>
+        /// Remove progress bar and refresh AssetDatabase when update finishes.
+        /// </summary>
+        static void UpdateEnded()
+        {
+            EditorApplication.update -= UpdateProgressBar;
+            EditorUtility.ClearProgressBar();
             AssetDatabase.Refresh();
         }
 
         /// <summary>
-        /// Attempt to execute the Update_NuGet_Packages.bat file.
-        /// Show any errors/success in a message box.
+        /// Determine update success or fail from process output.
         /// </summary>
-        static void UpdateFromNuGet()
+        static void ProcessOutputDataReceived(object sender, DataReceivedEventArgs e)
         {
-            var cmdPath = "cmd.exe";
-            string dir = PluginConfigHelper.NugetScriptsDir;
-            string batchFilename = PluginConfigHelper.NugetScriptsFilename;
-
-            Process process = null;
-
-            try
+            if (e.Data.Contains(" error "))
             {
-                process = new Process();
-                process.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
-                process.StartInfo.UseShellExecute = false;
-                process.StartInfo.FileName = cmdPath;
-                process.StartInfo.WorkingDirectory = dir;
-                process.StartInfo.Arguments = "/c " + batchFilename;
-                process.EnableRaisingEvents = true;
-                process.Start();
-
-                process.WaitForExit();
-                int exitCode = process.ExitCode;
-                if (exitCode == 0)
-                {
-                    EditorUtility.DisplayDialog("Update from NuGet", "Update from NuGet completed.", "OK");
-                }
-                else
-                {
-                    EditorUtility.DisplayDialog("Update from NuGet", "Update from NuGet failed with exit code: " + exitCode, "OK");
-                }
-            }
-            catch (Exception e)
-            {
-                EditorUtility.DisplayDialog("Update from NuGet", "Exception: " + e, "OK");
-            }
-            finally
-            {
-                if (process != null)
-                {
-                    process.Close();
-                }
+                ErrorMessage = e.Data;
+                CmdProcess.Close();
+                CmdProcess = null;
             }
         }
 
-        /// <summary>
-        /// Attemp to build the csproj file using MSBuild exe call 
-        /// and copy the resultant dlls to the appropriate plugins folders.
-        /// </summary>
-        static void UpdateLocal()
+        static void DisplayDialog(string message)
         {
-            BuildPlugin();
-        }
-
-        static void BuildPlugin()
-        {
-            if (string.IsNullOrEmpty(PluginConfigHelper.WinLegacyDir) || string.IsNullOrEmpty(PluginConfigHelper.WinIntegrationDir))
-            {
-                EditorUtility.DisplayDialog("Build Plugin", "Error: Failed to get plugin directory.", "OK");
-                return;
-            }
-
-            var cmdPath = "cmd.exe";
-            string dir = PluginConfigHelper.NugetScriptsDir;
-            var batchFilename = "Build_Local.bat";
-
-            Process process = null;
-
-            try
-            {
-                process = new Process();
-                process.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
-                process.StartInfo.UseShellExecute = false;
-                process.StartInfo.FileName = cmdPath;
-                process.StartInfo.WorkingDirectory = dir;
-                process.StartInfo.Arguments = "/c " + batchFilename + " " + PluginConfigHelper.WinLegacyDir + " " + PluginConfigHelper.WinIntegrationDir +
-                    " " + PluginConfigHelper.UnityPluginsDir + " " + ((BuildConfig)PluginConfigHelper.CurrentBuildConfig).ToString();
-                process.EnableRaisingEvents = true;
-                process.Start();
-
-                process.WaitForExit();
-                int exitCode = process.ExitCode;
-                if (exitCode == 0)
-                {
-                    EditorUtility.DisplayDialog("Build Plugin", "Build Plugin completed.", "OK");
-                }
-                else
-                {
-                    EditorUtility.DisplayDialog("Build Plugin", "Build Plugin failed with exit code: " + exitCode + ".", "OK");
-                }
-            }
-            catch (Exception e)
-            {
-                EditorUtility.DisplayDialog("Build Plugin", "Exception: " + e, "OK");
-            }
-            finally
-            {
-                if (process != null)
-                {
-                    process.Close();
-                }
-            }
+            EditorUtility.DisplayDialog("UpdatePlugins", message, "OK");
         }
     }
 }

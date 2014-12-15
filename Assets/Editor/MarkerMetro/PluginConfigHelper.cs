@@ -6,7 +6,7 @@ namespace Assets.Editor.MarkerMetro
     /// <summary>
     /// Helper class to Get/Set user config to EditorPrefs.
     /// </summary>
-    public static class PluginConfigHelper
+    internal static class PluginConfigHelper
     {
         public enum PluginSource
         {
