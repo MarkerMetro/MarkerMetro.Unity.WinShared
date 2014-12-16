@@ -114,7 +114,7 @@ namespace Assets.Editor.MarkerMetro
         /// </summary>
         static void UpdateProgressBar ()
         {
-            // Stop updating if Unity is compiling
+            // Stop updating if Unity is compiling.
             if (EditorApplication.isCompiling)
             {
                 UpdateEnded();
