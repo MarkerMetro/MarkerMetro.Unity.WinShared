@@ -12,12 +12,14 @@ namespace Assets.Editor.MarkerMetro
         {
             WinLegacy,
             WinIntegration,
-            NuGet
+            NuGet,
+            BuildLocal
         }
 
         string _winLegacyDir;
         string _winIntegrationDir;
         string _nugetDir;
+        string _buildLocalDir;
         PluginSource _pluginSource;
         BuildConfig _buildConfig;
 
@@ -28,6 +30,7 @@ namespace Assets.Editor.MarkerMetro
             _winLegacyDir = PluginConfigHelper.WinLegacyDir;
             _winIntegrationDir = PluginConfigHelper.WinIntegrationDir;
             _nugetDir = PluginConfigHelper.NugetScriptsDir;
+            _buildLocalDir = PluginConfigHelper.BuildLocalScriptsDir;
         }
 
         void OnGUI()
@@ -36,10 +39,14 @@ namespace Assets.Editor.MarkerMetro
             if (_pluginSource == PluginSource.Local)
             {
                 DrawBuildConfig();
+                DrawChooseDir(DirType.WinLegacy);
+                DrawChooseDir(DirType.WinIntegration);
+                DrawChooseDir(DirType.BuildLocal);
             }
-            DrawChooseDir(DirType.WinLegacy);
-            DrawChooseDir(DirType.WinIntegration);
-            DrawChooseDir(DirType.NuGet);
+            else
+            {
+                DrawChooseDir(DirType.NuGet);
+            }
         }
 
         /// <summary>
@@ -118,6 +125,9 @@ namespace Assets.Editor.MarkerMetro
                 case DirType.NuGet:
                     dir = _nugetDir;
                     break;
+                case DirType.BuildLocal:
+                    dir = _buildLocalDir;
+                    break;
             }
             return dir;
         }
@@ -141,6 +151,10 @@ namespace Assets.Editor.MarkerMetro
                 case DirType.NuGet:
                     _nugetDir = dir;
                     PluginConfigHelper.NugetScriptsDir = _nugetDir;
+                    break;
+                case DirType.BuildLocal:
+                    _buildLocalDir = dir;
+                    PluginConfigHelper.BuildLocalScriptsDir = _buildLocalDir;
                     break;
             }
         }

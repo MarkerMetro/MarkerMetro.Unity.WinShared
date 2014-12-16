@@ -57,8 +57,24 @@ namespace Assets.Editor.MarkerMetro
         /// </summary>
         static public string NugetScriptsFilename
         {
-            get { return EditorPrefs.GetString("MMNugetScriptsFilename", "Update_NuGet_Packages.bat"); }
-            set { EditorPrefs.SetString("MMNugetScriptsFilename", value); }
+            get { return "Update_NuGet_Packages.bat"; }
+        }
+
+        /// <summary>
+        /// Get/Set Nuget scripts directory.
+        /// </summary>
+        static public string BuildLocalScriptsDir
+        {
+            get { return EditorPrefs.GetString("MMBuildLocalScriptsDir", System.IO.Path.GetFullPath(Application.dataPath + "\\..\\NuGet")); }
+            set { EditorPrefs.SetString("MMBuildLocalScriptsDir", value); }
+        }
+
+        /// <summary>
+        /// Get/Set Nuget scripts filename.
+        /// </summary>
+        static public string BuildLocalScriptsFilename
+        {
+            get { return "Build_Local.bat"; }
         }
 
         /// <summary>
