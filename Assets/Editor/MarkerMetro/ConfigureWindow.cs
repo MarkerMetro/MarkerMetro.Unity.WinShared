@@ -89,7 +89,8 @@ namespace Assets.Editor.MarkerMetro
             GUILayout.Space(3f);
             if (GUILayout.Button("Choose", "LargeButtonMid", GUILayout.Height(20f), GUILayout.ExpandWidth(false)))
             {
-                dir = EditorUtility.OpenFolderPanel("Choose Folder", Application.dataPath, "");
+                string defaultDir = string.IsNullOrEmpty(dir) ? Application.dataPath : dir;
+                dir = EditorUtility.OpenFolderPanel("Choose Folder", defaultDir, "");
                 if (!string.IsNullOrEmpty(dir))
                 {
                     SetDir(dirType, dir);
