@@ -31,6 +31,12 @@ namespace Assets.Editor.MarkerMetro
         [MenuItem("MarkerMetro/Plugins/Update", priority = 2)]
         public static void UpdatePlugins()
         {
+            if (EditorApplication.isCompiling)
+            {
+                DisplayDialog("Plugins cannot be updated at present, please try again later.");
+                return;
+            }
+
             if (CmdProcess != null)
             {
                 DisplayDialog("Error: Still updating");
@@ -92,6 +98,8 @@ namespace Assets.Editor.MarkerMetro
             }
             catch (Exception e)
             {
+                UpdateEnded();
+
                 DisplayDialog("Exception: " + e);
                 if (CmdProcess != null)
                 {
@@ -106,6 +114,14 @@ namespace Assets.Editor.MarkerMetro
         /// </summary>
         static void UpdateProgressBar ()
         {
+            // Stop updating if Unity is compiling.
+            if (EditorApplication.isCompiling)
+            {
+                UpdateEnded();
+                DisplayDialog("Plugins cannot be updated at present, please try again later.");
+                return;
+            }
+
             if (CmdProcess == null || CmdProcess.HasExited)
             {
                 UpdateEnded();
@@ -155,6 +171,11 @@ namespace Assets.Editor.MarkerMetro
         /// </summary>
         static void ProcessOutputDataReceived(object sender, DataReceivedEventArgs e)
         {
+            if (e.Data != null)
+            {
+                UnityEngine.Debug.Log(e.Data);
+            }
+
             if (e.Data.Contains(" error "))
             {
                 ErrorMessage = e.Data;
@@ -165,7 +186,7 @@ namespace Assets.Editor.MarkerMetro
 
         static void DisplayDialog(string message)
         {
-            EditorUtility.DisplayDialog("UpdatePlugins", message, "OK");
+            EditorUtility.DisplayDialog("Update Plugins", message, "OK");
         }
     }
 }
