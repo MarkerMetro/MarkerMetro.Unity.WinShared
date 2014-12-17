@@ -61,15 +61,6 @@ namespace Assets.Editor.MarkerMetro
         }
 
         /// <summary>
-        /// Get/Set Nuget scripts directory.
-        /// </summary>
-        static public string BuildLocalScriptsDir
-        {
-            get { return EditorPrefs.GetString("MMBuildLocalScriptsDir", System.IO.Path.GetFullPath(Application.dataPath + "\\..\\NuGet")); }
-            set { EditorPrefs.SetString("MMBuildLocalScriptsDir", value); }
-        }
-
-        /// <summary>
         /// Get/Set Nuget scripts filename.
         /// </summary>
         static public string BuildLocalScriptsFilename

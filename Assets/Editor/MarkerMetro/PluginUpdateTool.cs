@@ -65,7 +65,7 @@ namespace Assets.Editor.MarkerMetro
         static void UpdatePlugins(bool fromNuGet)
         {
             var cmdPath = "cmd.exe";
-            string dir = fromNuGet ? PluginConfigHelper.NugetScriptsDir : PluginConfigHelper.BuildLocalScriptsDir;
+            string dir = PluginConfigHelper.NugetScriptsDir;
             string batchFilename = fromNuGet ? PluginConfigHelper.NugetScriptsFilename : PluginConfigHelper.BuildLocalScriptsFilename;
 
             try
