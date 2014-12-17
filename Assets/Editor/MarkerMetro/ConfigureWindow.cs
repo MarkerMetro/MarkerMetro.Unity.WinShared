@@ -13,26 +13,34 @@ namespace Assets.Editor.MarkerMetro
             WinLegacy,
             WinIntegration,
             NuGet,
-            BuildLocal
+            BuildLocal,
+            VSCommonTool
         }
 
         string _winLegacyDir;
         string _winIntegrationDir;
         string _nugetDir;
+        string _vsCommonToolDir;
         PluginSource _pluginSource;
         BuildConfig _buildConfig;
 
+        Vector2 _scrollPosition;
+
         void OnEnable()
         {
+            PluginConfigHelper.SearchVSCommonToolsDir();
             _pluginSource = (PluginSource)PluginConfigHelper.CurrentPluginSource;
             _buildConfig = (BuildConfig)PluginConfigHelper.CurrentBuildConfig;
             _winLegacyDir = PluginConfigHelper.WinLegacyDir;
             _winIntegrationDir = PluginConfigHelper.WinIntegrationDir;
             _nugetDir = PluginConfigHelper.NugetScriptsDir;
+            _vsCommonToolDir = PluginConfigHelper.VSCommonToolDir;
         }
 
         void OnGUI()
         {
+            _scrollPosition = GUILayout.BeginScrollView(_scrollPosition, GUI.skin.scrollView);
+
             DrawUpdateSource();
             if (_pluginSource == PluginSource.Local)
             {
@@ -45,6 +53,9 @@ namespace Assets.Editor.MarkerMetro
             {
                 DrawChooseDir(DirType.NuGet);
             }
+            DrawChooseDir(DirType.VSCommonTool);
+
+            GUILayout.EndScrollView();
         }
 
         /// <summary>
@@ -124,6 +135,9 @@ namespace Assets.Editor.MarkerMetro
                 case DirType.BuildLocal:
                     dir = _nugetDir;
                     break;
+                case DirType.VSCommonTool:
+                    dir = _vsCommonToolDir;
+                    break;
             }
             return dir;
         }
@@ -148,6 +162,10 @@ namespace Assets.Editor.MarkerMetro
                 case DirType.BuildLocal:
                     _nugetDir = dir;
                     PluginConfigHelper.NugetScriptsDir = _nugetDir;
+                    break;
+                case DirType.VSCommonTool:
+                    _vsCommonToolDir = dir;
+                    PluginConfigHelper.VSCommonToolDir = _vsCommonToolDir;
                     break;
             }
         }

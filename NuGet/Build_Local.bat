@@ -4,13 +4,17 @@ SET winLegacyDir=%1
 SET winIntegrationDir=%2
 SET unityPluginDir=%3
 SET buildConfig=%4
+SET vsCommonToolsDir=%5%
 IF "%1" == "" (
     SET buildConfig=Release
+    )
+IF "%5" == "" (
+    SET vsCommonToolsDir="C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\Tools"
     )
 SET winLegacy=MarkerMetro.Unity.WinLegacy
 SET winIntegration=MarkerMetro.Unity.WinIntegration
 
-call "C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\Tools\vsvars32.bat"
+call %vsCommonToolsDir%\vsvars32.bat
 echo "%winLegacyDir%\%winLegacy%Metro\%winLegacy%Metro.csproj"
 msbuild "%winLegacyDir%\%winLegacy%Metro\%winLegacy%Metro.csproj" /p:Configuration=%buildConfig% /t:Clean;Build
 msbuild "%winLegacyDir%\%winLegacy%Unity\%winLegacy%Unity.csproj" /p:Configuration=%buildConfig% /t:Clean;Build
