@@ -85,6 +85,7 @@ namespace Assets.Editor.MarkerMetro
                 CmdProcess.EnableRaisingEvents = true;
 
                 CmdProcess.OutputDataReceived += ProcessOutputDataReceived;
+                CmdProcess.ErrorDataReceived += ProcessErrorDataReceived;
                 EditorApplication.update += UpdateProgressBar;
 
                 CmdProcess.Start();
@@ -161,6 +162,17 @@ namespace Assets.Editor.MarkerMetro
                 CmdProcess.Close();
                 CmdProcess = null;
             }
+        }
+
+        /// <summary>
+        /// Log any error from the process.
+        /// </summary>
+        static void ProcessErrorDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            UnityEngine.Debug.LogError(e.Data);
+            ErrorMessage = e.Data;
+            CmdProcess.Close();
+            CmdProcess = null;
         }
 
         static void DisplayDialog(string message)

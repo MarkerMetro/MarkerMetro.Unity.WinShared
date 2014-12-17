@@ -10,8 +10,9 @@ IF "%1" == "" (
 SET winLegacy=MarkerMetro.Unity.WinLegacy
 SET winIntegration=MarkerMetro.Unity.WinIntegration
 
+nuget restore "%winIntegrationDir%\%winIntegration%.sln%"
+
 call "C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\Tools\vsvars32.bat"
-echo "%winLegacyDir%\%winLegacy%Metro\%winLegacy%Metro.csproj"
 msbuild "%winLegacyDir%\%winLegacy%Metro\%winLegacy%Metro.csproj" /p:Configuration=%buildConfig% /t:Clean;Build
 msbuild "%winLegacyDir%\%winLegacy%Unity\%winLegacy%Unity.csproj" /p:Configuration=%buildConfig% /t:Clean;Build
 msbuild "%winLegacyDir%\%winLegacy%WP8\%winLegacy%WP8.csproj" /p:Configuration=%buildConfig% /t:Clean;Build
