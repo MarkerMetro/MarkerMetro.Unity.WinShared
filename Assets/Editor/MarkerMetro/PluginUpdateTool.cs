@@ -10,6 +10,7 @@ namespace Assets.Editor.MarkerMetro
 {
     internal static class PluginUpdateTool
     {
+        const float TimeoutTime = 120f;
         const float ExpectedUpdateTime = 15f;
 
         static Process CmdProcess;
@@ -136,8 +137,19 @@ namespace Assets.Editor.MarkerMetro
             }
             else
             {
-                float progress = ((float)EditorApplication.timeSinceStartup - UpdateStartTime) / ExpectedUpdateTime;
-                EditorUtility.DisplayProgressBar("Updating", "Updating plugins", progress);
+                if ((float)EditorApplication.timeSinceStartup - UpdateStartTime > TimeoutTime)
+                {
+                    UpdateEnded();
+                    CmdProcess.Close();
+                    CmdProcess = null;
+
+                    DisplayDialog("Update Plugins timed out, please check Unity console for more info.");
+                }
+                else
+                {
+                    float progress = ((float)EditorApplication.timeSinceStartup - UpdateStartTime) / ExpectedUpdateTime;
+                    EditorUtility.DisplayProgressBar("Updating", "Updating plugins", progress);
+                }
             }
         }
 
