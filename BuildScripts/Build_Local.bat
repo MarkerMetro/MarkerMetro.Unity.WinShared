@@ -13,20 +13,26 @@ IF "%5" == "" (
     )
 SET winLegacy=MarkerMetro.Unity.WinLegacy
 SET winIntegration=MarkerMetro.Unity.WinIntegration
-
+echo progress 0
 
 nuget restore "%winIntegrationDir%\%winIntegration%.sln%"
+echo progress 10
 
 call %vsCommonToolsDir%\vsvars32.bat
-echo "%winLegacyDir%\%winLegacy%Metro\%winLegacy%Metro.csproj"
 
 msbuild "%winLegacyDir%\%winLegacy%Metro\%winLegacy%Metro.csproj" /p:Configuration=%buildConfig% /t:Clean;Build
+echo progress 25
 msbuild "%winLegacyDir%\%winLegacy%Unity\%winLegacy%Unity.csproj" /p:Configuration=%buildConfig% /t:Clean;Build
+echo progress 40
 msbuild "%winLegacyDir%\%winLegacy%WP8\%winLegacy%WP8.csproj" /p:Configuration=%buildConfig% /t:Clean;Build
+echo progress 55
 
 msbuild "%winIntegrationDir%\%winIntegration%Metro\%winIntegration%Metro.csproj" /p:Configuration=%buildConfig% /t:Clean;Build
+echo progress 70
 msbuild "%winIntegrationDir%\%winIntegration%Unity\%winIntegration%Unity.csproj" /p:Configuration=%buildConfig% /t:Clean;Build
+echo progress 85
 msbuild "%winIntegrationDir%\%winIntegration%WP8\%winIntegration%WP8.csproj" /p:Configuration=%buildConfig% /t:Clean;Build
+echo progress 100
 
 copy /y "%winLegacyDir%\%winLegacy%Metro\bin\%buildConfig%\%winLegacy%.dll" "%unityPluginDir%\Metro\%winLegacy%.dll"
 copy /y "%winLegacyDir%\%winLegacy%Unity\bin\%buildConfig%\%winLegacy%.dll" "%unityPluginDir%\%winLegacy%.dll"

@@ -48,10 +48,10 @@ namespace Assets.Editor.MarkerMetro
         /// <summary>
         /// Get/Set Nuget scripts directory.
         /// </summary>
-        static public string NugetScriptsDir
+        static public string BuildScriptsDir
         {
-            get { return EditorPrefs.GetString("MMNugetScriptsDir", System.IO.Path.GetFullPath(Application.dataPath + "\\..\\NuGet")); }
-            set { EditorPrefs.SetString("MMNugetScriptsDir", value); }
+            get { return EditorPrefs.GetString("MMBuildScriptsDir", System.IO.Path.GetFullPath(Application.dataPath + "\\..\\BuildScripts")); }
+            set { EditorPrefs.SetString("MMBuildScriptsDir", value); }
         }
 
         /// <summary>
