@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using System;
+using System.Collections.Generic;
 
 namespace Assets.Editor.MarkerMetro
 {
@@ -53,12 +55,28 @@ namespace Assets.Editor.MarkerMetro
         }
 
         /// <summary>
+        /// Get/Set Visual Studio common tools directory (for access to vsvars.bat file).
+        /// </summary>
+        static public string VSCommonToolDir
+        {
+            get { return EditorPrefs.GetString("MMVSCommonToolDir", SearchVSCommonToolsDir()); }
+            set { EditorPrefs.SetString("MMVSCommonToolDir", value); }
+        }
+
+        /// <summary>
         /// Get/Set Nuget scripts filename.
         /// </summary>
         static public string NugetScriptsFilename
         {
-            get { return EditorPrefs.GetString("MMNugetScriptsFilename", "Update_NuGet_Packages.bat"); }
-            set { EditorPrefs.SetString("MMNugetScriptsFilename", value); }
+            get { return "Update_NuGet_Packages.bat"; }
+        }
+
+        /// <summary>
+        /// Get/Set Nuget scripts filename.
+        /// </summary>
+        static public string BuildLocalScriptsFilename
+        {
+            get { return "Build_Local.bat"; }
         }
 
         /// <summary>
@@ -77,6 +95,25 @@ namespace Assets.Editor.MarkerMetro
         {
             get { return EditorPrefs.GetInt("MMBuildConfig", 0); }
             set { EditorPrefs.SetInt("MMBuildConfig", value); }
+        }
+
+        /// <summary>
+        /// Attemp to search for the path of vsvars.bat for the highest version of Visual Studio installed.
+        /// </summary>
+        static public string SearchVSCommonToolsDir ()
+        {
+            List<Version> vsVersions = new List<Version>() { new Version("15.0"), new Version("14.0"), new Version("13.0"), new Version("12.0"), new Version("11.0") };
+
+            foreach (var version in vsVersions)
+            {
+                string dir = Environment.GetEnvironmentVariable(string.Format("VS{0}{1}COMNTOOLS", version.Major, version.Minor));
+                if (!string.IsNullOrEmpty(dir))
+                {
+                    return System.IO.Path.GetFullPath(dir.Substring(0, dir.Length-1));
+                }
+            }
+
+            return null;
         }
     }
 }

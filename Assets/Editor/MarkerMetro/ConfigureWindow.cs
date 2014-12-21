@@ -12,34 +12,50 @@ namespace Assets.Editor.MarkerMetro
         {
             WinLegacy,
             WinIntegration,
-            NuGet
+            NuGet,
+            BuildLocal,
+            VSCommonTool
         }
 
         string _winLegacyDir;
         string _winIntegrationDir;
         string _nugetDir;
+        string _vsCommonToolDir;
         PluginSource _pluginSource;
         BuildConfig _buildConfig;
 
+        Vector2 _scrollPosition;
+
         void OnEnable()
         {
+            PluginConfigHelper.SearchVSCommonToolsDir();
             _pluginSource = (PluginSource)PluginConfigHelper.CurrentPluginSource;
             _buildConfig = (BuildConfig)PluginConfigHelper.CurrentBuildConfig;
             _winLegacyDir = PluginConfigHelper.WinLegacyDir;
             _winIntegrationDir = PluginConfigHelper.WinIntegrationDir;
             _nugetDir = PluginConfigHelper.NugetScriptsDir;
+            _vsCommonToolDir = PluginConfigHelper.VSCommonToolDir;
         }
 
         void OnGUI()
         {
+            _scrollPosition = GUILayout.BeginScrollView(_scrollPosition, GUI.skin.scrollView);
+
             DrawUpdateSource();
             if (_pluginSource == PluginSource.Local)
             {
                 DrawBuildConfig();
+                DrawChooseDir(DirType.WinLegacy);
+                DrawChooseDir(DirType.WinIntegration);
+                DrawChooseDir(DirType.BuildLocal);
             }
-            DrawChooseDir(DirType.WinLegacy);
-            DrawChooseDir(DirType.WinIntegration);
-            DrawChooseDir(DirType.NuGet);
+            else
+            {
+                DrawChooseDir(DirType.NuGet);
+            }
+            DrawChooseDir(DirType.VSCommonTool);
+
+            GUILayout.EndScrollView();
         }
 
         /// <summary>
@@ -89,7 +105,8 @@ namespace Assets.Editor.MarkerMetro
             GUILayout.Space(3f);
             if (GUILayout.Button("Choose", "LargeButtonMid", GUILayout.Height(20f), GUILayout.ExpandWidth(false)))
             {
-                dir = EditorUtility.OpenFolderPanel("Choose Folder", Application.dataPath, "");
+                string defaultDir = string.IsNullOrEmpty(dir) ? Application.dataPath : dir;
+                dir = EditorUtility.OpenFolderPanel("Choose Folder", defaultDir, "");
                 if (!string.IsNullOrEmpty(dir))
                 {
                     SetDir(dirType, dir);
@@ -115,7 +132,11 @@ namespace Assets.Editor.MarkerMetro
                     dir = _winIntegrationDir;
                     break;
                 case DirType.NuGet:
+                case DirType.BuildLocal:
                     dir = _nugetDir;
+                    break;
+                case DirType.VSCommonTool:
+                    dir = _vsCommonToolDir;
                     break;
             }
             return dir;
@@ -138,8 +159,13 @@ namespace Assets.Editor.MarkerMetro
                     PluginConfigHelper.WinIntegrationDir = _winIntegrationDir;
                     break;
                 case DirType.NuGet:
+                case DirType.BuildLocal:
                     _nugetDir = dir;
                     PluginConfigHelper.NugetScriptsDir = _nugetDir;
+                    break;
+                case DirType.VSCommonTool:
+                    _vsCommonToolDir = dir;
+                    PluginConfigHelper.VSCommonToolDir = _vsCommonToolDir;
                     break;
             }
         }
