@@ -12,9 +12,11 @@ namespace Assets.Editor.MarkerMetro
     {
         const float TimeoutTime = 120f;
         const float ExpectedUpdateTime = 15f;
+        const int NumberOfNuGetInstalls = 3;
 
         static Process CmdProcess;
         static float UpdateStartTime;
+        static float Progress;
         static string ErrorMessage;
 
         /// <summary>
@@ -72,7 +74,7 @@ namespace Assets.Editor.MarkerMetro
         static void UpdatePlugins(bool fromNuGet)
         {
             var cmdPath = "cmd.exe";
-            string dir = PluginConfigHelper.NugetScriptsDir;
+            string dir = PluginConfigHelper.BuildScriptsDir;
             string batchFilename = fromNuGet ? PluginConfigHelper.NugetScriptsFilename : PluginConfigHelper.BuildLocalScriptsFilename;
 
             try
@@ -100,34 +102,31 @@ namespace Assets.Editor.MarkerMetro
             }
             catch (Exception e)
             {
-                UpdateEnded();
-
                 DisplayDialog("Exception: " + e);
                 if (CmdProcess != null)
                 {
                     CmdProcess.Close();
                     CmdProcess = null;
                 }
+                UpdateEnded();
             }
         }
 
         /// <summary>
         /// Display a progress bar while updating.
         /// </summary>
-        static void UpdateProgressBar ()
+        static void UpdateProgressBar()
         {
             // Stop updating if Unity is compiling.
             if (EditorApplication.isCompiling)
             {
-                UpdateEnded();
                 DisplayDialog("Plugins cannot be updated at present, please try again later.");
+                UpdateEnded();
                 return;
             }
 
             if (CmdProcess == null || CmdProcess.HasExited)
             {
-                UpdateEnded();
-
                 if (CmdProcess != null)
                 {
                     int exitCode = CmdProcess.ExitCode;
@@ -150,21 +149,21 @@ namespace Assets.Editor.MarkerMetro
                         DisplayDialog(ErrorMessage);
                     }
                 }
+                UpdateEnded();
             }
             else
             {
                 if ((float)EditorApplication.timeSinceStartup - UpdateStartTime > TimeoutTime)
                 {
-                    UpdateEnded();
                     CmdProcess.Close();
                     CmdProcess = null;
 
                     DisplayDialog("Update Plugins timed out, please check Unity console for more info.");
+                    UpdateEnded();
                 }
                 else
                 {
-                    float progress = ((float)EditorApplication.timeSinceStartup - UpdateStartTime) / ExpectedUpdateTime;
-                    EditorUtility.DisplayProgressBar("Updating", "Updating plugins", progress);
+                    EditorUtility.DisplayProgressBar("Updating", "Updating plugins", Progress);
                 }
             }
         }
@@ -180,20 +179,41 @@ namespace Assets.Editor.MarkerMetro
         }
 
         /// <summary>
-        /// Determine update success or fail from process output.
+        /// Determine progress from process output and attempt to catch errors.
         /// </summary>
         static void ProcessOutputDataReceived(object sender, DataReceivedEventArgs e)
         {
             if (e.Data != null)
             {
-                UnityEngine.Debug.Log(e.Data);
-            }
+                if (e.Data.StartsWith("progress"))
+                {
+                    string[] progressEcho = e.Data.Split(' ');
+                    if (progressEcho.Length == 2 && float.TryParse(progressEcho[1], out Progress))
+                    {
+                        Progress *= 0.01f;
+                    }
+                    else
+                    {
+                        UnityEngine.Debug.Log(e.Data);
+                    }
+                }
+                else
+                {
+                    UnityEngine.Debug.Log(e.Data);
 
-            if (e.Data.Contains(" error "))
-            {
-                ErrorMessage = e.Data;
-                CmdProcess.Close();
-                CmdProcess = null;
+                    if (e.Data.Contains("Successfully installed"))
+                    {
+                        Progress += 1f / NumberOfNuGetInstalls;
+                    }
+
+                }
+
+                if (e.Data.Contains(" error "))
+                {
+                    ErrorMessage = e.Data;
+                    CmdProcess.Close();
+                    CmdProcess = null;
+                }
             }
         }
 
