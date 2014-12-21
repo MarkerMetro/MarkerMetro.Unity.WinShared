@@ -9,8 +9,9 @@ https://www.dropbox.com/s/w8wt0au5602vl57/MarkerMetro.Unity.WinShared.jpg
 Prerequisites
 ==================
 
-Visual Studio 2013 with latest updates and Nuget Package Manager installed
-Unity 4.6 (although 4.5 should work as well)
+- Visual Studio 2013 with latest updates
+- Nuget Package Manager
+- Unity 4.6 (although 4.5 should work as well)
 
 Setup
 ==================
