@@ -25,9 +25,9 @@ This will copy the .gitignore, NuGet, Assets and Windows Solution folders, while
 
 You will need to provide following:
 
-1) TargetRepoPath - full path to root folder of new repository (for example: `C:\Code\SomeProject\`)
-2) UnityProjectTargetDir - subdirectory under _TargetRepoPath_ that contains Unity project (can be empty, if it is in the root of repo, for example: `Unity` for Unity project to be in `C:\Code\SomeProject\Unity`)
-3) ProjectName - name of new project. Script will rename Windows projects, namespaces and solutions to match this name.
+- TargetRepoPath - full path to root folder of new repository (for example: `C:\Code\SomeProject\`)
+- UnityProjectTargetDir - subdirectory under _TargetRepoPath_ that contains Unity project (can be empty, if it is in the root of repo, for example: `Unity` for Unity project to be in `C:\Code\SomeProject\Unity`)
+- ProjectName - name of new project. Script will rename Windows projects, namespaces and solutions to match this name.
 
 ## The Unity Project
 
