@@ -10,6 +10,7 @@ namespace Assets.Editor.MarkerMetro
 {
     internal static class PluginUpdateTool
     {
+        const float TimeoutTime = 120f;
         const float ExpectedUpdateTime = 15f;
 
         static Process CmdProcess;
@@ -91,6 +92,7 @@ namespace Assets.Editor.MarkerMetro
                 CmdProcess.EnableRaisingEvents = true;
 
                 CmdProcess.OutputDataReceived += ProcessOutputDataReceived;
+                CmdProcess.ErrorDataReceived += ProcessErrorDataReceived;
                 EditorApplication.update += UpdateProgressBar;
 
                 CmdProcess.Start();
@@ -151,8 +153,19 @@ namespace Assets.Editor.MarkerMetro
             }
             else
             {
-                float progress = ((float)EditorApplication.timeSinceStartup - UpdateStartTime) / ExpectedUpdateTime;
-                EditorUtility.DisplayProgressBar("Updating", "Updating plugins", progress);
+                if ((float)EditorApplication.timeSinceStartup - UpdateStartTime > TimeoutTime)
+                {
+                    UpdateEnded();
+                    CmdProcess.Close();
+                    CmdProcess = null;
+
+                    DisplayDialog("Update Plugins timed out, please check Unity console for more info.");
+                }
+                else
+                {
+                    float progress = ((float)EditorApplication.timeSinceStartup - UpdateStartTime) / ExpectedUpdateTime;
+                    EditorUtility.DisplayProgressBar("Updating", "Updating plugins", progress);
+                }
             }
         }
 
@@ -182,6 +195,17 @@ namespace Assets.Editor.MarkerMetro
                 CmdProcess.Close();
                 CmdProcess = null;
             }
+        }
+
+        /// <summary>
+        /// Log any error from the process.
+        /// </summary>
+        static void ProcessErrorDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            UnityEngine.Debug.LogError(e.Data);
+            ErrorMessage = e.Data;
+            CmdProcess.Close();
+            CmdProcess = null;
         }
 
         static void DisplayDialog(string message)
