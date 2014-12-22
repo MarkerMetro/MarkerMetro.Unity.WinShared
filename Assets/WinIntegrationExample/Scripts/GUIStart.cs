@@ -38,17 +38,17 @@ public class GUIStart : MonoBehaviour {
 
         y_modifier += 50;
 
-        if (GameMaster.ReminderStarted)
+        if (GameMaster.ReminderScheduled)
         {
             // cancel reminder.
-            if (GUI.Button(new Rect(box_x + 10, box_y + y_modifier, box_width - 20, 40), "Cancel Reminder"))
+            if (GUI.Button(new Rect(box_x + 10, box_y + y_modifier, box_width - 20, 40), "Remove Reminder"))
             {
                 GameMaster.CancelReminder();
             }
         }
         else
         {
-            // Set reminder (30sec later).
+            // Set reminder (120sec later).
             if (GUI.Button(new Rect(box_x + 10, box_y + y_modifier, box_width - 20, 40), "Set Reminder"))
             {
                 game_script.SetReminder();
