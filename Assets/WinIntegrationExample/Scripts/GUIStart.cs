@@ -38,6 +38,25 @@ public class GUIStart : MonoBehaviour {
 
         y_modifier += 50;
 
+        if (game_script.reminderStarted)
+        {
+            // cancel reminder.
+            if (GUI.Button(new Rect(box_x + 10, box_y + y_modifier, box_width - 20, 40), "Cancel Reminder"))
+            {
+                game_script.CancelReminder();
+            }
+        }
+        else
+        {
+            // Set reminder (30sec later).
+            if (GUI.Button(new Rect(box_x + 10, box_y + y_modifier, box_width - 20, 40), "Set Reminder"))
+            {
+                game_script.SetReminder();
+            }
+        }
+
+        y_modifier += 50;
+
         if (!FBWin.IsLoggedIn)
         {
             // Second Button Login to FB

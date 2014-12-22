@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System;
 using MarkerMetro.Unity.WinIntegration.Facebook;
 using MarkerMetro.Unity.WinIntegration.Resources;
+using MarkerMetro.Unity.WinIntegration.LocalNotifications;
 using LitJson;
 
 #if UNITY_WP8 && !UNITY_EDITOR
@@ -21,18 +22,21 @@ public class GameMaster : MonoBehaviour {
     public GameObject   facebook_image_;
     public GameObject   login_name_;
     public GameObject   number_friends_;
+    public TextMesh     reminderCountdownTextMesh;
 
 	public GUIText 		gui_matches_;
 	public GUIText 		gui_remaining_;
 	public GUIText 		gui_result_;
 
 	public GAME_STATE state_;
+    public bool reminderStarted;
 
 	private List<GameObject> tiles_ = new List<GameObject>();
 	private string[] names_ = {"Keith", "Tony", "Greg", "Nigel", "Ivan", "Chad", "Damian", "Brian" };
 	private Tile current_switched_1 = null;
 	private Tile current_switched_2 = null;
 	private float waiting_timer_ = 0.0f;
+    private DateTime reminderStartTime;
 
 	private int max_moves_ = 15;
 	private int remaining_moves_ = 0;
@@ -43,6 +47,8 @@ public class GameMaster : MonoBehaviour {
 	const int rows_ = 4;
 	const int cols_ = 4;
 	const float wait_after_switch_ = 0.5f;
+    const float reminderTime = 30f;
+    const string reminderTextPrefix = "Seconds till reminder: ";
 
 	public enum GAME_STATE
 	{
@@ -54,6 +60,22 @@ public class GameMaster : MonoBehaviour {
 	};
 
 	void Start () {
+        if (DateTime.TryParse(PlayerPrefs.GetString("reminderStartTime", string.Empty), out reminderStartTime))
+        {
+            reminderStarted = true;
+            float timeDiff = (float)DateTime.Now.Subtract(reminderStartTime).TotalSeconds;
+            if (timeDiff >= reminderTime)
+            {
+                reminderStarted = false;
+                reminderCountdownTextMesh.text = reminderTextPrefix + "0";
+            }
+            else
+            {
+                reminderStarted = true;
+                reminderCountdownTextMesh.text = reminderTextPrefix + (Mathf.Ceil(reminderTime - timeDiff)).ToString();
+            }
+        }
+
 
 		CreateTiles();
 		ChangeState( GAME_STATE.GS_START );
@@ -89,6 +111,20 @@ public class GameMaster : MonoBehaviour {
 				gui_result_.text = "YOU LOSE";
 			}
 		}
+
+        if (reminderStarted)
+        {
+            float timeDiff = (float)DateTime.Now.Subtract(reminderStartTime).TotalSeconds;
+            if (timeDiff >= reminderTime)
+            {
+                reminderStarted = false;
+                reminderCountdownTextMesh.text = reminderTextPrefix + "0";
+            }
+            else
+            {
+                reminderCountdownTextMesh.text = reminderTextPrefix + (Mathf.Ceil(reminderTime - timeDiff)).ToString();
+            }
+        }
 	}
 
 	// Change the games state
@@ -455,5 +491,23 @@ public class GameMaster : MonoBehaviour {
         }
         
         url.LoadImageIntoTexture(texture);
+    }
+
+    public void SetReminder ()
+    {
+        reminderStarted = true;
+        reminderStartTime = DateTime.Now;
+        PlayerPrefs.SetString("reminderStartTime", reminderStartTime.ToString());
+        ReminderManager.SetRemindersStatus(true);
+        ReminderManager.RegisterReminder("testID", "Face Flip", "This is a reminder.", DateTime.Now.AddSeconds(reminderTime));
+    }
+
+    public void CancelReminder ()
+    {
+        reminderStarted = false;
+        reminderStartTime = DateTime.Now.AddSeconds(-reminderTime);
+        reminderCountdownTextMesh.text = reminderTextPrefix + "0";
+        PlayerPrefs.SetString("reminderStartTime", reminderStartTime.ToString());
+        ReminderManager.RemoveReminder("testID");
     }
 }
