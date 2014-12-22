@@ -28,6 +28,11 @@
                 x:Uid="GameSettingsFlyout_Music" 
                 Header="Music"
                 Toggled="musicSwitch_Toggled"/>
+            <ToggleSwitch 
+                x:Name="reminderSwitch"
+                x:Uid="GameSettingsFlyout_Reminder" 
+                Header="Reminder"
+                Toggled="reminderSwitch_Toggled"/>
         </StackPanel>
         <!-- Define more Content Sections below as necessary -->
     </StackPanel>

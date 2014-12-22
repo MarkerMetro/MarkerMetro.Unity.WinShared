@@ -15,7 +15,10 @@ using FBWin = MarkerMetro.Unity.WinIntegration.Facebook.FB;
 
 public class GameMaster : MonoBehaviour {
 
-	public GameObject 	gui_start_;
+    public static bool ReminderStarted;
+    public static bool ForceResetReminderCountdown;
+    
+    public GameObject   gui_start_;
 	public GameObject 	gui_play_;
 	public GameObject 	gui_end_;
 	public GameObject	gui_store_;
@@ -29,7 +32,6 @@ public class GameMaster : MonoBehaviour {
 	public GUIText 		gui_result_;
 
 	public GAME_STATE state_;
-    public bool reminderStarted;
 
 	private List<GameObject> tiles_ = new List<GameObject>();
 	private string[] names_ = {"Keith", "Tony", "Greg", "Nigel", "Ivan", "Chad", "Damian", "Brian" };
@@ -60,20 +62,25 @@ public class GameMaster : MonoBehaviour {
 	};
 
 	void Start () {
-        if (DateTime.TryParse(PlayerPrefs.GetString("reminderStartTime", string.Empty), out reminderStartTime))
+        if (ReminderManager.AreRemindersEnabled() && DateTime.TryParse(PlayerPrefs.GetString("reminderStartTime", string.Empty), out reminderStartTime))
         {
-            reminderStarted = true;
+            ReminderStarted = true;
             float timeDiff = (float)DateTime.Now.Subtract(reminderStartTime).TotalSeconds;
             if (timeDiff >= reminderTime)
             {
-                reminderStarted = false;
+                ReminderStarted = false;
                 reminderCountdownTextMesh.text = reminderTextPrefix + "0";
             }
             else
             {
-                reminderStarted = true;
+                ReminderStarted = true;
                 reminderCountdownTextMesh.text = reminderTextPrefix + (Mathf.Ceil(reminderTime - timeDiff)).ToString();
             }
+        }
+        else
+        {
+            ReminderStarted = false;
+            reminderCountdownTextMesh.text = reminderTextPrefix + "0";
         }
 
 
@@ -112,18 +119,23 @@ public class GameMaster : MonoBehaviour {
 			}
 		}
 
-        if (reminderStarted)
+        if (ReminderStarted)
         {
             float timeDiff = (float)DateTime.Now.Subtract(reminderStartTime).TotalSeconds;
             if (timeDiff >= reminderTime)
             {
-                reminderStarted = false;
+                ReminderStarted = false;
                 reminderCountdownTextMesh.text = reminderTextPrefix + "0";
             }
             else
             {
                 reminderCountdownTextMesh.text = reminderTextPrefix + (Mathf.Ceil(reminderTime - timeDiff)).ToString();
             }
+        }
+        else if (ForceResetReminderCountdown)
+        {
+            ForceResetReminderCountdown = false;
+            reminderCountdownTextMesh.text = reminderTextPrefix + "0";
         }
 	}
 
@@ -495,19 +507,25 @@ public class GameMaster : MonoBehaviour {
 
     public void SetReminder ()
     {
-        reminderStarted = true;
+        ReminderStarted = true;
         reminderStartTime = DateTime.Now;
         PlayerPrefs.SetString("reminderStartTime", reminderStartTime.ToString());
         ReminderManager.SetRemindersStatus(true);
         ReminderManager.RegisterReminder("testID", "Face Flip", "This is a reminder.", DateTime.Now.AddSeconds(reminderTime));
     }
 
-    public void CancelReminder ()
+    /// <summary>
+    /// Switch off/Cancel reminder.
+    /// Will be called from GameSettingsFlyout.
+    /// </summary>
+    public static void CancelReminder()
     {
-        reminderStarted = false;
-        reminderStartTime = DateTime.Now.AddSeconds(-reminderTime);
-        reminderCountdownTextMesh.text = reminderTextPrefix + "0";
-        PlayerPrefs.SetString("reminderStartTime", reminderStartTime.ToString());
+        ReminderStarted = false;
+        ForceResetReminderCountdown = true;
+        if (PlayerPrefs.HasKey("reminderStartTime"))
+        {
+            PlayerPrefs.DeleteKey("reminderStartTime");
+        }
         ReminderManager.RemoveReminder("testID");
     }
 }
