@@ -5,6 +5,7 @@ using System;
 using MarkerMetro.Unity.WinIntegration.Facebook;
 using MarkerMetro.Unity.WinIntegration.Resources;
 using MarkerMetro.Unity.WinIntegration.LocalNotifications;
+using MarkerMetro.Unity.WinIntegration.Store;
 using LitJson;
 
 #if UNITY_WP8 && !UNITY_EDITOR
@@ -17,7 +18,9 @@ public class GameMaster : MonoBehaviour {
 
     public static bool ReminderScheduled;
     public static bool ForceResetReminderText;
-    
+
+    public List<Product> StoreProducts { get; private set; }
+
     public GameObject   gui_start_;
 	public GameObject 	gui_play_;
 	public GameObject 	gui_end_;
@@ -516,6 +519,35 @@ public class GameMaster : MonoBehaviour {
             PlayerPrefs.DeleteKey("reminderStartTime");
         }
         ReminderManager.RemoveReminder("testID");
+    }
+
+    public void RetrieveProducts ()
+    {
+        // retrieve store products.
+        StoreManager.Instance.RetrieveProducts((products) =>
+        {
+            if (products != null)
+            {
+                StoreProducts = products;
+                StoreProducts.Sort((a, b) => { return string.Compare(a.ProductID, b.ProductID); });
+            }
+        });
+    }
+
+    public void PurchaseMove (Product product)
+    {
+        StoreManager.Instance.PurchaseProduct(product, (receipt) =>
+        {
+            if (receipt.Success)
+            {
+                remaining_moves_ += int.Parse(receipt.Product.Name.Split(' ')[0]);
+                MarkerMetro.Unity.WinIntegration.Helper.Instance.ShowDialog("You now have " + remaining_moves_ + "moves.", "Success", () => { });
+            }
+            else
+            {
+                MarkerMetro.Unity.WinIntegration.Helper.Instance.ShowDialog(receipt.Status.ToString(), "Error", () => { });
+            }
+        });
     }
 
     public void TryCatchPlatformNotSupportedException (Action action)
