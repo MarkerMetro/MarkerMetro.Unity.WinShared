@@ -541,11 +541,11 @@ public class GameMaster : MonoBehaviour {
             if (receipt.Success)
             {
                 remaining_moves_ += int.Parse(receipt.Product.Name.Split(' ')[0]);
-                MarkerMetro.Unity.WinIntegration.Helper.Instance.ShowDialog("You now have " + remaining_moves_ + "moves.", "Success", () => { });
+                MarkerMetro.Unity.WinIntegration.Helper.Instance.ShowDialog("You now have " + remaining_moves_ + "moves.", "Success", null, "OK");
             }
             else
             {
-                MarkerMetro.Unity.WinIntegration.Helper.Instance.ShowDialog(receipt.Status.ToString(), "Error", () => { });
+                MarkerMetro.Unity.WinIntegration.Helper.Instance.ShowDialog(receipt.Status.ToString(), "Error", null, "OK");
             }
         });
     }
