@@ -5,19 +5,17 @@ using MarkerMetro.Unity.WinIntegration.Store;
 
 public class GUIStore : MonoBehaviour {
 
-    GameMaster gameMaster;
+    GameMaster _gameMasterScript;
 
     void Start ()
     {
         GameObject gameMasterObject = GameObject.Find("GameMaster");
-        gameMaster = gameMasterObject.GetComponent<GameMaster>();
-
-        gameMaster.RetrieveProducts();
+        _gameMasterScript = gameMasterObject.GetComponent<GameMaster>();
     }
 
 	void OnGUI()
 	{
-        int productCount = (gameMaster.StoreProducts == null) ? 0 : gameMaster.StoreProducts.Count;
+        int productCount = (_gameMasterScript.StoreProducts == null) ? 0 : _gameMasterScript.StoreProducts.Count;
 
  		// Make a background box
 		int half_width = Screen.width / 2;
@@ -37,12 +35,12 @@ public class GUIStore : MonoBehaviour {
 
  		for ( int i = 0; i < productCount; ++ i )
  		{
-            Product product = gameMaster.StoreProducts[i];
+            Product product = _gameMasterScript.StoreProducts[i];
  			string name = product.Name;
 
             if(GUI.Button(new Rect( box_x + 10 , box_y + current_offset, box_width - 20, 40), name)) 
 	        {
-                gameMaster.PurchaseMove(product);
+                _gameMasterScript.PurchaseMove(product);
 	        }
 	        current_offset += button_offset_y;
  		}
@@ -50,7 +48,7 @@ public class GUIStore : MonoBehaviour {
         // Exit back to game.
         if(GUI.Button(new Rect( box_x + 10 , box_y + current_offset, box_width - 20, 40), "Exit")) 
         {
-            gameMaster.ChangeState(GameMaster.GAME_STATE.GS_PLAYING);
+            _gameMasterScript.ChangeState(GameMaster.GAME_STATE.GS_PLAYING);
         }
     }
 }

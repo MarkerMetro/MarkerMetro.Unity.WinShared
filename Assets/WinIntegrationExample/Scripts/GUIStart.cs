@@ -11,6 +11,14 @@ using FBWin = MarkerMetro.Unity.WinIntegration.Facebook.FB;
 
 public class GUIStart : MonoBehaviour {
 
+    GameMaster _gameMasterScript;
+
+    void Start ()
+    {
+        GameObject gameMasterObject = GameObject.Find("GameMaster");
+        _gameMasterScript = gameMasterObject.GetComponent<GameMaster>();
+    }
+
 	void OnGUI()
 	{
 		// Make a background box
@@ -25,15 +33,13 @@ public class GUIStart : MonoBehaviour {
 
         GUI.Box(new Rect( box_x, box_y, box_width, box_height), "Main Menu");
 
-        GameObject game_master = GameObject.Find("GameMaster");
-        GameMaster game_script = game_master.GetComponent<GameMaster>();
-
         int y_modifier = 30;
 
         // Make the first button. If it is pressed, Start Game
         if (GUI.Button(new Rect(box_x + 10, box_y + y_modifier, box_width - 20, 40), "Start Game"))
         {
-            game_script.ChangeState(GameMaster.GAME_STATE.GS_PLAYING);
+            _gameMasterScript.RetrieveProducts();
+            _gameMasterScript.ChangeState(GameMaster.GAME_STATE.GS_PLAYING);
         }
 
         y_modifier += 50;
@@ -51,7 +57,7 @@ public class GUIStart : MonoBehaviour {
             // Set reminder (120sec later).
             if (GUI.Button(new Rect(box_x + 10, box_y + y_modifier, box_width - 20, 40), "Set Reminder"))
             {
-                game_script.SetReminder();
+                _gameMasterScript.SetReminder();
             }
         }
 
@@ -62,7 +68,7 @@ public class GUIStart : MonoBehaviour {
             // Second Button Login to FB
             if (GUI.Button(new Rect(box_x + 10, box_y + y_modifier, box_width - 20, 40), "Login"))
             {
-                FBWin.Login("email,publish_actions,user_friends", game_script.FBLoginCallback);
+                FBWin.Login("email,publish_actions,user_friends", _gameMasterScript.FBLoginCallback);
             }
         }
         else
@@ -71,7 +77,7 @@ public class GUIStart : MonoBehaviour {
             if (GUI.Button(new Rect(box_x + 10, box_y + y_modifier, box_width - 20, 40), "Logout"))
             {
                 FBWin.Logout();
-                StartCoroutine(game_script.FBLogoutCallback());
+                StartCoroutine(_gameMasterScript.FBLogoutCallback());
             }
 
             y_modifier += 50;
@@ -79,7 +85,7 @@ public class GUIStart : MonoBehaviour {
             // Get Friends That Play the game
             if (GUI.Button(new Rect(box_x + 10, box_y + y_modifier, box_width - 20, 40), "Get Friends"))
             {
-                game_script.PopulateFriends();
+                _gameMasterScript.PopulateFriends();
             }
 
             y_modifier += 50;
@@ -87,7 +93,7 @@ public class GUIStart : MonoBehaviour {
             // Invite friends that don't play
             if (GUI.Button(new Rect(box_x + 10, box_y + y_modifier, box_width - 20, 40), "Invite Friends"))
             {
-                game_script.InviteFriends();
+                _gameMasterScript.InviteFriends();
             }
 
             y_modifier += 50;
@@ -95,7 +101,7 @@ public class GUIStart : MonoBehaviour {
             // Post feed
             if (GUI.Button(new Rect(box_x + 10, box_y + y_modifier, box_width - 20, 40), "Post Feed"))
             {
-                game_script.PostFeed();
+                _gameMasterScript.PostFeed();
             }
         }
 
@@ -109,10 +115,12 @@ public class GUIStart : MonoBehaviour {
 
         y_modifier += 50;
 
+#if !UNITY_METRO
         // Third Button Login to Quit
         if (GUI.Button(new Rect(box_x + 10, box_y + y_modifier, box_width - 20, 40), "Quit"))
         {
             Application.Quit();
         }
+#endif
     }
 }
