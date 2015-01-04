@@ -370,22 +370,17 @@ public class GameMaster : MonoBehaviour {
     {
         if (FBWin.IsLoggedIn)
         {
+            // title param only supported in WP8 (FBNative) at the moment.
             FBWin.AppRequest(message: "Come Play FaceFlip!", callback: (result) =>
             {
                 Debug.Log("AppRequest result: " + result.Text);
                 if (result.Json != null)
                     Debug.Log("AppRequest Json: " + result.Json.ToString());
+#if UNITY_WP8
             }, title: "FaceFlip Invite");
-
-
-            // Test AppRequest with to param assigned
-            //string[] toList = new string[1];
-            //toList[0] = "10152837634773832";    // Freddy's Facebook ID, replace with someone's ID that is in your friend list, or add Freddy to your friend list :D
-            //FBWin.AppRequest(message: "Come Play FaceFlip!", to: toList, callback: (result) =>
-            //{
-            //    Debug.Log(result.Text);
-            //    Debug.Log(result.Json.ToString());
-            //}, title: "FaceFlip Invite");
+#else
+            });
+#endif
         }
     }
 
