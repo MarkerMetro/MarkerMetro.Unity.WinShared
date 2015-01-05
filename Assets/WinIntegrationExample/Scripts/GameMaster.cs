@@ -68,26 +68,28 @@ public class GameMaster : MonoBehaviour {
 	};
 
 	void Start () {
-        TryCatchPlatformNotSupportedException(() => 
+        // Reminder and Facebook aren't supported in Unity Editor.
+#if !UNITY_EDITOR
+        if (ReminderManager.AreRemindersEnabled() && DateTime.TryParse(PlayerPrefs.GetString("reminderStartTime", string.Empty), out reminderStartTime))
         {
-            if (ReminderManager.AreRemindersEnabled() && DateTime.TryParse(PlayerPrefs.GetString("reminderStartTime", string.Empty), out reminderStartTime))
-            {
-                ReminderScheduled = true;
-                reminderCountdownTextMesh.text = ReminderTextPrefix + reminderStartTime.AddSeconds(ReminderTime).ToString("hh:mm tt");
+            ReminderScheduled = true;
+            reminderCountdownTextMesh.text = ReminderTextPrefix + reminderStartTime.AddSeconds(ReminderTime).ToString("hh:mm tt");
 #if UNITY_WP8
-                reminderCountdownTextMesh.text += ReminderTextSuffix;
+            reminderCountdownTextMesh.text += ReminderTextSuffix;
 #endif
-            }
-            else
-            {
-                ReminderScheduled = false;
-                reminderCountdownTextMesh.text = NoReminderText;
-            }
-        });
+        }
+        else
+        {
+            ReminderScheduled = false;
+            reminderCountdownTextMesh.text = NoReminderText;
+        }
+#endif
 
 		CreateTiles();
 		ChangeState( GAME_STATE.GS_START );
+#if !UNITY_EDITOR
         FBWin.Init(SetFBInit, Assets.Plugins.MarkerMetro.Constants.FBAppId, OnHideUnity);
+#endif
     }
 	
 	void Update () {
