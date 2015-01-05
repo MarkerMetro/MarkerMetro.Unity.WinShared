@@ -33,7 +33,7 @@ namespace Assets.Editor.MarkerMetro
             _buildConfig = (BuildConfig)PluginConfigHelper.CurrentBuildConfig;
             _winLegacyDir = PluginConfigHelper.WinLegacyDir;
             _winIntegrationDir = PluginConfigHelper.WinIntegrationDir;
-            _nugetDir = PluginConfigHelper.NugetScriptsDir;
+            _nugetDir = PluginConfigHelper.BuildScriptsDir;
             _vsCommonToolDir = PluginConfigHelper.VSCommonToolDir;
         }
 
@@ -93,9 +93,10 @@ namespace Assets.Editor.MarkerMetro
         void DrawChooseDir(DirType dirType)
         {
             string dir = GetDir(dirType);
+            string dirLabel = GetDirLabel(dirType);
 
             EditorGUILayout.BeginVertical();
-            GUILayout.Label(dirType.ToString() + " Dir:");
+            GUILayout.Label(dirLabel + " Dir:");
             EditorGUILayout.BeginHorizontal();
 
             EditorGUILayout.BeginVertical();
@@ -161,13 +162,38 @@ namespace Assets.Editor.MarkerMetro
                 case DirType.NuGet:
                 case DirType.BuildLocal:
                     _nugetDir = dir;
-                    PluginConfigHelper.NugetScriptsDir = _nugetDir;
+                    PluginConfigHelper.BuildScriptsDir = _nugetDir;
                     break;
                 case DirType.VSCommonTool:
                     _vsCommonToolDir = dir;
                     PluginConfigHelper.VSCommonToolDir = _vsCommonToolDir;
                     break;
             }
+        }
+
+        /// <summary>
+        /// Return dir GUI label based on DirType.
+        /// </summary>
+        string GetDirLabel(DirType dirType)
+        {
+            string dirLabel = string.Empty;
+            switch (dirType)
+            {
+                case DirType.WinLegacy:
+                    dirLabel = "WinLegacy Project";
+                    break;
+                case DirType.WinIntegration:
+                    dirLabel = "WinIntegration Project";
+                    break;
+                case DirType.NuGet:
+                case DirType.BuildLocal:
+                    dirLabel = "Build Scripts";
+                    break;
+                case DirType.VSCommonTool:
+                    dirLabel = "Visual Studio Common Tools";
+                    break;
+            }
+            return dirLabel;
         }
     }
 }

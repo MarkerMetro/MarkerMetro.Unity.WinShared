@@ -6,4 +6,6 @@ IF "%1" == "" (
     )
 
 call %vsCommonToolsDir%\vsvars32.bat
+echo progress 0
 msbuild Update_NuGet_Packages.proj
+echo progress 100
