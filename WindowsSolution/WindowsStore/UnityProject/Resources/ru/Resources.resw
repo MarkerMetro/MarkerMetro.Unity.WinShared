@@ -135,6 +135,15 @@
   <data name="GameSettingsFlyout_Music.OnContent" xml:space="preserve">
     <value>Вкл.</value>
   </data>
+  <data name="GameSettingsFlyout_Reminder.Header" xml:space="preserve">
+    <value>Оповещение</value>
+  </data>
+  <data name="GameSettingsFlyout_Reminder.OffContent" xml:space="preserve">
+    <value>Выкл.</value>
+  </data>
+  <data name="GameSettingsFlyout_Reminder.OnContent" xml:space="preserve">
+    <value>Вкл.</value>
+  </data>
   <data name="GameSettingsFlyout_Sounds.Header" xml:space="preserve">
     <value>Звук</value>
   </data>

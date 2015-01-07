@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System;
 using MarkerMetro.Unity.WinIntegration.Facebook;
 using MarkerMetro.Unity.WinIntegration.Resources;
+using MarkerMetro.Unity.WinIntegration.LocalNotifications;
+using MarkerMetro.Unity.WinIntegration.Store;
 using LitJson;
 
 #if UNITY_WP8 && !UNITY_EDITOR
@@ -14,13 +16,19 @@ using FBWin = MarkerMetro.Unity.WinIntegration.Facebook.FB;
 
 public class GameMaster : MonoBehaviour {
 
-	public GameObject 	gui_start_;
+    public static bool ReminderScheduled;
+    public static bool ForceResetReminderText;
+
+    public List<Product> StoreProducts { get; private set; }
+
+    public GameObject   gui_start_;
 	public GameObject 	gui_play_;
 	public GameObject 	gui_end_;
 	public GameObject	gui_store_;
     public GameObject   facebook_image_;
     public GameObject   login_name_;
     public GameObject   number_friends_;
+    public TextMesh     reminderCountdownTextMesh;
 
 	public GUIText 		gui_matches_;
 	public GUIText 		gui_remaining_;
@@ -33,6 +41,7 @@ public class GameMaster : MonoBehaviour {
 	private Tile current_switched_1 = null;
 	private Tile current_switched_2 = null;
 	private float waiting_timer_ = 0.0f;
+    private DateTime reminderStartTime;
 
 	private int max_moves_ = 15;
 	private int remaining_moves_ = 0;
@@ -43,6 +52,11 @@ public class GameMaster : MonoBehaviour {
 	const int rows_ = 4;
 	const int cols_ = 4;
 	const float wait_after_switch_ = 0.5f;
+    
+    const float ReminderTime = 120f;
+    const string ReminderTextPrefix = "Reminder scheduled for ";
+    const string ReminderTextSuffix = " (+/- 1 minute)";
+    const string NoReminderText = "No reminder scheduled.";
 
 	public enum GAME_STATE
 	{
@@ -54,10 +68,28 @@ public class GameMaster : MonoBehaviour {
 	};
 
 	void Start () {
+        // Reminder and Facebook aren't supported in Unity Editor.
+#if !UNITY_EDITOR
+        if (ReminderManager.AreRemindersEnabled() && DateTime.TryParse(PlayerPrefs.GetString("reminderStartTime", string.Empty), out reminderStartTime))
+        {
+            ReminderScheduled = true;
+            reminderCountdownTextMesh.text = ReminderTextPrefix + reminderStartTime.AddSeconds(ReminderTime).ToString("hh:mm tt");
+#if UNITY_WP8
+            reminderCountdownTextMesh.text += ReminderTextSuffix;
+#endif
+        }
+        else
+        {
+            ReminderScheduled = false;
+            reminderCountdownTextMesh.text = NoReminderText;
+        }
+#endif
 
 		CreateTiles();
 		ChangeState( GAME_STATE.GS_START );
+#if !UNITY_EDITOR
         FBWin.Init(SetFBInit, Assets.Plugins.MarkerMetro.Constants.FBAppId, OnHideUnity);
+#endif
     }
 	
 	void Update () {
@@ -89,6 +121,12 @@ public class GameMaster : MonoBehaviour {
 				gui_result_.text = "YOU LOSE";
 			}
 		}
+
+        if (ForceResetReminderText)
+        {
+            ForceResetReminderText = false;
+            reminderCountdownTextMesh.text = NoReminderText;
+        }
 	}
 
 	// Change the games state
@@ -450,5 +488,74 @@ public class GameMaster : MonoBehaviour {
         }
         
         url.LoadImageIntoTexture(texture);
+    }
+
+    public void SetReminder ()
+    {
+        ReminderScheduled = true;
+        reminderStartTime = DateTime.Now;
+        PlayerPrefs.SetString("reminderStartTime", reminderStartTime.ToString());
+        reminderCountdownTextMesh.text = ReminderTextPrefix + reminderStartTime.AddSeconds(ReminderTime).ToString("hh:mm tt");
+
+        TryCatchPlatformNotSupportedException(() => {
+            ReminderManager.SetRemindersStatus(true);
+            ReminderManager.RegisterReminder("testID", "Face Flip", "This is a reminder.", DateTime.Now.AddSeconds(ReminderTime));
+        });
+    }
+
+    /// <summary>
+    /// Switch off/Cancel reminder.
+    /// Will be called from GameSettingsFlyout.
+    /// </summary>
+    public static void CancelReminder()
+    {
+        ReminderScheduled = false;
+        ForceResetReminderText = true;
+        if (PlayerPrefs.HasKey("reminderStartTime"))
+        {
+            PlayerPrefs.DeleteKey("reminderStartTime");
+        }
+        ReminderManager.RemoveReminder("testID");
+    }
+
+    public void RetrieveProducts ()
+    {
+        // retrieve store products.
+        StoreManager.Instance.RetrieveProducts((products) =>
+        {
+            if (products != null)
+            {
+                StoreProducts = products;
+                StoreProducts.Sort((a, b) => { return string.Compare(a.ProductID, b.ProductID); });
+            }
+        });
+    }
+
+    public void PurchaseMove (Product product)
+    {
+        StoreManager.Instance.PurchaseProduct(product, (receipt) =>
+        {
+            if (receipt.Success)
+            {
+                remaining_moves_ += int.Parse(receipt.Product.Name.Split(' ')[0]);
+                MarkerMetro.Unity.WinIntegration.Helper.Instance.ShowDialog("You now have " + remaining_moves_ + "moves.", "Success", null, "OK");
+            }
+            else
+            {
+                MarkerMetro.Unity.WinIntegration.Helper.Instance.ShowDialog(receipt.Status.ToString(), "Error", null, "OK");
+            }
+        });
+    }
+
+    public void TryCatchPlatformNotSupportedException (Action action)
+    {
+        try
+        {
+            action();
+        }
+        catch (PlatformNotSupportedException e)
+        {
+            Debug.LogError(e);
+        }
     }
 }

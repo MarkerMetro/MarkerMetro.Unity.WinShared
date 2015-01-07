@@ -135,6 +135,15 @@
   <data name="GameSettingsFlyout_Music.OnContent" xml:space="preserve">
     <value>Ein</value>
   </data>
+  <data name="GameSettingsFlyout_Reminder.Header" xml:space="preserve">
+    <value>Mitteilung</value>
+  </data>
+  <data name="GameSettingsFlyout_Reminder.OffContent" xml:space="preserve">
+    <value>Aus</value>
+  </data>
+  <data name="GameSettingsFlyout_Reminder.OnContent" xml:space="preserve">
+    <value>Ein</value>
+  </data>
   <data name="GameSettingsFlyout_Sounds.Header" xml:space="preserve">
     <value>Soundeffekte</value>
   </data>
