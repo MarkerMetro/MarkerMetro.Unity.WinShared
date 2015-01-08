@@ -21,8 +21,12 @@ namespace Assets.Editor.MarkerMetro
         [MenuItem("MarkerMetro/Build.../Windows Store Apps")]
         public static void BuildMetro()
         {
+            string outputPath = MarkerMetro.CommandLineReader.GetCustomArgument("outputPath");
+            if (String.IsNullOrEmpty(outputPath))
+                outputPath = MarkerMetro.CommandLineReader.GetCustomArgument("metroOutputPath");
+
             Build(BuildTarget.MetroPlayer,
-                MarkerMetro.CommandLineReader.GetCustomArgument("outputPath"),
+                outputPath,
                 () =>
                 {
                     EditorUserBuildSettings.selectedBuildTargetGroup = BuildTargetGroup.Metro;
@@ -34,8 +38,12 @@ namespace Assets.Editor.MarkerMetro
         [MenuItem("MarkerMetro/Build.../Windows Phone 8")]
         public static void BuildWP8()
         {
+            string outputPath = MarkerMetro.CommandLineReader.GetCustomArgument("outputPath");
+            if (String.IsNullOrEmpty(outputPath))
+                outputPath = MarkerMetro.CommandLineReader.GetCustomArgument("wp8OutputPath");
+
             Build(BuildTarget.WP8Player,
-                MarkerMetro.CommandLineReader.GetCustomArgument("outputPath"),
+                outputPath,
                 () =>
                 {
                     EditorUserBuildSettings.selectedBuildTargetGroup = BuildTargetGroup.WP8;
