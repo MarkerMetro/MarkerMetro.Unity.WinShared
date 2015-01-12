@@ -558,4 +558,13 @@ public class GameMaster : MonoBehaviour {
             Debug.LogError(e);
         }
     }
+
+    public void ShowShareUI ()
+    {
+#if UNITY_METRO
+        MarkerMetro.Unity.WinIntegration.Helper.Instance.ShowShareUI();
+#else
+        MarkerMetro.Unity.WinIntegration.Helper.Instance.ShowShareUI("Title", "Message", "http://www.markermetro.com");
+#endif
+    }
 }

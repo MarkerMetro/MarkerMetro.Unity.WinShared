@@ -115,6 +115,14 @@ public class GUIStart : MonoBehaviour {
 
         y_modifier += 50;
 
+        // Test share UI.
+        if (GUI.Button(new Rect(box_x + 10, box_y + y_modifier, box_width - 20, 40), "Share"))
+        {
+            _gameMasterScript.ShowShareUI();
+        }
+
+        y_modifier += 50;
+
 #if !UNITY_METRO
         // Third Button Login to Quit
         if (GUI.Button(new Rect(box_x + 10, box_y + y_modifier, box_width - 20, 40), "Quit"))
