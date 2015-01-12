@@ -107,15 +107,23 @@ public class GUIStart : MonoBehaviour {
 
         y_modifier += 50;
 
-        //Test crash button
-        if (GUI.Button(new Rect(box_x + 10, box_y + y_modifier, box_width - 20, 40), "Throw an exception"))
+        // Test crash button
+        if (GUI.Button(new Rect(box_x + 10, box_y + y_modifier, box_width - 20, 40), "Throw an Exception"))
         {
            throw new System.Exception("This is test exception from Unity code");
         }
 
         y_modifier += 50;
 
+        // Send an email
+        if (GUI.Button(new Rect(box_x + 10, box_y + y_modifier, box_width - 20, 40), "Send Email"))
+        {
+            _gameMasterScript.PickContactsAndSendEmail();
+        }
+
 #if !UNITY_METRO
+        y_modifier += 50;
+
         // Third Button Login to Quit
         if (GUI.Button(new Rect(box_x + 10, box_y + y_modifier, box_width - 20, 40), "Quit"))
         {
