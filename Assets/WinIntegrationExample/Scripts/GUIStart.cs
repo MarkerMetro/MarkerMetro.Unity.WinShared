@@ -26,9 +26,17 @@ public class GUIStart : MonoBehaviour {
 		int half_height = Screen.height / 2;
 
 		int box_width = 200;
-		int box_height = 330;
+		int box_height = 380;
 
-		int box_x = half_width - box_width / 2;
+        if (FBWin.IsLoggedIn)
+        {
+            box_height += 150;
+        }
+#if UNITY_METRO
+        box_height -= 50;
+#endif
+
+        int box_x = half_width - box_width / 2;
 		int box_y = half_height - box_height / 2;
 
         GUI.Box(new Rect( box_x, box_y, box_width, box_height), "Main Menu");
@@ -110,7 +118,7 @@ public class GUIStart : MonoBehaviour {
         //Test crash button
         if (GUI.Button(new Rect(box_x + 10, box_y + y_modifier, box_width - 20, 40), "Throw an exception"))
         {
-           throw new System.Exception("This is test exception from Unity code");
+            throw new System.Exception("This is test exception from Unity code");
         }
 
         y_modifier += 50;
@@ -119,6 +127,14 @@ public class GUIStart : MonoBehaviour {
         if (GUI.Button(new Rect(box_x + 10, box_y + y_modifier, box_width - 20, 40), "Share"))
         {
             _gameMasterScript.ShowShareUI();
+        }
+
+        y_modifier += 50;
+
+        // Test ExtractStackTrace.
+        if (GUI.Button(new Rect(box_x + 10, box_y + y_modifier, box_width - 20, 40), "ExtractStackTrace"))
+        {
+            _gameMasterScript.ExtractStackTrace();
         }
 
         y_modifier += 50;
