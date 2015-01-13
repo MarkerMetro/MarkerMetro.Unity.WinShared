@@ -70,7 +70,10 @@ namespace Assets.Editor.MarkerMetro
                 .Select(s => s.path)
                 .ToArray();
 
-            outputPath = GetPath(target);
+            if (string.IsNullOrEmpty(outputPath))
+            {
+                outputPath = GetPath(target);
+            }
 
             if (beforeBuild != null)
             {
