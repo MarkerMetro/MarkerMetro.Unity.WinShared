@@ -10,14 +10,14 @@ namespace Assets.Editor.MarkerMetro
 {
     public static class MarkerMetroBuilder
     {
-        [MenuItem("MarkerMetro/Build.../All")]
+        [MenuItem("MarkerMetro/Build/All")]
         public static void BuildAll()
         {
             BuildMetro();
             BuildWP8();
         }
 
-        [MenuItem("MarkerMetro/Build.../Windows Store Apps")]
+        [MenuItem("MarkerMetro/Build/Windows Store Apps")]
         public static void BuildMetro()
         {
             string outputPath = MarkerMetro.CommandLineReader.GetCustomArgument("outputPath");
@@ -36,7 +36,7 @@ namespace Assets.Editor.MarkerMetro
                 });
         }
 
-        [MenuItem("MarkerMetro/Build.../Windows Phone 8")]
+        [MenuItem("MarkerMetro/Build/Windows Phone 8")]
         public static void BuildWP8()
         {
             string outputPath = MarkerMetro.CommandLineReader.GetCustomArgument("outputPath");

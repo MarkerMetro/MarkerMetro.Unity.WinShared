@@ -75,7 +75,7 @@ namespace Assets.Editor.MarkerMetro
             }
             else
             {
-                Debug.LogError("CommandLineReader.cs - GetCommandLine() - Can't find any command line arguments!");
+                Debug.LogWarning("CommandLineReader.cs - GetCommandLine() - Can't find any command line arguments!");
                 return "";
             }
         }
@@ -94,7 +94,7 @@ namespace Assets.Editor.MarkerMetro
             }
             catch (Exception e)
             {
-                Debug.LogError("CommandLineReader.cs - GetCustomArguments() - Can't retrieve any custom arguments in the command line [" + commandLineArgs + "]. Exception: " + e);
+                Debug.LogWarning("CommandLineReader.cs - GetCustomArguments() - Can't retrieve any custom arguments in the command line [" + commandLineArgs + "]. Exception: " + e);
                 return customArgsDict;
             }
 
@@ -127,7 +127,7 @@ namespace Assets.Editor.MarkerMetro
             }
             else
             {
-                Debug.LogError("CommandLineReader.cs - GetCustomArgument() - Can't retrieve any custom argument named [" + argumentName + "] in the command line [" + GetCommandLine() + "].");
+                Debug.LogWarning("CommandLineReader.cs - GetCustomArgument() - Can't retrieve any custom argument named [" + argumentName + "] in the command line [" + GetCommandLine() + "].");
                 return "";
             }
         }
