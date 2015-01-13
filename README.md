@@ -37,10 +37,9 @@ If you don't use _Init.ps1_ to initialize the project you can copy and paste jus
 
 * .gitignore - Up to date git ignore for Unity projects (you should manually merge this if there is an existing one)
 * /Nuget/* - helper scripts to bring in Nuget based plugins to Unity
-* /Assets/Editor/* - helper editors scripts
+* /Assets/MarkerMetro/Editor/* - helper editors scripts
 * /Assets/Plugins/* - plugin binaries and scripts
-* /Assets/Scripts/* - helper game scripts
-* /Assets/WinIntegrationExample/* - see FaceFlip.unity a small game with win integration test points (optional, but you can test out facebook, exception logging, and some helper class method outputs for example)
+* /Assets/Example/* - see FaceFlip.unity, a small game with win integration test points (optional, but you can test out facebook, exception logging, and some helper class method outputs for example)
 
 Ensure that the ProductName in PlayerSettings is correct and matches the game name. It this value that will be used to script the Windows Solution and set up the build server.
 
@@ -70,9 +69,9 @@ Once you have done this, be sure and push the updates to the dependencies.
 
 ### Using local versions of WinLegacy and WinIntegration
 
-Perhaps you are using a fork or want to debug into the plugins? 
+Perhaps you are using a fork or want to debug into the plugins?
 
-Using the MarkerMetro > Plugins > Configure menu operation you can switch to using Local as the Plugin Source. This will allow you to specify directories for WinLegacy and WinIntegration. You can use Debug or Release configuration to specify the build configation. 
+Using the MarkerMetro > Plugins > Configure menu operation you can switch to using Local as the Plugin Source. This will allow you to specify directories for WinLegacy and WinIntegration. You can use Debug or Release configuration to specify the build configation.
 
 ### Debugging local versions of WinLegacy and WinIntegration
 
