@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System;
+using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using System.Collections.Generic;
@@ -9,21 +10,21 @@ namespace Assets.Editor.MarkerMetro
 {
     public static class MarkerMetroBuilder
     {
-        private const string settingsFile = "../BuildSettings.xml";
-
-        [MenuItem("MarkerMetro/Build.../All")]
+        [MenuItem("MarkerMetro/Build/All")]
         public static void BuildAll()
         {
             BuildMetro();
             BuildWP8();
         }
 
-        [MenuItem("MarkerMetro/Build.../Windows Store Apps")]
+        [MenuItem("MarkerMetro/Build/Windows Store Apps")]
         public static void BuildMetro()
         {
             string outputPath = MarkerMetro.CommandLineReader.GetCustomArgument("outputPath");
             if (String.IsNullOrEmpty(outputPath))
+            {
                 outputPath = MarkerMetro.CommandLineReader.GetCustomArgument("metroOutputPath");
+            }
 
             Build(BuildTarget.MetroPlayer,
                 outputPath,
@@ -35,12 +36,14 @@ namespace Assets.Editor.MarkerMetro
                 });
         }
 
-        [MenuItem("MarkerMetro/Build.../Windows Phone 8")]
+        [MenuItem("MarkerMetro/Build/Windows Phone 8")]
         public static void BuildWP8()
         {
             string outputPath = MarkerMetro.CommandLineReader.GetCustomArgument("outputPath");
             if (String.IsNullOrEmpty(outputPath))
+            {
                 outputPath = MarkerMetro.CommandLineReader.GetCustomArgument("wp8OutputPath");
+            }
 
             Build(BuildTarget.WP8Player,
                 outputPath,
@@ -67,40 +70,33 @@ namespace Assets.Editor.MarkerMetro
                 .Select(s => s.path)
                 .ToArray();
 
-            try
+            if (string.IsNullOrEmpty(outputPath))
             {
-                string path = GetPath(target);
-                outputPath = path;
-            }
-            catch (Exception)
-            {
-                if (String.IsNullOrEmpty(outputPath))
-                    outputPath = ".";
-                Debug.LogWarning("Couldn't get settings file, using outputPath = " + outputPath);
+                outputPath = GetPath(target);
             }
 
             if (beforeBuild != null)
+            {
                 beforeBuild();
+            }
 
             var error = BuildPipeline.BuildPlayer(scenes, outputPath, target, BuildOptions.None);
             if (error != "")
+            {
                 throw new Exception(error); // ensures exit code != 0.
+            }
         }
 
         private static string GetPath(BuildTarget target)
         {
-            try
+            string projectName = target == BuildTarget.WP8Player ? "WindowsPhone" : "WindowsStore";
+            string defaultDir = Path.GetFullPath(Path.Combine(Application.dataPath, "../WindowsSolution/" + projectName));
+            string outputPath = EditorUtility.OpenFolderPanel("Choose Folder (" + projectName + ")", defaultDir, "");
+            if (string.IsNullOrEmpty(outputPath))
             {
-                XDocument settings = XDocument.Load(settingsFile);
-                return (from item in settings.Root.Element("output-paths").Descendants()
-                        where item.Name.LocalName == target.ToString()
-                        select item.Value).First();
+                outputPath = defaultDir;
             }
-            catch (InvalidOperationException)
-            {
-                throw new ArgumentException(string.Format("Path not found for target {0}, check {1}.",
-                        target.ToString(), settingsFile));
-            }
+            return outputPath;
         }
     }
 }
