@@ -73,4 +73,4 @@ robocopy (ScriptSubDirectory 'WindowsSolution') (Join-Path $targetRepoPath 'Wind
 Copy-Item (ScriptSubDirectory '.gitignore') $unityProjectTargetPath -Force
 
 Write-Host ('Setting Project Name to: ' + $projectName + '...')
-Change-ProjectName $targetRepoPath $projectName
+Change-ProjectName (Join-Path $targetRepoPath 'WindowsSolution') $projectName
