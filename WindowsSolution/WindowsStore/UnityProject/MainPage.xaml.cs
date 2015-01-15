@@ -26,6 +26,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.Popups;
+using MarkerMetro.Unity.WinShared.Tools;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -92,11 +93,15 @@ namespace UnityProject.Win
         {
             var loader = ResourceLoader.GetForViewIndependentUse();
 
-            args.Request.ApplicationCommands.Add(new SettingsCommand(Guid.NewGuid(), loader.GetString("SettingsCharm_Settings"), h =>
+            if (MarkerMetro.Unity.WinShared.Tools.FeaturesManager.Instance.IsGameSettingsEnabled)
             {
-                var sf = new GameSettingsFlyout();
-                sf.Show();
-            }));
+                args.Request.ApplicationCommands.Add(new SettingsCommand(Guid.NewGuid(), 
+                    loader.GetString("SettingsCharm_Settings"), h =>
+                {
+                    var sf = new GameSettingsFlyout();
+                    sf.Show();
+                }));
+            }
             args.Request.ApplicationCommands.Add(
                 new SettingsCommand(Guid.NewGuid(),
                     loader.GetString("SettingsCharm_CustomerSupport"),
@@ -350,7 +355,8 @@ namespace UnityProject.Win
                 onResizeHandler = null;
             }
 
-            CheckForOFT();
+            if(FeaturesManager.Instance.IsIapEnabled)
+                CheckForOFT();
         }
 
 		protected override Windows.UI.Xaml.Automation.Peers.AutomationPeer OnCreateAutomationPeer()
