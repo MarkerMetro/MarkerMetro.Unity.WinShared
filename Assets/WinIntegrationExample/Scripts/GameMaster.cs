@@ -587,6 +587,8 @@ public class GameMaster : MonoBehaviour {
         throw new Exception("This is used to test ExtractStackTrace.");
     }
 
+    /// There's a bug causing Video to remain on the screen after it finishes playing on WP8.
+    /// Submitted a bug report to Unity: http://fogbugz.unity3d.com/default.asp?663800_4o1v5omb7fan6gfq
     public void PlayVideo ()
     {
         string path = Application.streamingAssetsPath + "/" + "ax2qY6M_460sv.mp4";
