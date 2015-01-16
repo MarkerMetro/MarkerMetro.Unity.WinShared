@@ -6,6 +6,7 @@ using MarkerMetro.Unity.WinIntegration.Facebook;
 using MarkerMetro.Unity.WinIntegration.Resources;
 using MarkerMetro.Unity.WinIntegration.LocalNotifications;
 using MarkerMetro.Unity.WinIntegration.Store;
+using MarkerMetro.Unity.WinIntegration.VideoPlayer;
 using LitJson;
 
 #if UNITY_WP8 && !UNITY_EDITOR
@@ -569,7 +570,7 @@ public class GameMaster : MonoBehaviour {
 #endif
     }
 
-    public void ExtractStackTrace()
+    public void ExtractStackTrace ()
     {
         try
         {
@@ -584,5 +585,16 @@ public class GameMaster : MonoBehaviour {
     private void ThrowException ()
     {
         throw new Exception("This is used to test ExtractStackTrace.");
+    }
+
+    /// There's a bug causing Video to remain on the screen after it finishes playing on WP8.
+    /// Submitted a bug report to Unity: http://fogbugz.unity3d.com/default.asp?663800_4o1v5omb7fan6gfq
+    public void PlayVideo ()
+    {
+        string path = Application.streamingAssetsPath + "/" + "ax2qY6M_460sv.mp4";
+        VideoPlayer.PlayVideo(path, () =>
+        {
+            Debug.Log("Video Stopped.");
+        }, VideoStretch.Uniform);
     }
 }

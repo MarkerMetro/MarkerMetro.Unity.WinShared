@@ -26,7 +26,7 @@ public class GUIStart : MonoBehaviour {
 		int half_height = Screen.height / 2;
 
 		int box_width = 200;
-		int box_height = 380;
+		int box_height = 430;
 
         if (FBWin.IsLoggedIn)
         {
@@ -135,6 +135,14 @@ public class GUIStart : MonoBehaviour {
         if (GUI.Button(new Rect(box_x + 10, box_y + y_modifier, box_width - 20, 40), "ExtractStackTrace"))
         {
             _gameMasterScript.ExtractStackTrace();
+        }
+
+        y_modifier += 50;
+
+        // Test VideoPlayer.
+        if (GUI.Button(new Rect(box_x + 10, box_y + y_modifier, box_width - 20, 40), "Play Video"))
+        {
+            _gameMasterScript.PlayVideo();
         }
 
         y_modifier += 50;
