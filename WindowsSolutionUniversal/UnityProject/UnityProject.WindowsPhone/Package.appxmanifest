@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns="http://schemas.microsoft.com/appx/2010/manifest">
+  <Identity Name="b00f6819-de2a-40d7-8cd3-44cd3e5fafd0" Publisher="CN=DefaultCompany" Version="1.0.0.0" ProcessorArchitecture="x86" />
+  <PhoneIdentity PhoneProductId="b00f6819-de2a-40d7-8cd3-44cd3e5fafd0" PhonePublisherId="00000000-0000-0000-0000-000000000000" xmlns="http://schemas.microsoft.com/appx/2014/phone/manifest" />
+  <Properties>
+    <DisplayName>UnityProject</DisplayName>
+    <PublisherDisplayName>DefaultCompany</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
+  </Properties>
+  <Prerequisites>
+    <OSMinVersion>6.2.1</OSMinVersion>
+    <OSMaxVersionTested>6.2.1</OSMaxVersionTested>
+  </Prerequisites>
+  <Resources>
+    <Resource Language="x-generate" />
+  </Resources>
+  <Applications>
+    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="UnityProject.App">
+      <VisualElements DisplayName="UnityProject" Square150x150Logo="Assets\MediumTile.png" Square44x44Logo="Assets\AppIcon.png" Description="UnityProject" ForegroundText="light" BackgroundColor="transparent" xmlns="http://schemas.microsoft.com/appx/2014/manifest">
+        <DefaultTile ShortName="UnityProject" Square71x71Logo="Assets\SmallTile.png" DefaultSize="square150x150Logo" />
+        <SplashScreen Image="Assets\SplashScreen.png" />
+      </VisualElements>
+    </Application>
+  </Applications>
+  <Capabilities />
+</Package>
