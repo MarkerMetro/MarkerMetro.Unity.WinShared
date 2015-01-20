@@ -1,24 +1,36 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
   </PropertyGroup>
-	<ItemGroup>
-	<ApplicationDefinition Include="$(MSBuildThisFileDirectory)App.xaml" >
-	</ApplicationDefinition>
-	<Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs" >
-		<DependentUpon>$(MSBuildThisFileDirectory)App.xaml</DependentUpon>
-	</Compile>
-	<Page Include="$(MSBuildThisFileDirectory)MainPage.xaml" >
-		<Generator>MSBuild:Compile</Generator>
-		<SubType>Designer</SubType>
-	</Page>
-	<Compile Include="$(MSBuildThisFileDirectory)MainPage.xaml.cs" >
-		<DependentUpon>$(MSBuildThisFileDirectory)MainPage.xaml</DependentUpon>
-	</Compile>
-	<Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" >
-	</Compile>
-
+  <ItemGroup>
+    <ApplicationDefinition Include="$(MSBuildThisFileDirectory)App.xaml">
+    </ApplicationDefinition>
+    <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
+      <DependentUpon>$(MSBuildThisFileDirectory)App.xaml</DependentUpon>
+    </Compile>
+    <Page Include="$(MSBuildThisFileDirectory)MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="$(MSBuildThisFileDirectory)MainPage.xaml.cs">
+      <DependentUpon>$(MSBuildThisFileDirectory)MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs">
+    </Compile>
     <Content Include="$(MSBuildThisFileDirectory)Data\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <PRIResource Include="$(MSBuildThisFileDirectory)Resources\de\Resources.resw" />
+    <PRIResource Include="$(MSBuildThisFileDirectory)Resources\en-US\Resources.resw" />
+    <PRIResource Include="$(MSBuildThisFileDirectory)Resources\es-419\Resources.resw" />
+    <PRIResource Include="$(MSBuildThisFileDirectory)Resources\fr\Resources.resw" />
+    <PRIResource Include="$(MSBuildThisFileDirectory)Resources\it\Resources.resw" />
+    <PRIResource Include="$(MSBuildThisFileDirectory)Resources\ja\Resources.resw" />
+    <PRIResource Include="$(MSBuildThisFileDirectory)Resources\ko\Resources.resw" />
+    <PRIResource Include="$(MSBuildThisFileDirectory)Resources\pt-Br\Resources.resw" />
+    <PRIResource Include="$(MSBuildThisFileDirectory)Resources\ru\Resources.resw" />
+    <PRIResource Include="$(MSBuildThisFileDirectory)Resources\zh-Hans\Resources.resw" />
+    <PRIResource Include="$(MSBuildThisFileDirectory)Resources\zh-Hant\Resources.resw" />
   </ItemGroup>
 </Project>

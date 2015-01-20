@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\..\UnityCommon.props" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -17,7 +17,6 @@
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <PackageCertificateKeyFile>..\UnityProject.Shared\MetroTestCertificate.pfx</PackageCertificateKeyFile>
     <SynthesizeLinkMetadata>true</SynthesizeLinkMetadata>
-
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
@@ -64,31 +63,38 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Master|ARM'">
-      <OutputPath>bin\ARM\Master\</OutputPath>
-      <DefineConstants>TRACE;NETFX_CORE;UNITY_METRO;UNITY_METRO_8_1</DefineConstants>
-      <Optimize>true</Optimize>
-      <NoWarn>;2008</NoWarn>
-      <DebugType>pdbonly</DebugType>
-      <PlatformTarget>ARM</PlatformTarget>
-      <UseVSHostingProcess>false</UseVSHostingProcess>
-      <ErrorReport>prompt</ErrorReport>
-      <Prefer32Bit>true</Prefer32Bit>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Master|x86'">
-      <OutputPath>bin\x86\Master\</OutputPath>
-      <DefineConstants>TRACE;NETFX_CORE;UNITY_METRO;UNITY_METRO_8_1</DefineConstants>
-      <Optimize>true</Optimize>
-      <NoWarn>;2008</NoWarn>
-      <DebugType>pdbonly</DebugType>
-      <PlatformTarget>x86</PlatformTarget>
-      <UseVSHostingProcess>false</UseVSHostingProcess>
-      <ErrorReport>prompt</ErrorReport>
-      <Prefer32Bit>true</Prefer32Bit>
+    <OutputPath>bin\ARM\Master\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;UNITY_METRO;UNITY_METRO_8_1</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Master|x86'">
+    <OutputPath>bin\x86\Master\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;UNITY_METRO;UNITY_METRO_8_1</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Page Include="GameSettingsFlyout.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameSettingsFlyout.xaml.cs">
+      <DependentUpon>GameSettingsFlyout.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -101,116 +107,113 @@
   <ItemGroup>
   </ItemGroup>
   <ItemGroup>
-  <Reference Include="UnityPlayer, Version=255.255.255.255, Culture=neutral, processorArchitecture=MSIL">
-    <SpecificVersion>False</SpecificVersion>
-    <HintPath>..\..\Players\Windows81\$(PlatformTarget)\$(Configuration)\UnityPlayer.winmd</HintPath>
-  </Reference>
-  <Reference Include="WinRTBridge">
-    <SpecificVersion>False</SpecificVersion>
-    <HintPath>..\..\Players\Windows81\$(PlatformTarget)\$(Configuration)\WinRTBridge.winmd</HintPath>
-  </Reference>
-  <Reference Include="BridgeInterface">
-    <SpecificVersion>False</SpecificVersion>
-    <HintPath>..\..\Players\Windows81\$(PlatformTarget)\$(Configuration)\BridgeInterface.winmd</HintPath>
-  </Reference>
-  <Reference Include="UnityEngineDelegates">
-    <SpecificVersion>False</SpecificVersion>
-    <HintPath>..\..\Players\Windows81\$(PlatformTarget)\$(Configuration)\UnityEngineDelegates.winmd</HintPath>
-  </Reference>
-  <Reference Include="UnityEngineProxy">
-    <SpecificVersion>False</SpecificVersion>
-    <HintPath>..\..\Players\Windows81\$(PlatformTarget)\$(Configuration)\UnityEngineProxy.dll</HintPath>
-  </Reference>
+    <Reference Include="UnityPlayer, Version=255.255.255.255, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Players\Windows81\$(PlatformTarget)\$(Configuration)\UnityPlayer.winmd</HintPath>
+    </Reference>
+    <Reference Include="WinRTBridge">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Players\Windows81\$(PlatformTarget)\$(Configuration)\WinRTBridge.winmd</HintPath>
+    </Reference>
+    <Reference Include="BridgeInterface">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Players\Windows81\$(PlatformTarget)\$(Configuration)\BridgeInterface.winmd</HintPath>
+    </Reference>
+    <Reference Include="UnityEngineDelegates">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Players\Windows81\$(PlatformTarget)\$(Configuration)\UnityEngineDelegates.winmd</HintPath>
+    </Reference>
+    <Reference Include="UnityEngineProxy">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Players\Windows81\$(PlatformTarget)\$(Configuration)\UnityEngineProxy.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-  	<Reference Include="Assembly-CSharp-firstpass.dll" >
-		<HintPath>.\Assembly-CSharp-firstpass.dll</HintPath>
-	</Reference>
-	<Reference Include="Assembly-CSharp.dll" >
-		<HintPath>.\Assembly-CSharp.dll</HintPath>
-	</Reference>
-	<Reference Include="BugSense-W8.dll" >
-		<HintPath>.\BugSense-W8.dll</HintPath>
-	</Reference>
-	<Content Include="BugSense-W8.pdb" >
-	</Content>
-	<Reference Include="Facebook.dll" >
-		<HintPath>.\Facebook.dll</HintPath>
-	</Reference>
-	<Content Include="Facebook.pdb" >
-	</Content>
-	<Reference Include="LitJson.dll" >
-		<HintPath>.\LitJson.dll</HintPath>
-	</Reference>
-	<Content Include="LitJson.pdb" >
-	</Content>
-	<Reference Include="MarkerMetro.Unity.WinIntegration.dll" >
-		<HintPath>.\MarkerMetro.Unity.WinIntegration.dll</HintPath>
-	</Reference>
-	<Content Include="MarkerMetro.Unity.WinIntegration.pdb" >
-	</Content>
-	<Reference Include="MarkerMetro.Unity.WinLegacy.dll" >
-		<HintPath>.\MarkerMetro.Unity.WinLegacy.dll</HintPath>
-	</Reference>
-	<Content Include="MarkerMetro.Unity.WinLegacy.pdb" >
-	</Content>
-	<Reference Include="Mindscape.Raygun4Net.WindowsStore.dll" >
-		<HintPath>.\Mindscape.Raygun4Net.WindowsStore.dll</HintPath>
-	</Reference>
-	<Content Include="Mindscape.Raygun4Net.WindowsStore.pdb" >
-	</Content>
-	<Reference Include="Newtonsoft.Json.dll" >
-		<HintPath>.\Newtonsoft.Json.dll</HintPath>
-	</Reference>
-	<Content Include="Newtonsoft.Json.pdb" >
-	</Content>
-	<Reference Include="System.Net.Http.Extensions.dll" >
-		<HintPath>.\System.Net.Http.Extensions.dll</HintPath>
-	</Reference>
-	<Content Include="System.Net.Http.Extensions.pdb" >
-	</Content>
-	<Reference Include="System.Net.Http.Primitives.dll" >
-		<HintPath>.\System.Net.Http.Primitives.dll</HintPath>
-	</Reference>
-	<Content Include="System.Net.Http.Primitives.pdb" >
-	</Content>
-	<Reference Include="UnityEngine.dll" >
-		<HintPath>.\UnityEngine.dll</HintPath>
-	</Reference>
-	<Content Include="UnityEngine.pdb" >
-	</Content>
-	<Reference Include="WinRTLegacy.dll" >
-		<HintPath>.\WinRTLegacy.dll</HintPath>
-	</Reference>
-	<Content Include="Assets\MediumTile.scale-100.png" >
-	</Content>
-	<Content Include="Assets\SmallLogo.scale-100.png" >
-	</Content>
-	<Content Include="Assets\SplashScreen.scale-100.png" >
-	</Content>
-	<Content Include="Assets\StoreLogo.scale-100.png" >
-	</Content>
-	<Content Include="Assets\WideTile.scale-100.png" >
-	</Content>
-
-  <Content Include="Data\**">
-  </Content>
+    <Reference Include="Assembly-CSharp-firstpass.dll">
+      <HintPath>.\Assembly-CSharp-firstpass.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp.dll">
+      <HintPath>.\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="BugSense-W8.dll">
+      <HintPath>.\BugSense-W8.dll</HintPath>
+    </Reference>
+    <Content Include="BugSense-W8.pdb">
+    </Content>
+    <Reference Include="Facebook.dll">
+      <HintPath>.\Facebook.dll</HintPath>
+    </Reference>
+    <Content Include="Facebook.pdb">
+    </Content>
+    <Reference Include="LitJson.dll">
+      <HintPath>.\LitJson.dll</HintPath>
+    </Reference>
+    <Content Include="LitJson.pdb">
+    </Content>
+    <Reference Include="MarkerMetro.Unity.WinIntegration.dll">
+      <HintPath>.\MarkerMetro.Unity.WinIntegration.dll</HintPath>
+    </Reference>
+    <Content Include="MarkerMetro.Unity.WinIntegration.pdb">
+    </Content>
+    <Reference Include="MarkerMetro.Unity.WinLegacy.dll">
+      <HintPath>.\MarkerMetro.Unity.WinLegacy.dll</HintPath>
+    </Reference>
+    <Content Include="MarkerMetro.Unity.WinLegacy.pdb">
+    </Content>
+    <Reference Include="Mindscape.Raygun4Net.WindowsStore.dll">
+      <HintPath>.\Mindscape.Raygun4Net.WindowsStore.dll</HintPath>
+    </Reference>
+    <Content Include="Mindscape.Raygun4Net.WindowsStore.pdb">
+    </Content>
+    <Reference Include="Newtonsoft.Json.dll">
+      <HintPath>.\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Content Include="Newtonsoft.Json.pdb">
+    </Content>
+    <Reference Include="System.Net.Http.Extensions.dll">
+      <HintPath>.\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Content Include="System.Net.Http.Extensions.pdb">
+    </Content>
+    <Reference Include="System.Net.Http.Primitives.dll">
+      <HintPath>.\System.Net.Http.Primitives.dll</HintPath>
+    </Reference>
+    <Content Include="System.Net.Http.Primitives.pdb">
+    </Content>
+    <Reference Include="UnityEngine.dll">
+      <HintPath>.\UnityEngine.dll</HintPath>
+    </Reference>
+    <Content Include="UnityEngine.pdb">
+    </Content>
+    <Reference Include="WinRTLegacy.dll">
+      <HintPath>.\WinRTLegacy.dll</HintPath>
+    </Reference>
+    <Content Include="Assets\MediumTile.scale-100.png">
+    </Content>
+    <Content Include="Assets\SmallLogo.scale-100.png">
+    </Content>
+    <Content Include="Assets\SplashScreen.scale-100.png">
+    </Content>
+    <Content Include="Assets\StoreLogo.scale-100.png">
+    </Content>
+    <Content Include="Assets\WideTile.scale-100.png">
+    </Content>
+    <Content Include="Data\**">
+    </Content>
   </ItemGroup>
   <ItemGroup>
-  <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-  <SDKReference Include="Microsoft.VCLibs, Version=12.0">
-    <Name>Microsoft Visual C++ Runtime Package</Name>
-		</SDKReference>
+    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <SDKReference Include="Microsoft.VCLibs, Version=12.0">
+      <Name>Microsoft Visual C++ Runtime Package</Name>
+    </SDKReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>
   </PropertyGroup>
-
   <Import Project="..\UnityProject.Shared\UnityProject.Shared.projitems" Label="Shared" />
-
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <PropertyGroup>
-     <PreBuildEvent>echo UnityInstallationDir '$(UnityInstallationDir)'
+    <PreBuildEvent>echo UnityInstallationDir '$(UnityInstallationDir)'
 echo UnityProjectDir '$(UnityProjectDir)'
 echo Copying assemblies...
 copy /Y "$(ProjectDir)Unprocessed\*" "$(ProjectDir)"

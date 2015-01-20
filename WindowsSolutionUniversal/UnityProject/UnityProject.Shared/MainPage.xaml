@@ -11,6 +11,7 @@
     <SwapChainPanel x:Name="DXSwapChainPanel">
         <Grid x:Name="ExtendedSplashGrid">
             <Image x:Name="ExtendedSplashImage" Source="Assets/SplashScreen.png" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <ProgressBar x:Name="SplashProgress" Foreground="#FFFFFFFF" Background="#FF333333" Maximum="25000" Width="320" Height="25" Margin="0,350,0,0"/>
         </Grid>
     </SwapChainPanel>
 </Page>

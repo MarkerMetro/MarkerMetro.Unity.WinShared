@@ -17,6 +17,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using UnityPlayer;
+using System.Diagnostics;
+
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=234227
 
 namespace Template
@@ -26,8 +28,10 @@ namespace Template
 	/// </summary>
 	sealed partial class App : Application
 	{
-		private WinRTBridge.WinRTBridge _bridge;
-		private AppCallbacks appCallbacks;
+		WinRTBridge.WinRTBridge _bridge;
+		AppCallbacks appCallbacks;
+
+
 		/// <summary>
 		/// Initializes the singleton application object.  This is the first line of authored code
 		/// executed, and as such is the logical equivalent of main() or WinMain().
@@ -35,9 +39,41 @@ namespace Template
 		public App()
 		{
 			this.InitializeComponent();
-			appCallbacks = new AppCallbacks(false);
-			appCallbacks.RenderingStarted += RemoveSplashScreen;
-		}
+
+            InitializeExceptionLogger();
+
+            appCallbacks = new AppCallbacks(false);
+            UnhandledException += LogUnhandledException;
+
+            // Prevents display to dim while the app is visible:
+            var displayRequest = new Windows.System.Display.DisplayRequest();
+            displayRequest.RequestActive();
+
+#if DEBUG
+            DebugSettings.EnableFrameRateCounter = true;
+#endif
+        }
+
+        void LogUnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            try
+            {
+                if (System.Diagnostics.Debugger.IsAttached)
+                {
+                    // An unhandled exception has occurred; break into the debugger
+                    System.Diagnostics.Debugger.Break();
+                }
+                else
+                {
+                    MarkerMetro.Unity.WinIntegration.ExceptionLogger.Instance.Send(e.Exception);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("FAILED to report unhandled exception:");
+                Debug.WriteLine(ex.ToString());
+            }
+        }
 
 		/// <summary>
 		/// Invoked when application is launched through protocol.
@@ -70,7 +106,7 @@ namespace Template
 			InitializeUnity(args.Arguments, args.SplashScreen);
 		}
 
-		private void InitializeUnity(string args, Windows.ApplicationModel.Activation.SplashScreen splashScreen)
+		void InitializeUnity(string args, Windows.ApplicationModel.Activation.SplashScreen splashScreen)
 		{
 #if UNITY_WP_8_1
 			ApplicationView.GetForCurrentView().SuppressSystemOverlays = true;
@@ -86,7 +122,15 @@ namespace Template
 			// just ensure that the window is active
 			if (rootFrame == null && !appCallbacks.IsInitialized())
 			{
-				var mainPage = new MainPage(splashScreen);
+#if UNITY_METRO_8_1
+                // Initialise Store system
+#if QA || DEBUG
+                //MarkerMetro.Unity.WinIntegration.Store.StoreManager.Instance.Initialise(true);
+#else
+                //MarkerMetro.Unity.WinIntegration.Store.StoreManager.Instance.Initialise(false);
+#endif
+#endif
+                var mainPage = new MainPage(splashScreen);
 				Window.Current.Content = mainPage;
 				Window.Current.Activate();
 
@@ -101,6 +145,8 @@ namespace Template
 				appCallbacks.SetSwapChainPanel(mainPage.GetSwapChainPanel());
 				appCallbacks.SetCoreWindowEvents(Window.Current.CoreWindow);
 				appCallbacks.InitializeD3DXAML();
+
+                AppCallBacksInitialized();
 			}
 
 			Window.Current.Activate();
@@ -109,20 +155,12 @@ namespace Template
 			SetupLocationService();
 #endif
 		}
-
-		private void RemoveSplashScreen()
-		{
-			// This will fail if you change main window class
-			// Make sure to adjust accordingly if you do something like this
-			MainPage page = (MainPage)Window.Current.Content;
-			page.RemoveSplashScreen();
-		}
 		
 #if UNITY_WP_8_1
 		// This is the default setup to show location consent message box to the user
 		// You can customize it to your needs, but do not remove it completely if your application
 		// uses location services, as it is a requirement in Windows Store certification process
-		private async void SetupLocationService()
+		async void SetupLocationService()
 		{
 			if (!appCallbacks.IsLocationCapabilitySet())
 			{
@@ -160,5 +198,32 @@ namespace Template
 			}
 		}
 #endif
+
+        void AppCallBacksInitialized()
+        {
+#if UNITY_WINRT_8_1
+            // wire up dispatcher for plugins
+            MarkerMetro.Unity.WinLegacy.Dispatcher.InvokeOnAppThread = InvokeOnAppThread;
+            MarkerMetro.Unity.WinLegacy.Dispatcher.InvokeOnUIThread = InvokeOnUIThread;
+            MarkerMetro.Unity.WinIntegration.Dispatcher.InvokeOnAppThread = InvokeOnAppThread;
+            MarkerMetro.Unity.WinIntegration.Dispatcher.InvokeOnUIThread = InvokeOnUIThread;
+#endif
+        }
+
+        public void InvokeOnAppThread(Action callback)
+        {
+            appCallbacks.InvokeOnAppThread(() => callback(), false);
+        }
+
+        public void InvokeOnUIThread(Action callback)
+        {
+            appCallbacks.InvokeOnUIThread(() => callback(), false);
+        }
+
+        void InitializeExceptionLogger()
+        {
+            // get a Raygun API key for client and uncomment next line
+            // MarkerMetro.Unity.WinIntegration.ExceptionLogger.Initialize("J5M66WHC/fIcZWudEXXGOw==");
+        }
 	}
 }
