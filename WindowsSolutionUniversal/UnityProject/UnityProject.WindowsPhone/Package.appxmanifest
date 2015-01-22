@@ -16,8 +16,8 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="UnityProject.App">
-      <VisualElements DisplayName="UnityProject" Square150x150Logo="Assets\MediumTile.png" Square44x44Logo="Assets\AppIcon.png" Description="UnityProject" ForegroundText="light" BackgroundColor="transparent" xmlns="http://schemas.microsoft.com/appx/2014/manifest" ToastCapable="true">
-        <DefaultTile ShortName="UnityProject" Square71x71Logo="Assets\SmallTile.png" DefaultSize="square150x150Logo">
+      <VisualElements DisplayName="UnityProject" Square150x150Logo="Assets\Logo.png" Square44x44Logo="Assets\SmallLogo.png" Description="UnityProject" ForegroundText="light" BackgroundColor="#9EE444" xmlns="http://schemas.microsoft.com/appx/2014/manifest" ToastCapable="true">
+        <DefaultTile ShortName="UnityProject" Square71x71Logo="Assets\SmallTile.png" DefaultSize="square150x150Logo" Wide310x150Logo="Assets\WideLogo.png">
         </DefaultTile>
         <SplashScreen Image="Assets\SplashScreen.png" />
       </VisualElements>
