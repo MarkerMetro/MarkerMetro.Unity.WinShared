@@ -15,6 +15,7 @@ namespace Assets.Editor.MarkerMetro
         {
             BuildMetro();
             BuildWP8();
+            BuildUniversal();
         }
 
         [MenuItem("MarkerMetro/Build/Windows Store Apps")]
@@ -53,9 +54,31 @@ namespace Assets.Editor.MarkerMetro
                 });
         }
 
+        [MenuItem("MarkerMetro/Build/Windows Universal 8.1")]
+        public static void BuildUniversal()
+        {
+            string outputPath = MarkerMetro.CommandLineReader.GetCustomArgument("outputPath");
+            if (String.IsNullOrEmpty(outputPath))
+            {
+                outputPath = MarkerMetro.CommandLineReader.GetCustomArgument("universalOutputPath");
+            }
+
+            Build(BuildTarget.MetroPlayer,
+                outputPath,
+                () =>
+                {
+                    EditorUserBuildSettings.selectedBuildTargetGroup = BuildTargetGroup.Metro;
+                    EditorUserBuildSettings.metroBuildType = MetroBuildType.VisualStudioCSharp;
+                    EditorUserBuildSettings.metroSDK = MetroSDK.UniversalSDK81;
+                }, true);
+        }
+
+
+
         public static void Build(BuildTarget target,
             string outputPath = null,
-            Action beforeBuild = null)
+            Action beforeBuild = null,
+            bool isUniversal = false)
         {
             if (Application.isPlaying)
             {
@@ -72,7 +95,7 @@ namespace Assets.Editor.MarkerMetro
 
             if (string.IsNullOrEmpty(outputPath))
             {
-                outputPath = GetPath(target);
+                outputPath = GetPath(target, isUniversal);
             }
 
             if (beforeBuild != null)
@@ -87,10 +110,22 @@ namespace Assets.Editor.MarkerMetro
             }
         }
 
-        private static string GetPath(BuildTarget target)
+        private static string GetPath(BuildTarget target, bool isUniversal)
         {
-            string projectName = target == BuildTarget.WP8Player ? "WindowsPhone" : "WindowsStore";
-            string defaultDir = Path.GetFullPath(Path.Combine(Application.dataPath, "../WindowsSolution/" + projectName));
+            string projectName = string.Empty;
+            string defaultDir = string.Empty;
+
+            if (isUniversal)
+            {
+                projectName = "Universal";
+                defaultDir = Path.GetFullPath(Path.Combine(Application.dataPath, "../WindowsSolutionUniversal"));
+            }
+            else
+            {
+                projectName = target == BuildTarget.WP8Player ? "WindowsPhone" : "WindowsStore";
+                defaultDir = Path.GetFullPath(Path.Combine(Application.dataPath, "../WindowsSolution/" + projectName));
+            }
+            
             string outputPath = EditorUtility.OpenFolderPanel("Choose Folder (" + projectName + ")", defaultDir, "");
             if (string.IsNullOrEmpty(outputPath))
             {
