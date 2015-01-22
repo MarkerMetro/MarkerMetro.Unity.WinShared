@@ -18,6 +18,18 @@
     <PackageCertificateKeyFile>..\UnityProject.Shared\MetroTestCertificate.pfx</PackageCertificateKeyFile>
     <SynthesizeLinkMetadata>true</SynthesizeLinkMetadata>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <UnityConfig>debug</UnityConfig>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <UnityConfig>release</UnityConfig>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Master'">
+    <UnityConfig>master</UnityConfig>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'QA'">
+    <UnityConfig>master</UnityConfig>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\ARM\Debug\</OutputPath>
@@ -109,23 +121,23 @@
   <ItemGroup>
     <Reference Include="UnityPlayer, Version=255.255.255.255, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Players\Windows81\$(PlatformTarget)\$(Configuration)\UnityPlayer.winmd</HintPath>
+      <HintPath>..\..\Players\Windows81\$(PlatformTarget)\$(UnityConfig)\UnityPlayer.winmd</HintPath>
     </Reference>
     <Reference Include="WinRTBridge">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Players\Windows81\$(PlatformTarget)\$(Configuration)\WinRTBridge.winmd</HintPath>
+      <HintPath>..\..\Players\Windows81\$(PlatformTarget)\$(UnityConfig)\WinRTBridge.winmd</HintPath>
     </Reference>
     <Reference Include="BridgeInterface">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Players\Windows81\$(PlatformTarget)\$(Configuration)\BridgeInterface.winmd</HintPath>
+      <HintPath>..\..\Players\Windows81\$(PlatformTarget)\$(UnityConfig)\BridgeInterface.winmd</HintPath>
     </Reference>
     <Reference Include="UnityEngineDelegates">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Players\Windows81\$(PlatformTarget)\$(Configuration)\UnityEngineDelegates.winmd</HintPath>
+      <HintPath>..\..\Players\Windows81\$(PlatformTarget)\$(UnityConfig)\UnityEngineDelegates.winmd</HintPath>
     </Reference>
     <Reference Include="UnityEngineProxy">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Players\Windows81\$(PlatformTarget)\$(Configuration)\UnityEngineProxy.dll</HintPath>
+      <HintPath>..\..\Players\Windows81\$(PlatformTarget)\$(UnityConfig)\UnityEngineProxy.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -209,6 +221,32 @@
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'QA|ARM'">
+    <OutputPath>bin\ARM\QA\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;UNITY_METRO;UNITY_METRO_8_1;QA</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'QA|x86'">
+    <OutputPath>bin\x86\QA\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;UNITY_METRO;UNITY_METRO_8_1;QA</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <Import Project="..\UnityProject.Shared\UnityProject.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
