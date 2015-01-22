@@ -16,14 +16,14 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid Background="Gray">
-                <Button  x:Name="backButton" 
-                                 Style="{StaticResource NavigationBackButtonNormalStyle}"
-                                 Margin="7" 
-                                 VerticalAlignment="Top"
-                                 Click="backButton_Click"
-                                 AutomationProperties.Name="Back"
-                                 AutomationProperties.AutomationId="BackButton"
-                                 AutomationProperties.ItemType="Navigation Button"/>
+                <AppBarButton x:Name="backButton"
+                              Icon="Back"
+                              Margin="7" 
+                              VerticalAlignment="Top"
+                              Click="backButton_Click"
+                              AutomationProperties.Name="Back"
+                              AutomationProperties.AutomationId="BackButton"
+                              AutomationProperties.ItemType="Navigation Button"/>
             </Grid>
             <WebView x:Name="web" 
                      Grid.Row="1"
