@@ -27,6 +27,7 @@ using Windows.UI.Xaml.Navigation;
 using Windows.UI.Popups;
 #if UNITY_METRO_8_1
 using Windows.UI.ApplicationSettings;
+using MarkerMetro.Unity.WinIntegration.Facebook;
 #endif
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -76,6 +77,11 @@ namespace Template
             extendedSplashTimer.Interval = TimeSpan.FromMilliseconds(100);
             extendedSplashTimer.Tick += ExtendedSplashTimer_Tick;
             extendedSplashTimer.Start();
+
+#if UNITY_METRO_8_1
+            // set the fb web interface (only for Win8.1).
+            FB.SetPlatformInterface(web);
+#endif
         }
 
         /// <summary>

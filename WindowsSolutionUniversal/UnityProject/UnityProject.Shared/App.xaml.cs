@@ -90,6 +90,10 @@ namespace Template
 					ProtocolActivatedEventArgs eventArgs = args as ProtocolActivatedEventArgs;
 					splashScreen = eventArgs.SplashScreen;
 					appArgs += string.Format("Uri={0}", eventArgs.Uri.AbsoluteUri);
+
+#if UNITY_WP_8_1
+                    MarkerMetro.Unity.WinIntegration.Facebook.FBNative.MapUri(eventArgs.Uri);
+#endif
 					break;
 			}
 			InitializeUnity(appArgs, splashScreen);
@@ -201,13 +205,11 @@ namespace Template
 
         void AppCallBacksInitialized()
         {
-#if UNITY_WINRT_8_1
             // wire up dispatcher for plugins
             MarkerMetro.Unity.WinLegacy.Dispatcher.InvokeOnAppThread = InvokeOnAppThread;
             MarkerMetro.Unity.WinLegacy.Dispatcher.InvokeOnUIThread = InvokeOnUIThread;
             MarkerMetro.Unity.WinIntegration.Dispatcher.InvokeOnAppThread = InvokeOnAppThread;
             MarkerMetro.Unity.WinIntegration.Dispatcher.InvokeOnUIThread = InvokeOnUIThread;
-#endif
         }
 
         public void InvokeOnAppThread(Action callback)

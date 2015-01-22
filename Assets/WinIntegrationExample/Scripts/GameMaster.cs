@@ -8,7 +8,7 @@ using MarkerMetro.Unity.WinIntegration.LocalNotifications;
 using MarkerMetro.Unity.WinIntegration.Store;
 using LitJson;
 
-#if UNITY_WP8 && !UNITY_EDITOR
+#if (UNITY_WP8 || UNITY_WP_8_1) && !UNITY_EDITOR
 using FBWin = MarkerMetro.Unity.WinIntegration.Facebook.FBNative;
 #else
 using FBWin = MarkerMetro.Unity.WinIntegration.Facebook.FB;
@@ -351,18 +351,18 @@ public class GameMaster : MonoBehaviour {
         Renderer renderer = facebook_image_.GetComponent<MeshRenderer>().renderer;
         if (FBWin.IsLoggedIn)
         {
-#if (UNITY_METRO && !UNITY_EDITOR)
+#if (UNITY_WP8 || UNITY_WP_8_1) && !UNITY_EDITOR
+            FBNative.GetCurrentUser((user) =>
+            {
+                StartCoroutine(SetFBStatus(user));
+            });
+#elif (UNITY_METRO && !UNITY_EDITOR)
             text.text = FB.UserName; 
             Texture2D texture = new Texture2D(128, 128, TextureFormat.DXT1, false);
 
             yield return StartCoroutine(GetFBPicture(FB.UserId, texture));
 
             renderer.material.mainTexture = texture;
-#elif UNITY_WP8 && !UNITY_EDITOR
-            FBNative.GetCurrentUser((user) =>
-            {
-                StartCoroutine(SetFBStatus(user));
-            });
 #else
             // TODO picture and name not yet supported on FBNative
             text.text = "Logged In (picture and name to do!)";
@@ -414,7 +414,7 @@ public class GameMaster : MonoBehaviour {
                 Debug.Log("AppRequest result: " + result.Text);
                 if (result.Json != null)
                     Debug.Log("AppRequest Json: " + result.Json.ToString());
-#if UNITY_WP8
+#if UNITY_WP8 || UNITY_WP_8_1
             }, title: "FaceFlip Invite");
 #else
             });
