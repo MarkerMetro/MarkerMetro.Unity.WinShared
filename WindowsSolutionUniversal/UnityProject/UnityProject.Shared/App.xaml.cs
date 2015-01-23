@@ -126,13 +126,11 @@ namespace Template
 			// just ensure that the window is active
 			if (rootFrame == null && !appCallbacks.IsInitialized())
 			{
-#if UNITY_METRO_8_1
                 // Initialise Store system
 #if QA || DEBUG
-                //MarkerMetro.Unity.WinIntegration.Store.StoreManager.Instance.Initialise(true);
+                MarkerMetro.Unity.WinIntegration.Store.StoreManager.Instance.Initialise(true);
 #else
-                //MarkerMetro.Unity.WinIntegration.Store.StoreManager.Instance.Initialise(false);
-#endif
+                MarkerMetro.Unity.WinIntegration.Store.StoreManager.Instance.Initialise(false);
 #endif
                 var mainPage = new MainPage(splashScreen);
 				Window.Current.Content = mainPage;
