@@ -3,30 +3,40 @@ using System.Collections;
 
 using MarkerMetro.Unity.WinIntegration;
 
-public class GUIDebug : MonoBehaviour {
+public class GUIDebug : MonoBehaviour
+{
 
-	public GUIText app_version_;
-	public GUIText language_;
-	public GUIText device_id_;
-	public GUIText low_end_;
-	public GUIText internet_;
+    [SerializeField]
+    private GUIText _appVersion;
+    [SerializeField]
+    private GUIText _language;
+    [SerializeField]
+    private GUIText _deviceID;
+    [SerializeField]
+    private GUIText _lowEnd;
+    [SerializeField]
+    private GUIText _internet;
+    [SerializeField]
+    private GUIText _meteredConnection;
 
-	// Use this for initialization
-	void Start () {
+    void Start()
+    {
 #if !UNITY_EDITOR
-		app_version_.text = "AppVersion: " + Helper.Instance.GetAppVersion();
-		language_.text = "Language: " + Helper.Instance.GetAppLanguage();
-		device_id_.text = "Device ID: " + Helper.Instance.GetUserDeviceId();
-		low_end_.text = "Is Low End: " + Helper.Instance.IsLowEndDevice();
-		internet_.text = "Is Online: " + Helper.Instance.HasInternetConnection;
+        _appVersion.text = "AppVersion: " + Helper.Instance.GetAppVersion();
+        _language.text = "Language: " + Helper.Instance.GetAppLanguage();
+        _deviceID.text = "Device ID: " + Helper.Instance.GetUserDeviceId();
+        _lowEnd.text = "Is Low End: " + Helper.Instance.IsLowEndDevice();
+        _internet.text = "Is Online: " + Helper.Instance.HasInternetConnection;
+        _meteredConnection.text = "Is metered connection: " + Helper.Instance.IsMeteredConnection;
 #endif
-	}
-	
-	// Update is called once per frame
-	void Update () {
-#if !UNITY_EDITOR	
-		language_.text = "Language: " + Helper.Instance.GetAppLanguage();
-		internet_.text = "Is Online: " + Helper.Instance.HasInternetConnection;
+    }
+
+    void Update()
+    {
+#if !UNITY_EDITOR
+        _language.text = "Language: " + Helper.Instance.GetAppLanguage();
+        _internet.text = "Is Online: " + Helper.Instance.HasInternetConnection;
+        _meteredConnection.text = "Is metered connection: " + Helper.Instance.IsMeteredConnection;
 #endif
-	}
+    }
 }

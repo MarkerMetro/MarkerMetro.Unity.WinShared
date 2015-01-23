@@ -19,7 +19,7 @@
     ProductID="{EC21CF10-964F-4F3D-A272-2C9CACCC5B8C}" 
     Title="@AppResLib.dll,-100" 
     RuntimeType="Silverlight" 
-    Version="1.0.0.0" 
+    Version="1.8.0.0" 
     Genre="apps.games" 
     Author="Disney" 
     Description="@AppResLib.dll,-101" 
