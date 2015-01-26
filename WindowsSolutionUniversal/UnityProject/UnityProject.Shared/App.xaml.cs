@@ -223,7 +223,7 @@ namespace Template
         void InitializeExceptionLogger()
         {
             // get a Raygun API key for client and uncomment next line
-            // MarkerMetro.Unity.WinIntegration.ExceptionLogger.Initialize("J5M66WHC/fIcZWudEXXGOw==");
+            //MarkerMetro.Unity.WinIntegration.ExceptionLogger.Initialize("YOUR_API_KEY HERE");
         }
 	}
 }
