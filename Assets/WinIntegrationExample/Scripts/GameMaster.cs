@@ -90,7 +90,7 @@ public class GameMaster : MonoBehaviour {
 		CreateTiles();
 		ChangeState( GAME_STATE.GS_START );
 #if !UNITY_EDITOR
-        FBWin.Init(SetFBInit, Assets.Plugins.MarkerMetro.Constants.FBAppId, OnHideUnity);
+        FBWin.Init(SetFBInit, Assets.Plugins.MarkerMetro.Constants.FBAppId, null);
 #endif
     }
 	
@@ -306,11 +306,6 @@ public class GameMaster : MonoBehaviour {
             Debug.Log("Already logged in to FB");
             StartCoroutine(RefreshFBStatus());
         }
-    }
-
-    private void OnHideUnity( bool hide_unity )
-    {
-        Debug.Log("OnHideUnity" + hide_unity);
     }
 
     /// <summary>
