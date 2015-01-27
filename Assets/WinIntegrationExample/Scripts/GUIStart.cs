@@ -1,6 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections;
+using UnityEngine;
 
+using MarkerMetro.Unity.WinIntegration;
+using MarkerMetro.Unity.WinIntegration.LocalNotifications;
 using MarkerMetro.Unity.WinIntegration.Facebook;
 
 #if UNITY_WP8 && !UNITY_EDITOR
@@ -26,7 +29,7 @@ public class GUIStart : MonoBehaviour {
 		int half_height = Screen.height / 2;
 
 		int box_width = 200;
-		int box_height = 480;
+		int box_height = 530;
 
         if (FBWin.IsLoggedIn)
         {
@@ -127,6 +130,16 @@ public class GUIStart : MonoBehaviour {
         if (GUI.Button(new Rect(box_x + 10, box_y + y_modifier, box_width - 20, 40), "Share"))
         {
             _gameMasterScript.ShowShareUI();
+        }
+
+        y_modifier += 50;
+
+        // Show native dialog
+        if (GUI.Button(new Rect(box_x + 10, box_y + y_modifier, box_width - 20, 40), "Show Native Dialog"))
+        {
+            Action<bool> callback = b => Debug.Log("Native Dialog: User response is " + b);
+            Helper.Instance.ShowDialog("How cool is that?", "This is a native dialog!", callback,
+                "So cool!", "Meh...");
         }
 
         y_modifier += 50;
