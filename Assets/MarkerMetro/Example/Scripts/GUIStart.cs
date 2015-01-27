@@ -6,7 +6,7 @@ using MarkerMetro.Unity.WinIntegration;
 using MarkerMetro.Unity.WinIntegration.LocalNotifications;
 using MarkerMetro.Unity.WinIntegration.Facebook;
 
-#if UNITY_WP8 && !UNITY_EDITOR
+#if (UNITY_WP8 || UNITY_WP_8_1) && !UNITY_EDITOR
 using FBWin = MarkerMetro.Unity.WinIntegration.Facebook.FBNative;
 #else
 using FBWin = MarkerMetro.Unity.WinIntegration.Facebook.FB;
@@ -22,6 +22,22 @@ public class GUIStart : MonoBehaviour {
         _gameMasterScript = gameMasterObject.GetComponent<GameMaster>();
     }
 
+#if UNITY_WP8 || UNITY_WP_8_1
+    void Update ()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            MarkerMetro.Unity.WinIntegration.Helper.Instance.ShowDialog("Are you sure you want to quit?", "Quit Confirm", (okPressed) =>
+            {
+                if (okPressed)
+                {
+                    Application.Quit();
+                }
+            }, "Yes", "No");
+        }
+    }
+#endif
+
 	void OnGUI()
 	{
 		// Make a background box
@@ -35,7 +51,10 @@ public class GUIStart : MonoBehaviour {
         {
             box_height += 150;
         }
-#if UNITY_METRO
+#if UNITY_METRO && !UNITY_WP_8_1
+        box_height -= 50;
+#endif
+#if UNITY_WP_8_1
         box_height -= 50;
 #endif
 
@@ -118,12 +137,13 @@ public class GUIStart : MonoBehaviour {
 
         y_modifier += 50;
 
-        // Test crash button
+        //Test crash button
         if (GUI.Button(new Rect(box_x + 10, box_y + y_modifier, box_width - 20, 40), "Throw an Exception"))
         {
             throw new System.Exception("This is test exception from Unity code");
         }
 
+#if !UNITY_WP_8_1
         y_modifier += 50;
 
         // Test share UI.
@@ -131,6 +151,7 @@ public class GUIStart : MonoBehaviour {
         {
             _gameMasterScript.ShowShareUI();
         }
+#endif
 
         y_modifier += 50;
 
@@ -166,10 +187,9 @@ public class GUIStart : MonoBehaviour {
             _gameMasterScript.PickContactsAndSendEmail();
         }
 
-#if !UNITY_METRO
+#if !UNITY_METRO || UNITY_WP_8_1
         y_modifier += 50;
 
-        // Third Button Login to Quit
         if (GUI.Button(new Rect(box_x + 10, box_y + y_modifier, box_width - 20, 40), "Quit"))
         {
             Application.Quit();
