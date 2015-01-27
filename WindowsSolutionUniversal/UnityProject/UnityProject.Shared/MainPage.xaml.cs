@@ -170,18 +170,21 @@ namespace Template
             }
             else
             {
-                AppCallbacks.Instance.UnityPause(1);
-
                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     UpdateLiveTiles();
                 });
 
-                // make sure Unity Player Prefs are saved!
+                // Make sure Unity Player Prefs are saved!
                 AppCallbacks.Instance.InvokeOnAppThread(() =>
                 {
                     UnityEngine.PlayerPrefs.Save();
                 }, false);
+
+#if UNITY_METRO_8_1
+                // Unity pauses automatically on WP.
+                AppCallbacks.Instance.UnityPause(1);
+#endif
             }
         }
 
@@ -216,6 +219,9 @@ namespace Template
                 string wideData4 = mediumData4;
                 //
                 //***********************************************
+
+                // Check this link for valid tile templates for Windows Store and Windows Phone:
+                // https://msdn.microsoft.com/library/windows/apps/windows.ui.notifications.tiletemplatetype
 
                 // Retrieve the XML that defines the appearance of the tiles
                 XmlDocument frontMediumTemplate = TileUpdateManager.GetTemplateContent(TileTemplateType.TileSquare150x150Image);
