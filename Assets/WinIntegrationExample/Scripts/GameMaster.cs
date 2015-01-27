@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
+using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
-using System;
+using MarkerMetro.Unity.WinIntegration;
 using MarkerMetro.Unity.WinIntegration.Facebook;
 using MarkerMetro.Unity.WinIntegration.Resources;
 using MarkerMetro.Unity.WinIntegration.LocalNotifications;
@@ -520,6 +522,24 @@ public class GameMaster : MonoBehaviour {
         ReminderManager.RemoveReminder("testID");
     }
 
+    public void PickContactsAndSendEmail()
+    {
+        Action<bool> pickAndSend = ok =>
+        {
+            if (!ok)
+                return;
+
+            Helper.Instance.ChooseEmailContacts(contacts =>
+            {
+                string to = String.Join(",", contacts.Select(x => x.email).ToArray());
+                Helper.Instance.SendEmail(to, "Hello", "Hi.\n    This is a test email.");
+            });
+        };
+
+        Helper.Instance.ShowDialog("This example will send an email to each contact you pick. Continue?",
+            "Send Email", pickAndSend, "Yes", "No");
+    }
+
     public void RetrieveProducts ()
     {
         // retrieve store products.
@@ -540,11 +560,11 @@ public class GameMaster : MonoBehaviour {
             if (receipt.Success)
             {
                 remaining_moves_ += int.Parse(receipt.Product.Name.Split(' ')[0]);
-                MarkerMetro.Unity.WinIntegration.Helper.Instance.ShowDialog("You now have " + remaining_moves_ + "moves.", "Success", null, "OK");
+                Helper.Instance.ShowDialog("You now have " + remaining_moves_ + "moves.", "Success", null, "OK");
             }
             else
             {
-                MarkerMetro.Unity.WinIntegration.Helper.Instance.ShowDialog(receipt.Status.ToString(), "Error", null, "OK");
+                Helper.Instance.ShowDialog(receipt.Status.ToString(), "Error", null, "OK");
             }
         });
     }
@@ -564,9 +584,9 @@ public class GameMaster : MonoBehaviour {
     public void ShowShareUI ()
     {
 #if UNITY_METRO
-        MarkerMetro.Unity.WinIntegration.Helper.Instance.ShowShareUI();
+        Helper.Instance.ShowShareUI();
 #else
-        MarkerMetro.Unity.WinIntegration.Helper.Instance.ShowShareUI("Title", "Message", "http://www.markermetro.com");
+        Helper.Instance.ShowShareUI("Title", "Message", "http://www.markermetro.com");
 #endif
     }
 
@@ -578,7 +598,7 @@ public class GameMaster : MonoBehaviour {
         }
         catch (Exception e)
         {
-            MarkerMetro.Unity.WinIntegration.Helper.Instance.ShowDialog(StackTraceUtility.ExtractStringFromException(e), "ExtractStackTrace", null, "OK");
+            Helper.Instance.ShowDialog(StackTraceUtility.ExtractStringFromException(e), "ExtractStackTrace", null, "OK");
         }
     }
 
