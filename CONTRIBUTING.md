@@ -2,8 +2,6 @@
 
 We love Pull Requests! Your contributions help make WinShared great.
 
-## Getting Started
-
 So you want to contribute to WinShared. Great! Contributions take many forms
 from submitting issues, writing docs, to making code changes. We welcome
 it all. Don't forget to sign up for a [GitHub account](https://github.com/signup/free),
