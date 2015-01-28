@@ -134,6 +134,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\ResolutionHelper.cs" />
+    <Compile Include="Converters\ScaledImageLocator.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -225,14 +227,6 @@
     </Reference>
     <Reference Include="LitJson">
       <HintPath>.\LitJson.dll</HintPath>
-    </Reference>
-    <Reference Include="MarkerMetro.Common">
-      <HintPath>..\..\packages\MarkerMetro.Common.PCL.2.37\lib\portable-net45+win+WindowsPhoneApp81+wp80\MarkerMetro.Common.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="MarkerMetro.Common.WP8, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\MarkerMetro.Common.2.37\lib\wp8\MarkerMetro.Common.WP8.dll</HintPath>
     </Reference>
     <Reference Include="MarkerMetro.Unity.WinIntegration, Version=1.6.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

@@ -27,7 +27,6 @@ using MarkerMetro.Unity.WinIntegration.Store;
 using System.Threading.Tasks;
 using UnityProject.WinPhone.Resources;
 using System.Diagnostics;
-using MarkerMetro.Common.Converters;
 using Microsoft.Phone.Shell;
 
 namespace UnityProject.WinPhone

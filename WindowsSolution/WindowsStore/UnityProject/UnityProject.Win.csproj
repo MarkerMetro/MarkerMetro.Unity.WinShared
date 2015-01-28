@@ -164,13 +164,6 @@
     <Reference Include="LitJson">
       <HintPath>.\LitJson.dll</HintPath>
     </Reference>
-    <Reference Include="MarkerMetro.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\MarkerMetro.Common.PCL.2.37\lib\portable-net45+win+WindowsPhoneApp81+wp80\MarkerMetro.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="MarkerMetro.Common.WinUniversal">
-      <HintPath>..\..\packages\MarkerMetro.Common.2.37\lib\portable-win81+wpa81\MarkerMetro.Common.WinUniversal.dll</HintPath>
-    </Reference>
     <Reference Include="MarkerMetro.Unity.WinIntegration">
       <HintPath>.\MarkerMetro.Unity.WinIntegration.dll</HintPath>
     </Reference>
