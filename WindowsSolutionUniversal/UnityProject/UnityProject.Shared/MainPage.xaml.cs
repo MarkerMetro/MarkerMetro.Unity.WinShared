@@ -205,7 +205,8 @@ namespace Template
 
                 string mediumData1 = "99"; // **This data should come from a game class**
                 string mediumData2 = "1234";
-                string mediumData3 = "11:22";
+                string mediumData3 = DateTime.Now.ToString("HH:mm:ss",
+                                System.Globalization.CultureInfo.InvariantCulture);
                 string mediumData4 = "7";
 
                 string wideText1 = mediumText1; // **These can be made different if more detail is wanted for wide tile**

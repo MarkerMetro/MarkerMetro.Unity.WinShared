@@ -555,7 +555,7 @@ public class GameMaster : MonoBehaviour {
             if (receipt.Success)
             {
                 remaining_moves_ += int.Parse(receipt.Product.Name.Split(' ')[0]);
-                Helper.Instance.ShowDialog("You now have " + remaining_moves_ + "moves.", "Success", null, "OK");
+                Helper.Instance.ShowDialog("You now have " + remaining_moves_ + " moves.", "Success", null, "OK");
             }
             else
             {
