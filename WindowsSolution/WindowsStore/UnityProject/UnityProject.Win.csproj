@@ -120,7 +120,6 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <None Include="MetroTestCertificate.pfx" />
-    <None Include="packages.config" />
     <PRIResource Include="Resources\zh-Hans\Resources.resw" />
     <PRIResource Include="Resources\zh-Hant\Resources.resw" />
     <None Include="UnityProject.Win_StoreKey.pfx" />
