@@ -136,8 +136,10 @@ namespace UnityProject.Win
 
             var result = await dialog.ShowAsync();
 
-            if(result.Label=="Yes")
+            if (result.Label=="Yes")
+            {
                 throw new InvalidOperationException("A test crash from Windows Store solution!");
+            }
         }
 
 #endif
@@ -152,7 +154,10 @@ namespace UnityProject.Win
 	
         async void OnWindowVisibilityChanged(object sender, VisibilityChangedEventArgs e)
         {
-            if (!AppCallbacks.Instance.IsInitialized()) return;
+            if (!AppCallbacks.Instance.IsInitialized())
+            {
+                return;
+            }
 
             if (e.Visible)
             {
@@ -321,7 +326,9 @@ namespace UnityProject.Win
                 manifest = manifest.Substring(idx);
                 idx = manifest.IndexOf("BackgroundColor");
                 if (idx < 0)  // background is optional
+                {
                     return;
+                }
                 manifest = manifest.Substring(idx);
                 idx = manifest.IndexOf("\"");
                 manifest = manifest.Substring(idx + 2); // also remove quote and # char after it
@@ -355,8 +362,10 @@ namespace UnityProject.Win
                 onResizeHandler = null;
             }
 
-            if(FeaturesManager.Instance.IsIapEnabled)
+            if (FeaturesManager.Instance.IsIapEnabled)
+            {
                 CheckForOFT();
+            }
         }
 
 		protected override Windows.UI.Xaml.Automation.Peers.AutomationPeer OnCreateAutomationPeer()

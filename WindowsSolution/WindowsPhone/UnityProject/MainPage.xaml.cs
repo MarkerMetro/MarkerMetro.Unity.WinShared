@@ -124,7 +124,9 @@ namespace UnityProject.WinPhone
             StoreManager.Instance.Initialise(false);
 #endif
             if (FeaturesManager.Instance.IsIapEnabled)
+            {
                 CheckForOFT();
+            }
 		}
 
         public void InvokeOnAppThread(System.Action callback)

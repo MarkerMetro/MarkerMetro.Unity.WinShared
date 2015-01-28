@@ -24,7 +24,9 @@ namespace MarkerMetro.Unity.WinShared.Tools
             get
             {
                 if (_instance == null)
+                {
                     _instance = new FeaturesManager();
+                }
                 return _instance;
             }
         }
