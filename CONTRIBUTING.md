@@ -17,6 +17,7 @@ button from the main project site, or run this command in the Git Shell:
 `git clone https://github.com/MarkerMetro/MarkerMetro.Unity.WinShared.git WinShared`
 
 Make sure you have the correct line endings set on Windows
+
 `git config --global core.autocrlf true`
 
 If you want to make contributions to the project,
