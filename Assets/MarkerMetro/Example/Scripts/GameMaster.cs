@@ -606,7 +606,7 @@ public class GameMaster : MonoBehaviour {
     /// Submitted a bug report to Unity: http://fogbugz.unity3d.com/default.asp?663800_4o1v5omb7fan6gfq
     public void PlayVideo ()
     {
-        string path = Application.streamingAssetsPath + "/" + "ax2qY6M_460sv.mp4";
+        string path = Application.streamingAssetsPath + "/MarkerMetro/ExampleVideo.mp4";
         VideoPlayer.PlayVideo(path, () =>
         {
             Debug.Log("Video Stopped.");
