@@ -517,22 +517,10 @@ public class GameMaster : MonoBehaviour {
         ReminderManager.RemoveReminder("testID");
     }
 
-    public void PickContactsAndSendEmail()
+    public void SendEmail()
     {
-        Action<bool> pickAndSend = ok =>
-        {
-            if (!ok)
-                return;
-
-            Helper.Instance.ChooseEmailContacts(contacts =>
-            {
-                string to = String.Join(",", contacts.Select(x => x.email).ToArray());
-                Helper.Instance.SendEmail(to, "Hello", "Hi.\n    This is a test email.");
-            });
-        };
-
-        Helper.Instance.ShowDialog("This example will send an email to each contact you pick. Continue?",
-            "Send Email", pickAndSend, "Yes", "No");
+        Helper.Instance.SendEmail("test@example.com;test2@example.com", "Hello!",
+            "This is a test mail.\nBye!");
     }
 
     public void RetrieveProducts ()
@@ -593,7 +581,7 @@ public class GameMaster : MonoBehaviour {
         }
         catch (Exception e)
         {
-            Helper.Instance.ShowDialog(StackTraceUtility.ExtractStringFromException(e), "ExtractStackTrace", null, "OK");
+            Helper.Instance.ShowDialog(StackTraceUtility.ExtractStringFromException(e), "Extract Stack Trace", null, "OK");
         }
     }
 

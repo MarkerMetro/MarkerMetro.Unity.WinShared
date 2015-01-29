@@ -166,7 +166,7 @@ public class GUIStart : MonoBehaviour {
         y_modifier += 50;
 
         // Test ExtractStackTrace.
-        if (GUI.Button(new Rect(box_x + 10, box_y + y_modifier, box_width - 20, 40), "ExtractStackTrace"))
+        if (GUI.Button(new Rect(box_x + 10, box_y + y_modifier, box_width - 20, 40), "Extract Stack Trace"))
         {
             _gameMasterScript.ExtractStackTrace();
         }
@@ -184,7 +184,7 @@ public class GUIStart : MonoBehaviour {
         // Send an email
         if (GUI.Button(new Rect(box_x + 10, box_y + y_modifier, box_width - 20, 40), "Send Email"))
         {
-            _gameMasterScript.PickContactsAndSendEmail();
+            _gameMasterScript.SendEmail();
         }
 
 #if !UNITY_METRO || UNITY_WP_8_1
