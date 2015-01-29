@@ -26,6 +26,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.Popups;
+using MarkerMetro.Unity.WinShared.Tools;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -92,11 +93,15 @@ namespace UnityProject.Win
         {
             var loader = ResourceLoader.GetForViewIndependentUse();
 
-            args.Request.ApplicationCommands.Add(new SettingsCommand(Guid.NewGuid(), loader.GetString("SettingsCharm_Settings"), h =>
+            if (MarkerMetro.Unity.WinShared.Tools.FeaturesManager.Instance.IsGameSettingsEnabled)
             {
-                var sf = new GameSettingsFlyout();
-                sf.Show();
-            }));
+                args.Request.ApplicationCommands.Add(new SettingsCommand(Guid.NewGuid(), 
+                    loader.GetString("SettingsCharm_Settings"), h =>
+                {
+                    var sf = new GameSettingsFlyout();
+                    sf.Show();
+                }));
+            }
             args.Request.ApplicationCommands.Add(
                 new SettingsCommand(Guid.NewGuid(),
                     loader.GetString("SettingsCharm_CustomerSupport"),
@@ -131,8 +136,10 @@ namespace UnityProject.Win
 
             var result = await dialog.ShowAsync();
 
-            if(result.Label=="Yes")
+            if (result.Label=="Yes")
+            {
                 throw new InvalidOperationException("A test crash from Windows Store solution!");
+            }
         }
 
 #endif
@@ -147,7 +154,10 @@ namespace UnityProject.Win
 	
         async void OnWindowVisibilityChanged(object sender, VisibilityChangedEventArgs e)
         {
-            if (!AppCallbacks.Instance.IsInitialized()) return;
+            if (!AppCallbacks.Instance.IsInitialized())
+            {
+                return;
+            }
 
             if (e.Visible)
             {
@@ -316,7 +326,9 @@ namespace UnityProject.Win
                 manifest = manifest.Substring(idx);
                 idx = manifest.IndexOf("BackgroundColor");
                 if (idx < 0)  // background is optional
+                {
                     return;
+                }
                 manifest = manifest.Substring(idx);
                 idx = manifest.IndexOf("\"");
                 manifest = manifest.Substring(idx + 2); // also remove quote and # char after it
@@ -350,7 +362,10 @@ namespace UnityProject.Win
                 onResizeHandler = null;
             }
 
-            CheckForOFT();
+            if (FeaturesManager.Instance.IsIapEnabled)
+            {
+                CheckForOFT();
+            }
         }
 
 		protected override Windows.UI.Xaml.Automation.Peers.AutomationPeer OnCreateAutomationPeer()

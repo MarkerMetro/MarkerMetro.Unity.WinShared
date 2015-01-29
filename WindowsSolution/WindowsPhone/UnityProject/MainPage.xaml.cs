@@ -1,4 +1,3 @@
-using MarkerMetro.Unity.WinIntegration.Facebook;
 
 using System;
 using System.Collections.Generic;
@@ -16,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Info;
+using Microsoft.Phone.Shell;
 using Windows.Foundation;
 using Windows.Devices.Geolocation;
 
@@ -23,11 +23,14 @@ using UnityApp = UnityPlayer.UnityApp;
 using UnityBridge = WinRTBridge.WinRTBridge;
 using System.Windows.Threading;
 using Microsoft.Phone.Tasks;
-using MarkerMetro.Unity.WinIntegration.Store;
 using System.Threading.Tasks;
 using UnityProject.WinPhone.Resources;
 using System.Diagnostics;
-using Microsoft.Phone.Shell;
+
+using MarkerMetro.Common.Converters;
+using MarkerMetro.Unity.WinIntegration.Facebook;
+using MarkerMetro.Unity.WinIntegration.Store;
+using MarkerMetro.Unity.WinShared.Tools;
 
 namespace UnityProject.WinPhone
 {
@@ -120,7 +123,10 @@ namespace UnityProject.WinPhone
 #else
             StoreManager.Instance.Initialise(false);
 #endif
-            CheckForOFT();
+            if (FeaturesManager.Instance.IsIapEnabled)
+            {
+                CheckForOFT();
+            }
 		}
 
         public void InvokeOnAppThread(System.Action callback)
