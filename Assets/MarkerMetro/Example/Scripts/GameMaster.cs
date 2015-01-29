@@ -517,7 +517,7 @@ public class GameMaster : MonoBehaviour {
         ReminderManager.RemoveReminder("testID");
     }
 
-    public void PickContactsAndSendEmail()
+    public void SendEmail()
     {
         Helper.Instance.SendEmail("test@example.com;test2@example.com", "Hello!",
             "This is a test mail.\nBye!");
