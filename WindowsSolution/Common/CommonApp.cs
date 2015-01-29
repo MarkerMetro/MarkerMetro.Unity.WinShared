@@ -17,8 +17,10 @@ namespace UnityProject
          */
         void InitializeExceptionLogger()
         {
+#if !(QA || DEBUG)
             // get a Raygun API key for client and uncomment next line
-            // MarkerMetro.Unity.WinIntegration.ExceptionLogger.Initialize("J5M66WHC/fIcZWudEXXGOw==");
+            MarkerMetro.Unity.WinIntegration.ExceptionLogger.Initialize("J5M66WHC/fIcZWudEXXGOw==");
+#endif
         }
     }
 }
