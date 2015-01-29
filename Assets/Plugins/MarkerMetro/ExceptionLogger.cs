@@ -20,7 +20,15 @@ namespace Assets.Scripts.MarkerMetro
             {
                 try
                 {
-                    WinIntegration.ExceptionLogger.Instance.Send(message, stackTrace);
+                    if (WinIntegration.ExceptionLogger.Instance.Initialized)
+                    {
+                        WinIntegration.ExceptionLogger.Instance.Send(message, stackTrace);
+                        WinIntegration.Helper.Instance.ShowDialog(message, "Exception Thrown", null, "OK");
+                    }
+                    else
+                    {
+                        WinIntegration.Helper.Instance.ShowDialog("You have not initialized an exception logger.", "Exception Thrown", null, "OK");
+                    }
                 }
                 catch (System.Exception ex)
                 {
