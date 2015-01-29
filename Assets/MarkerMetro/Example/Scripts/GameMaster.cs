@@ -581,7 +581,7 @@ public class GameMaster : MonoBehaviour {
         }
         catch (Exception e)
         {
-            Helper.Instance.ShowDialog(StackTraceUtility.ExtractStringFromException(e), "ExtractStackTrace", null, "OK");
+            Helper.Instance.ShowDialog(StackTraceUtility.ExtractStringFromException(e), "Extract Stack Trace", null, "OK");
         }
     }
 
