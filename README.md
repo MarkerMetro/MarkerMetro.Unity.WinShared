@@ -77,6 +77,16 @@ Using the MarkerMetro > Plugins > Configure menu operation you can switch to usi
 
 You will need to build out again from Unity and include the platform specific plugin project into your solution before setting breakpoints. (TO DO - Use an image and explain this better)
 
+## Enabling Windows Features in your project
+
+WinShared offers a window in Unity to enable/disable some of the commonly used Windows features. Things like having the sound options in the charm settings or displaying the IAP disclaimer when opening the game for the first time.
+
+These features can be set in the _Features_ window under the _MarkerMetro_ menu on Unity.
+
+These settings are stored in a file called `WinSharedSettings.xml`, so you must add this file to your version control system in order to have everybody in your project using the same settings.
+
+By default, _all_ features are enabled.
+
 ## Windows Phone Low Memory Optimization
 
 There is a script that tries to optimize assets settings to lower memory usage, which is useful specially for Windows Phone 8.
