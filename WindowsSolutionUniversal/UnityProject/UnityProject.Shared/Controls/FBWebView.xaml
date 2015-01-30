@@ -15,7 +15,8 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Grid Background="Gray">
+            <ProgressBar x:Name="progressBar" Background="Gray" Foreground="White" Margin="0" Height="15" IsIndeterminate="True" VerticalAlignment="Top" />
+            <Grid Background="Gray" Margin="0, 15, 0, 0">
                 <AppBarButton x:Name="backButton"
                               Icon="Back"
                               Margin="7" 
