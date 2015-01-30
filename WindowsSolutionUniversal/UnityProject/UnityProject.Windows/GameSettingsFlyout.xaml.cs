@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using MarkerMetro.Unity.WinIntegration.LocalNotifications;
+using MarkerMetro.Unity.WinShared.Tools;
 
 // The Settings Flyout item template is documented at http://go.microsoft.com/fwlink/?LinkId=273769
 
@@ -24,6 +25,11 @@ namespace UnityProject.Win
         public GameSettingsFlyout()
         {
             this.InitializeComponent();
+
+            var fm = FeaturesManager.Instance;
+            reminderSwitch.Visibility = fm.IsRemindersEnabled ? Visibility.Visible : Visibility.Collapsed;
+            musicSwitch.Visibility = soundSwitch.Visibility = fm.IsAudioCharmEnabled ?
+                Visibility.Visible : Visibility.Collapsed;
 
             // get the state of music/sound from the game
             //musicSwitch.IsOn = PlayerPrefs.GetInt(Constants.optMusic) == 0 ? false : true;

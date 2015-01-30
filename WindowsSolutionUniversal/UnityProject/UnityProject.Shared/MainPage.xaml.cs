@@ -25,6 +25,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.Popups;
+using MarkerMetro.Unity.WinShared.Tools;
+
 #if UNITY_METRO_8_1
 using Windows.UI.ApplicationSettings;
 using MarkerMetro.Unity.WinIntegration.Facebook;
@@ -108,11 +110,15 @@ namespace Template
         {
             var loader = ResourceLoader.GetForViewIndependentUse();
 
-            args.Request.ApplicationCommands.Add(new SettingsCommand(Guid.NewGuid(), loader.GetString("SettingsCharm_Settings"), h =>
+            if (MarkerMetro.Unity.WinShared.Tools.FeaturesManager.Instance.IsGameSettingsEnabled)
             {
-                var sf = new UnityProject.Win.GameSettingsFlyout();
-                sf.Show();
-            }));
+                args.Request.ApplicationCommands.Add(new SettingsCommand(Guid.NewGuid(),
+                    loader.GetString("SettingsCharm_Settings"), h =>
+                {
+                    var sf = new UnityProject.Win.GameSettingsFlyout();
+                    sf.Show();
+                }));
+            }
             args.Request.ApplicationCommands.Add(
                 new SettingsCommand(Guid.NewGuid(),
                     loader.GetString("SettingsCharm_CustomerSupport"),
@@ -375,8 +381,10 @@ namespace Template
                 Window.Current.SizeChanged -= onResizeHandler;
                 onResizeHandler = null;
             }
-
-            CheckForOFT();
+            if (FeaturesManager.Instance.IsIapEnabled)
+            {
+                CheckForOFT();
+            }
         }
 
         async void CheckForOFT()
