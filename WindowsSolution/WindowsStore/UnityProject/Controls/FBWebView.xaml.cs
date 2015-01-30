@@ -17,6 +17,9 @@ namespace UnityProject.Win.Controls
         public FBWebView()
         {
             this.InitializeComponent();
+            progressBar.Visibility = Visibility.Collapsed;
+            progressBar.IsIndeterminate = false;
+            
             web.NavigationStarting += HandleNavigationStarting;
             web.NavigationCompleted += HandleNavigationCompleted;
             web.NavigationFailed += HandleNavigationFailed;
@@ -24,6 +27,9 @@ namespace UnityProject.Win.Controls
 
         private void HandleNavigationFailed(object sender, WebViewNavigationFailedEventArgs e)
         {
+            progressBar.Visibility = Visibility.Collapsed;
+            progressBar.IsIndeterminate = false;
+
             var uri = e.Uri;
             var error = e.WebErrorStatus;
             UnityPlayer.AppCallbacks.Instance.InvokeOnAppThread(() =>
@@ -35,6 +41,9 @@ namespace UnityProject.Win.Controls
 
         private void HandleNavigationCompleted(WebView sender, WebViewNavigationCompletedEventArgs args)
         {
+            progressBar.Visibility = Visibility.Collapsed;
+            progressBar.IsIndeterminate = false;
+
             var uri = args.Uri;
             var error = args.WebErrorStatus;
             if (args.IsSuccess)
@@ -57,6 +66,9 @@ namespace UnityProject.Win.Controls
 
         private void HandleNavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)
         {
+            progressBar.Visibility = Visibility.Visible;
+            progressBar.IsIndeterminate = true;
+
             var uri = args.Uri;
             UnityPlayer.AppCallbacks.Instance.InvokeOnAppThread(() =>
             {
