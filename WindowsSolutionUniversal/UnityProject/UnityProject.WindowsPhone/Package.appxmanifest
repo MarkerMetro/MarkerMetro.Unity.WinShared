@@ -20,6 +20,10 @@
         <DefaultTile ShortName="UnityProject" DefaultSize="square150x150Logo" Wide310x150Logo="Assets\WideLogo.png" Square71x71Logo="Assets\MediumLogo.png">
         </DefaultTile>
         <SplashScreen Image="Assets\SplashScreen.png" />
+        <InitialRotationPreference>
+          <Rotation Preference="landscape" />
+          <Rotation Preference="landscapeFlipped" />
+        </InitialRotationPreference>
       </VisualElements>
       <Extensions>
         <Extension Category="windows.protocol">

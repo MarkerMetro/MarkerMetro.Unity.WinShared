@@ -10,7 +10,7 @@ public class TouchInput : MonoBehaviour {
 
 		GameObject game_master = GameObject.Find("GameMaster");
         GameMaster script = game_master.GetComponent<GameMaster>();
-		if ( script.state_ != GameMaster.GAME_STATE.GS_PLAYING )
+		if ( script.State != GameMaster.GAME_STATE.GS_PLAYING )
 		{
 			return;
 		}

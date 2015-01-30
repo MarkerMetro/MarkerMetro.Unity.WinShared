@@ -19,6 +19,10 @@
         <m2:DefaultTile ShortName="ms-resource:AppName" Wide310x150Logo="Assets\WideLogo.png" DefaultSize="square150x150Logo">
         </m2:DefaultTile>
         <m2:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="#000000" />
+        <m2:InitialRotationPreference>
+          <m2:Rotation Preference="landscape" />
+          <m2:Rotation Preference="landscapeFlipped" />
+        </m2:InitialRotationPreference>
       </m2:VisualElements>
     </Application>
   </Applications>
