@@ -557,25 +557,12 @@ public class GameMaster : MonoBehaviour {
 #endif
     }
 
-    public void PickContactsAndSendEmail()
+    public void SendEmail()
     {
-        Debug.Log("Pick Contacts And Send Email.");
-
+        Debug.Log("Send Email.");
 #if !UNITY_EDITOR && UNITY_WINRT
-        Action<bool> pickAndSend = ok =>
-        {
-            if (!ok)
-                return;
-
-            Helper.Instance.ChooseEmailContacts(contacts =>
-            {
-                string to = String.Join(",", contacts.Select(x => x.email).ToArray());
-                Helper.Instance.SendEmail(to, "Hello", "Hi.\n    This is a test email.");
-            });
-        };
-
-        Helper.Instance.ShowDialog("This example will send an email to each contact you pick. Continue?",
-            "Send Email", pickAndSend, "Yes", "No");
+        Helper.Instance.SendEmail("test@example.com;test2@example.com", "Hello!",
+            "This is a test mail.\nBye!");
 #endif
     }
 

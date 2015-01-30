@@ -226,7 +226,7 @@ public class GUIMain : MonoBehaviour {
         // Send email
         if (GUILayout.Button("Send Email", GUILayout.MinHeight(ButtonHeight)))
         {
-            _gameMasterScript.PickContactsAndSendEmail();
+            _gameMasterScript.SendEmail();
         }
 
         // Test ExtractStackTrace.
