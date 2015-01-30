@@ -93,7 +93,7 @@ namespace UnityProject.Win
         {
             var loader = ResourceLoader.GetForViewIndependentUse();
 
-            if (MarkerMetro.Unity.WinShared.Tools.FeaturesManager.Instance.IsGameSettingsEnabled)
+            if (FeaturesManager.Instance.IsGameSettingsEnabled)
             {
                 args.Request.ApplicationCommands.Add(new SettingsCommand(Guid.NewGuid(), 
                     loader.GetString("SettingsCharm_Settings"), h =>
