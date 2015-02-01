@@ -4,7 +4,7 @@
   <PhoneIdentity PhoneProductId="b00f6819-de2a-40d7-8cd3-44cd3e5fafd0" PhonePublisherId="00000000-0000-0000-0000-000000000000" xmlns="http://schemas.microsoft.com/appx/2014/phone/manifest" />
   <Properties>
     <DisplayName>UnityProject</DisplayName>
-    <PublisherDisplayName>DefaultCompany</PublisherDisplayName>
+    <PublisherDisplayName>Marker Metro</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Prerequisites>
