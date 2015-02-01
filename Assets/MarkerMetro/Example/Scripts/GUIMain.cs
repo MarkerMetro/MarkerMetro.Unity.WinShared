@@ -139,7 +139,6 @@ public class GUIMain : MonoBehaviour {
 
             if (GUILayout.Button("Start Game", GUILayout.MinHeight(ButtonHeight)))
             {
-                _gameMasterScript.RetrieveProducts();
                 _gameMasterScript.ChangeState(GameMaster.GAME_STATE.GS_PLAYING);
             }
         }
@@ -195,6 +194,7 @@ public class GUIMain : MonoBehaviour {
 
         if (GUILayout.Button("Store", GUILayout.MinHeight(ButtonHeight)))
         {
+            _gameMasterScript.RetrieveProducts();
             _gameMasterScript.ChangeState(GameMaster.GAME_STATE.GS_STORE);
         }
 

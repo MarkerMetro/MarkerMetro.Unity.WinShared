@@ -583,6 +583,10 @@ public class GameMaster : MonoBehaviour {
                 StoreProducts = products;
                 StoreProducts.Sort((a, b) => { return string.Compare(a.ProductID, b.ProductID); });
             }
+            else
+            {
+                Helper.Instance.ShowDialog("Unable to retrieve products.", "Error", null, "OK");
+            }
         });
 #endif
     }
