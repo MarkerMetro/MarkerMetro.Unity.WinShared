@@ -10,6 +10,7 @@ using MarkerMetro.Unity.WinIntegration.LocalNotifications;
 using MarkerMetro.Unity.WinIntegration.Store;
 using MarkerMetro.Unity.WinIntegration.VideoPlayer;
 using LitJson;
+using Assets.Plugins.MarkerMetro;
 
 #if (UNITY_WP8 || UNITY_WP_8_1) && !UNITY_EDITOR
 using FBWin = MarkerMetro.Unity.WinIntegration.Facebook.FBNative;
@@ -40,6 +41,7 @@ public class GameMaster : MonoBehaviour {
     public string LowEnd { get; private set; }
     public string Internet { get; private set; }
     public string MeteredConnection { get; private set; }
+    public string EnvironmentConfiguration { get; private set; }
 
     // Game info.
     public string Matches { get; private set; }
@@ -134,6 +136,7 @@ public class GameMaster : MonoBehaviour {
         Internet = "Is Online: ";
         MeteredConnection = "Is metered connection: ";
 #endif
+        EnvironmentConfiguration = "Environment configuration: " + DeviceInformation.GetEnvironment().ToString();
     }
 	
 	void Update ()
