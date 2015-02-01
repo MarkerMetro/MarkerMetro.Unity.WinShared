@@ -5,6 +5,10 @@ using MarkerMetro.Unity.WinIntegration.Store;
 
 public class GUIStore : MonoBehaviour {
 
+    const float Offset = 10f;
+    const float WindowWidth = 200;
+    const float ButtonHeight = 40f;
+
     GameMaster _gameMasterScript;
 
     void Start ()
@@ -15,40 +19,26 @@ public class GUIStore : MonoBehaviour {
 
 	void OnGUI()
 	{
-        int productCount = (_gameMasterScript.StoreProducts == null) ? 0 : _gameMasterScript.StoreProducts.Count;
-
- 		// Make a background box
-		int half_width = Screen.width / 2;
-		int half_height = Screen.height / 2;
-
-		int box_width = 200;
-		int box_height = (productCount + 1) * 50 + 30;
-
-		int box_x = half_width - box_width / 2;
-		int box_y = half_height - box_height / 2;
-
-		int button_offset_y = 50;
-
-        GUI.Box(new Rect( box_x, box_y, box_width, box_height), "IAP Store");
-    
- 		int current_offset = 30;
-
- 		for ( int i = 0; i < productCount; ++ i )
- 		{
-            Product product = _gameMasterScript.StoreProducts[i];
- 			string name = product.Name;
-
-            if(GUI.Button(new Rect( box_x + 10 , box_y + current_offset, box_width - 20, 40), name)) 
-	        {
-                _gameMasterScript.PurchaseMove(product);
-	        }
-	        current_offset += button_offset_y;
- 		}
-
-        // Exit back to game.
-        if(GUI.Button(new Rect( box_x + 10 , box_y + current_offset, box_width - 20, 40), "Exit")) 
+        GUILayout.Window(0, new Rect((Screen.width - WindowWidth) * 0.5f, Offset, 0, 0), (windowID) =>
         {
-            _gameMasterScript.ChangeState(GameMaster.GAME_STATE.GS_PLAYING);
-        }
+            int productCount = (_gameMasterScript.StoreProducts == null) ? 0 : _gameMasterScript.StoreProducts.Count;
+
+            for (int i = 0; i < productCount; ++i)
+            {
+                Product product = _gameMasterScript.StoreProducts[i];
+                string name = product.Name;
+
+                if (GUILayout.Button(name, GUILayout.MinHeight(ButtonHeight))) 
+                {
+                    _gameMasterScript.PurchaseMove(product);
+                }
+            }
+
+            if (GUILayout.Button("Exit", GUILayout.MinHeight(ButtonHeight)))
+            {
+                _gameMasterScript.ChangeState(GameMaster.GAME_STATE.GS_START);
+            }
+
+        }, "IAP Store", GUILayout.MinWidth(WindowWidth), GUILayout.MaxWidth(WindowWidth));
     }
 }

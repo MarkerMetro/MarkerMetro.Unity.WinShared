@@ -25,220 +25,255 @@ public class GameMaster : MonoBehaviour {
 
     public List<Product> StoreProducts { get; private set; }
 
-    public GameObject   gui_start_;
-	public GameObject 	gui_play_;
-	public GameObject 	gui_end_;
-	public GameObject	gui_store_;
-    public GameObject   facebook_image_;
-    public GameObject   login_name_;
-    public GameObject   number_friends_;
-    public TextMesh     reminderCountdownTextMesh;
-
-	public GUIText 		gui_matches_;
-	public GUIText 		gui_remaining_;
-	public GUIText 		gui_result_;
-
-	public GAME_STATE state_;
-
-	private List<GameObject> tiles_ = new List<GameObject>();
-	private string[] names_ = {"Keith", "Tony", "Greg", "Nigel", "Ivan", "Chad", "Damian", "Brian" };
-	private Tile current_switched_1 = null;
-	private Tile current_switched_2 = null;
-	private float waiting_timer_ = 0.0f;
-    private DateTime reminderStartTime;
-
-	private int max_moves_ = 15;
-	private int remaining_moves_ = 0;
-	private int number_matches_ = 0;
-
-    private Dictionary<string, Texture2D> facebook_friends_ = new Dictionary<string, Texture2D>();
-
-	const int rows_ = 4;
-	const int cols_ = 4;
-	const float wait_after_switch_ = 0.5f;
+    // Facebook.
+    public string FacebookName { get; private set; }
+    public Texture2D FacebookImage { get; private set; }
+    public string FacebookFriends { get; private set; }
     
+    // Reminder Info.
+    public string ReminderInfo { get; private set; }
+
+    // App/Device Info.
+    public string AppVersion { get; private set; }
+    public string Language { get; private set; }
+    public string DeviceID { get; private set; }
+    public string LowEnd { get; private set; }
+    public string Internet { get; private set; }
+    public string MeteredConnection { get; private set; }
+
+    // Game info.
+    public string Matches { get; private set; }
+    public string MovesRemaining { get; private set; }
+    public string GameResult { get; private set; }
+    public GAME_STATE State { get; private set; }
+
+    [SerializeField]
+    private GameObject _guiMain = null;
+    [SerializeField]
+	private GameObject _guiStore = null;
+
+	private List<GameObject> _tiles = new List<GameObject>();
+    private string[] _names = { "Keith", "Tony", "Greg", "Nigel", "Ivan", "Chad", "Damian", "Brian" };
+	private Tile _currentSwitched1 = null;
+	private Tile _currentSwitched2 = null;
+	private float _waitingTimer = 0.0f;
+
+	private int _maxMoves = 15;
+	private int _remainingMoves = 0;
+	private int _numberMatches = 0;
+
+    private Dictionary<string, Texture2D> _facebookFriends = new Dictionary<string, Texture2D>();
+
+    private DateTime _reminderStartTime = DateTime.Now;
+
     const float ReminderTime = 120f;
     const string ReminderTextPrefix = "Reminder scheduled for ";
     const string ReminderTextSuffix = " (+/- 1 minute)";
     const string NoReminderText = "No reminder scheduled.";
 
+    const int Rows = 4;
+    const int Cols = 4;
+    const float WaitAfterSwitch = 0.5f;
+
 	public enum GAME_STATE
 	{
 		GS_START,
 		GS_PLAYING,
-		GS_END,
 		GS_WAITING,
+        GS_END,
 		GS_STORE
 	};
 
 	void Start () {
+        InitializeInfo();
+
         // Reminder and Facebook aren't supported in Unity Editor.
-#if !UNITY_EDITOR
-        if (ReminderManager.AreRemindersEnabled() && DateTime.TryParse(PlayerPrefs.GetString("reminderStartTime", string.Empty), out reminderStartTime))
+#if !UNITY_EDITOR && UNITY_WINRT
+        if (ReminderManager.AreRemindersEnabled() && DateTime.TryParse(PlayerPrefs.GetString("_reminderStartTime", string.Empty), out _reminderStartTime))
         {
             ReminderScheduled = true;
-            reminderCountdownTextMesh.text = ReminderTextPrefix + reminderStartTime.AddSeconds(ReminderTime).ToString("hh:mm tt");
+            ReminderInfo = ReminderTextPrefix + _reminderStartTime.AddSeconds(ReminderTime).ToString("hh:mm tt");
 #if UNITY_WP8
-            reminderCountdownTextMesh.text += ReminderTextSuffix;
+            ReminderInfo += ReminderTextSuffix;
 #endif
         }
         else
         {
             ReminderScheduled = false;
-            reminderCountdownTextMesh.text = NoReminderText;
+            ReminderInfo = NoReminderText;
         }
 #endif
 
-		CreateTiles();
-		ChangeState( GAME_STATE.GS_START );
-#if !UNITY_EDITOR
+        CreateTiles();
+        ChangeState(GAME_STATE.GS_START);
+
+#if !UNITY_EDITOR && UNITY_WINRT
         FBWin.Init(SetFBInit, Assets.Plugins.MarkerMetro.Constants.FBAppId, null);
 #endif
     }
+
+    void InitializeInfo ()
+    {
+        _remainingMoves = _maxMoves;
+        _numberMatches = 0;
+
+#if !UNITY_EDITOR && UNITY_WINRT
+        AppVersion = "AppVersion: " + Helper.Instance.GetAppVersion();
+        Language = "Language: " + Helper.Instance.GetAppLanguage();
+        DeviceID = "Device ID: " + Helper.Instance.GetUserDeviceId();
+#if !UNITY_WP_8_1
+        LowEnd = "Is Low End: " + Helper.Instance.IsLowEndDevice();
+#endif
+        Internet = "Is Online: " + Helper.Instance.HasInternetConnection;
+        MeteredConnection = "Is metered connection: " + Helper.Instance.IsMeteredConnection;
+#else
+        AppVersion = "AppVersion: ";
+        Language = "Language: ";
+        DeviceID = "Device ID: ";
+        LowEnd = "Is Low End: ";
+        Internet = "Is Online: ";
+        MeteredConnection = "Is metered connection: ";
+#endif
+    }
 	
-	void Update () {
-		if ( state_ == GAME_STATE.GS_WAITING )
+	void Update ()
+    {
+#if !UNITY_EDITOR && UNITY_WINRT
+        // Update Info.
+        Language = "Language: " + Helper.Instance.GetAppLanguage();
+        Internet = "Is Online: " + Helper.Instance.HasInternetConnection;
+        MeteredConnection = "Is metered connection: " + Helper.Instance.IsMeteredConnection;
+#endif
+        if (State == GAME_STATE.GS_WAITING)
 		{
-			if ( waiting_timer_ > wait_after_switch_ )
+            if (_waitingTimer > WaitAfterSwitch)
 			{
-				waiting_timer_ = 0.0f;
-				ChangeState( GAME_STATE.GS_PLAYING );
+				_waitingTimer = 0.0f;
+                ChangeState(GAME_STATE.GS_PLAYING);
 			}
 			else
 			{
-				waiting_timer_ += Time.deltaTime;
+				_waitingTimer += Time.deltaTime;
 			}
 		}
 
-		if ( state_ == GAME_STATE.GS_PLAYING )
+        if (State == GAME_STATE.GS_PLAYING)
 		{
-			if ( number_matches_ == tiles_.Count / 2 )
+            if (_numberMatches == _tiles.Count / 2)
 			{
 				// Win
-				ChangeState( GAME_STATE.GS_END );
-				gui_result_.text = "YOU WIN";
+                ChangeState(GAME_STATE.GS_END);
+				GameResult = "YOU WIN";
 			}
-			else if ( remaining_moves_ == 0 )
+			else if ( _remainingMoves == 0 )
 			{
 				// Loss
-				ChangeState( GAME_STATE.GS_END );
-				gui_result_.text = "YOU LOSE";
+                ChangeState(GAME_STATE.GS_END);
+				GameResult = "YOU LOSE";
 			}
 		}
 
         if (ForceResetReminderText)
         {
             ForceResetReminderText = false;
-            reminderCountdownTextMesh.text = NoReminderText;
+            ReminderInfo = NoReminderText;
         }
 	}
 
-	// Change the games state
-	public void ChangeState( GAME_STATE state )
+	// Change the games state.
+    public void ChangeState(GAME_STATE state)
 	{
-		switch ( state )
+        switch (state)
 		{
 			case GAME_STATE.GS_START:
 			{
-				gui_start_.SetActive( true );
-				gui_end_.SetActive( false );
-				gui_play_.SetActive( false );
-				gui_store_.SetActive( false );
-				state_ = state;
-
-				remaining_moves_ = max_moves_;
-				number_matches_ = 0;
-				gui_result_.text = "YOU LOSE";
+                _guiMain.SetActive(true);
+                _guiStore.SetActive(false);
+				State = state;
 
                 SetupTiles();
 			}
 			break;
 			case GAME_STATE.GS_PLAYING:
 			{
-                gui_start_.SetActive(false);
-				gui_end_.SetActive( false );
-				gui_play_.SetActive( true );
-				gui_store_.SetActive( false );
-				state_ = state;
+                _guiMain.SetActive(true);
+                _guiStore.SetActive(false);
+				State = state;
 
-				if ( current_switched_1 != null )
+                if (_currentSwitched1 != null)
 				{
-					current_switched_1.Rotate();
-					current_switched_1 = null;
+					_currentSwitched1.Rotate();
+					_currentSwitched1 = null;
 				}
-				if ( current_switched_2 != null )
+                if (_currentSwitched2 != null)
 				{
-					current_switched_2.Rotate();
-					current_switched_2 = null;
+					_currentSwitched2.Rotate();
+					_currentSwitched2 = null;
 				}
 
 				SetGUIText();
 			}
 			break;
-			case GAME_STATE.GS_END:
-			{
-				gui_start_.SetActive( false );
-				gui_end_.SetActive( true );
-				gui_play_.SetActive( false );
-				gui_store_.SetActive( false );
-				state_ = state;
-			}
-			break;
 			case GAME_STATE.GS_WAITING:
 			{
-				waiting_timer_ = 0.0f;
-				state_ = state;
+				_waitingTimer = 0.0f;
+				State = state;
 			}
 			break;
+            case GAME_STATE.GS_END:
+            {
+                _remainingMoves = _maxMoves;
+                _numberMatches = 0;
+                ChangeState(GAME_STATE.GS_START);
+            }
+            break;
 			case GAME_STATE.GS_STORE:
 			{
-				gui_start_.SetActive( false );
-				gui_end_.SetActive( false );
-				gui_play_.SetActive( false );
-				gui_store_.SetActive( true );
-				state_ = state;
+                _guiMain.SetActive(false);
+                _guiStore.SetActive(true);
+				State = state;
 			}
 			break;
 			default: break;
 		}
 	}
 
-    // Create the tiles initially
+    // Create the tiles initially.
 	void CreateTiles()
 	{
-		GameObject tile_base = GameObject.Find("GameTile");
-		for ( int x = 0; x < rows_; ++x )
+		GameObject tileBase = GameObject.Find("GameTile");
+		for ( int x = 0; x < Rows; ++x )
 		{
-			for ( int y = 0; y < cols_; ++y )
+			for ( int y = 0; y < Cols; ++y )
 			{
-				GameObject new_tile = Instantiate( tile_base, new Vector3( x * 1.5f, y * 1.5f, 0.0f ), Quaternion.identity ) as GameObject;
-				tiles_.Add( new_tile );
+                GameObject new_tile = Instantiate(tileBase, new Vector3(x * 1.5f, y * 1.5f, 0.0f), Quaternion.identity) as GameObject;
+				_tiles.Add( new_tile );
 			}
 		}
 	}
 
     // Set the tiles up for each run of the game.  If the player has any facebook friends associated with the app they will
-    // be used before the hardcoded pictures
+    // be used before the hardcoded pictures.
 	void SetupTiles()
 	{
-		int number_tiles = tiles_.Count;
-		for ( int i = 0; i < number_tiles; ++i )
+		int numberTiles = _tiles.Count;
+        for (int i = 0; i < numberTiles; ++i)
 		{
-			var temp = tiles_[i];
-			int random_index = UnityEngine.Random.Range( i, tiles_.Count );
-			tiles_[i] = tiles_[ random_index ];
-			tiles_[ random_index ] = temp;
+			var temp = _tiles[i];
+            int random_index = UnityEngine.Random.Range(i, _tiles.Count);
+			_tiles[i] = _tiles[ random_index ];
+			_tiles[ random_index ] = temp;
 		}
 
-		for ( int i = 0; i < number_tiles / 2; ++i )
+        for (int i = 0; i < numberTiles / 2; ++i)
 		{
-            string name = names_[i];
+            string name = _names[i];
             Texture2D texture = Resources.Load(name) as Texture2D;
 
-            if ( facebook_friends_.Count > i )
+            if (_facebookFriends.Count > i)
             {
                 int count = 0;
-                foreach ( var item in facebook_friends_ )
+                foreach (var item in _facebookFriends)
                 {
                     if ( count == i )
                     {
@@ -250,33 +285,33 @@ public class GameMaster : MonoBehaviour {
                 }
             }
 
-			Tile script_1 = tiles_[i * 2].GetComponent<Tile>();
-			script_1.SetImage( names_[i], texture );
-			Tile script_2 = tiles_[i * 2 + 1].GetComponent<Tile>();
-			script_2.SetImage( names_[i], texture );
+			Tile script1 = _tiles[i * 2].GetComponent<Tile>();
+			script1.SetImage( _names[i], texture );
+			Tile script2 = _tiles[i * 2 + 1].GetComponent<Tile>();
+			script2.SetImage( _names[i], texture );
 		}
 	}
 
-    // Called when a tile is tapped, if first keep a ref if second check for a match
-	public void OnTileSwitch( Tile script )
+    // Called when a tile is tapped, if first keep a ref if second check for a match.
+    public void OnTileSwitch(Tile script)
 	{
-		if ( current_switched_1 == null )
+        if (_currentSwitched1 == null)
 		{
-			current_switched_1 = script;
+            _currentSwitched1 = script;
 		}
 		else
 		{
-			--remaining_moves_;
-			if ( current_switched_1.name_ == script.name_ )
+			--_remainingMoves;
+            if (_currentSwitched1.name_ == script.name_)
 			{
 				// match
-				current_switched_1 = null;
-				++number_matches_;
+				_currentSwitched1 = null;
+				++_numberMatches;
 			}
 			else
 			{
-				current_switched_2 = script;
-				ChangeState( GAME_STATE.GS_WAITING );
+				_currentSwitched2 = script;
+                ChangeState(GAME_STATE.GS_WAITING);
 			}
 		}
 
@@ -285,20 +320,20 @@ public class GameMaster : MonoBehaviour {
 
 	void SetGUIText()
 	{
-		gui_matches_.text = "Matches: " + number_matches_.ToString();
-		gui_remaining_.text = "Moves Remaining: " + remaining_moves_.ToString();
+		Matches = "Matches: " + _numberMatches.ToString();
+		MovesRemaining = "Moves Remaining: " + _remainingMoves.ToString();
 	}
 
-    // This will be called by the IAP 
+    // This will be called by the IAP.
 	public void AddMoves()
 	{
-		remaining_moves_ += 5;
+		_remainingMoves += 5;
 		SetGUIText();
 	}
 
 
     //
-    // Facebook Test Functions
+    // Facebook Test Functions.
     //
     private void SetFBInit()
     {
@@ -311,10 +346,10 @@ public class GameMaster : MonoBehaviour {
     }
 
     /// <summary>
-    /// login callback
+    /// login callback.
     /// </summary>
     /// <param name="result"></param>
-    public void FBLoginCallback( FBResult result )
+    public void FBLoginCallback(FBResult result)
     {
         Debug.Log("LoginCallback");
         if (result.Error != null)
@@ -341,13 +376,15 @@ public class GameMaster : MonoBehaviour {
         StartCoroutine(RefreshFBStatus());
     }
 
-    // Set the players name and picture
+    // Set the players name and picture.
     private IEnumerator RefreshFBStatus()
     {
+        FacebookName = string.Empty;
+        FacebookFriends = string.Empty;
+        FacebookImage = null;
+
         yield return new WaitForEndOfFrame();
 
-        TextMesh text = (TextMesh)login_name_.GetComponent<TextMesh>();
-        Renderer renderer = facebook_image_.GetComponent<MeshRenderer>().renderer;
         if (FBWin.IsLoggedIn)
         {
 #if (UNITY_WP8 || UNITY_WP_8_1) && !UNITY_EDITOR
@@ -356,55 +393,51 @@ public class GameMaster : MonoBehaviour {
                 StartCoroutine(SetFBStatus(user));
             });
 #elif (UNITY_METRO && !UNITY_EDITOR)
-            text.text = FB.UserName; 
-            Texture2D texture = new Texture2D(128, 128, TextureFormat.DXT1, false);
-
-            yield return StartCoroutine(GetFBPicture(FB.UserId, texture));
-
-            renderer.material.mainTexture = texture;
+            FacebookName = FB.UserName; 
+            PopulateFriends();
+            FacebookImage = new Texture2D(128, 128, TextureFormat.DXT1, false);
+            yield return StartCoroutine(GetFBPicture(FB.UserId, FacebookImage));
 #else
-            // TODO picture and name not yet supported on FBNative
-            text.text = "Logged In (picture and name to do!)";
+            FacebookName = "Logged In (picture and name to do!)";
             yield break;
 #endif
         }
         else
         {
-            text.text = "Not Logged In";
-            renderer.material.mainTexture = null;
-            TextMesh number_text = (TextMesh)number_friends_.GetComponent<TextMesh>();
-            number_text.text = "No Friends";
+            FacebookName = "Not Logged In";
+            FacebookFriends = "No Friends";
+            FacebookImage = null;
         }
     }
 
     private IEnumerator SetFBStatus (FBUser user)
     {
-        TextMesh text = (TextMesh)login_name_.GetComponent<TextMesh>();
-        Renderer fbImageRenderer = facebook_image_.GetComponent<MeshRenderer>().renderer;
-
-        text.text = user.Name;
-        Texture2D texture = new Texture2D(128, 128, TextureFormat.DXT1, false);
-
-        yield return StartCoroutine(GetFBPicture(user.Id, texture));
-
-        fbImageRenderer.material.mainTexture = texture;
+        FacebookName = user.Name;
+        PopulateFriends();
+        FacebookImage = new Texture2D(128, 128, TextureFormat.DXT1, false);
+        yield return StartCoroutine(GetFBPicture(user.Id, FacebookImage));
     }
 
-    // Request the players friends
+    // Request the players friends.
     // As per FB API v2.0 You can only request friends that have installed and logged in on the app, 
     // you can no longer poll all the players friends.
     // https://developers.facebook.com/bugs/1502515636638396/
     public void PopulateFriends()
     {
+        Debug.Log("Populate Friends.");
+#if !UNITY_EDITOR && UNITY_WINRT
         if (FBWin.IsLoggedIn)
         {
             // Get the friends
             FBWin.API("/me/friends", HttpMethod.GET, GetFriendsCallback);
         }
+#endif
     }
 
     public void InviteFriends()
     {
+        Debug.Log("Invite Friends.");
+#if !UNITY_EDITOR && UNITY_WINRT
         if (FBWin.IsLoggedIn)
         {
             // title param only supported in WP8 (FBNative) at the moment.
@@ -419,10 +452,13 @@ public class GameMaster : MonoBehaviour {
             });
 #endif
         }
+#endif
     }
 
     public void PostFeed()
     {
+        Debug.Log("Post to Feed.");
+#if !UNITY_EDITOR && UNITY_WINRT
         if (FBWin.IsLoggedIn)
         {
             FBWin.Feed(
@@ -438,10 +474,11 @@ public class GameMaster : MonoBehaviour {
                     Debug.Log("Feed Json: " + result.Json.ToString());
             });
         }
+#endif
     }
 
-    // Parse the json and request the friend pictures
-    private void GetFriendsCallback( FBResult result )
+    // Parse the json and request the friend pictures.
+    private void GetFriendsCallback(FBResult result)
     {
         if (result.Error != null)
         {
@@ -451,7 +488,7 @@ public class GameMaster : MonoBehaviour {
 
         try
         {
-            facebook_friends_.Clear();
+            _facebookFriends.Clear();
             JsonData data = JsonMapper.ToObject(result.Text);
 
             JsonData friends = data["data"];
@@ -463,11 +500,10 @@ public class GameMaster : MonoBehaviour {
                 Texture2D texture = new Texture2D(128, 128, TextureFormat.DXT1, false);
                 StartCoroutine(GetFBPicture(id, texture));
 
-                facebook_friends_.Add(name, texture);
+                _facebookFriends.Add(name, texture);
             }
 
-            TextMesh text = (TextMesh)number_friends_.GetComponent<TextMesh>();
-            text.text = "Friends: " + facebook_friends_.Count;
+            FacebookFriends = "Friends: " + _facebookFriends.Count;
             SetupTiles();
         }
         catch( Exception e )
@@ -476,7 +512,7 @@ public class GameMaster : MonoBehaviour {
         }
     }
 
-    // Load a picture into the texture
+    // Load a picture into the texture.
     private IEnumerator GetFBPicture(string id, Texture2D texture)
     {     
         WWW url = new WWW("https" + "://graph.facebook.com/" + id + "/picture?type=large");
@@ -492,21 +528,23 @@ public class GameMaster : MonoBehaviour {
     public void SetReminder ()
     {
         ReminderScheduled = true;
-        reminderStartTime = DateTime.Now;
-        PlayerPrefs.SetString("reminderStartTime", reminderStartTime.ToString());
-        reminderCountdownTextMesh.text = ReminderTextPrefix + reminderStartTime.AddSeconds(ReminderTime).ToString("hh:mm tt");
+        _reminderStartTime = DateTime.Now;
+        PlayerPrefs.SetString("reminderStartTime", _reminderStartTime.ToString());
+        ReminderInfo = ReminderTextPrefix + _reminderStartTime.AddSeconds(ReminderTime).ToString("hh:mm tt");
 
-        TryCatchPlatformNotSupportedException(() => {
-            ReminderManager.SetRemindersStatus(true);
-            ReminderManager.RegisterReminder("testID", "Face Flip", "This is a reminder.", DateTime.Now.AddSeconds(ReminderTime));
-        });
+        Debug.Log("Set Reminder.");
+
+#if !UNITY_EDITOR && UNITY_WINRT
+        ReminderManager.SetRemindersStatus(true);
+        ReminderManager.RegisterReminder("testID", "Face Flip", "This is a reminder.", DateTime.Now.AddSeconds(ReminderTime));
+#endif
     }
 
     /// <summary>
     /// Switch off/Cancel reminder.
     /// Will be called from GameSettingsFlyout.
     /// </summary>
-    public static void CancelReminder()
+    public static void CancelReminder ()
     {
         ReminderScheduled = false;
         ForceResetReminderText = true;
@@ -514,17 +552,26 @@ public class GameMaster : MonoBehaviour {
         {
             PlayerPrefs.DeleteKey("reminderStartTime");
         }
+
+        Debug.Log("Remove Reminder.");
+#if !UNITY_EDITOR && UNITY_WINRT
         ReminderManager.RemoveReminder("testID");
+#endif
     }
 
     public void SendEmail()
     {
+        Debug.Log("Send Email.");
+#if !UNITY_EDITOR && UNITY_WINRT
         Helper.Instance.SendEmail("test@example.com;test2@example.com", "Hello!",
             "This is a test mail.\nBye!");
+#endif
     }
 
     public void RetrieveProducts ()
     {
+        Debug.Log("Retrieve Products.");
+#if !UNITY_EDITOR && UNITY_WINRT
         // retrieve store products.
         StoreManager.Instance.RetrieveProducts((products) =>
         {
@@ -534,22 +581,26 @@ public class GameMaster : MonoBehaviour {
                 StoreProducts.Sort((a, b) => { return string.Compare(a.ProductID, b.ProductID); });
             }
         });
+#endif
     }
 
     public void PurchaseMove (Product product)
     {
+        Debug.Log("Purchase Move.");
+#if !UNITY_EDITOR && UNITY_WINRT
         StoreManager.Instance.PurchaseProduct(product, (receipt) =>
         {
             if (receipt.Success)
             {
-                remaining_moves_ += int.Parse(receipt.Product.Name.Split(' ')[0]);
-                Helper.Instance.ShowDialog("You now have " + remaining_moves_ + " moves.", "Success", null, "OK");
+                _remainingMoves += int.Parse(receipt.Product.Name.Split(' ')[0]);
+                Helper.Instance.ShowDialog("You now have " + _remainingMoves + " moves.", "Success", null, "OK");
             }
             else
             {
                 Helper.Instance.ShowDialog(receipt.Status.ToString(), "Error", null, "OK");
             }
         });
+#endif
     }
 
     public void TryCatchPlatformNotSupportedException (Action action)
@@ -566,10 +617,13 @@ public class GameMaster : MonoBehaviour {
 
     public void ShowShareUI ()
     {
+        Debug.Log("Show Share UI.");
+#if !UNITY_EDITOR && UNITY_WINRT
 #if UNITY_METRO
         Helper.Instance.ShowShareUI();
 #else
         Helper.Instance.ShowShareUI("Title", "Message", "http://www.markermetro.com");
+#endif
 #endif
     }
 
@@ -581,7 +635,10 @@ public class GameMaster : MonoBehaviour {
         }
         catch (Exception e)
         {
+            Debug.Log("Extract Stack Trace. " + e.Message);
+#if !UNITY_EDITOR && UNITY_WINRT
             Helper.Instance.ShowDialog(StackTraceUtility.ExtractStringFromException(e), "Extract Stack Trace", null, "OK");
+#endif
         }
     }
 
@@ -594,10 +651,13 @@ public class GameMaster : MonoBehaviour {
     /// Submitted a bug report to Unity: http://fogbugz.unity3d.com/default.asp?663800_4o1v5omb7fan6gfq
     public void PlayVideo ()
     {
+        Debug.Log("PlayVideo.");
+#if !UNITY_EDITOR && UNITY_WINRT
         string path = Application.streamingAssetsPath + "/MarkerMetro/ExampleVideo.mp4";
         VideoPlayer.PlayVideo(path, () =>
         {
             Debug.Log("Video Stopped.");
         }, VideoStretch.Uniform);
+#endif
     }
 }
