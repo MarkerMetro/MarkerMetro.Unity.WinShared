@@ -36,59 +36,59 @@ namespace MarkerMetro.Unity.WinShared.Tools
             _settings = Settings.Load();
         }
 
-        public bool IsRemindersEnabled
+        public bool IsSettingsNotificationsOnOffEnabled
         {
             get
             {
-                return _settings.RemindersEnabled;
+                return _settings.SettingsNotificationsOnOffEnabled;
             }
 #if UNITY_EDITOR
             set
             {
-                _settings.RemindersEnabled = value;
+                _settings.SettingsNotificationsOnOffEnabled = value;
                 _settings.Save();
             }
 #endif
         }
 
-        public bool IsAudioCharmEnabled
+        public bool IsSettingsMusicFXOnOffEnabled
         {
             get
             {
-                return _settings.AudioCharmEnabled;
+                return _settings.SettingsMusicFXOnOffEnabled;
             }
 #if UNITY_EDITOR
             set
             {
-                _settings.AudioCharmEnabled = value;
+                _settings.SettingsMusicFXOnOffEnabled = value;
                 _settings.Save();
             }
 #endif
         }
 
-        public bool IsIapEnabled
+        public bool IsIapDisclaimerEnabled
         {
             get
             {
-                return _settings.IapEnabled;
+                return _settings.IapDisclaimerEnabled;
             }
 #if UNITY_EDITOR
             set
             {
-                _settings.IapEnabled = value;
+                _settings.IapDisclaimerEnabled = value;
                 _settings.Save();
             }
 #endif
         }
 
         /// <summary>
-        /// Returns true if any of the features that belong to the Game Settings charm are enabled.
+        /// Returns true if any of the features that belong to the Game Settings are enabled.
         /// </summary>
         public bool IsGameSettingsEnabled
         {
             get 
             { 
-                return IsAudioCharmEnabled || IsRemindersEnabled;
+                return IsSettingsMusicFXOnOffEnabled || IsSettingsNotificationsOnOffEnabled;
             }
         }
 
@@ -106,9 +106,9 @@ namespace MarkerMetro.Unity.WinShared.Tools
             const string _filename = "WinSharedSettings";
             const string _path = ".\\Assets\\MarkerMetro\\Resources\\" + _filename + ".xml";
 
-            public bool RemindersEnabled;
-            public bool AudioCharmEnabled;
-            public bool IapEnabled;
+            public bool SettingsNotificationsOnOffEnabled;
+            public bool SettingsMusicFXOnOffEnabled;
+            public bool IapDisclaimerEnabled;
 
             /// <summary>
             /// Save is only available for Unity Editor. Use FeaturesManager to access and save settings.

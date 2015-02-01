@@ -27,8 +27,9 @@ namespace UnityProject.Win
             this.InitializeComponent();
 
             var fm = FeaturesManager.Instance;
-            reminderSwitch.Visibility = fm.IsRemindersEnabled ? Visibility.Visible : Visibility.Collapsed;
-            musicSwitch.Visibility = soundSwitch.Visibility = fm.IsAudioCharmEnabled ? 
+            reminderSwitch.Visibility = fm.IsSettingsNotificationsOnOffEnabled ? 
+                Visibility.Visible : Visibility.Collapsed;
+            musicSwitch.Visibility = soundSwitch.Visibility = fm.IsSettingsMusicFXOnOffEnabled ? 
                 Visibility.Visible : Visibility.Collapsed;
 
             // get the state of music/sound from the game

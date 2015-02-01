@@ -381,7 +381,7 @@ namespace Template
                 Window.Current.SizeChanged -= onResizeHandler;
                 onResizeHandler = null;
             }
-            if (FeaturesManager.Instance.IsIapEnabled)
+            if (FeaturesManager.Instance.IsIapDisclaimerEnabled)
             {
                 CheckForOFT();
             }
