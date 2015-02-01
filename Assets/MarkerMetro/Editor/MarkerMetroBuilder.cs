@@ -10,7 +10,7 @@ namespace Assets.Editor.MarkerMetro
 {
     public static class MarkerMetroBuilder
     {
-        [MenuItem("Tools/MarkerMetro/Build/All")]
+        [MenuItem("Tools/MarkerMetro/Build/All", priority = 1)]
         public static void BuildAll()
         {
             BuildMetro();
@@ -18,43 +18,7 @@ namespace Assets.Editor.MarkerMetro
             BuildUniversal();
         }
 
-        [MenuItem("Tools/MarkerMetro/Build/Windows Store Apps")]
-        public static void BuildMetro()
-        {
-            string outputPath = MarkerMetro.CommandLineReader.GetCustomArgument("outputPath");
-            if (String.IsNullOrEmpty(outputPath))
-            {
-                outputPath = MarkerMetro.CommandLineReader.GetCustomArgument("metroOutputPath");
-            }
-
-            Build(BuildTarget.MetroPlayer,
-                outputPath,
-                () =>
-                {
-                    EditorUserBuildSettings.selectedBuildTargetGroup = BuildTargetGroup.Metro;
-                    EditorUserBuildSettings.metroBuildType = MetroBuildType.VisualStudioCSharp;
-                    EditorUserBuildSettings.metroSDK = MetroSDK.SDK81;
-                });
-        }
-
-        [MenuItem("Tools/MarkerMetro/Build/Windows Phone 8")]
-        public static void BuildWP8()
-        {
-            string outputPath = MarkerMetro.CommandLineReader.GetCustomArgument("outputPath");
-            if (String.IsNullOrEmpty(outputPath))
-            {
-                outputPath = MarkerMetro.CommandLineReader.GetCustomArgument("wp8OutputPath");
-            }
-
-            Build(BuildTarget.WP8Player,
-                outputPath,
-                () =>
-                {
-                    EditorUserBuildSettings.selectedBuildTargetGroup = BuildTargetGroup.WP8;
-                });
-        }
-
-        [MenuItem("Tools/MarkerMetro/Build/Windows Universal 8.1")]
+        [MenuItem("Tools/MarkerMetro/Build/Windows Universal 8.1", priority = 2)]
         public static void BuildUniversal()
         {
             string outputPath = MarkerMetro.CommandLineReader.GetCustomArgument("outputPath");
@@ -73,7 +37,41 @@ namespace Assets.Editor.MarkerMetro
                 }, true);
         }
 
+        [MenuItem("Tools/MarkerMetro/Build/Windows 8.1", priority = 3)]
+        public static void BuildMetro()
+        {
+            string outputPath = MarkerMetro.CommandLineReader.GetCustomArgument("outputPath");
+            if (String.IsNullOrEmpty(outputPath))
+            {
+                outputPath = MarkerMetro.CommandLineReader.GetCustomArgument("metroOutputPath");
+            }
 
+            Build(BuildTarget.MetroPlayer,
+                outputPath,
+                () =>
+                {
+                    EditorUserBuildSettings.selectedBuildTargetGroup = BuildTargetGroup.Metro;
+                    EditorUserBuildSettings.metroBuildType = MetroBuildType.VisualStudioCSharp;
+                    EditorUserBuildSettings.metroSDK = MetroSDK.SDK81;
+                });
+        }
+
+        [MenuItem("Tools/MarkerMetro/Build/Windows Phone 8.0", priority = 4)]
+        public static void BuildWP8()
+        {
+            string outputPath = MarkerMetro.CommandLineReader.GetCustomArgument("outputPath");
+            if (String.IsNullOrEmpty(outputPath))
+            {
+                outputPath = MarkerMetro.CommandLineReader.GetCustomArgument("wp8OutputPath");
+            }
+
+            Build(BuildTarget.WP8Player,
+                outputPath,
+                () =>
+                {
+                    EditorUserBuildSettings.selectedBuildTargetGroup = BuildTargetGroup.WP8;
+                });
+        }
 
         public static void Build(BuildTarget target,
             string outputPath = null,

@@ -14,7 +14,7 @@ namespace MarkerMetro.Unity.WinShared.Tools
     {
         delegate void RefAction(ref bool preference);
 
-        [MenuItem("Tools/MarkerMetro/Features")]
+        [MenuItem("Tools/MarkerMetro/Features", priority = 20)]
         static void Init()
         {
             EditorWindow.GetWindow<FeaturesWindow>(false, "Features", true).Show();

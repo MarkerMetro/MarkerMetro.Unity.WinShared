@@ -22,7 +22,7 @@ namespace Assets.Editor.MarkerMetro
         /// <summary>
         /// Configure Plugin update source, local WinLegacy/WinIntegration solution directories.
         /// </summary>
-        [MenuItem("Tools/MarkerMetro/Plugins/Configure", priority = 1)]
+        [MenuItem("Tools/MarkerMetro/Plugins/Configure", priority = 11)]
         public static void Configure()
         {
             EditorWindow.GetWindow<ConfigureWindow>(false, "Configure", true).Show();
@@ -31,7 +31,7 @@ namespace Assets.Editor.MarkerMetro
         /// <summary>
         /// Update Plugins.
         /// </summary>
-        [MenuItem("Tools/MarkerMetro/Plugins/Update", priority = 2)]
+        [MenuItem("Tools/MarkerMetro/Plugins/Update", priority = 12)]
         public static void UpdatePlugins()
         {
             if (EditorApplication.isCompiling)
