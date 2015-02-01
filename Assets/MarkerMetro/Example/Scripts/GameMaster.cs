@@ -585,7 +585,7 @@ public class GameMaster : MonoBehaviour {
             }
             else
             {
-                Helper.Instance.ShowDialog("Unable to retrieve products.", "Error", null, "OK");
+                Helper.Instance.ShowDialog("Please switch to Debug/QA build, store not functional in Master configuration.", "Error", null, "OK");
             }
         });
 #endif
