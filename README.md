@@ -85,6 +85,8 @@ These features can be set in the _Features_ window under the _MarkerMetro_ menu 
 
 These settings are stored in a file called `WinSharedSettings.xml`, so you must add this file to your version control system in order to have everybody in your project using the same settings.
 
+It's also important to notice that `WinSharedSettings.xml` is embedded to the Unity build, to be read by the Windows projects. Therefore, upon changing a setting you must build on Unity in order for it to take effect.
+
 By default, _all_ features are enabled.
 
 ## Win Shared FaceFlip Scene Features (TBC)
