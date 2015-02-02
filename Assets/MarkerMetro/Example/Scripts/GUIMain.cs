@@ -62,14 +62,14 @@ public class GUIMain : MonoBehaviour {
                 GUILayout.Window(2, new Rect((Screen.width - WindowWidth - Offset), Offset, 0, 0), PlatformIntegrationGUI, "Platform Integration", GUILayout.MinWidth(WindowWidth));
             }
         }
+        else if (_gameMasterScript.State != GameMaster.GAME_STATE.GS_START && _gameMasterScript.State != GameMaster.GAME_STATE.GS_STORE)
+        {
+            // Game Info.
+            GUILayout.Window(4, new Rect(Offset, Offset, 0, 0), GameInfoGUI, "Game Info", GUILayout.MinWidth(WindowWidth));
+        }
 
         // game menu.
-        Rect gameMenuPos = new Rect((Screen.width - WindowWidth) * 0.5f, Offset, 0, 0);
-        if (_gameMasterScript.State != GameMaster.GAME_STATE.GS_START)
-        {
-            gameMenuPos.x = Offset;
-        }
-        GUILayout.Window(1, gameMenuPos, FaceFlipGUI, "Face Flip Game", GUILayout.MinWidth(WindowWidth));
+        GUILayout.Window(1, new Rect((Screen.width - WindowWidth) * 0.5f, Offset, 0, 0), FaceFlipGUI, "Face Flip Game", GUILayout.MinWidth(WindowWidth));
     }
 
     void FacebookIntegrationGUI (int windowID)
@@ -144,18 +144,22 @@ public class GUIMain : MonoBehaviour {
         }
         else
         {
-            GUILayout.Label(_gameMasterScript.Matches, GUILayout.MaxWidth(WindowWidth));
-            GUILayout.Label(_gameMasterScript.MovesRemaining, GUILayout.MaxWidth(WindowWidth));
-
-            GUILayout.Label(Separator, GUILayout.MaxWidth(WindowWidth));
-
-            GUI.skin.label.alignment = originalAlign;
-
             if (GUILayout.Button("End", GUILayout.MinHeight(ButtonHeight)))
             {
                 _gameMasterScript.ChangeState(GameMaster.GAME_STATE.GS_END);
             }
         }
+    }
+
+    void GameInfoGUI(int windowID)
+    {
+        TextAnchor originalAlign = GUI.skin.label.alignment;
+        GUI.skin.label.alignment = TextAnchor.MiddleCenter;
+
+        GUILayout.Label(_gameMasterScript.Matches, GUILayout.MaxWidth(WindowWidth));
+        GUILayout.Label(_gameMasterScript.MovesRemaining, GUILayout.MaxWidth(WindowWidth));
+
+        GUI.skin.label.alignment = originalAlign;
     }
 
     void PlatformIntegrationGUI (int windowID)
