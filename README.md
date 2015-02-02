@@ -86,7 +86,7 @@ The FaceFlip.unity scene demonstrates some key ]WinIntegration](https://github.c
 - Facebook Integration
 - Store Integration
 - Notifications
-- Platsform Specific Debug InfoE
+- Platform Specific Debug Info
 - Crash and Exception Testing (if configured)
 
 ## QA and Master configurations
