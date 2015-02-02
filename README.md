@@ -43,19 +43,19 @@ Provided here is guidance for working with WinShared based projects which you sh
 
 ## Marker Metro Tools Menu
 
+Tools > MarkerMetro provides some useful features for Unity developers porting to Windows.
+
 ### Build Menu
 
-Alows you to quickly build ot Windows 8.l, Windows Phone 8.0, Windows Universal or All (cycling through Windows 8.1, Windows Phone 8.0 and Windows Universal). 
+Alows you to quickly build to Windows 8.l, Windows Phone 8.0, Windows Universal or All (cycling through Windows 8.1, Windows Phone 8.0 and Windows Universal). 
 
 ### Features Menu
 
-This allows to enable/disable some of the commonly used Windows features. Things like having the sound options in the charm settings or displaying the IAP disclaimer when opening the game for the first time.
+This allows to enable/disable some commonly used Windows features. Things like having the sound options in the charm settings or displaying an IAP disclaimer when opening the game for the first time.
 
 These features can be set in the _Features_ window under the _MarkerMetro_ menu on Unity.
 
-These settings are stored in a file called `WinSharedSettings.xml`, so you must add this file to your version control system in order to have everybody in your project using the same settings.
-
-By default, _all_ features are enabled.
+These settings are stored in a file called `WinSharedSettings.xml`, so you must add this file to your version control system once it becoms updated. By default, _all_ features are enabled.
 
 ### Plugins Menu
 
@@ -67,7 +67,7 @@ Building the plugins locally allows you also to easily debug a particular Window
 
 - Add the platform specific plugin project to your Windows solution (e.g. MarkerMetro.Unity.WinIntegrationMetro)
 - Tools > MarkerMetro > Plugins > Configure ( ensure Plugin Source is Local, and Build Local is Debug)
-- Toosl > MarkerMetro > Plugins > Update
+- Tools > MarkerMetro > Plugins > Update
 - Tools > MarkerMetro > Build > (e.g. Windows 8.1)
 - Set breakpoints in your platform specific plugin project and then F5 on your app
 
@@ -91,9 +91,9 @@ The FaceFlip.unity scene demonstrates some key ]WinIntegration](https://github.c
 
 ## QA and Master configurations
 
-The Windows Solutions have QA and Master configurations. QA has been copied from Master to provide a production ready configuration that can support testing. 
+The Windows Solutions have QA and Master solution configurations. QA has been copied from Master to provide a production ready configuration that can support testing. 
 
-At this point the difference are:
+At this point the differences are:
 
 - Store Integration - QA uses simulated IAP, Master will attempt to use real production store APIs.
 - Exception Logging - QA enables ability to crash test via Windows settings charm, but will be off by default. Master will hide this capability but ensure Exception Logging is on by default (if a key has been supplied)
