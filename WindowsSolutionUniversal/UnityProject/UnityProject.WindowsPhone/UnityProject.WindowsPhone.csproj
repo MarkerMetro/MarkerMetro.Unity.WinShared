@@ -140,8 +140,6 @@
     <Reference Include="Facebook.dll">
       <HintPath>.\Facebook.dll</HintPath>
     </Reference>
-    <Content Include="Facebook.pdb">
-    </Content>
     <Reference Include="LitJson.dll">
       <HintPath>.\LitJson.dll</HintPath>
     </Reference>
@@ -150,8 +148,6 @@
     <Reference Include="MarkerMetro.Unity.WinIntegration.dll">
       <HintPath>.\MarkerMetro.Unity.WinIntegration.dll</HintPath>
     </Reference>
-    <Content Include="MarkerMetro.Unity.WinIntegration.pdb">
-    </Content>
     <Reference Include="MarkerMetro.Unity.WinLegacy.dll">
       <HintPath>.\MarkerMetro.Unity.WinLegacy.dll</HintPath>
     </Reference>
@@ -160,14 +156,6 @@
     <Reference Include="Mindscape.Raygun4Net.WindowsStore.dll">
       <HintPath>.\Mindscape.Raygun4Net.WindowsStore.dll</HintPath>
     </Reference>
-    <Content Include="Mindscape.Raygun4Net.WindowsStore.pdb">
-    </Content>
-    <Content Include="Newtonsoft.Json.pdb">
-    </Content>
-    <Content Include="System.Net.Http.Extensions.pdb">
-    </Content>
-    <Content Include="System.Net.Http.Primitives.pdb">
-    </Content>
     <Reference Include="UnityEngine.dll">
       <HintPath>.\UnityEngine.dll</HintPath>
     </Reference>

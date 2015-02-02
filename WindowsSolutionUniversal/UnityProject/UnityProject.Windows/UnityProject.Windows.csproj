@@ -161,8 +161,6 @@
     <Content Include="Assets\WideLogo.scale-100.png" />
     <Content Include="Assets\WideLogo.scale-140.png" />
     <Content Include="Assets\WideLogo.scale-180.png" />
-    <Content Include="BugSense-W8.pdb">
-    </Content>
     <Reference Include="Facebook.dll">
       <HintPath>.\Facebook.dll</HintPath>
     </Reference>
@@ -187,12 +185,6 @@
       <HintPath>.\Mindscape.Raygun4Net.WindowsStore.dll</HintPath>
     </Reference>
     <Content Include="Mindscape.Raygun4Net.WindowsStore.pdb">
-    </Content>
-    <Content Include="Newtonsoft.Json.pdb">
-    </Content>
-    <Content Include="System.Net.Http.Extensions.pdb">
-    </Content>
-    <Content Include="System.Net.Http.Primitives.pdb">
     </Content>
     <Reference Include="UnityEngine.dll">
       <HintPath>.\UnityEngine.dll</HintPath>
