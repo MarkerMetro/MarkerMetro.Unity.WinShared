@@ -257,9 +257,7 @@ public class GUIMain : MonoBehaviour {
         GUILayout.Label(_gameMasterScript.AppVersion, GUILayout.MaxWidth(WindowWidth));
         GUILayout.Label(_gameMasterScript.Language, GUILayout.MaxWidth(WindowWidth));
         GUILayout.Label(_gameMasterScript.DeviceID, GUILayout.MaxWidth(WindowWidth));
-#if !UNITY_WP_8_1
         GUILayout.Label(_gameMasterScript.LowEnd, GUILayout.MaxWidth(WindowWidth));
-#endif
         GUILayout.Label(_gameMasterScript.Internet, GUILayout.MaxWidth(WindowWidth));
         GUILayout.Label(_gameMasterScript.MeteredConnection, GUILayout.MaxWidth(WindowWidth));
 
