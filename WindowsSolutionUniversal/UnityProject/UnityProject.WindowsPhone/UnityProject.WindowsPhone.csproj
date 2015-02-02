@@ -250,7 +250,7 @@ echo UnityProjectDir '$(UnityProjectDir)'
 echo Copying assemblies...
 copy /Y "$(ProjectDir)Unprocessed\*" "$(ProjectDir)"
 echo Running AssemblyConverter...
-"$(UnityWSAPlayerDir)\Tools\AssemblyConverter.exe" -platform=wsa81 "$(ProjectDir)\Assembly-CSharp-firstpass.dll" "$(ProjectDir)\Assembly-CSharp.dll" "$(ProjectDir)\LitJson.dll" "$(ProjectDir)\MarkerMetro.Unity.WinLegacy.dll" "$(ProjectDir)\UnityEngine.dll" "$(ProjectDir)\WinRTLegacy.dll" "$(ProjectDir)\Facebook.Client.dll" "$(ProjectDir)\Facebook.dll" "$(ProjectDir)\MarkerMetro.Unity.WinIntegration.dll" "$(ProjectDir)\Mindscape.Raygun4Net.WindowsStore.dll"
+"$(UnityWSAPlayerDir)\Tools\AssemblyConverter.exe" -platform=wsa81 "$(ProjectDir)\Assembly-CSharp-firstpass.dll" "$(ProjectDir)\Assembly-CSharp.dll" "$(ProjectDir)\LitJson.dll" "$(ProjectDir)\MarkerMetro.Unity.WinLegacy.dll" "$(ProjectDir)\UnityEngine.dll" "$(ProjectDir)\UnityEngine.UI.dll" "$(ProjectDir)\WinRTLegacy.dll" "$(ProjectDir)\Facebook.Client.dll" "$(ProjectDir)\Facebook.dll" "$(ProjectDir)\MarkerMetro.Unity.WinIntegration.dll" "$(ProjectDir)\Mindscape.Raygun4Net.WindowsStore.dll"
 echo AssemblyConverter done.
 </PreBuildEvent>
   </PropertyGroup>
