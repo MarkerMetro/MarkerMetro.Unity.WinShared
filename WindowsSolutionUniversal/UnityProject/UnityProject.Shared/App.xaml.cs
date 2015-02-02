@@ -18,6 +18,9 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using UnityPlayer;
 using System.Diagnostics;
+#if UNITY_WP_8_1
+using Windows.System;
+#endif
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=234227
 
@@ -149,6 +152,7 @@ namespace Template
 				appCallbacks.InitializeD3DXAML();
 
                 AppCallBacksInitialized();
+                InitializePlatformSpecificMethods();
 			}
 
 			Window.Current.Activate();
@@ -225,6 +229,33 @@ namespace Template
             // get a Raygun API key for client and uncomment next line
 #if !(QA || DEBUG)
             MarkerMetro.Unity.WinIntegration.ExceptionLogger.Initialize("J5M66WHC/fIcZWudEXXGOw==");
+#endif
+        }
+
+        void InitializePlatformSpecificMethods ()
+        {
+            MarkerMetro.Unity.WinIntegration.Helper.Instance.CheckIsLowEndDevice = IsLowEndDevice;
+        }
+
+        bool IsLowEndDevice ()
+        {
+#if UNITY_WP_8_1
+            long result = 0;
+            try
+            {
+                result = (long)MemoryManager.AppMemoryUsageLimit;
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                // The device does not support querying for this value. This occurs
+                // on Windows Phone OS 7.1 and older phones without OS updates.
+            }
+            return result <= 188743680; // less than or equal to 180MB including failure scenario
+#else
+            var systemInfo = new SYSTEM_INFO();
+            GetNativeSystemInfo(ref systemInfo);
+
+            return systemInfo.wProcessorArchitecture == (uint)ProcessorArchitecture.ARM;
 #endif
         }
 	}

@@ -121,9 +121,7 @@ public class GameMaster : MonoBehaviour {
         AppVersion = "AppVersion: " + Helper.Instance.GetAppVersion();
         Language = "Language: " + Helper.Instance.GetAppLanguage();
         DeviceID = "Device ID: " + Helper.Instance.GetUserDeviceId();
-#if !UNITY_WP_8_1
         LowEnd = "Is Low End: " + Helper.Instance.IsLowEndDevice();
-#endif
         Internet = "Is Online: " + Helper.Instance.HasInternetConnection;
         MeteredConnection = "Is metered connection: " + Helper.Instance.IsMeteredConnection;
 #else
