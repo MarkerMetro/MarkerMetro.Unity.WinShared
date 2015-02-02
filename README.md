@@ -43,11 +43,11 @@ If you don't use _Init.ps1_ to initialize the project you can copy and paste jus
 
 Ensure that the ProductName in PlayerSettings is correct and matches the game name. It this value that will be used to script the Windows Solution and set up the build server.
 
-## The Windows Solution
+## Windows Solution Output
 
-This is the base WindowsSolution folder to be used for all Unity Projects. Copy it across to any new project and always add to the root of the client repo. This contains the Windows Store and Windows Phone apps.
+There are 2 base folders to be used for all Unity Projects, WindowsSolution (Windows 8.1 and Windows Phone 8.0) and WindowsSolutionUniversal (Windows 8.1 and Windows Phone 8.1 Universal). Copy the appropriate one across to any new project and always add to the root of the client repo. This contains the Windows Store and Windows Phone apps.
 
-You can then subsequently build out from Unity to /WindowsSolution/WindowsStore and /WindowsSolution/WindowsPhone.
+You can then subsequently build out from Unity using the Tools > MarkerMetro > Build menu or specific the path manually via a standard File > Build Settings build. 
 
 Note that currently these projects are for Windows 8.1 and Windows Phone 8.0
 
@@ -86,6 +86,16 @@ These features can be set in the _Features_ window under the _MarkerMetro_ menu 
 These settings are stored in a file called `WinSharedSettings.xml`, so you must add this file to your version control system in order to have everybody in your project using the same settings.
 
 By default, _all_ features are enabled.
+
+## Win Shared FaceFlip Scene Features (TBC)
+
+### Exception Logging
+
+#### Testing exceptions/crashes
+
+- **Unity** project has extra button in `UIStart.cs` in /Assets/WinIntegrationExample/FaceFlip.unity test scene in WinShared.
+- **Windows Store** project has extra Settings charm menu item **Crash** (only for Debug)
+- **Windows Phone** project has AppBar to allow crash testing (only for Debug)
 
 ## Windows Phone Low Memory Optimization
 
