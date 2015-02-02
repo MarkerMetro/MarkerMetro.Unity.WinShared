@@ -122,7 +122,14 @@ public class GameMaster : MonoBehaviour {
 #if !UNITY_EDITOR && UNITY_WINRT
         AppVersion = "AppVersion: " + Helper.Instance.GetAppVersion();
         Language = "Language: " + Helper.Instance.GetAppLanguage();
-        DeviceID = "Device ID: " + Helper.Instance.GetUserDeviceId();
+        try
+        {
+            DeviceID = "Device ID: " + Helper.Instance.GetUserDeviceId();
+        }
+        catch (Exception e)
+        {
+            DeviceID = "Device ID: not available.";
+        }
 #if !UNITY_WP_8_1
         LowEnd = "Is Low End: " + Helper.Instance.IsLowEndDevice();
 #endif
