@@ -148,9 +148,6 @@
     <Reference Include="Assembly-CSharp.dll">
       <HintPath>.\Assembly-CSharp.dll</HintPath>
     </Reference>
-    <Reference Include="BugSense-W8.dll">
-      <HintPath>.\BugSense-W8.dll</HintPath>
-    </Reference>
     <Content Include="Assets\Logo.scale-100.png" />
     <Content Include="Assets\Logo.scale-140.png" />
     <Content Include="Assets\Logo.scale-180.png" />
@@ -164,8 +161,6 @@
     <Content Include="Assets\WideLogo.scale-100.png" />
     <Content Include="Assets\WideLogo.scale-140.png" />
     <Content Include="Assets\WideLogo.scale-180.png" />
-    <Content Include="BugSense-W8.pdb">
-    </Content>
     <Reference Include="Facebook.dll">
       <HintPath>.\Facebook.dll</HintPath>
     </Reference>
@@ -191,21 +186,6 @@
     </Reference>
     <Content Include="Mindscape.Raygun4Net.WindowsStore.pdb">
     </Content>
-    <Reference Include="Newtonsoft.Json.dll">
-      <HintPath>.\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Content Include="Newtonsoft.Json.pdb">
-    </Content>
-    <Reference Include="System.Net.Http.Extensions.dll">
-      <HintPath>.\System.Net.Http.Extensions.dll</HintPath>
-    </Reference>
-    <Content Include="System.Net.Http.Extensions.pdb">
-    </Content>
-    <Reference Include="System.Net.Http.Primitives.dll">
-      <HintPath>.\System.Net.Http.Primitives.dll</HintPath>
-    </Reference>
-    <Content Include="System.Net.Http.Primitives.pdb">
-    </Content>
     <Reference Include="UnityEngine.dll">
       <HintPath>.\UnityEngine.dll</HintPath>
     </Reference>
@@ -214,13 +194,9 @@
     <Reference Include="WinRTLegacy.dll">
       <HintPath>.\WinRTLegacy.dll</HintPath>
     </Reference>
-    <Content Include="Assets\MediumTile.scale-100.png">
-    </Content>
     <Content Include="Assets\SmallLogo.scale-100.png">
     </Content>
     <Content Include="Assets\StoreLogo.scale-100.png">
-    </Content>
-    <Content Include="Assets\WideTile.scale-100.png">
     </Content>
     <Content Include="Data\**">
     </Content>
@@ -268,7 +244,7 @@ echo UnityProjectDir '$(UnityProjectDir)'
 echo Copying assemblies...
 copy /Y "$(ProjectDir)Unprocessed\*" "$(ProjectDir)"
 echo Running AssemblyConverter...
-"$(UnityWSAPlayerDir)\Tools\AssemblyConverter.exe" -platform=wsa81 "$(ProjectDir)\Assembly-CSharp-firstpass.dll" "$(ProjectDir)\Assembly-CSharp.dll" "$(ProjectDir)\BugSense-W8.dll" "$(ProjectDir)\Facebook.dll" "$(ProjectDir)\LitJson.dll" "$(ProjectDir)\MarkerMetro.Unity.WinIntegration.dll" "$(ProjectDir)\MarkerMetro.Unity.WinLegacy.dll" "$(ProjectDir)\Mindscape.Raygun4Net.WindowsStore.dll" "$(ProjectDir)\Newtonsoft.Json.dll" "$(ProjectDir)\System.Net.Http.Extensions.dll" "$(ProjectDir)\System.Net.Http.Primitives.dll" "$(ProjectDir)\UnityEngine.dll" "$(ProjectDir)\WinRTLegacy.dll"
+"$(UnityWSAPlayerDir)\Tools\AssemblyConverter.exe" -platform=wsa81 "$(ProjectDir)\Assembly-CSharp-firstpass.dll" "$(ProjectDir)\Assembly-CSharp.dll" "$(ProjectDir)\LitJson.dll" "$(ProjectDir)\MarkerMetro.Unity.WinIntegration.dll" "$(ProjectDir)\MarkerMetro.Unity.WinLegacy.dll" "$(ProjectDir)\UnityEngine.dll" "$(ProjectDir)\WinRTLegacy.dll" "$(ProjectDir)\Facebook.Client.dll" "$(ProjectDir)\Facebook.dll" "$(ProjectDir)\Mindscape.Raygun4Net.WindowsStore.dll"
 echo AssemblyConverter done.
 </PreBuildEvent>
   </PropertyGroup>

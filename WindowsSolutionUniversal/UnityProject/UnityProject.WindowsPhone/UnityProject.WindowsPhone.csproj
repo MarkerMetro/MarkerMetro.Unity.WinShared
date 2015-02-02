@@ -109,9 +109,6 @@
     <Reference Include="Assembly-CSharp.dll">
       <HintPath>.\Assembly-CSharp.dll</HintPath>
     </Reference>
-    <Reference Include="BugSense-W8.dll">
-      <HintPath>.\BugSense-W8.dll</HintPath>
-    </Reference>
     <Content Include="Assets\AlignmentGrid.png" />
     <Content Include="Assets\ApplicationIcon.png" />
     <Content Include="Assets\Logo.scale-100.png" />
@@ -140,13 +137,9 @@
     <Content Include="Assets\WideLogo.scale-100.png" />
     <Content Include="Assets\WideLogo.scale-140.png" />
     <Content Include="Assets\WideLogo.scale-240.png" />
-    <Content Include="BugSense-W8.pdb">
-    </Content>
     <Reference Include="Facebook.dll">
       <HintPath>.\Facebook.dll</HintPath>
     </Reference>
-    <Content Include="Facebook.pdb">
-    </Content>
     <Reference Include="LitJson.dll">
       <HintPath>.\LitJson.dll</HintPath>
     </Reference>
@@ -155,8 +148,6 @@
     <Reference Include="MarkerMetro.Unity.WinIntegration.dll">
       <HintPath>.\MarkerMetro.Unity.WinIntegration.dll</HintPath>
     </Reference>
-    <Content Include="MarkerMetro.Unity.WinIntegration.pdb">
-    </Content>
     <Reference Include="MarkerMetro.Unity.WinLegacy.dll">
       <HintPath>.\MarkerMetro.Unity.WinLegacy.dll</HintPath>
     </Reference>
@@ -165,23 +156,6 @@
     <Reference Include="Mindscape.Raygun4Net.WindowsStore.dll">
       <HintPath>.\Mindscape.Raygun4Net.WindowsStore.dll</HintPath>
     </Reference>
-    <Content Include="Mindscape.Raygun4Net.WindowsStore.pdb">
-    </Content>
-    <Reference Include="Newtonsoft.Json.dll">
-      <HintPath>.\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Content Include="Newtonsoft.Json.pdb">
-    </Content>
-    <Reference Include="System.Net.Http.Extensions.dll">
-      <HintPath>.\System.Net.Http.Extensions.dll</HintPath>
-    </Reference>
-    <Content Include="System.Net.Http.Extensions.pdb">
-    </Content>
-    <Reference Include="System.Net.Http.Primitives.dll">
-      <HintPath>.\System.Net.Http.Primitives.dll</HintPath>
-    </Reference>
-    <Content Include="System.Net.Http.Primitives.pdb">
-    </Content>
     <Reference Include="UnityEngine.dll">
       <HintPath>.\UnityEngine.dll</HintPath>
     </Reference>
@@ -255,12 +229,28 @@
   <Import Project="..\UnityProject.Shared\UnityProject.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>echo UnityInstallationDir '$(UnityInstallationDir)'
+    <PreBuildEvent>copy /Y "$(ProjectDir)\Plugins\Metro\WindowsPhone81\Facebook.Client.dll" "$(ProjectDir)Facebook.Client.dll"
+if exist "$(ProjectDir)Facebook.Client.pdb" del "$(ProjectDir)Facebook.Client.pdb"
+if exist "$(ProjectDir)Facebook.Client.dll.mdb" del "$(ProjectDir)Facebook.Client.dll.mdb"
+if exist "$(ProjectDir)\Plugins\Metro\WindowsPhone81\Facebook.Client.pdb" copy /Y "$(ProjectDir)\Plugins\Metro\WindowsPhone81\Facebook.Client.pdb" "$(ProjectDir)Facebook.Client.pdb"
+copy /Y "$(ProjectDir)\Plugins\Metro\WindowsPhone81\Facebook.dll" "$(ProjectDir)Facebook.dll"
+if exist "$(ProjectDir)Facebook.pdb" del "$(ProjectDir)Facebook.pdb"
+if exist "$(ProjectDir)Facebook.dll.mdb" del "$(ProjectDir)Facebook.dll.mdb"
+if exist "$(ProjectDir)\Plugins\Metro\WindowsPhone81\Facebook.pdb" copy /Y "$(ProjectDir)\Plugins\Metro\WindowsPhone81\Facebook.pdb" "$(ProjectDir)Facebook.pdb"
+copy /Y "$(ProjectDir)\Plugins\Metro\WindowsPhone81\MarkerMetro.Unity.WinIntegration.dll" "$(ProjectDir)MarkerMetro.Unity.WinIntegration.dll"
+if exist "$(ProjectDir)MarkerMetro.Unity.WinIntegration.pdb" del "$(ProjectDir)MarkerMetro.Unity.WinIntegration.pdb"
+if exist "$(ProjectDir)MarkerMetro.Unity.WinIntegration.dll.mdb" del "$(ProjectDir)MarkerMetro.Unity.WinIntegration.dll.mdb"
+if exist "$(ProjectDir)\Plugins\Metro\WindowsPhone81\MarkerMetro.Unity.WinIntegration.pdb" copy /Y "$(ProjectDir)\Plugins\Metro\WindowsPhone81\MarkerMetro.Unity.WinIntegration.pdb" "$(ProjectDir)MarkerMetro.Unity.WinIntegration.pdb"
+copy /Y "$(ProjectDir)\Plugins\Metro\WindowsPhone81\Mindscape.Raygun4Net.WindowsStore.dll" "$(ProjectDir)Mindscape.Raygun4Net.WindowsStore.dll"
+if exist "$(ProjectDir)Mindscape.Raygun4Net.WindowsStore.pdb" del "$(ProjectDir)Mindscape.Raygun4Net.WindowsStore.pdb"
+if exist "$(ProjectDir)Mindscape.Raygun4Net.WindowsStore.dll.mdb" del "$(ProjectDir)Mindscape.Raygun4Net.WindowsStore.dll.mdb"
+if exist "$(ProjectDir)\Plugins\Metro\WindowsPhone81\Mindscape.Raygun4Net.WindowsStore.pdb" copy /Y "$(ProjectDir)\Plugins\Metro\WindowsPhone81\Mindscape.Raygun4Net.WindowsStore.pdb" "$(ProjectDir)Mindscape.Raygun4Net.WindowsStore.pdb"
+echo UnityInstallationDir '$(UnityInstallationDir)'
 echo UnityProjectDir '$(UnityProjectDir)'
 echo Copying assemblies...
 copy /Y "$(ProjectDir)Unprocessed\*" "$(ProjectDir)"
 echo Running AssemblyConverter...
-"$(UnityWSAPlayerDir)\Tools\AssemblyConverter.exe" -platform=wp81 "$(ProjectDir)\Assembly-CSharp-firstpass.dll" "$(ProjectDir)\Assembly-CSharp.dll" "$(ProjectDir)\BugSense-W8.dll" "$(ProjectDir)\Facebook.dll" "$(ProjectDir)\LitJson.dll" "$(ProjectDir)\MarkerMetro.Unity.WinIntegration.dll" "$(ProjectDir)\MarkerMetro.Unity.WinLegacy.dll" "$(ProjectDir)\Mindscape.Raygun4Net.WindowsStore.dll" "$(ProjectDir)\Newtonsoft.Json.dll" "$(ProjectDir)\System.Net.Http.Extensions.dll" "$(ProjectDir)\System.Net.Http.Primitives.dll" "$(ProjectDir)\UnityEngine.dll" "$(ProjectDir)\WinRTLegacy.dll"
+"$(UnityWSAPlayerDir)\Tools\AssemblyConverter.exe" -platform=wsa81 "$(ProjectDir)\Assembly-CSharp-firstpass.dll" "$(ProjectDir)\Assembly-CSharp.dll" "$(ProjectDir)\LitJson.dll" "$(ProjectDir)\MarkerMetro.Unity.WinLegacy.dll" "$(ProjectDir)\UnityEngine.dll" "$(ProjectDir)\WinRTLegacy.dll" "$(ProjectDir)\Facebook.Client.dll" "$(ProjectDir)\Facebook.dll" "$(ProjectDir)\MarkerMetro.Unity.WinIntegration.dll" "$(ProjectDir)\Mindscape.Raygun4Net.WindowsStore.dll"
 echo AssemblyConverter done.
 </PreBuildEvent>
   </PropertyGroup>
