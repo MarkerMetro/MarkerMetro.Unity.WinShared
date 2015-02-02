@@ -75,7 +75,7 @@ Building the plugins locally allows you also to easily debug a particular Window
 
 There are 2 base folders to be used for all Unity Projects, WindowsSolution (Windows 8.1 and Windows Phone 8.0) and WindowsSolutionUniversal (Windows 8.1 and Windows Phone 8.1 Universal). This contains the Windows Store and Windows Phone apps.
 
-You can then subsequently build out from Unity using the Tools > MarkerMetro > Build menu or specific the path manually via a standard File > Build Settings build. 
+You can then subsequently build out from Unity using the Tools > MarkerMetro > Build menu or specificy the path manually via a standard File > Build Settings build. 
 
 Note that currently these projects are for Windows 8.1 and Windows Phone 8.0
 
