@@ -214,13 +214,9 @@
     <Reference Include="WinRTLegacy.dll">
       <HintPath>.\WinRTLegacy.dll</HintPath>
     </Reference>
-    <Content Include="Assets\MediumTile.scale-100.png">
-    </Content>
     <Content Include="Assets\SmallLogo.scale-100.png">
     </Content>
     <Content Include="Assets\StoreLogo.scale-100.png">
-    </Content>
-    <Content Include="Assets\WideTile.scale-100.png">
     </Content>
     <Content Include="Data\**">
     </Content>

@@ -56,10 +56,6 @@ namespace UnityProject.WinPhone
          */
         private void Initialize()
         {
-
-            // initialize exception logger (api key is MM's test app by default, update with client's and uncomment to use)
-            //MarkerMetro.Unity.WinIntegration.ExceptionLogger.Instance.Initialize("J5M66WHC/fIcZWudEXXGOw=="); 
-
             // wire up the configuration file handler:
             DeviceInformation.DoGetEnvironment = GetEnvironment;
 
