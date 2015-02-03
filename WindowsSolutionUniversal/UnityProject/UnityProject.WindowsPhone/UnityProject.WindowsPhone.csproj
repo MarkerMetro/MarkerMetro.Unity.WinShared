@@ -143,24 +143,18 @@
     <Reference Include="LitJson.dll">
       <HintPath>.\LitJson.dll</HintPath>
     </Reference>
-    <Content Include="LitJson.pdb">
-    </Content>
     <Reference Include="MarkerMetro.Unity.WinIntegration.dll">
       <HintPath>.\MarkerMetro.Unity.WinIntegration.dll</HintPath>
     </Reference>
     <Reference Include="MarkerMetro.Unity.WinLegacy.dll">
       <HintPath>.\MarkerMetro.Unity.WinLegacy.dll</HintPath>
     </Reference>
-    <Content Include="MarkerMetro.Unity.WinLegacy.pdb">
-    </Content>
     <Reference Include="Mindscape.Raygun4Net.WindowsStore.dll">
       <HintPath>.\Mindscape.Raygun4Net.WindowsStore.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.dll">
       <HintPath>.\UnityEngine.dll</HintPath>
     </Reference>
-    <Content Include="UnityEngine.pdb">
-    </Content>
     <Reference Include="WinRTLegacy.dll">
       <HintPath>.\WinRTLegacy.dll</HintPath>
     </Reference>
