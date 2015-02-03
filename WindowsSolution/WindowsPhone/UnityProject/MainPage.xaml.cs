@@ -123,7 +123,7 @@ namespace UnityProject.WinPhone
 #else
             StoreManager.Instance.Initialise(false);
 #endif
-            if (FeaturesManager.Instance.IsIapEnabled)
+            if (FeaturesManager.Instance.IsIapDisclaimerEnabled)
             {
                 CheckForOFT();
             }

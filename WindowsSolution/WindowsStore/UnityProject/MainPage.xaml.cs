@@ -362,7 +362,7 @@ namespace UnityProject.Win
                 onResizeHandler = null;
             }
 
-            if (FeaturesManager.Instance.IsIapEnabled)
+            if (FeaturesManager.Instance.IsIapDisclaimerEnabled)
             {
                 CheckForOFT();
             }
