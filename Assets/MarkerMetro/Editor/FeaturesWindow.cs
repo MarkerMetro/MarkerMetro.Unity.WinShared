@@ -26,7 +26,7 @@ namespace MarkerMetro.Unity.WinShared.Tools
             // Executes an action in case the toggle value changed:
             Action<string, bool, Action<bool>> update = (title, pref, action) =>
             {
-                var toggle = EditorGUILayout.Toggle(title, pref);
+                var toggle = EditorGUILayout.ToggleLeft(title, pref);
                 if (toggle != pref)
                 {
                     action(toggle);
@@ -36,17 +36,20 @@ namespace MarkerMetro.Unity.WinShared.Tools
             };
 
 
-            update("IAP Disclaimer", FeaturesManager.Instance.IsIapEnabled,
-                t => FeaturesManager.Instance.IsIapEnabled = t);
+
+            EditorGUILayout.LabelField("Windows Store and Windows Phone", EditorStyles.boldLabel);
+
+            update("IAP Disclaimer", FeaturesManager.Instance.IsIapDisclaimerEnabled,
+                t => FeaturesManager.Instance.IsIapDisclaimerEnabled = t);
 
             EditorGUILayout.Separator();
-            EditorGUILayout.LabelField("Charm Settings (Windows Store)", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("Windows Store", EditorStyles.boldLabel);
 
-            update("Music & Sound", FeaturesManager.Instance.IsAudioCharmEnabled,
-                t => FeaturesManager.Instance.IsAudioCharmEnabled = t);
+            update("Settings - Music/FX On/Off", FeaturesManager.Instance.IsSettingsMusicFXOnOffEnabled,
+                t => FeaturesManager.Instance.IsSettingsMusicFXOnOffEnabled = t);
 
-            update("Reminders", FeaturesManager.Instance.IsRemindersEnabled,
-                t => FeaturesManager.Instance.IsRemindersEnabled = t);
+            update("Settings - Reminders On/Off", FeaturesManager.Instance.IsSettingsNotificationsOnOffEnabled,
+                t => FeaturesManager.Instance.IsSettingsNotificationsOnOffEnabled = t);
         }
     }
 }
