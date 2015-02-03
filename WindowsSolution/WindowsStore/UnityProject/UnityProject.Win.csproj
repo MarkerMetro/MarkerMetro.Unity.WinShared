@@ -148,7 +148,6 @@
     <Content Include="Assets\StoreLogo.scale-100.png" />
     <Content Include="Assets\SmallLogo.scale-100.png" />
     <Content Include="Assets\SplashScreen.scale-100.png" />
-    <Content Include="Assets\MediumTile.scale-100.png" />
     <Content Include="iap_simulator.xml" />
     <None Include="Package.StoreAssociation.xml" />
   </ItemGroup>
