@@ -14,7 +14,7 @@
     <Language code="es-MX" />
     <Language code="es-ES" />
   </Languages>
-  <App xmlns="" ProductID="{EC21CF10-964F-4F3D-A272-2C9CACCC5B8C}" Title="@AppResLib.dll,-100" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.games" Author="Disney" Description="@AppResLib.dll,-101" Publisher="Disney" PublisherID="{58DECE39-D5D0-4293-AAA0-9AF8484F12E2}">
+  <App xmlns="" ProductID="{EC21CF10-964F-4F3D-A272-2C9CACCC5B8C}" Title="@AppResLib.dll,-100" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.games" Author="Marker Metro" Description="@AppResLib.dll,-101" Publisher="Marker Metro" PublisherID="{58DECE39-D5D0-4293-AAA0-9AF8484F12E2}">
     <IconPath IsRelative="true" IsResource="false">Assets\ApplicationIcon.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_IDENTITY_DEVICE" />
