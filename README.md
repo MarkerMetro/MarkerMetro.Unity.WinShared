@@ -11,7 +11,7 @@ Prerequisites
 
 - Visual Studio 2013 with latest updates
 - Nuget Package Manager
-- Unity 4.6.1f1 (although 4.5 should work as well)
+- Unity 4.6.1f1 is required
 
 Setup
 ==================
