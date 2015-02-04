@@ -1,5 +1,5 @@
 ﻿using MarkerMetro.Unity.WinIntegration.Logging;
-using Template.Logging;
+using UnityProject.Logging;
 
 #if NETFX_CORE
 namespace UnityProject.Win

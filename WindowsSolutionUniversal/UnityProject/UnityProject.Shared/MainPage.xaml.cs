@@ -34,7 +34,7 @@ using MarkerMetro.Unity.WinIntegration.Facebook;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace Template
+namespace UnityProject
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.

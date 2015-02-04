@@ -18,12 +18,12 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using UnityPlayer;
 using System.Diagnostics;
-using Template.Logging;
+using UnityProject.Logging;
 using MarkerMetro.Unity.WinIntegration.Logging;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=234227
 
-namespace Template
+namespace UnityProject
 {
 	/// <summary>
 	/// Provides application-specific behavior to supplement the default Application class.

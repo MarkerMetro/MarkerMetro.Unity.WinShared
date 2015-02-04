@@ -5,7 +5,7 @@ using Mindscape.Raygun4Net;
 using MarkerMetro.Unity.WinIntegration.Logging;
 using MarkerMetro.Unity.WinIntegration;
 
-namespace Template.Logging
+namespace UnityProject.Logging
 {
 
     /// <summary>
