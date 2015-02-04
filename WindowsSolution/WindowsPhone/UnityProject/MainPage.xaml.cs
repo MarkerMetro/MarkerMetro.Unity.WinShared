@@ -39,7 +39,7 @@ namespace UnityProject.WinPhone
 		bool _unityStartedLoading;
 		bool _useLocation;
         DispatcherTimer _extendedSplashTimer;
-        public static bool IsUnityLoaded { get; set; }
+        public static bool IsUnityLoaded { get; private set; }
 
 		// Constructor
 		public MainPage()
@@ -114,6 +114,8 @@ namespace UnityProject.WinPhone
 		void Unity_Loaded()
 		{
             IsUnityLoaded = true;
+
+            MarkerMetro.Unity.WinShared.IntegrationManager.Init();
 
 			SetupGeolocator();
 

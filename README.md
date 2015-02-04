@@ -55,7 +55,7 @@ This allows to enable/disable some commonly used Windows features. Things like h
 
 These features can be set in the _Features_ window under the _MarkerMetro_ menu on Unity.
 
-These settings are stored in a file called `WinSharedSettings.xml`, so you must add this file to your version control system once it becoms updated. By default, _all_ features are enabled.
+These settings are stored in a file called `WinSharedSettings.xml`, so you must add this file to your version control system once it becomes updated.
 
 ### Plugins Menu
 

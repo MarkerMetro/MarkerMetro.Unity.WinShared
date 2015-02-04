@@ -25,7 +25,8 @@ using Windows.Data.Xml.Dom;
 using MarkerMetro.Unity.WinIntegration.Facebook;
 #endif
 
-using DeviceInformation = Assets.Plugins.MarkerMetro.DeviceInformation;
+using DeviceInformation = MarkerMetro.Unity.WinShared.Tools.DeviceInformation;
+using Environment = MarkerMetro.Unity.WinShared.Tools.Environment;
 
 #if NETFX_CORE
 namespace UnityProject.Win
@@ -71,14 +72,14 @@ namespace UnityProject.WinPhone
 
         }
 
-        internal DeviceInformation.Environment GetEnvironment()
+        internal Environment GetEnvironment()
         {
 #if QA
-            return DeviceInformation.Environment.QA;
+            return Environment.QA;
 #elif DEBUG
-            return DeviceInformation.Environment.Dev;
+            return Environment.Dev;
 #else
-            return DeviceInformation.Environment.Production;
+            return Environment.Production;
 #endif
         }
 

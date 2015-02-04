@@ -1,8 +1,7 @@
 ﻿using System;
 
-namespace Assets.Plugins.MarkerMetro
+namespace MarkerMetro.Unity.WinShared.Tools
 {
-
     public static class DeviceInformation
     {
         public static Func<Environment> DoGetEnvironment;
@@ -13,13 +12,6 @@ namespace Assets.Plugins.MarkerMetro
                 return DoGetEnvironment();
             else
                 return Environment.Dev;
-        }
-
-        public enum Environment
-        {
-            Dev,
-            QA,
-            Production
         }
     }
 

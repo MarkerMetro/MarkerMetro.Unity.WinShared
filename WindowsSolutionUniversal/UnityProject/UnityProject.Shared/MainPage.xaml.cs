@@ -62,7 +62,7 @@ namespace UnityProject
             Window.Current.SizeChanged += onResizeHandler;
 
             // Wire up the configuration file handler:
-            Assets.Plugins.MarkerMetro.DeviceInformation.DoGetEnvironment = GetEnvironment;
+            MarkerMetro.Unity.WinShared.Tools.DeviceInformation.DoGetEnvironment = GetEnvironment;
 
             Window.Current.VisibilityChanged += OnWindowVisibilityChanged;
 
@@ -72,7 +72,11 @@ namespace UnityProject
             settingsPane.CommandsRequested += SettingsPaneCommandsRequested;
 #endif
 
-            UnityPlayer.AppCallbacks.Instance.RenderingStarted += () => isUnityLoaded = true;
+            UnityPlayer.AppCallbacks.Instance.RenderingStarted += () =>
+                {
+                    isUnityLoaded = true;
+                  //  MarkerMetro.Unity.WinShared.IntegrationManager.Init();
+                };
 
             // create extended splash timer
             extendedSplashTimer = new DispatcherTimer();
@@ -411,14 +415,14 @@ namespace UnityProject
             }
         }
 
-        Assets.Plugins.MarkerMetro.DeviceInformation.Environment GetEnvironment()
+        MarkerMetro.Unity.WinShared.Tools.Environment GetEnvironment()
         {
 #if QA
-            return Assets.Plugins.MarkerMetro.DeviceInformation.Environment.QA;
+            return MarkerMetro.Unity.WinShared.Tools.Environment.QA;
 #elif DEBUG
-            return Assets.Plugins.MarkerMetro.DeviceInformation.Environment.Dev;
+            return MarkerMetro.Unity.WinShared.Tools.Environment.Dev;
 #else
-            return Assets.Plugins.MarkerMetro.DeviceInformation.Environment.Production;
+            return MarkerMetro.Unity.WinShared.Tools.Environment.Production;
 #endif
         }
 
