@@ -106,6 +106,9 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\WindowsSolutionUniversal\UnityProject\UnityProject.Shared\Logging\RaygunExceptionLogger.cs">
+      <Link>Common\Logging\RaygunExceptionLogger.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\CommonApp.cs">
       <Link>Common\CommonApp.cs</Link>
     </Compile>

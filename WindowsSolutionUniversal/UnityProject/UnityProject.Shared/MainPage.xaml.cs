@@ -303,7 +303,7 @@ namespace Template
             {
                 Debug.WriteLine(ex);
 
-                MarkerMetro.Unity.WinIntegration.ExceptionLogger.Instance.Send(ex);
+                MarkerMetro.Unity.WinIntegration.Logging.ExceptionLogger.Send(ex);
             }
         }
 

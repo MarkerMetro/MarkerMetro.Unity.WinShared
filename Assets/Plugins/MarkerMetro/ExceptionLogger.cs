@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
-using WinIntegration = MarkerMetro.Unity.WinIntegration;
+using MarkerMetro.Unity.WinIntegration;
+using WinIntegrationLogging = MarkerMetro.Unity.WinIntegration.Logging;
 
 namespace Assets.Scripts.MarkerMetro
 {
@@ -20,14 +21,14 @@ namespace Assets.Scripts.MarkerMetro
             {
                 try
                 {
-                    if (WinIntegration.ExceptionLogger.Instance.Initialized)
+                    if (WinIntegrationLogging.ExceptionLogger.IsInitialized)
                     {
-                        WinIntegration.ExceptionLogger.Instance.Send(message, stackTrace);
-                        WinIntegration.Helper.Instance.ShowDialog(message, "Exception Thrown", null, "OK");
+                        WinIntegrationLogging.ExceptionLogger.Send(message, stackTrace);
+                        Helper.Instance.ShowDialog(message, "Exception Thrown", null, "OK");
                     }
                     else
                     {
-                        WinIntegration.Helper.Instance.ShowDialog("You have not initialized an exception logger.", "Exception Thrown", null, "OK");
+                        Helper.Instance.ShowDialog("You have not initialized an exception logger.", "Exception Thrown", null, "OK");
                     }
                 }
                 catch (System.Exception ex)

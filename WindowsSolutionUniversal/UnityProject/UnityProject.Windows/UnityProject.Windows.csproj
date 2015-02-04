@@ -174,13 +174,9 @@
     <Reference Include="MarkerMetro.Unity.WinIntegration.dll">
       <HintPath>.\MarkerMetro.Unity.WinIntegration.dll</HintPath>
     </Reference>
-    <Content Include="MarkerMetro.Unity.WinIntegration.pdb">
-    </Content>
     <Reference Include="MarkerMetro.Unity.WinLegacy.dll">
       <HintPath>.\MarkerMetro.Unity.WinLegacy.dll</HintPath>
     </Reference>
-    <Content Include="Mindscape.Raygun4Net.WindowsStore.pdb">
-    </Content>
     <Reference Include="UnityEngine.dll">
       <HintPath>.\UnityEngine.dll</HintPath>
     </Reference>
@@ -244,16 +240,12 @@ copy /Y "$(ProjectDir)\Plugins\Metro\MarkerMetro.Unity.WinIntegration.dll" "$(Pr
 if exist "$(ProjectDir)MarkerMetro.Unity.WinIntegration.pdb" del "$(ProjectDir)MarkerMetro.Unity.WinIntegration.pdb"
 if exist "$(ProjectDir)MarkerMetro.Unity.WinIntegration.dll.mdb" del "$(ProjectDir)MarkerMetro.Unity.WinIntegration.dll.mdb"
 if exist "$(ProjectDir)\Plugins\Metro\MarkerMetro.Unity.WinIntegration.pdb" copy /Y "$(ProjectDir)\Plugins\Metro\MarkerMetro.Unity.WinIntegration.pdb" "$(ProjectDir)MarkerMetro.Unity.WinIntegration.pdb"
-copy /Y "$(ProjectDir)\Plugins\Metro\Mindscape.Raygun4Net.WindowsStore.dll" "$(ProjectDir)Mindscape.Raygun4Net.WindowsStore.dll"
-if exist "$(ProjectDir)Mindscape.Raygun4Net.WindowsStore.pdb" del "$(ProjectDir)Mindscape.Raygun4Net.WindowsStore.pdb"
-if exist "$(ProjectDir)Mindscape.Raygun4Net.WindowsStore.dll.mdb" del "$(ProjectDir)Mindscape.Raygun4Net.WindowsStore.dll.mdb"
-if exist "$(ProjectDir)\Plugins\Metro\Mindscape.Raygun4Net.WindowsStore.pdb" copy /Y "$(ProjectDir)\Plugins\Metro\Mindscape.Raygun4Net.WindowsStore.pdb" "$(ProjectDir)Mindscape.Raygun4Net.WindowsStore.pdb"
 echo UnityInstallationDir '$(UnityInstallationDir)'
 echo UnityProjectDir '$(UnityProjectDir)'
 echo Copying assemblies...
 copy /Y "$(ProjectDir)Unprocessed\*" "$(ProjectDir)"
 echo Running AssemblyConverter...
-"$(UnityWSAPlayerDir)\Tools\AssemblyConverter.exe" -platform=wsa81 "$(ProjectDir)\Assembly-CSharp-firstpass.dll" "$(ProjectDir)\Assembly-CSharp.dll" "$(ProjectDir)\LitJson.dll" "$(ProjectDir)\MarkerMetro.Unity.WinIntegration.dll" "$(ProjectDir)\MarkerMetro.Unity.WinLegacy.dll" "$(ProjectDir)\UnityEngine.dll" "$(ProjectDir)\UnityEngine.UI.dll" "$(ProjectDir)\WinRTLegacy.dll" "$(ProjectDir)\Facebook.Client.dll" "$(ProjectDir)\Facebook.dll" "$(ProjectDir)\Mindscape.Raygun4Net.WindowsStore.dll"
+"$(UnityWSAPlayerDir)\Tools\AssemblyConverter.exe" -platform=wsa81 "$(ProjectDir)\Assembly-CSharp-firstpass.dll" "$(ProjectDir)\Assembly-CSharp.dll" "$(ProjectDir)\LitJson.dll" "$(ProjectDir)\MarkerMetro.Unity.WinIntegration.dll" "$(ProjectDir)\MarkerMetro.Unity.WinLegacy.dll" "$(ProjectDir)\UnityEngine.dll" "$(ProjectDir)\UnityEngine.UI.dll" "$(ProjectDir)\WinRTLegacy.dll" "$(ProjectDir)\Facebook.Client.dll" "$(ProjectDir)\Facebook.dll"
 echo AssemblyConverter done.</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
