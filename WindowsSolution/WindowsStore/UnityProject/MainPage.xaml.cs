@@ -61,7 +61,11 @@ namespace UnityProject.Win
             settingsPane = SettingsPane.GetForCurrentView();
             settingsPane.CommandsRequested += settingsPane_CommandsRequested;
 
-            UnityPlayer.AppCallbacks.Instance.RenderingStarted += () => isUnityLoaded = true;
+            UnityPlayer.AppCallbacks.Instance.RenderingStarted += () =>
+                {
+                    isUnityLoaded = true;
+                    MarkerMetro.Unity.WinShared.IntegrationManager.Init();
+                };
 
             // create extended splash timer
             extendedSplashTimer = new DispatcherTimer();

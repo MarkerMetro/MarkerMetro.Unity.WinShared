@@ -10,7 +10,7 @@ using MarkerMetro.Unity.WinIntegration.LocalNotifications;
 using MarkerMetro.Unity.WinIntegration.Store;
 using MarkerMetro.Unity.WinIntegration.VideoPlayer;
 using LitJson;
-using Assets.Plugins.MarkerMetro;
+using MarkerMetro.Unity.WinShared.Tools;
 
 #if (UNITY_WP8 || UNITY_WP_8_1) && !UNITY_EDITOR
 using FBWin = MarkerMetro.Unity.WinIntegration.Facebook.FBNative;
@@ -42,6 +42,7 @@ public class GameMaster : MonoBehaviour {
     public string Internet { get; private set; }
     public string MeteredConnection { get; private set; }
     public string EnvironmentConfiguration { get; private set; }
+    public string ExceptionLoggingEnabledForEnvironment { get; private set; }
 
     // Game info.
     public string Matches { get; private set; }
@@ -133,6 +134,8 @@ public class GameMaster : MonoBehaviour {
         LowEnd = "Is Low End: " + Helper.Instance.IsLowEndDevice();
         Internet = "Is Online: " + Helper.Instance.HasInternetConnection;
         MeteredConnection = "Is metered connection: " + Helper.Instance.IsMeteredConnection;
+        ExceptionLoggingEnabledForEnvironment = "Exception logging for current Environment: " + 
+            FeaturesManager.Instance.IsExceptionLoggingEnabledForCurrentEnvironment;
 #else
         AppVersion = "AppVersion: ";
         Language = "Language: ";
@@ -140,6 +143,7 @@ public class GameMaster : MonoBehaviour {
         LowEnd = "Is Low End: ";
         Internet = "Is Online: ";
         MeteredConnection = "Is metered connection: ";
+        ExceptionLoggingEnabledForEnvironment = "Exception logging enabled for current Environment:";
 #endif
         EnvironmentConfiguration = "Environment configuration: " + DeviceInformation.GetEnvironment().ToString();
     }
