@@ -1,4 +1,7 @@
-﻿#if NETFX_CORE
+﻿using MarkerMetro.Unity.WinIntegration.Logging;
+using UnityProject.Logging;
+
+#if NETFX_CORE
 namespace UnityProject.Win
 #else
 namespace UnityProject
@@ -18,8 +21,8 @@ namespace UnityProject
         void InitializeExceptionLogger()
         {
 #if !(QA || DEBUG)
-            // get a Raygun API key for client and uncomment next line
-            MarkerMetro.Unity.WinIntegration.ExceptionLogger.Initialize("J5M66WHC/fIcZWudEXXGOw==");
+            // get a Raygun API key for client
+            ExceptionLogger.Initialize(new RaygunExceptionLogger("J5M66WHC/fIcZWudEXXGOw=="));
 #endif
         }
     }

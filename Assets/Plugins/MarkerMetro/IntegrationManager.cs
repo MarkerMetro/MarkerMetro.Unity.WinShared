@@ -28,9 +28,9 @@ namespace MarkerMetro.Unity.WinShared
                 {
                     try
                     {
-                        if (WinIntegration.ExceptionLogger.Instance.Initialized)
+                        if (WinIntegration.Logging.ExceptionLogger.IsInitialized)
                         {
-                            WinIntegration.ExceptionLogger.Instance.Send(message, stackTrace);
+                            WinIntegration.Logging.ExceptionLogger.Send(message, stackTrace);
                             WinIntegration.Helper.Instance.ShowDialog(message, "Exception Thrown", null, "OK");
                         }
                         else

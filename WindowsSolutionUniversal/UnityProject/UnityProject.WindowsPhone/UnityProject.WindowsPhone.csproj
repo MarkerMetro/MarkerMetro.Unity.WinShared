@@ -149,8 +149,8 @@
     <Reference Include="MarkerMetro.Unity.WinLegacy.dll">
       <HintPath>.\MarkerMetro.Unity.WinLegacy.dll</HintPath>
     </Reference>
-    <Reference Include="Mindscape.Raygun4Net.WindowsStore.dll">
-      <HintPath>.\Mindscape.Raygun4Net.WindowsStore.dll</HintPath>
+    <Reference Include="Mindscape.Raygun4Net.WindowsStore">
+      <HintPath>..\..\packages\Mindscape.Raygun4Net.4.2.0\lib\portable-net45+win81+wpa81+windows81\Mindscape.Raygun4Net.WindowsStore.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.dll">
       <HintPath>.\UnityEngine.dll</HintPath>
@@ -187,6 +187,9 @@
     <Reference Include="UnityEngineProxy">
       <HintPath>..\..\Players\WindowsPhone81\$(PlatformTarget)\$(UnityConfig)\UnityEngineProxy.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>
@@ -235,16 +238,12 @@ copy /Y "$(ProjectDir)\Plugins\Metro\WindowsPhone81\MarkerMetro.Unity.WinIntegra
 if exist "$(ProjectDir)MarkerMetro.Unity.WinIntegration.pdb" del "$(ProjectDir)MarkerMetro.Unity.WinIntegration.pdb"
 if exist "$(ProjectDir)MarkerMetro.Unity.WinIntegration.dll.mdb" del "$(ProjectDir)MarkerMetro.Unity.WinIntegration.dll.mdb"
 if exist "$(ProjectDir)\Plugins\Metro\WindowsPhone81\MarkerMetro.Unity.WinIntegration.pdb" copy /Y "$(ProjectDir)\Plugins\Metro\WindowsPhone81\MarkerMetro.Unity.WinIntegration.pdb" "$(ProjectDir)MarkerMetro.Unity.WinIntegration.pdb"
-copy /Y "$(ProjectDir)\Plugins\Metro\WindowsPhone81\Mindscape.Raygun4Net.WindowsStore.dll" "$(ProjectDir)Mindscape.Raygun4Net.WindowsStore.dll"
-if exist "$(ProjectDir)Mindscape.Raygun4Net.WindowsStore.pdb" del "$(ProjectDir)Mindscape.Raygun4Net.WindowsStore.pdb"
-if exist "$(ProjectDir)Mindscape.Raygun4Net.WindowsStore.dll.mdb" del "$(ProjectDir)Mindscape.Raygun4Net.WindowsStore.dll.mdb"
-if exist "$(ProjectDir)\Plugins\Metro\WindowsPhone81\Mindscape.Raygun4Net.WindowsStore.pdb" copy /Y "$(ProjectDir)\Plugins\Metro\WindowsPhone81\Mindscape.Raygun4Net.WindowsStore.pdb" "$(ProjectDir)Mindscape.Raygun4Net.WindowsStore.pdb"
 echo UnityInstallationDir '$(UnityInstallationDir)'
 echo UnityProjectDir '$(UnityProjectDir)'
 echo Copying assemblies...
 copy /Y "$(ProjectDir)Unprocessed\*" "$(ProjectDir)"
 echo Running AssemblyConverter...
-"$(UnityWSAPlayerDir)\Tools\AssemblyConverter.exe" -platform=wsa81 "$(ProjectDir)\Assembly-CSharp-firstpass.dll" "$(ProjectDir)\Assembly-CSharp.dll" "$(ProjectDir)\LitJson.dll" "$(ProjectDir)\MarkerMetro.Unity.WinLegacy.dll" "$(ProjectDir)\UnityEngine.dll" "$(ProjectDir)\UnityEngine.UI.dll" "$(ProjectDir)\WinRTLegacy.dll" "$(ProjectDir)\Facebook.Client.dll" "$(ProjectDir)\Facebook.dll" "$(ProjectDir)\MarkerMetro.Unity.WinIntegration.dll" "$(ProjectDir)\Mindscape.Raygun4Net.WindowsStore.dll"
+"$(UnityWSAPlayerDir)\Tools\AssemblyConverter.exe" -platform=wsa81 "$(ProjectDir)\Assembly-CSharp-firstpass.dll" "$(ProjectDir)\Assembly-CSharp.dll" "$(ProjectDir)\LitJson.dll" "$(ProjectDir)\MarkerMetro.Unity.WinLegacy.dll" "$(ProjectDir)\UnityEngine.dll" "$(ProjectDir)\UnityEngine.UI.dll" "$(ProjectDir)\WinRTLegacy.dll" "$(ProjectDir)\Facebook.Client.dll" "$(ProjectDir)\Facebook.dll" "$(ProjectDir)\MarkerMetro.Unity.WinIntegration.dll"
 echo AssemblyConverter done.
 </PreBuildEvent>
   </PropertyGroup>

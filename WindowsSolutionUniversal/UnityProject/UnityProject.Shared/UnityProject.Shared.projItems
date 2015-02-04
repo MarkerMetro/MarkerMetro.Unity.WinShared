@@ -12,6 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\FBWebView.xaml.cs">
       <DependentUpon>FBWebView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Logging\RaygunExceptionLogger.cs" />
     <Content Include="$(MSBuildThisFileDirectory)iap_simulator.xml" />
     <Page Include="$(MSBuildThisFileDirectory)Controls\FBWebView.xaml">
       <SubType>Designer</SubType>

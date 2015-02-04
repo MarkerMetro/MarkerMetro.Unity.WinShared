@@ -106,14 +106,21 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\WindowsSolutionUniversal\UnityProject\UnityProject.Shared\Controls\FBWebView.xaml.cs">
+      <Link>Controls\FBWebView.xaml.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\WindowsSolutionUniversal\UnityProject\UnityProject.Shared\Logging\RaygunExceptionLogger.cs">
+      <Link>Common\Logging\RaygunExceptionLogger.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\WindowsSolutionUniversal\UnityProject\UnityProject.Windows\GameSettingsFlyout.xaml.cs">
+      <Link>GameSettingsFlyout.xaml.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\CommonApp.cs">
       <Link>Common\CommonApp.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\CommonMainPage.cs">
       <Link>Common\CommonMainPage.cs</Link>
     </Compile>
-    <Compile Include="Controls\FBWebView.xaml.cs" />
-    <Compile Include="GameSettingsFlyout.xaml.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -123,6 +130,7 @@
     <None Include="MetroTestCertificate.pfx" />
     <PRIResource Include="Resources\zh-Hans\Resources.resw" />
     <PRIResource Include="Resources\zh-Hant\Resources.resw" />
+    <None Include="packages.config" />
     <None Include="UnityProject.Win_StoreKey.pfx" />
     <PRIResource Include="Resources\zh-Hant\Resources.resw" />
     <PRIResource Include="Resources\zh-Hans\Resources.resw" />
@@ -171,7 +179,7 @@
     </Reference>
     <Reference Include="Mindscape.Raygun4Net.WindowsStore, Version=3.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\Mindscape.Raygun4Net.WindowsStore.dll</HintPath>
+      <HintPath>..\..\packages\Mindscape.Raygun4Net.4.2.0\lib\portable-net45+win81+wpa81+windows81\Mindscape.Raygun4Net.WindowsStore.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine">
       <HintPath>.\UnityEngine.dll</HintPath>
@@ -206,11 +214,13 @@
     <Reference Include="Assembly-CSharp-firstpass.dll">
       <HintPath>.\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
-    <Page Include="Controls\FBWebView.xaml">
+    <Page Include="..\..\..\WindowsSolutionUniversal\UnityProject\UnityProject.Shared\Controls\FBWebView.xaml">
+      <Link>Controls\FBWebView.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="GameSettingsFlyout.xaml">
+    <Page Include="..\..\..\WindowsSolutionUniversal\UnityProject\UnityProject.Windows\GameSettingsFlyout.xaml">
+      <Link>GameSettingsFlyout.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -274,7 +284,7 @@ echo UnityProjectDir '$(UnityProjectDir)'
 echo Copying assemblies...
 copy /Y "$(ProjectDir)Unprocessed\*" "$(ProjectDir)"
 echo Running AssemblyConverter...
-"$(UnityWSAPlayerDir)\Tools\AssemblyConverter.exe" -platform=wsa81 "$(ProjectDir)\Assembly-CSharp-firstpass.dll" "$(ProjectDir)\Assembly-CSharp.dll" "$(ProjectDir)\UnityEngine.dll" "$(ProjectDir)\WinRTLegacy.dll" "$(ProjectDir)\LitJson.dll" "$(ProjectDir)\MarkerMetro.Unity.WinLegacy.dll" "$(ProjectDir)\MarkerMetro.Unity.WinIntegration.dll" "$(ProjectDir)\Facebook.dll" "$(ProjectDir)\Mindscape.Raygun4Net.WindowsStore.dll" 
+"$(UnityWSAPlayerDir)\Tools\AssemblyConverter.exe" -platform=wsa81 "$(ProjectDir)\Assembly-CSharp-firstpass.dll" "$(ProjectDir)\Assembly-CSharp.dll" "$(ProjectDir)\UnityEngine.dll" "$(ProjectDir)\WinRTLegacy.dll" "$(ProjectDir)\LitJson.dll" "$(ProjectDir)\MarkerMetro.Unity.WinLegacy.dll" "$(ProjectDir)\MarkerMetro.Unity.WinIntegration.dll" "$(ProjectDir)\Facebook.dll"
 echo AssemblyConverter done.</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

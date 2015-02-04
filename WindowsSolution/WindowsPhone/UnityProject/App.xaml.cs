@@ -156,7 +156,7 @@ namespace UnityProject
                 }
                 else
                 {
-                    MarkerMetro.Unity.WinIntegration.ExceptionLogger.Instance.Send(e.ExceptionObject);
+                    MarkerMetro.Unity.WinIntegration.Logging.ExceptionLogger.Send(e.ExceptionObject);
                 }
             }
             catch (Exception ex)

@@ -18,10 +18,12 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using UnityPlayer;
 using System.Diagnostics;
+using UnityProject.Logging;
+using MarkerMetro.Unity.WinIntegration.Logging;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=234227
 
-namespace Template
+namespace UnityProject
 {
 	/// <summary>
 	/// Provides application-specific behavior to supplement the default Application class.
@@ -65,7 +67,7 @@ namespace Template
                 }
                 else
                 {
-                    MarkerMetro.Unity.WinIntegration.ExceptionLogger.Instance.Send(e.Exception);
+                    MarkerMetro.Unity.WinIntegration.Logging.ExceptionLogger.Send(e.Exception);
                 }
             }
             catch (Exception ex)
@@ -222,9 +224,9 @@ namespace Template
 
         void InitializeExceptionLogger()
         {
-            // get a Raygun API key for client and uncomment next line
+            // get a Raygun API key for client
 #if !(QA || DEBUG)
-            MarkerMetro.Unity.WinIntegration.ExceptionLogger.Initialize("J5M66WHC/fIcZWudEXXGOw==");
+            ExceptionLogger.Initialize(new RaygunExceptionLogger("J5M66WHC/fIcZWudEXXGOw=="));
 #endif
         }
 	}

@@ -49,7 +49,7 @@ namespace UnityProject.Win
         {
             try
             {
-                MarkerMetro.Unity.WinIntegration.ExceptionLogger.Instance.Send(e.Exception);
+                MarkerMetro.Unity.WinIntegration.Logging.ExceptionLogger.Send(e.Exception);
             }
             catch (Exception ex)
             {
