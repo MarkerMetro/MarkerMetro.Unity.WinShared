@@ -236,7 +236,7 @@
       <HintPath>.\MarkerMetro.Unity.WinLegacy.dll</HintPath>
     </Reference>
     <Reference Include="Mindscape.Raygun4Net.WindowsPhone">
-      <HintPath>.\Mindscape.Raygun4Net.WindowsPhone.dll</HintPath>
+      <HintPath>..\..\packages\Mindscape.Raygun4Net.4.2.0\lib\wp71\Mindscape.Raygun4Net.WindowsPhone.dll</HintPath>
     </Reference>
     <Reference Include="MockIAPLib">
       <HintPath>.\MockIAPLib.dll</HintPath>
