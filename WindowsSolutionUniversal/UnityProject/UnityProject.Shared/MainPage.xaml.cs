@@ -72,7 +72,11 @@ namespace Template
             settingsPane.CommandsRequested += SettingsPaneCommandsRequested;
 #endif
 
-            UnityPlayer.AppCallbacks.Instance.RenderingStarted += () => isUnityLoaded = true;
+            UnityPlayer.AppCallbacks.Instance.RenderingStarted += () =>
+                {
+                    isUnityLoaded = true;
+                  //  MarkerMetro.Unity.WinShared.IntegrationManager.Init();
+                };
 
             // create extended splash timer
             extendedSplashTimer = new DispatcherTimer();
