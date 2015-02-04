@@ -1,10 +1,14 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 using System.Xml;
 using System.Xml.Serialization;
 using System.IO;
 using System.Text;
+using System;
+using System.Linq;
+
+using Assets.Plugins.MarkerMetro;
+using System.Collections.Generic;
 
 
 namespace MarkerMetro.Unity.WinShared.Tools
@@ -86,9 +90,69 @@ namespace MarkerMetro.Unity.WinShared.Tools
         /// </summary>
         public bool IsGameSettingsEnabled
         {
-            get 
-            { 
+            get
+            {
                 return IsSettingsMusicFXOnOffEnabled || IsSettingsNotificationsOnOffEnabled;
+            }
+        }
+
+        public bool IsExceptionLoggingEnabled
+        {
+            get
+            {
+                return _settings.ExceptionLoggingSettings.Enabled;
+            }
+#if UNITY_EDITOR
+            set
+            {
+                _settings.ExceptionLoggingSettings.Enabled = value;
+                _settings.Save();
+            }
+#endif
+        }
+
+        public string ExceptionLoggingApiKey
+        {
+            get
+            {
+                return _settings.ExceptionLoggingSettings.ApiKey;
+            }
+#if UNITY_EDITOR
+            set
+            {
+                _settings.ExceptionLoggingSettings.ApiKey = value;
+                _settings.Save();
+            }
+#endif
+        }
+
+        // Unity doesn't support ISet :(
+        public HashSet<Environment> ExceptionLoggingAutoLogEnvironments
+        {
+            get
+            {
+                // Returning new instance since List<>.AsReadOnly() is not supported.
+                return new HashSet<Environment>(_settings.ExceptionLoggingSettings.AutoLogEnvironments);
+            }
+#if UNITY_EDITOR
+            set
+            {
+                _settings.ExceptionLoggingSettings.AutoLogEnvironments = new HashSet<Environment>(value);
+                _settings.Save();
+            }
+#endif
+        }
+
+        public bool IsExceptionLoggingEnabledForEnvironment(Environment env)
+        {
+            return ExceptionLoggingAutoLogEnvironments.Any(exceptionEnv => exceptionEnv == env);
+        }
+
+        public bool IsExceptionLoggingEnabledForCurrentEnvironment
+        {
+            get
+            {
+                return IsExceptionLoggingEnabledForEnvironment(DeviceInformation.GetEnvironment());
             }
         }
 
@@ -103,29 +167,40 @@ namespace MarkerMetro.Unity.WinShared.Tools
         // Having accessors in the manager class also allows us to save when settings something.
         public class Settings
         {
+            public class ExceptionLogging
+            {
+                public bool Enabled = true;
+                public string ApiKey = "";
+                public HashSet<Environment> AutoLogEnvironments;
+
+                internal ExceptionLogging()
+                {
+                    AutoLogEnvironments = new HashSet<Environment>();
+                }
+            }
+
             const string _filename = "WinSharedSettings";
             const string _path = ".\\Assets\\MarkerMetro\\Resources\\" + _filename + ".xml";
 
             public bool SettingsNotificationsOnOffEnabled;
             public bool SettingsMusicFXOnOffEnabled;
             public bool IapDisclaimerEnabled;
-
+     		public ExceptionLogging ExceptionLoggingSettings = new ExceptionLogging();
+       
+#if UNITY_EDITOR
             /// <summary>
             /// Save is only available for Unity Editor. Use FeaturesManager to access and save settings.
             /// </summary>
             internal void Save()
             {
-#if UNITY_EDITOR
                 var serializer = new XmlSerializer(typeof(Settings));
                 var encoding = Encoding.GetEncoding("UTF-8");
                 using (var stream = new StreamWriter(_path, false, encoding))
                 {
                     serializer.Serialize(stream, this);
                 }
-#else
-            throw new System.InvalidOperationException("Setting a Feature is only possible via Unity Editor");
-#endif
             }
+#endif
 
             internal static Settings Load()
             {

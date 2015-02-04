@@ -265,6 +265,8 @@ public class GUIMain : MonoBehaviour {
         GUILayout.Label(_gameMasterScript.Internet, GUILayout.MaxWidth(WindowWidth));
         GUILayout.Label(_gameMasterScript.MeteredConnection, GUILayout.MaxWidth(WindowWidth));
         GUILayout.Label(_gameMasterScript.EnvironmentConfiguration, GUILayout.MaxWidth(WindowWidth));
+        GUILayout.Label(_gameMasterScript.ExceptionLoggingEnabledForEnvironment, 
+            GUILayout.MaxWidth(WindowWidth));
 
         GUI.skin.label.alignment = TextAnchor.MiddleCenter;
 
