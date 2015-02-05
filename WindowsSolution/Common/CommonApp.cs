@@ -1,6 +1,4 @@
-﻿using MarkerMetro.Unity.WinIntegration.Logging;
-using UnityProject.Logging;
-
+﻿
 #if NETFX_CORE
 namespace UnityProject.Win
 #else
@@ -15,15 +13,6 @@ namespace UnityProject
      */
     public sealed partial class App
     {
-        /**
-         * Call this on MainPage.xaml.cs.
-         */
-        void InitializeExceptionLogger()
-        {
-#if !(QA || DEBUG)
-            // get a Raygun API key for client
-            ExceptionLogger.Initialize(new RaygunExceptionLogger("J5M66WHC/fIcZWudEXXGOw=="));
-#endif
-        }
+
     }
 }

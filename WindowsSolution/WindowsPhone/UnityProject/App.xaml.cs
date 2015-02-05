@@ -16,6 +16,9 @@ using UnityProject.WinPhone;
 using UnityProject.WinPhone.Resources;
 using System.Diagnostics;
 
+using MarkerMetro.Unity.WinShared.Tools;
+using MarkerMetro.Unity.WinIntegration.Logging;
+
 namespace UnityProject
 {
 	public partial class App : Application
@@ -31,8 +34,6 @@ namespace UnityProject
 		/// </summary>
 		public App()
 		{
-            InitializeExceptionLogger();
-
 			// Global handler for uncaught exceptions.
 			UnhandledException += Application_UnhandledException;
 
@@ -156,7 +157,11 @@ namespace UnityProject
                 }
                 else
                 {
-                    MarkerMetro.Unity.WinIntegration.Logging.ExceptionLogger.Send(e.ExceptionObject);
+                    if (ExceptionLogger.IsEnabled)
+                    {
+                        ExceptionLogger.Send(e.ExceptionObject);
+                        ExceptionLogger.IsEnabled = FeaturesManager.Instance.IsExceptionLoggingEnabledForCurrentEnvironment;
+                    }
                 }
             }
             catch (Exception ex)
