@@ -5,6 +5,7 @@ using UnityEngine;
 using MarkerMetro.Unity.WinIntegration;
 using MarkerMetro.Unity.WinIntegration.LocalNotifications;
 using MarkerMetro.Unity.WinIntegration.Facebook;
+using MarkerMetro.Unity.WinIntegration.Logging;
 using MarkerMetro.Unity.WinShared.Tools;
 
 #if (UNITY_WP8 || UNITY_WP_8_1) && !UNITY_EDITOR
@@ -30,6 +31,7 @@ public class GUIMain : MonoBehaviour {
     GameMaster _gameMasterScript;
     bool _showInfo = false;
     float _facebookMenuHeight;
+    string _apiKey;
 
     void Start ()
     {
@@ -299,8 +301,23 @@ public class GUIMain : MonoBehaviour {
 
     void ExceptionLogginGUI (int windowID)
     {
+        GUILayout.Label("API Key:");
+
+        if (string.IsNullOrEmpty(_apiKey))
+        {
+            _apiKey = GUILayout.TextField(FeaturesManager.Instance.ExceptionLoggingApiKey);
+        }
+        else
+        {
+            _apiKey = GUILayout.TextField(_apiKey);
+        }
+
         if (GUILayout.Button("Log App Crash", GUILayout.MinHeight(ButtonHeight)))
         {
+            if (!ExceptionLogger.IsInitialized)
+            {
+                _gameMasterScript.InitializeLogger(_apiKey);
+            }
             _gameMasterScript.LogAppCrash();
         }
 
