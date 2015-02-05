@@ -32,30 +32,29 @@ namespace UnityProject.Win
             musicSwitch.Visibility = soundSwitch.Visibility = fm.IsSettingsMusicFXOnOffEnabled ?
                 Visibility.Visible : Visibility.Collapsed;
 
-            // get the state of music/sound from the game
-            //musicSwitch.IsOn = PlayerPrefs.GetInt(Constants.optMusic) == 0 ? false : true;
-            //soundSwitch.IsOn = PlayerPrefs.GetInt(Constants.optSFX) == 0 ? false : true;
             reminderSwitch.IsOn = ReminderManager.AreRemindersEnabled();
+            
+            // get the state of music/sound from the game
+            musicSwitch.IsOn = GameMaster.MusicEnabled;
+            soundSwitch.IsOn = GameMaster.SoundEnabled;
         }
 
         public void ActivateSound(bool active)
         {
-            // control sound in game
-            //if (active)
-            //    NGUITools.soundVolume = 1f;
-            //else
-            //    NGUITools.soundVolume = 0f;
-            //OptionsScreen.WRT_FireSoundsChanged(active);
+            // if clause to not play the sound when GameSettingsFlyout is constructed.
+            if (GameMaster.SoundEnabled != active)
+            {
+                GameMaster.SoundEnabled = active;
+            }
         }
 
         public void ActivateMusic(bool active)
         {
-            // control music in game
-            //if (active)
-            //    SoundEngine.Play(UnityEngine.Resources.Load<AudioClip>(Constants.MUSIC_LOOP_NORMAL), Vector3.zero, .75f, 1f, true);
-            //else
-            //    SoundEngine.StopAllCurrentSounds();
-            //OptionsScreen.WRT_FireMusicChanged(active);
+            // if clause to not play the sound when GameSettingsFlyout is constructed.
+            if (GameMaster.MusicEnabled != active)
+            {
+                GameMaster.MusicEnabled = active;
+            }
         }
 
         public void ActivateReminder(bool active)
@@ -68,23 +67,18 @@ namespace UnityProject.Win
 
         void musicSwitch_Toggled(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("musicSwitch_Toggled: " + musicSwitch.IsOn);
             var value = musicSwitch.IsOn;
             UnityPlayer.AppCallbacks.Instance.InvokeOnAppThread(() => ActivateMusic(value), false);
-            //PlayerPrefs.SetInt(Constants.optMusic, value ? 1 : 0);
         }
 
         void soundSwitch_Toggled(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("soundSwitch_Toggled: " + soundSwitch.IsOn);
             var value = soundSwitch.IsOn;
             UnityPlayer.AppCallbacks.Instance.InvokeOnAppThread(() => ActivateSound(value), false);
-            //PlayerPrefs.SetInt(Constants.optSFX, value ? 1 : 0);
         }
 
         void reminderSwitch_Toggled(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("reminderSwitch_Toggled: " + reminderSwitch.IsOn);
             var value = reminderSwitch.IsOn;
             ReminderManager.SetRemindersStatus(value);
             UnityPlayer.AppCallbacks.Instance.InvokeOnAppThread(() => ActivateReminder(value), false);
