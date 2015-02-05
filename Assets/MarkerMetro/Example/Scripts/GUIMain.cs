@@ -307,7 +307,6 @@ public class GUIMain : MonoBehaviour {
 
         if (GUILayout.Button("Log Unity Exception", GUILayout.MinHeight(ButtonHeight)))
         {
-            ExceptionLogger.IsEnabled = true;
             throw new System.Exception("This is test exception from Unity code");
         }
     }
