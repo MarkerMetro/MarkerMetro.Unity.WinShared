@@ -27,9 +27,9 @@ namespace UnityProject.Win
             this.InitializeComponent();
 
             var fm = FeaturesManager.Instance;
-            reminderSwitch.Visibility = fm.IsSettingsNotificationsOnOffEnabled ? 
+            reminderSwitch.Visibility = fm.IsSettingsNotificationsControlEnabled ? 
                 Visibility.Visible : Visibility.Collapsed;
-            musicSwitch.Visibility = soundSwitch.Visibility = fm.IsSettingsMusicFXOnOffEnabled ?
+            musicSwitch.Visibility = soundSwitch.Visibility = fm.IsSettingsMusicFXControlEnabled ?
                 Visibility.Visible : Visibility.Collapsed;
 
             reminderSwitch.IsOn = ReminderManager.AreRemindersEnabled();
