@@ -40,9 +40,9 @@ namespace MarkerMetro.Unity.WinShared
                         {
                             MarkerMetro.Unity.WinIntegration.Logging.ExceptionLogger.Send(message, stackTrace);
                             WinIntegration.Logging.ExceptionLogger.IsEnabled = FeaturesManager.Instance.IsExceptionLoggingEnabledForCurrentEnvironment;
-
-                            WinIntegration.Helper.Instance.ShowDialog(message, "Exception Thrown", null, "OK");
                         }
+
+                        WinIntegration.Helper.Instance.ShowDialog(message, "Exception Thrown", null, "OK");
                     }
                     catch (System.Exception ex)
                     {
