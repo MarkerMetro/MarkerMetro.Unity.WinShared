@@ -228,11 +228,7 @@
   <Import Project="..\UnityProject.Shared\UnityProject.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>copy /Y "$(ProjectDir)\Plugins\Metro\Facebook.Client.dll" "$(ProjectDir)Facebook.Client.dll"
-if exist "$(ProjectDir)Facebook.Client.pdb" del "$(ProjectDir)Facebook.Client.pdb"
-if exist "$(ProjectDir)Facebook.Client.dll.mdb" del "$(ProjectDir)Facebook.Client.dll.mdb"
-if exist "$(ProjectDir)\Plugins\Metro\Facebook.Client.pdb" copy /Y "$(ProjectDir)\Plugins\Metro\Facebook.Client.pdb" "$(ProjectDir)Facebook.Client.pdb"
-copy /Y "$(ProjectDir)\Plugins\Metro\Facebook.dll" "$(ProjectDir)Facebook.dll"
+    <PreBuildEvent>copy /Y "$(ProjectDir)\Plugins\Metro\Facebook.dll" "$(ProjectDir)Facebook.dll"
 if exist "$(ProjectDir)Facebook.pdb" del "$(ProjectDir)Facebook.pdb"
 if exist "$(ProjectDir)Facebook.dll.mdb" del "$(ProjectDir)Facebook.dll.mdb"
 if exist "$(ProjectDir)\Plugins\Metro\Facebook.pdb" copy /Y "$(ProjectDir)\Plugins\Metro\Facebook.pdb" "$(ProjectDir)Facebook.pdb"
