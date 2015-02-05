@@ -26,7 +26,10 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.Popups;
+using MarkerMetro.Unity.WinShared;
 using MarkerMetro.Unity.WinShared.Tools;
+using MarkerMetro.Unity.WinIntegration;
+using MarkerMetro.Unity.WinIntegration.Logging;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -59,25 +62,29 @@ namespace UnityProject.Win
 
             // Configure settings charm
             settingsPane = SettingsPane.GetForCurrentView();
-            settingsPane.CommandsRequested += settingsPane_CommandsRequested;
+            settingsPane.CommandsRequested += SettingsPaneCommandsRequested;
 
             UnityPlayer.AppCallbacks.Instance.RenderingStarted += () =>
                 {
                     isUnityLoaded = true;
-                    MarkerMetro.Unity.WinShared.IntegrationManager.Init();
+
+                    InitializeExceptionLogger();
+
+                    IntegrationManager.Init();
+                    IntegrationManager.CrashApp += Crash;
                 };
 
             // create extended splash timer
             extendedSplashTimer = new DispatcherTimer();
             extendedSplashTimer.Interval = TimeSpan.FromMilliseconds(100);
-            extendedSplashTimer.Tick += ExtendedSplashTimer_Tick;
+            extendedSplashTimer.Tick += ExtendedSplashTimerTick;
             extendedSplashTimer.Start();
         }
 
         /// <summary>
         /// Control the extended splash experience
         /// </summary>
-        async void ExtendedSplashTimer_Tick(object sender, object e)
+        async void ExtendedSplashTimerTick(object sender, object e)
         {
             var increment = extendedSplashTimer.Interval.TotalMilliseconds;
             if (!isUnityLoaded && SplashProgress.Value <= (SplashProgress.Maximum - increment))
@@ -93,7 +100,7 @@ namespace UnityProject.Win
             }
         }
 
-        void settingsPane_CommandsRequested(SettingsPane sender, SettingsPaneCommandsRequestedEventArgs args)
+        void SettingsPaneCommandsRequested(SettingsPane sender, SettingsPaneCommandsRequestedEventArgs args)
         {
             var loader = ResourceLoader.GetForViewIndependentUse();
 
@@ -119,7 +126,7 @@ namespace UnityProject.Win
                     loader.GetString("SettingsCharm_PrivacyPolicy"),
                     h => OnViewUrl(loader.GetString("SettingsCharm_PrivacyPolicy_Url"))));
 
-#if DEBUG
+#if DEBUG || QA
             args.Request.ApplicationCommands.Add(
                 new SettingsCommand(Guid.NewGuid(),
                     "Crash",
@@ -127,26 +134,21 @@ namespace UnityProject.Win
 #endif
         }
 
-#if DEBUG
-
         static async void Crash()
         {
-            var dialog = new MessageDialog("Do you want to cause the crash to test error reporting?", "Crash?")
-            {
-               CancelCommandIndex = 1,
-            };
+            var dialog = new MessageDialog("Do you want to cause the crash to test error reporting?", "Crash?");
+
             dialog.Commands.Add(new UICommand("Yes"));
             dialog.Commands.Add(new UICommand("No"));
 
             var result = await dialog.ShowAsync();
 
-            if (result.Label=="Yes")
+            if (result.Label == "Yes")
             {
+                ExceptionLogger.IsEnabled = true;
                 throw new InvalidOperationException("A test crash from Windows Store solution!");
             }
         }
-
-#endif
 
         static void OnViewUrl(string url)
         {
@@ -289,6 +291,10 @@ namespace UnityProject.Win
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
+                if (ExceptionLogger.IsEnabled)
+                {
+                    ExceptionLogger.Send(ex);
+                }
             }
         }
 

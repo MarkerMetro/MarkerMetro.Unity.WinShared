@@ -14,11 +14,11 @@
     Foreground="{StaticResource PhoneForegroundBrush}" 
     Orientation="Landscape" 
     SupportedOrientations="Landscape" 
-    BackKeyPress="PhoneApplicationPage_BackKeyPress" 
-    OrientationChanged="PhoneApplicationPage_OrientationChanged">
+    BackKeyPress="PhoneApplicationPageBackKeyPress" 
+    OrientationChanged="PhoneApplicationPageOrientationChanged">
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <DrawingSurfaceBackgroundGrid x:Name="DrawingSurfaceBackground" Loaded="DrawingSurfaceBackground_Loaded">
+    <DrawingSurfaceBackgroundGrid x:Name="DrawingSurfaceBackground" Loaded="DrawingSurfaceBackgroundLoaded">
         <Grid x:Name="ExtendedSplashGrid" Background="Black">
             <Image Source="{Binding [/Assets/ExtendedSplashScreenImage.jpg], Source={StaticResource ScaledLocalizedImageLocator}}" x:Name="ExtendedSplashImage" />
             <!-- set the maximum to a value which is just more than the load time on the slowest device (e.g. Arm) -->

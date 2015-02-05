@@ -1,14 +1,22 @@
 ﻿using System;
 using UnityEngine;
 using WinIntegration = MarkerMetro.Unity.WinIntegration;
+using MarkerMetro.Unity.WinShared.Tools;
 
 
 namespace MarkerMetro.Unity.WinShared
 {
-
-    
     public static class IntegrationManager
     {
+        public static event Action CrashApp;
+
+        public static void DoCrashApp ()
+        {
+            if (CrashApp != null)
+            {
+                CrashApp();
+            }
+        }
 
         /// <summary>
         /// Initializes all features on the Unity side.
@@ -28,17 +36,13 @@ namespace MarkerMetro.Unity.WinShared
                 {
                     try
                     {
-                        if (WinIntegration.Logging.ExceptionLogger.IsInitialized)
+                        if (WinIntegration.Logging.ExceptionLogger.IsEnabled)
                         {
-                            WinIntegration.Logging.ExceptionLogger.Send(message, stackTrace);
-                            WinIntegration.Helper.Instance.ShowDialog(message, "Exception Thrown", null, "OK");
+                            MarkerMetro.Unity.WinIntegration.Logging.ExceptionLogger.Send(message, stackTrace);
+                            WinIntegration.Logging.ExceptionLogger.IsEnabled = FeaturesManager.Instance.IsExceptionLoggingEnabledForCurrentEnvironment;
                         }
-                        else
-                        {
-                            WinIntegration.Helper.Instance.ShowDialog(String.Format(
-                                "You have not initialized an exception logger. Exception:\n{0}\n{1}",
-                                message, stackTrace), "Exception Thrown", null, "OK");
-                        }
+
+                        WinIntegration.Helper.Instance.ShowDialog(message, "Exception Thrown", null, "OK");
                     }
                     catch (System.Exception ex)
                     {

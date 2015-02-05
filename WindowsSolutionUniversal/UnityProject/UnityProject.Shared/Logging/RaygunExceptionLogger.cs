@@ -9,7 +9,7 @@ namespace UnityProject.Logging
 {
 
     /// <summary>
-    /// Exception Logger.
+    /// Implementation of IExceptionLogger for Raygun Exception Logger.
     /// </summary>
     public sealed class RaygunExceptionLogger : IExceptionLogger
     {

@@ -5,8 +5,6 @@ using System.Threading.Tasks;
 using Windows.System;
 using System.Diagnostics;
 
-using UnityPlayer;
-
 #if WINDOWS_PHONE
 using System.Linq;
 using Microsoft.Phone.Info;
@@ -24,6 +22,11 @@ using Windows.UI.Notifications;
 using Windows.Data.Xml.Dom;
 using MarkerMetro.Unity.WinIntegration.Facebook;
 #endif
+
+using MarkerMetro.Unity.WinIntegration.Logging;
+using MarkerMetro.Unity.WinShared.Tools;
+using UnityProject.Logging;
+using UnityPlayer;
 
 using DeviceInformation = MarkerMetro.Unity.WinShared.Tools.DeviceInformation;
 using Environment = MarkerMetro.Unity.WinShared.Tools.Environment;
@@ -160,5 +163,25 @@ namespace UnityProject.WinPhone
             }
         }
 #endif
+        void InitializeExceptionLogger()
+        {
+            if (FeaturesManager.Instance.IsExceptionLoggingEnabled)
+            {
+                if (!string.IsNullOrEmpty(FeaturesManager.Instance.ExceptionLoggingApiKey))
+                {
+                    try
+                    {
+                        // Initialize Raygun with API key set in the features setting menu.
+                        ExceptionLogger.Initialize(new RaygunExceptionLogger(FeaturesManager.Instance.ExceptionLoggingApiKey));
+                        ExceptionLogger.IsEnabled = FeaturesManager.Instance.IsExceptionLoggingEnabledForCurrentEnvironment;
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine("Failed initializing exception logger.");
+                        Debug.WriteLine(ex.Message);
+                    }
+                }
+            }
+        }
     }
 }
