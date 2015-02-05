@@ -39,22 +39,22 @@ namespace MarkerMetro.Unity.WinShared.Tools
         void OnGUI()
         {
 
-            EditorGUILayout.LabelField("Windows Store and Windows Phone", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("General", EditorStyles.boldLabel);
             EditorGUI.indentLevel++;
 
-            DrawToggle("IAP Disclaimer", fm.IsIapDisclaimerEnabled,
+            DrawToggle("IAP Disclaimer (One Time)", fm.IsIapDisclaimerEnabled,
                 t => fm.IsIapDisclaimerEnabled = t);
 
             EditorGUILayout.Separator();
             EditorGUI.indentLevel--;
-            EditorGUILayout.LabelField("Windows Store", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("Settings (Windows)", EditorStyles.boldLabel);
             EditorGUI.indentLevel++;
 
-            DrawToggle("Settings - Music/FX On/Off", fm.IsSettingsMusicFXOnOffEnabled,
-                t => fm.IsSettingsMusicFXOnOffEnabled = t);
+            DrawToggle("Music/FX Control", fm.IsSettingsMusicFXControlEnabled,
+                t => fm.IsSettingsMusicFXControlEnabled = t);
 
-            DrawToggle("Settings - Reminders On/Off", fm.IsSettingsNotificationsOnOffEnabled,
-                t => fm.IsSettingsNotificationsOnOffEnabled = t);
+            DrawToggle("Notifications Control", fm.IsSettingsNotificationsControlEnabled,
+                t => fm.IsSettingsNotificationsControlEnabled = t);
 
             EditorGUI.indentLevel--;
 
@@ -110,7 +110,7 @@ namespace MarkerMetro.Unity.WinShared.Tools
         void DrawMemoryDisplaySettings()
         {
             EditorGUILayout.Separator();
-            DrawToggle("Display Memory Usage (Windows Phone 8.0)", fm.IsMemoryDisplayEnabled,
+            DrawToggle("Display Memory Usage (Windows Phone)", fm.IsMemoryDisplayEnabled,
                 t => fm.IsMemoryDisplayEnabled = t, true);
 
             if (fm.IsMemoryDisplayEnabled)

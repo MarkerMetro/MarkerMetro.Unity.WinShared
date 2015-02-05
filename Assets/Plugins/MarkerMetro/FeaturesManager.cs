@@ -40,31 +40,31 @@ namespace MarkerMetro.Unity.WinShared.Tools
             _settings = Settings.Load();
         }
 
-        public bool IsSettingsNotificationsOnOffEnabled
+        public bool IsSettingsNotificationsControlEnabled
         {
             get
             {
-                return _settings.SettingsNotificationsOnOffEnabled;
+                return _settings.SettingsNotificationsControlEnabled;
             }
 #if UNITY_EDITOR
             set
             {
-                _settings.SettingsNotificationsOnOffEnabled = value;
+                _settings.SettingsNotificationsControlEnabled = value;
                 _settings.Save();
             }
 #endif
         }
 
-        public bool IsSettingsMusicFXOnOffEnabled
+        public bool IsSettingsMusicFXControlEnabled
         {
             get
             {
-                return _settings.SettingsMusicFXOnOffEnabled;
+                return _settings.SettingsMusicFXControlEnabled;
             }
 #if UNITY_EDITOR
             set
             {
-                _settings.SettingsMusicFXOnOffEnabled = value;
+                _settings.SettingsMusicFXControlEnabled = value;
                 _settings.Save();
             }
 #endif
@@ -92,7 +92,7 @@ namespace MarkerMetro.Unity.WinShared.Tools
         {
             get
             {
-                return IsSettingsMusicFXOnOffEnabled || IsSettingsNotificationsOnOffEnabled;
+                return IsSettingsMusicFXControlEnabled || IsSettingsNotificationsControlEnabled;
             }
         }
 
@@ -250,8 +250,8 @@ namespace MarkerMetro.Unity.WinShared.Tools
             const string _filename = "WinSharedSettings";
             const string _path = ".\\Assets\\MarkerMetro\\Resources\\" + _filename + ".xml";
 
-            public bool SettingsNotificationsOnOffEnabled;
-            public bool SettingsMusicFXOnOffEnabled;
+            public bool SettingsNotificationsControlEnabled;
+            public bool SettingsMusicFXControlEnabled;
             public bool IapDisclaimerEnabled;
      		public ExceptionLogging ExceptionLoggingSettings = new ExceptionLogging();
             public EnvironmentDependentSettings MemoryDisplaySettings = new EnvironmentDependentSettings();
