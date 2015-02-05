@@ -67,6 +67,9 @@ namespace UnityProject.Win
             UnityPlayer.AppCallbacks.Instance.RenderingStarted += () =>
                 {
                     isUnityLoaded = true;
+
+                    InitializeExceptionLogger();
+
                     IntegrationManager.Init();
                     IntegrationManager.CrashApp += Crash;
                 };
@@ -131,13 +134,20 @@ namespace UnityProject.Win
 #endif
         }
 
-        void Crash()
+        static async void Crash()
         {
-            Helper.Instance.ShowDialog("Do you want to cause the crash to test error reporting?", "Crash?", (result) =>
+            var dialog = new MessageDialog("Do you want to cause the crash to test error reporting?", "Crash?");
+
+            dialog.Commands.Add(new UICommand("Yes"));
+            dialog.Commands.Add(new UICommand("No"));
+
+            var result = await dialog.ShowAsync();
+
+            if (result.Label == "Yes")
             {
                 ExceptionLogger.IsEnabled = true;
-                throw new InvalidOperationException("A test crash from Windows solution");
-            }, "Yes", "No");
+                throw new InvalidOperationException("A test crash from Windows Store solution!");
+            }
         }
 
         static void OnViewUrl(string url)

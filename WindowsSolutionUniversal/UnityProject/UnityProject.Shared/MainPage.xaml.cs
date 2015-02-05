@@ -30,6 +30,9 @@ using MarkerMetro.Unity.WinShared.Tools;
 using MarkerMetro.Unity.WinIntegration;
 using MarkerMetro.Unity.WinIntegration.Logging;
 
+using UnityProject.Logging;
+using Environment = MarkerMetro.Unity.WinShared.Tools.Environment;
+
 #if UNITY_METRO_8_1
 using Windows.UI.ApplicationSettings;
 using MarkerMetro.Unity.WinIntegration.Facebook;
@@ -78,6 +81,9 @@ namespace UnityProject
             UnityPlayer.AppCallbacks.Instance.RenderingStarted += () =>
                 {
                     isUnityLoaded = true;
+
+                    InitializeExceptionLogger();
+
                     IntegrationManager.Init();
                     IntegrationManager.CrashApp += Crash;
                 };
@@ -158,13 +164,21 @@ namespace UnityProject
             }, false);
         }
 #endif
-        void Crash()
+
+        static async void Crash()
         {
-            Helper.Instance.ShowDialog("Do you want to cause the crash to test error reporting?", "Crash?", (result) =>
+            var dialog = new MessageDialog("Do you want to cause the crash to test error reporting?", "Crash?");
+
+            dialog.Commands.Add(new UICommand("Yes"));
+            dialog.Commands.Add(new UICommand("No"));
+
+            var result = await dialog.ShowAsync();
+
+            if (result.Label=="Yes")
             {
                 ExceptionLogger.IsEnabled = true;
-                throw new InvalidOperationException("A test crash from Windows solution");
-            }, "Yes", "No");
+                throw new InvalidOperationException("A test crash from Windows Store solution!");
+            }
         }
 
         async void OnWindowVisibilityChanged(object sender, VisibilityChangedEventArgs e)
@@ -432,5 +446,32 @@ namespace UnityProject
             return new UnityPlayer.XamlPageAutomationPeer(this);
         }
 #endif
+
+        void InitializeExceptionLogger()
+        {
+            if (FeaturesManager.Instance.IsExceptionLoggingEnabled)
+            {
+                if (!string.IsNullOrEmpty(FeaturesManager.Instance.ExceptionLoggingApiKey))
+                {
+                    try
+                    {
+                        // Initialize Raygun with API key set in the features setting menu.
+                        ExceptionLogger.Initialize(new RaygunExceptionLogger(FeaturesManager.Instance.ExceptionLoggingApiKey));
+#if DEBUG
+                        ExceptionLogger.IsEnabled = FeaturesManager.Instance.IsExceptionLoggingEnabledForEnvironment(Environment.Dev);
+#elif QA
+                        ExceptionLogger.IsEnabled = FeaturesManager.Instance.IsExceptionLoggingEnabledForEnvironment(Environment.QA);
+#else
+                        ExceptionLogger.IsEnabled = FeaturesManager.Instance.IsExceptionLoggingEnabledForEnvironment(Environment.Production);
+#endif
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine("Failed initializing exception logger.");
+                        Debug.WriteLine(ex.Message);
+                    }
+                }
+            }
+        }
     }
 }

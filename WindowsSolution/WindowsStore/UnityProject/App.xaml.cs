@@ -37,8 +37,6 @@ namespace UnityProject.Win
 		/// </summary>
 		public App()
 		{
-            InitializeExceptionLogger();
-
             this.InitializeComponent();
 
 			appCallbacks = new AppCallbacks(false);
@@ -51,11 +49,9 @@ namespace UnityProject.Win
             {
                 if (ExceptionLogger.IsEnabled)
                 {
-                    MarkerMetro.Unity.WinIntegration.Logging.ExceptionLogger.Send(e.Exception);
+                    ExceptionLogger.Send(e.Exception);
                     ExceptionLogger.IsEnabled = FeaturesManager.Instance.IsExceptionLoggingEnabledForCurrentEnvironment;
                 }
-
-                MarkerMetro.Unity.WinIntegration.Logging.ExceptionLogger.Send(e.Exception);
             }
             catch (Exception ex)
             {

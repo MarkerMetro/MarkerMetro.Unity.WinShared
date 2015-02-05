@@ -116,6 +116,8 @@ namespace UnityProject.WinPhone
 		{
             IsUnityLoaded = true;
 
+            InitializeExceptionLogger();
+
             IntegrationManager.Init();
             IntegrationManager.CrashApp += Crash;
 
@@ -228,11 +230,17 @@ namespace UnityProject.WinPhone
 
         void Crash()
         {
-            Helper.Instance.ShowDialog("Do you want to cause the crash to test error reporting?", "Crash?", (result) =>
-            {
-                ExceptionLogger.IsEnabled = true;
-                throw new InvalidOperationException("A test crash from Windows solution");
-            }, "Yes", "No");
+            MarkerMetro.Unity.WinIntegration.Dispatcher.InvokeOnUIThread(() =>
+                {
+                    MessageBoxResult res = MessageBox.Show("Do you want to cause the crash to test error reporting?", "Crash?", MessageBoxButton.OKCancel);
+
+                    if (res == MessageBoxResult.OK)
+                    {
+                        ExceptionLogger.IsEnabled = true;
+                        throw new InvalidOperationException("A test crash from Windows solution");
+                    }
+
+                });
         }
 	}
 }

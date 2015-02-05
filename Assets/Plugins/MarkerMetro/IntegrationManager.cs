@@ -38,19 +38,10 @@ namespace MarkerMetro.Unity.WinShared
                     {
                         if (WinIntegration.Logging.ExceptionLogger.IsEnabled)
                         {
-                            if (FeaturesManager.Instance.ExceptionLoggingAutoLogEnvironments.Contains(DeviceInformation.GetEnvironment()))
-                            {
-                                MarkerMetro.Unity.WinIntegration.Logging.ExceptionLogger.Send(message, stackTrace);
-                                WinIntegration.Logging.ExceptionLogger.IsEnabled = FeaturesManager.Instance.IsExceptionLoggingEnabledForCurrentEnvironment;
+                            MarkerMetro.Unity.WinIntegration.Logging.ExceptionLogger.Send(message, stackTrace);
+                            WinIntegration.Logging.ExceptionLogger.IsEnabled = FeaturesManager.Instance.IsExceptionLoggingEnabledForCurrentEnvironment;
 
-                                WinIntegration.Helper.Instance.ShowDialog(message, "Exception Thrown", null, "OK");
-                            }
-                        }
-                        else
-                        {
-                            WinIntegration.Helper.Instance.ShowDialog(String.Format(
-                                "You have not initialized an exception logger. Exception:\n{0}\n{1}",
-                                message, stackTrace), "Exception Thrown", null, "OK");
+                            WinIntegration.Helper.Instance.ShowDialog(message, "Exception Thrown", null, "OK");
                         }
                     }
                     catch (System.Exception ex)

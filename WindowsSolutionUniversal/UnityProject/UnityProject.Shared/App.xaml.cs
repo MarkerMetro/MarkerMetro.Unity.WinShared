@@ -18,10 +18,9 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using UnityPlayer;
 using System.Diagnostics;
-using UnityProject.Logging;
-using MarkerMetro.Unity.WinIntegration.Logging;
+
 using MarkerMetro.Unity.WinShared.Tools;
-using Environment = MarkerMetro.Unity.WinShared.Tools.Environment;
+using MarkerMetro.Unity.WinIntegration.Logging;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=234227
 
@@ -43,8 +42,6 @@ namespace UnityProject
 		public App()
 		{
 			this.InitializeComponent();
-
-            InitializeExceptionLogger();
 
             appCallbacks = new AppCallbacks(false);
             UnhandledException += LogUnhandledException;
@@ -226,33 +223,6 @@ namespace UnityProject
         public void InvokeOnUIThread(Action callback)
         {
             appCallbacks.InvokeOnUIThread(() => callback(), false);
-        }
-
-        void InitializeExceptionLogger()
-        {
-            if (FeaturesManager.Instance.IsExceptionLoggingEnabled)
-            {
-                if (!string.IsNullOrEmpty(FeaturesManager.Instance.ExceptionLoggingApiKey))
-                {
-                    try
-                    {
-                        // Initialize Raygun with API key set in the features setting menu.
-                        ExceptionLogger.Initialize(new RaygunExceptionLogger(FeaturesManager.Instance.ExceptionLoggingApiKey));
-#if DEBUG
-                        ExceptionLogger.IsEnabled = FeaturesManager.Instance.IsExceptionLoggingEnabledForEnvironment(Environment.Dev);
-#elif QA
-                        ExceptionLogger.IsEnabled = FeaturesManager.Instance.IsExceptionLoggingEnabledForEnvironment(Environment.QA);
-#else
-                        ExceptionLogger.IsEnabled = FeaturesManager.Instance.IsExceptionLoggingEnabledForEnvironment(Environment.Production);
-#endif
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.WriteLine("Failed initializing exception logger.");
-                        Debug.WriteLine(ex.Message);
-                    }
-                }
-            }
         }
 	}
 }
