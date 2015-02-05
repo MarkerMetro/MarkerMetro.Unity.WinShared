@@ -9,7 +9,9 @@ using MarkerMetro.Unity.WinIntegration.Resources;
 using MarkerMetro.Unity.WinIntegration.LocalNotifications;
 using MarkerMetro.Unity.WinIntegration.Store;
 using MarkerMetro.Unity.WinIntegration.VideoPlayer;
+using MarkerMetro.Unity.WinIntegration.Logging;
 using LitJson;
+using MarkerMetro.Unity.WinShared;
 using MarkerMetro.Unity.WinShared.Tools;
 
 #if (UNITY_WP8 || UNITY_WP_8_1) && !UNITY_EDITOR
@@ -675,5 +677,11 @@ public class GameMaster : MonoBehaviour {
             Debug.Log("Video Stopped.");
         }, VideoStretch.Uniform);
 #endif
+    }
+
+    public void LogAppCrash ()
+    {
+        ExceptionLogger.IsEnabled = true;
+        IntegrationManager.DoCrashApp();
     }
 }

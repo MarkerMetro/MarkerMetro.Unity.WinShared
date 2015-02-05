@@ -20,6 +20,8 @@ using UnityPlayer;
 using System.Diagnostics;
 using UnityProject.Logging;
 using MarkerMetro.Unity.WinIntegration.Logging;
+using MarkerMetro.Unity.WinShared.Tools;
+using Environment = MarkerMetro.Unity.WinShared.Tools.Environment;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=234227
 
@@ -67,7 +69,11 @@ namespace UnityProject
                 }
                 else
                 {
-                    MarkerMetro.Unity.WinIntegration.Logging.ExceptionLogger.Send(e.Exception);
+                    if (ExceptionLogger.IsEnabled)
+                    {                        
+                        MarkerMetro.Unity.WinIntegration.Logging.ExceptionLogger.Send(e.Exception);
+                        ExceptionLogger.IsEnabled = FeaturesManager.Instance.IsExceptionLoggingEnabledForCurrentEnvironment;
+                    }
                 }
             }
             catch (Exception ex)
@@ -224,10 +230,29 @@ namespace UnityProject
 
         void InitializeExceptionLogger()
         {
-            // get a Raygun API key for client
-#if !(QA || DEBUG)
-            ExceptionLogger.Initialize(new RaygunExceptionLogger("J5M66WHC/fIcZWudEXXGOw=="));
+            if (FeaturesManager.Instance.IsExceptionLoggingEnabled)
+            {
+                if (!string.IsNullOrEmpty(FeaturesManager.Instance.ExceptionLoggingApiKey))
+                {
+                    try
+                    {
+                        // Initialize Raygun with API key set in the features setting menu.
+                        ExceptionLogger.Initialize(new RaygunExceptionLogger(FeaturesManager.Instance.ExceptionLoggingApiKey));
+#if DEBUG
+                        ExceptionLogger.IsEnabled = FeaturesManager.Instance.IsExceptionLoggingEnabledForEnvironment(Environment.Dev);
+#elif QA
+                        ExceptionLogger.IsEnabled = FeaturesManager.Instance.IsExceptionLoggingEnabledForEnvironment(Environment.QA);
+#else
+                        ExceptionLogger.IsEnabled = FeaturesManager.Instance.IsExceptionLoggingEnabledForEnvironment(Environment.Production);
 #endif
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine("Failed initializing exception logger.");
+                        Debug.WriteLine(ex.Message);
+                    }
+                }
+            }
         }
 	}
 }
