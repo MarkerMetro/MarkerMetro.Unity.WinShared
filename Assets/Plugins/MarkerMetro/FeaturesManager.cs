@@ -173,7 +173,7 @@ namespace MarkerMetro.Unity.WinShared.Tools
                 public string ApiKey = "";
                 public HashSet<Environment> AutoLogEnvironments;
 
-                internal ExceptionLogging()
+                public ExceptionLogging()
                 {
                     AutoLogEnvironments = new HashSet<Environment>();
                 }
