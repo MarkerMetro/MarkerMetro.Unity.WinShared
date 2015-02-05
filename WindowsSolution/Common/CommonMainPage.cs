@@ -48,20 +48,12 @@ namespace UnityProject.WinPhone
 #endif
 
         /**
-         * Exhibits information about memory usage in the game screen. WP8 only.
-         */
-        internal bool DisplayMemoryInfo = false; 
-
-        /**
          * Call this on MainPage.xaml.cs.
          */
         private void Initialize()
         {
             // wire up the configuration file handler:
             DeviceInformation.DoGetEnvironment = GetEnvironment;
-
-            if (DisplayMemoryInfo)
-                BeginRecording();
 
 #if NETFX_CORE
 

@@ -13,8 +13,7 @@ namespace MarkerMetro.Unity.WinShared.Tools
     /// </summary>
     public class FeaturesWindow : EditorWindow
     {
-        delegate void DrawToggle(string title, bool value, Action<bool> onUpdate, 
-            bool bold = false, bool limitWidth = false);
+        FeaturesManager fm = FeaturesManager.Instance;
 
         [MenuItem("Tools/MarkerMetro/Features", priority = 20)]
         static void Init()
@@ -22,10 +21,8 @@ namespace MarkerMetro.Unity.WinShared.Tools
             EditorWindow.GetWindow<FeaturesWindow>(false, "Features", true).Show();
         }
 
-        void OnGUI()
-        {
-            // Executes an action in case the toggle value changed:
-            DrawToggle draw = (title, value, onUpdate, bold, limitWidth) =>
+        void DrawToggle (string title, bool value, Action<bool> onUpdate, 
+            bool bold = false, bool limitWidth = false)
             {
                 var toggle = EditorGUILayout.ToggleLeft(title, value, 
                     bold ? EditorStyles.boldLabel : EditorStyles.label,
@@ -37,14 +34,15 @@ namespace MarkerMetro.Unity.WinShared.Tools
                     // Makes Unity notice the file change:
                     AssetDatabase.Refresh();
                 }
-            };
+            }
 
-            var fm = FeaturesManager.Instance;
+        void OnGUI()
+        {
 
             EditorGUILayout.LabelField("Windows Store and Windows Phone", EditorStyles.boldLabel);
             EditorGUI.indentLevel++;
 
-            draw("IAP Disclaimer", fm.IsIapDisclaimerEnabled,
+            DrawToggle("IAP Disclaimer", fm.IsIapDisclaimerEnabled,
                 t => fm.IsIapDisclaimerEnabled = t);
 
             EditorGUILayout.Separator();
@@ -52,17 +50,24 @@ namespace MarkerMetro.Unity.WinShared.Tools
             EditorGUILayout.LabelField("Windows Store", EditorStyles.boldLabel);
             EditorGUI.indentLevel++;
 
-            draw("Settings - Music/FX On/Off", fm.IsSettingsMusicFXOnOffEnabled,
+            DrawToggle("Settings - Music/FX On/Off", fm.IsSettingsMusicFXOnOffEnabled,
                 t => fm.IsSettingsMusicFXOnOffEnabled = t);
 
-            draw("Settings - Reminders On/Off", fm.IsSettingsNotificationsOnOffEnabled,
+            DrawToggle("Settings - Reminders On/Off", fm.IsSettingsNotificationsOnOffEnabled,
                 t => fm.IsSettingsNotificationsOnOffEnabled = t);
 
-            EditorGUILayout.Separator();
             EditorGUI.indentLevel--;
-            draw("Exception Logging", fm.IsExceptionLoggingEnabled,
+
+            DrawExceptionSettings();
+            DrawMemoryDisplaySettings();
+        }
+
+        void DrawExceptionSettings()
+        {
+            EditorGUILayout.Separator();
+            DrawToggle("Exception Logging", fm.IsExceptionLoggingEnabled,
                 t => fm.IsExceptionLoggingEnabled = t, true);
-            
+
             if (fm.IsExceptionLoggingEnabled)
             {
                 EditorGUI.indentLevel++;
@@ -75,23 +80,61 @@ namespace MarkerMetro.Unity.WinShared.Tools
 
                 GUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField("Auto Log", GUILayout.Width(70f));
-                
+
                 Action<string, Environment> updateEnv = (title, env) =>
+                {
+                    DrawToggle(title, fm.IsExceptionLoggingEnabledForEnvironment(env), t =>
                     {
-                        draw(title, fm.IsExceptionLoggingEnabledForEnvironment(env), t =>
-                            {
-                                var envs = new HashSet<Environment>(fm.ExceptionLoggingAutoLogEnvironments);
-                                if (t)
-                                {
-                                    envs.Add(env);
-                                }
-                                else
-                                {
-                                    envs.Remove(env);
-                                }
-                                fm.ExceptionLoggingAutoLogEnvironments = envs;
-                            }, false, true);
-                    };
+                        var envs = new HashSet<Environment>(fm.ExceptionLoggingAutoLogEnvironments);
+                        if (t)
+                        {
+                            envs.Add(env);
+                        }
+                        else
+                        {
+                            envs.Remove(env);
+                        }
+                        fm.ExceptionLoggingAutoLogEnvironments = envs;
+                    }, false, true);
+                };
+
+                updateEnv("Debug", Environment.Dev);
+                updateEnv("QA", Environment.QA);
+                updateEnv("Master", Environment.Production);
+
+                GUILayout.EndHorizontal();
+                EditorGUI.indentLevel--;
+            }
+        }
+
+        void DrawMemoryDisplaySettings()
+        {
+            EditorGUILayout.Separator();
+            DrawToggle("Display Memory Usage (Windows Phone 8.0)", fm.IsMemoryDisplayEnabled,
+                t => fm.IsMemoryDisplayEnabled = t, true);
+
+            if (fm.IsMemoryDisplayEnabled)
+            {
+                EditorGUI.indentLevel++;
+
+                GUILayout.BeginHorizontal();
+
+                Action<string, Environment> updateEnv = (title, env) =>
+                {
+                    DrawToggle(title, fm.IsMemoryDisplayEnabledForEnvironment(env), t =>
+                    {
+                        var envs = new HashSet<Environment>(fm.MemoryDisplayEnvironments);
+                        if (t)
+                        {
+                            envs.Add(env);
+                        }
+                        else
+                        {
+                            envs.Remove(env);
+                        }
+                        fm.MemoryDisplayEnvironments = envs;
+                    }, false, true);
+                };
 
                 updateEnv("Debug", Environment.Dev);
                 updateEnv("QA", Environment.QA);

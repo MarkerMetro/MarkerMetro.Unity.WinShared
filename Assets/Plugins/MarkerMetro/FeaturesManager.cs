@@ -137,7 +137,7 @@ namespace MarkerMetro.Unity.WinShared.Tools
 #if UNITY_EDITOR
             set
             {
-                _settings.ExceptionLoggingSettings.AutoLogEnvironments = new HashSet<Environment>(value);
+                _settings.ExceptionLoggingSettings.AutoLogEnvironments = value;
                 _settings.Save();
             }
 #endif
@@ -154,6 +154,51 @@ namespace MarkerMetro.Unity.WinShared.Tools
             {
                 return IsExceptionLoggingEnabledForEnvironment(DeviceInformation.GetEnvironment());
             }
+        }
+
+        public bool IsMemoryDisplayEnabled
+        {
+            get
+            {
+                return _settings.MemoryDisplaySettings.Enabled;
+            }
+#if UNITY_EDITOR
+            set
+            {
+                _settings.MemoryDisplaySettings.Enabled = value;
+                _settings.Save();
+            }
+#endif
+        }
+
+        public bool IsMemoryDisplayEnabledForCurrentEnvironment
+        {
+            get
+            {
+                return _settings.MemoryDisplaySettings.IsEnabledForCurrentEnvironment;
+            }
+        }
+
+        public bool IsMemoryDisplayEnabledForEnvironment(Environment env)
+        {
+            return _settings.MemoryDisplaySettings.Enabled && 
+                _settings.MemoryDisplaySettings.IsEnabledForEnvironment(env);
+        }
+
+        public HashSet<Environment> MemoryDisplayEnvironments
+        {
+            get
+            {
+                // Returning new instance since List<>.AsReadOnly() is not supported.
+                return new HashSet<Environment>(_settings.MemoryDisplaySettings.Environments);
+            }
+#if UNITY_EDITOR
+            set
+            {
+                _settings.MemoryDisplaySettings.Environments = value;
+                _settings.Save();
+            }
+#endif
         }
 
         public override string ToString()
@@ -179,6 +224,29 @@ namespace MarkerMetro.Unity.WinShared.Tools
                 }
             }
 
+            public class EnvironmentDependentSettings
+            {
+                public bool Enabled = true;
+                public HashSet<Environment> Environments;
+                public EnvironmentDependentSettings()
+                {
+                    Environments = new HashSet<Environment>();
+                }
+
+                public bool IsEnabledForCurrentEnvironment
+                {
+                    get 
+                    {
+                        return IsEnabledForEnvironment(DeviceInformation.GetEnvironment()); 
+                    }
+                }
+                public bool IsEnabledForEnvironment(Environment env)
+                {
+                    return Enabled && Environments.Any(exceptionEnv => exceptionEnv == env);
+                }
+
+            }
+
             const string _filename = "WinSharedSettings";
             const string _path = ".\\Assets\\MarkerMetro\\Resources\\" + _filename + ".xml";
 
@@ -186,6 +254,7 @@ namespace MarkerMetro.Unity.WinShared.Tools
             public bool SettingsMusicFXOnOffEnabled;
             public bool IapDisclaimerEnabled;
      		public ExceptionLogging ExceptionLoggingSettings = new ExceptionLogging();
+            public EnvironmentDependentSettings MemoryDisplaySettings = new EnvironmentDependentSettings();
        
 #if UNITY_EDITOR
             /// <summary>

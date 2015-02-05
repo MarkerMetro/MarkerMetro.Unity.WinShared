@@ -10,4 +10,10 @@
       <Environment>Production</Environment>
     </AutoLogEnvironments>
   </ExceptionLoggingSettings>
+  <MemoryDisplaySettings>
+    <Enabled>true</Enabled>
+    <Environments>
+      <Environment>Dev</Environment>
+    </Environments>
+  </MemoryDisplaySettings>
 </Settings>

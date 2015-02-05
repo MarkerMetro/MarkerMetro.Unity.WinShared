@@ -115,6 +115,7 @@ namespace UnityProject.WinPhone
 		{
             IsUnityLoaded = true;
 
+
             MarkerMetro.Unity.WinShared.IntegrationManager.Init();
 
 			SetupGeolocator();
@@ -128,6 +129,10 @@ namespace UnityProject.WinPhone
             if (FeaturesManager.Instance.IsIapDisclaimerEnabled)
             {
                 CheckForOFT();
+            }
+            if (FeaturesManager.Instance.IsMemoryDisplayEnabledForCurrentEnvironment)
+            {
+                BeginRecording();
             }
 		}
 
