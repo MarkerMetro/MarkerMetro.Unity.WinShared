@@ -5,7 +5,6 @@ using UnityEngine;
 using MarkerMetro.Unity.WinIntegration;
 using MarkerMetro.Unity.WinIntegration.LocalNotifications;
 using MarkerMetro.Unity.WinIntegration.Facebook;
-using MarkerMetro.Unity.WinIntegration.Logging;
 using MarkerMetro.Unity.WinShared.Tools;
 
 #if (UNITY_WP8 || UNITY_WP_8_1) && !UNITY_EDITOR

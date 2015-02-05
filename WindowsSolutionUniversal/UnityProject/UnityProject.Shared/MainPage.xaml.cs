@@ -457,13 +457,7 @@ namespace UnityProject
                     {
                         // Initialize Raygun with API key set in the features setting menu.
                         ExceptionLogger.Initialize(new RaygunExceptionLogger(FeaturesManager.Instance.ExceptionLoggingApiKey));
-#if DEBUG
-                        ExceptionLogger.IsEnabled = FeaturesManager.Instance.IsExceptionLoggingEnabledForEnvironment(Environment.Dev);
-#elif QA
-                        ExceptionLogger.IsEnabled = FeaturesManager.Instance.IsExceptionLoggingEnabledForEnvironment(Environment.QA);
-#else
-                        ExceptionLogger.IsEnabled = FeaturesManager.Instance.IsExceptionLoggingEnabledForEnvironment(Environment.Production);
-#endif
+                        ExceptionLogger.IsEnabled = FeaturesManager.Instance.IsExceptionLoggingEnabledForCurrentEnvironment;
                     }
                     catch (Exception ex)
                     {
