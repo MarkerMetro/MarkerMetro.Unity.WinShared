@@ -782,4 +782,9 @@ public class GameMaster : MonoBehaviour {
         ExceptionLogger.IsEnabled = true;
         IntegrationManager.DoCrashApp();
     }
+
+    public void InitializeLogger (string apiKey)
+    {
+        IntegrationManager.DoInitializeLogger(apiKey);
+    }
 }

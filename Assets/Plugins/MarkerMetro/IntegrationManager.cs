@@ -18,6 +18,15 @@ namespace MarkerMetro.Unity.WinShared
             }
         }
 
+        public static event Action<string> InitializeLogger;
+        public static void DoInitializeLogger (string apiKey)
+        {
+            if (InitializeLogger != null)
+            {
+                InitializeLogger(apiKey);
+            }
+        }
+
         /// <summary>
         /// Initializes all features on the Unity side.
         /// This method is supposed to be called from the Windows code at

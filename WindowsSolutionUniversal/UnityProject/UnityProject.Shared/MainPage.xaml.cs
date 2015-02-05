@@ -86,6 +86,7 @@ namespace UnityProject
 
                     IntegrationManager.Init();
                     IntegrationManager.CrashApp += Crash;
+                    IntegrationManager.InitializeLogger += InitializeLogger;
                 };
 
             // create extended splash timer
@@ -446,17 +447,15 @@ namespace UnityProject
             return new UnityPlayer.XamlPageAutomationPeer(this);
         }
 #endif
-
-        void InitializeExceptionLogger()
+        void InitializeLogger (string apiKey)
         {
             if (FeaturesManager.Instance.IsExceptionLoggingEnabled)
             {
-                if (!string.IsNullOrEmpty(FeaturesManager.Instance.ExceptionLoggingApiKey))
+                if (!string.IsNullOrEmpty(apiKey))
                 {
                     try
                     {
-                        // Initialize Raygun with API key set in the features setting menu.
-                        ExceptionLogger.Initialize(new RaygunExceptionLogger(FeaturesManager.Instance.ExceptionLoggingApiKey));
+                        ExceptionLogger.Initialize(new RaygunExceptionLogger(apiKey));
                         ExceptionLogger.IsEnabled = FeaturesManager.Instance.IsExceptionLoggingEnabledForCurrentEnvironment;
                     }
                     catch (Exception ex)
@@ -466,6 +465,12 @@ namespace UnityProject
                     }
                 }
             }
+        }
+
+        void InitializeExceptionLogger()
+        {
+            // Initialize Raygun with API key set in the features setting menu.
+            InitializeLogger(FeaturesManager.Instance.ExceptionLoggingApiKey);
         }
     }
 }
