@@ -125,6 +125,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\WindowsSolutionUniversal\UnityProject\UnityProject.Shared\Config\AppConfig.cs">
+      <Link>Config\AppConfig.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\WindowsSolutionUniversal\UnityProject\UnityProject.Shared\Logging\RaygunExceptionLogger.cs">
       <Link>Common\Logging\RaygunExceptionLogger.cs</Link>
     </Compile>

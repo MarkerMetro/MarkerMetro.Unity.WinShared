@@ -27,9 +27,9 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.Popups;
 using MarkerMetro.Unity.WinShared;
-using MarkerMetro.Unity.WinShared.Tools;
 using MarkerMetro.Unity.WinIntegration;
 using MarkerMetro.Unity.WinIntegration.Logging;
+using UnityProject.Config;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -104,7 +104,7 @@ namespace UnityProject.Win
         {
             var loader = ResourceLoader.GetForViewIndependentUse();
 
-            if (FeaturesManager.Instance.IsGameSettingsEnabled)
+            if (AppConfig.Instance.NoticationsControlEnabled || AppConfig.Instance.MusicFXControlEnabled)
             {
                 args.Request.ApplicationCommands.Add(new SettingsCommand(Guid.NewGuid(), 
                     loader.GetString("SettingsCharm_Settings"), h =>
@@ -372,7 +372,7 @@ namespace UnityProject.Win
                 onResizeHandler = null;
             }
 
-            if (FeaturesManager.Instance.IsIapDisclaimerEnabled)
+            if (AppConfig.Instance.IapDisclaimerEnabled)
             {
                 CheckForOFT();
             }

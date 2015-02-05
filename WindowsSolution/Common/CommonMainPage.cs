@@ -24,12 +24,10 @@ using MarkerMetro.Unity.WinIntegration.Facebook;
 #endif
 
 using MarkerMetro.Unity.WinIntegration.Logging;
-using MarkerMetro.Unity.WinShared.Tools;
 using UnityProject.Logging;
 using UnityPlayer;
-
-using DeviceInformation = MarkerMetro.Unity.WinShared.Tools.DeviceInformation;
-using Environment = MarkerMetro.Unity.WinShared.Tools.Environment;
+using MarkerMetro.Unity.WinShared;
+using UnityProject.Config;
 
 #if NETFX_CORE
 namespace UnityProject.Win
@@ -56,7 +54,7 @@ namespace UnityProject.WinPhone
         private void Initialize()
         {
             // wire up the configuration file handler:
-            DeviceInformation.DoGetEnvironment = GetEnvironment;
+            GameConfig.DoGetGameConfig = () => AppConfig.Instance;
 
 #if NETFX_CORE
 
@@ -65,17 +63,6 @@ namespace UnityProject.WinPhone
 
 #endif
 
-        }
-
-        internal Environment GetEnvironment()
-        {
-#if QA
-            return Environment.QA;
-#elif DEBUG
-            return Environment.Dev;
-#else
-            return Environment.Production;
-#endif
         }
 
         /**
@@ -165,15 +152,15 @@ namespace UnityProject.WinPhone
 #endif
         void InitializeExceptionLogger()
         {
-            if (FeaturesManager.Instance.IsExceptionLoggingEnabled)
+            if (AppConfig.Instance.ExceptionLoggingEnabled)
             {
-                if (!string.IsNullOrEmpty(FeaturesManager.Instance.ExceptionLoggingApiKey))
+                if (!string.IsNullOrEmpty(AppConfig.Instance.ExceptionLoggingApiKey))
                 {
                     try
                     {
                         // Initialize Raygun with API key set in the features setting menu.
-                        ExceptionLogger.Initialize(new RaygunExceptionLogger(FeaturesManager.Instance.ExceptionLoggingApiKey));
-                        ExceptionLogger.IsEnabled = FeaturesManager.Instance.IsExceptionLoggingEnabledForCurrentEnvironment;
+                        ExceptionLogger.Initialize(new RaygunExceptionLogger(AppConfig.Instance.ExceptionLoggingApiKey));
+                        ExceptionLogger.IsEnabled = AppConfig.Instance.ExceptionLoggingAllowed;
                     }
                     catch (Exception ex)
                     {

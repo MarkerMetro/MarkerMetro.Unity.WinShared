@@ -106,6 +106,9 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\WindowsSolutionUniversal\UnityProject\UnityProject.Shared\Config\AppConfig.cs">
+      <Link>Config\AppConfig.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\WindowsSolutionUniversal\UnityProject\UnityProject.Shared\Controls\FBWebView.xaml.cs">
       <Link>Controls\FBWebView.xaml.cs</Link>
     </Compile>
