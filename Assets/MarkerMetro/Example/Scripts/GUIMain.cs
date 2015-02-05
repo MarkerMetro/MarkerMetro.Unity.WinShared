@@ -305,12 +305,9 @@ public class GUIMain : MonoBehaviour {
 
         if (string.IsNullOrEmpty(_apiKey))
         {
-            _apiKey = GUILayout.TextField(FeaturesManager.Instance.ExceptionLoggingApiKey);
+            _apiKey = FeaturesManager.Instance.ExceptionLoggingApiKey;
         }
-        else
-        {
-            _apiKey = GUILayout.TextField(_apiKey);
-        }
+        _apiKey = GUILayout.TextField(_apiKey);
 
         if (GUILayout.Button("Log App Crash", GUILayout.MinHeight(ButtonHeight)))
         {
