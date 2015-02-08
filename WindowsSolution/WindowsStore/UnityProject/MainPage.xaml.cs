@@ -68,8 +68,6 @@ namespace UnityProject.Win
                 {
                     isUnityLoaded = true;
 
-                    InitializeExceptionLogger();
-
                     IntegrationManager.Init();
                     IntegrationManager.CrashApp += Crash;
                 };
@@ -127,10 +125,13 @@ namespace UnityProject.Win
                     h => OnViewUrl(loader.GetString("SettingsCharm_PrivacyPolicy_Url"))));
 
 #if DEBUG || QA
-            args.Request.ApplicationCommands.Add(
-                new SettingsCommand(Guid.NewGuid(),
-                    "Crash",
-                    h => Crash()));
+            if (AppConfig.Instance.ExceptionLoggingEnabled)
+            {
+                args.Request.ApplicationCommands.Add(
+                    new SettingsCommand(Guid.NewGuid(),
+                        "Crash",
+                        h => Crash()));
+            }
 #endif
         }
 

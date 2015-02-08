@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using UnityEngine;
 
 namespace UnityProject.Config
 {
@@ -67,7 +68,12 @@ namespace UnityProject.Config
 
         public string ExceptionLoggingApiKey
         {
-            get { return ""; } // set your api key here
+            get 
+            {
+                // set your api key here
+                var apiKey = PlayerPrefs.GetString("MarkerMetro.Unity.WinIntegration.Logging.ExceptionLogger.ApiKey");
+                return String.IsNullOrEmpty(apiKey) ? String.Empty : apiKey; 
+            } 
         }
 
         public List<BuildConfig> ExceptionLoggingBuildConfigs

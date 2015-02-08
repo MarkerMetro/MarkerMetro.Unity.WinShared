@@ -39,6 +39,8 @@ namespace UnityProject.Win
 		{
             this.InitializeComponent();
 
+            InitializeExceptionLogger();
+
 			appCallbacks = new AppCallbacks(false);
             UnhandledException += App_UnhandledException;
 		}
@@ -47,14 +49,23 @@ namespace UnityProject.Win
         {
             try
             {
-                if (ExceptionLogger.IsEnabled)
+                if (System.Diagnostics.Debugger.IsAttached)
                 {
-                    ExceptionLogger.Send(e.Exception);
-                    ExceptionLogger.IsEnabled = AppConfig.Instance.ExceptionLoggingAllowed;
+                    // An unhandled exception has occurred; break into the debugger
+                    System.Diagnostics.Debugger.Break();
+                }
+                else
+                {
+                    if (ExceptionLogger.IsEnabled)
+                    {
+                        ExceptionLogger.Send(e.Exception);
+                        ExceptionLogger.IsEnabled = AppConfig.Instance.ExceptionLoggingAllowed;
+                    }
                 }
             }
             catch (Exception ex)
             {
+                Debug.WriteLine("FAILED to report unhandled exception:");
                 Debug.WriteLine(ex.ToString());
             }
         }

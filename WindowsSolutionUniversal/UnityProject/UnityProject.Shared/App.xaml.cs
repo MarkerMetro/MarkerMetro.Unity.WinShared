@@ -21,6 +21,7 @@ using System.Diagnostics;
 using MarkerMetro.Unity.WinIntegration.Logging;
 using MarkerMetro.Unity.WinShared;
 using UnityProject.Config;
+using UnityProject.Logging;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=234227
 
@@ -50,9 +51,33 @@ namespace UnityProject
             var displayRequest = new Windows.System.Display.DisplayRequest();
             displayRequest.RequestActive();
 
+            InitializeExceptionLogger();
+
 #if DEBUG
             DebugSettings.EnableFrameRateCounter = true;
 #endif
+        }
+
+        void InitializeExceptionLogger()
+        {
+            if (AppConfig.Instance.ExceptionLoggingEnabled)
+            {
+                var apiKey = AppConfig.Instance.ExceptionLoggingApiKey;
+                if (!string.IsNullOrEmpty(apiKey))
+                {
+                    try
+                    {
+                        // swap this out with an IExceptionLogger implementation as required
+                        ExceptionLogger.Initialize(new RaygunExceptionLogger(apiKey));
+                        ExceptionLogger.IsEnabled = AppConfig.Instance.ExceptionLoggingAllowed;
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine("Failed initializing exception logger.");
+                        Debug.WriteLine(ex.Message);
+                    }
+                }
+            }
         }
 
         void LogUnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -68,7 +93,7 @@ namespace UnityProject
                 {
                     if (ExceptionLogger.IsEnabled)
                     {                        
-                        MarkerMetro.Unity.WinIntegration.Logging.ExceptionLogger.Send(e.Exception);
+                        ExceptionLogger.Send(e.Exception);
                         ExceptionLogger.IsEnabled = AppConfig.Instance.ExceptionLoggingAllowed;
                     }
                 }
