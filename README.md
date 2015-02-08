@@ -49,14 +49,6 @@ Tools > MarkerMetro provides some useful features for Unity developers porting t
 
 Alows you to quickly build to Windows 8.l, Windows Phone 8.0, Windows Universal or All (cycling through Windows 8.1, Windows Phone 8.0 and Windows Universal). 
 
-### Features Menu
-
-This allows to enable/disable some commonly used Windows features. Things like having the sound options in the charm settings or displaying an IAP disclaimer when opening the game for the first time.
-
-These features can be set in the _Features_ window under the _MarkerMetro_ menu on Unity.
-
-These settings are stored in a file called `WinSharedSettings.xml`, so you must add this file to your version control system once it becomes updated.
-
 ### Plugins Menu
 
 This repository includes a stable version of all dependent Marker Metro plugins. You can easily update to later versions, as well as use and debug local versions of WinLegacy and WinIntegration.
@@ -71,14 +63,6 @@ Building the plugins locally allows you also to easily debug a particular Window
 - Tools > MarkerMetro > Build > (e.g. Windows 8.1)
 - Set breakpoints in your platform specific plugin project and then F5 on your app
 
-## Windows Solution Build Output
-
-There are 2 base folders to be used for all Unity Projects, WindowsSolution (Windows 8.1 and Windows Phone 8.0) and WindowsSolutionUniversal (Windows 8.1 and Windows Phone 8.1 Universal). This contains the Windows Store and Windows Phone apps.
-
-You can then subsequently build out from Unity using the Tools > MarkerMetro > Build menu or specify the path manually via a standard File > Build Settings build. 
-
-Note that currently these projects are for Windows 8.1 and Windows Phone 8.0
-
 ## Sample Game and [WinIntegration](https://github.com/MarkerMetro/MarkerMetro.Unity.WinIntegration) Samples
 
 The FaceFlip.unity scene demonstrates some key ]WinIntegration](https://github.com/MarkerMetro/MarkerMetro.Unity.WinIntegration) features around a simple game such as:
@@ -89,7 +73,21 @@ The FaceFlip.unity scene demonstrates some key ]WinIntegration](https://github.c
 - Platform Specific Debug Info
 - Crash and Exception Testing (if configured)
 
-## QA and Master configurations
+## Windows Solution Build Output
+
+There are 2 base folders to be used for all Unity Projects, WindowsSolution (Windows 8.1 and Windows Phone 8.0) and WindowsSolutionUniversal (Windows 8.1 and Windows Phone 8.1 Universal). This contains the Windows Store and Windows Phone apps.
+
+You can then subsequently build out from Unity using the Tools > MarkerMetro > Build menu or specify the path manually via a standard File > Build Settings build. 
+
+Note that currently these projects are for Windows 8.1 and Windows Phone 8.0
+
+### Application Configuration
+
+Application configuration is provided via the /Config/AppConfig.cs class. You are able to turn various features on and off as well as supplying facebook and exception logging api keys for example.
+
+Note that this class implemented IGameConfig and is supplied to Unity game side as part of app initialization. This way you can have configuration which works across both the app and game levels. 
+
+### QA and Master configurations
 
 The Windows Solutions have QA and Master solution configurations. QA has been copied from Master to provide a production ready configuration that can support testing. 
 
