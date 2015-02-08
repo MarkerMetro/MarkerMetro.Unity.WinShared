@@ -15,9 +15,8 @@ using Microsoft.Phone.Shell;
 using UnityProject.WinPhone;
 using UnityProject.WinPhone.Resources;
 using System.Diagnostics;
-
-using MarkerMetro.Unity.WinShared.Tools;
 using MarkerMetro.Unity.WinIntegration.Logging;
+using UnityProject.Config;
 
 namespace UnityProject
 {
@@ -160,7 +159,7 @@ namespace UnityProject
                     if (ExceptionLogger.IsEnabled)
                     {
                         ExceptionLogger.Send(e.ExceptionObject);
-                        ExceptionLogger.IsEnabled = FeaturesManager.Instance.IsExceptionLoggingEnabledForCurrentEnvironment;
+                        ExceptionLogger.IsEnabled = AppConfig.Instance.ExceptionLoggingAllowed;
                     }
                 }
             }
@@ -207,7 +206,7 @@ namespace UnityProject
         void RootFrame_Navigating(object sender, NavigatingCancelEventArgs e)
         {
             // cancel any navigation for facebook protocol activation
-            var fbProtocolMatch = String.Format("/Protocol?encodedLaunchUri=fb{0}", Assets.Plugins.MarkerMetro.Constants.FBAppId);
+            var fbProtocolMatch = String.Format("/Protocol?encodedLaunchUri=fb{0}", AppConfig.Instance.FacebookAppId);
             if (e.Uri.ToString().StartsWith(fbProtocolMatch))
             {
                 e.Cancel = true;

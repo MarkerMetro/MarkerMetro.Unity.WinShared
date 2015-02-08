@@ -12,7 +12,6 @@ using MarkerMetro.Unity.WinIntegration.VideoPlayer;
 using MarkerMetro.Unity.WinIntegration.Logging;
 using LitJson;
 using MarkerMetro.Unity.WinShared;
-using MarkerMetro.Unity.WinShared.Tools;
 
 #if (UNITY_WP8 || UNITY_WP_8_1) && !UNITY_EDITOR
 using FBWin = MarkerMetro.Unity.WinIntegration.Facebook.FBNative;
@@ -97,8 +96,8 @@ public class GameMaster : MonoBehaviour {
     public string LowEnd { get; private set; }
     public string Internet { get; private set; }
     public string MeteredConnection { get; private set; }
-    public string EnvironmentConfiguration { get; private set; }
-    public string ExceptionLoggingEnabledForEnvironment { get; private set; }
+    public string BuildConfiguration { get; private set; }
+    public string ExceptionLoggingEnabledForBuildConfig { get; private set; }
 
     // Game info.
     public string Matches { get; private set; }
@@ -187,7 +186,7 @@ public class GameMaster : MonoBehaviour {
         ChangeState(GAME_STATE.GS_START);
 
 #if !UNITY_EDITOR && UNITY_WINRT
-        FBWin.Init(SetFBInit, Assets.Plugins.MarkerMetro.Constants.FBAppId, null);
+        FBWin.Init(SetFBInit, GameConfig.Instance.FacebookAppId, null);
 #endif
     }
 
@@ -210,8 +209,7 @@ public class GameMaster : MonoBehaviour {
         LowEnd = "Is Low End: " + Helper.Instance.IsLowEndDevice();
         Internet = "Is Online: " + Helper.Instance.HasInternetConnection;
         MeteredConnection = "Is metered connection: " + Helper.Instance.IsMeteredConnection;
-        ExceptionLoggingEnabledForEnvironment = "Exception logging for current Environment: " + 
-            FeaturesManager.Instance.IsExceptionLoggingEnabledForCurrentEnvironment;
+        ExceptionLoggingEnabledForBuildConfig = "Exception logging for current build config: " + GameConfig.Instance.ExceptionLoggingAllowed.ToString();
 #else
         AppVersion = "AppVersion: ";
         Language = "Language: ";
@@ -219,9 +217,9 @@ public class GameMaster : MonoBehaviour {
         LowEnd = "Is Low End: ";
         Internet = "Is Online: ";
         MeteredConnection = "Is metered connection: ";
-        ExceptionLoggingEnabledForEnvironment = "Exception logging enabled for current Environment:";
+        ExceptionLoggingEnabledForBuildConfig = "Exception logging enabled for current Build Config:";
 #endif
-        EnvironmentConfiguration = "Environment configuration: " + DeviceInformation.GetEnvironment().ToString();
+        BuildConfiguration = "Build config: " + GameConfig.Instance.CurrentBuildConfig.ToString();
     }
 	
 	void Update ()

@@ -26,12 +26,10 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.Popups;
 using MarkerMetro.Unity.WinShared;
-using MarkerMetro.Unity.WinShared.Tools;
 using MarkerMetro.Unity.WinIntegration;
 using MarkerMetro.Unity.WinIntegration.Logging;
-
 using UnityProject.Logging;
-using Environment = MarkerMetro.Unity.WinShared.Tools.Environment;
+using UnityProject.Config;
 
 #if UNITY_METRO_8_1
 using Windows.UI.ApplicationSettings;
@@ -67,8 +65,8 @@ namespace UnityProject
             onResizeHandler = new WindowSizeChangedEventHandler((o, e) => OnResize());
             Window.Current.SizeChanged += onResizeHandler;
 
-            // Wire up the configuration file handler:
-            MarkerMetro.Unity.WinShared.Tools.DeviceInformation.DoGetEnvironment = GetEnvironment;
+            // provide the unity game config via the app config
+            GameConfig.DoGetGameConfig = () => AppConfig.Instance;
 
             Window.Current.VisibilityChanged += OnWindowVisibilityChanged;
 
@@ -125,7 +123,7 @@ namespace UnityProject
         {
             var loader = ResourceLoader.GetForViewIndependentUse();
 
-            if (FeaturesManager.Instance.IsGameSettingsEnabled)
+            if (AppConfig.Instance.NoticationsControlEnabled || AppConfig.Instance.MusicFXControlEnabled)
             {
                 args.Request.ApplicationCommands.Add(new SettingsCommand(Guid.NewGuid(),
                     loader.GetString("SettingsCharm_Settings"), h =>
@@ -147,7 +145,7 @@ namespace UnityProject
                     loader.GetString("SettingsCharm_PrivacyPolicy"),
                     h => OnViewUrl(loader.GetString("SettingsCharm_PrivacyPolicy_Url"))));
 #if DEBUG || QA
-            if (FeaturesManager.Instance.IsExceptionLoggingEnabled)
+            if (AppConfig.Instance.ExceptionLoggingEnabled)
             {
                 args.Request.ApplicationCommands.Add(
                     new SettingsCommand(Guid.NewGuid(),
@@ -400,7 +398,7 @@ namespace UnityProject
                 Window.Current.SizeChanged -= onResizeHandler;
                 onResizeHandler = null;
             }
-            if (FeaturesManager.Instance.IsIapDisclaimerEnabled)
+            if (AppConfig.Instance.IapDisclaimerEnabled)
             {
                 CheckForOFT();
             }
@@ -430,16 +428,6 @@ namespace UnityProject
             }
         }
 
-        MarkerMetro.Unity.WinShared.Tools.Environment GetEnvironment()
-        {
-#if QA
-            return MarkerMetro.Unity.WinShared.Tools.Environment.QA;
-#elif DEBUG
-            return MarkerMetro.Unity.WinShared.Tools.Environment.Dev;
-#else
-            return MarkerMetro.Unity.WinShared.Tools.Environment.Production;
-#endif
-        }
 
 #if !UNITY_WP_8_1
         protected override Windows.UI.Xaml.Automation.Peers.AutomationPeer OnCreateAutomationPeer()
@@ -449,14 +437,14 @@ namespace UnityProject
 #endif
         void InitializeLogger (string apiKey)
         {
-            if (FeaturesManager.Instance.IsExceptionLoggingEnabled)
+            if (AppConfig.Instance.ExceptionLoggingEnabled)
             {
                 if (!string.IsNullOrEmpty(apiKey))
                 {
                     try
                     {
                         ExceptionLogger.Initialize(new RaygunExceptionLogger(apiKey));
-                        ExceptionLogger.IsEnabled = FeaturesManager.Instance.IsExceptionLoggingEnabledForCurrentEnvironment;
+                        ExceptionLogger.IsEnabled = AppConfig.Instance.ExceptionLoggingAllowed;
                     }
                     catch (Exception ex)
                     {
@@ -469,8 +457,7 @@ namespace UnityProject
 
         void InitializeExceptionLogger()
         {
-            // Initialize Raygun with API key set in the features setting menu.
-            InitializeLogger(FeaturesManager.Instance.ExceptionLoggingApiKey);
+            InitializeLogger(AppConfig.Instance.ExceptionLoggingApiKey);
         }
     }
 }

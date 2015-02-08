@@ -1,8 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using WinIntegration = MarkerMetro.Unity.WinIntegration;
-using MarkerMetro.Unity.WinShared.Tools;
-
+using System.Linq;
 
 namespace MarkerMetro.Unity.WinShared
 {
@@ -19,6 +18,7 @@ namespace MarkerMetro.Unity.WinShared
         }
 
         public static event Action<string> InitializeLogger;
+
         public static void DoInitializeLogger (string apiKey)
         {
             if (InitializeLogger != null)
@@ -48,7 +48,9 @@ namespace MarkerMetro.Unity.WinShared
                         if (WinIntegration.Logging.ExceptionLogger.IsEnabled)
                         {
                             MarkerMetro.Unity.WinIntegration.Logging.ExceptionLogger.Send(message, stackTrace);
-                            WinIntegration.Logging.ExceptionLogger.IsEnabled = FeaturesManager.Instance.IsExceptionLoggingEnabledForCurrentEnvironment;
+
+                            // reset the exception logger enable status via game settings
+                            WinIntegration.Logging.ExceptionLogger.IsEnabled = GameConfig.Instance.ExceptionLoggingAllowed;
                         }
 
                         WinIntegration.Helper.Instance.ShowDialog(message, "Exception Thrown", null, "OK");

@@ -18,9 +18,9 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using UnityPlayer;
 using System.Diagnostics;
-
-using MarkerMetro.Unity.WinShared.Tools;
 using MarkerMetro.Unity.WinIntegration.Logging;
+using MarkerMetro.Unity.WinShared;
+using UnityProject.Config;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=234227
 
@@ -69,7 +69,7 @@ namespace UnityProject
                     if (ExceptionLogger.IsEnabled)
                     {                        
                         MarkerMetro.Unity.WinIntegration.Logging.ExceptionLogger.Send(e.Exception);
-                        ExceptionLogger.IsEnabled = FeaturesManager.Instance.IsExceptionLoggingEnabledForCurrentEnvironment;
+                        ExceptionLogger.IsEnabled = AppConfig.Instance.ExceptionLoggingAllowed;
                     }
                 }
             }

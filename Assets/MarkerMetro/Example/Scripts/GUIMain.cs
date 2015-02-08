@@ -6,7 +6,7 @@ using MarkerMetro.Unity.WinIntegration;
 using MarkerMetro.Unity.WinIntegration.LocalNotifications;
 using MarkerMetro.Unity.WinIntegration.Facebook;
 using MarkerMetro.Unity.WinIntegration.Logging;
-using MarkerMetro.Unity.WinShared.Tools;
+using MarkerMetro.Unity.WinShared;
 
 #if (UNITY_WP8 || UNITY_WP_8_1) && !UNITY_EDITOR
 using FBWin = MarkerMetro.Unity.WinIntegration.Facebook.FBNative;
@@ -70,7 +70,7 @@ public class GUIMain : MonoBehaviour {
             }
 
             // Only show the exception logging menu when this feature is enabled.
-            if (FeaturesManager.Instance.IsExceptionLoggingEnabled)
+            if (GameConfig.Instance.ExceptionLoggingEnabled)
             {
                 // Exception logging menu.
                 GUILayout.Window(ExceptionLoggingWindowID, new Rect(Offset, Offset * 2 + _facebookMenuHeight, 0, 0), ExceptionLogginGUI, "Exception Logging", GUILayout.MinWidth(WindowWidth));
@@ -283,8 +283,8 @@ public class GUIMain : MonoBehaviour {
         GUILayout.Label(_gameMasterScript.LowEnd, GUILayout.MaxWidth(WindowWidth));
         GUILayout.Label(_gameMasterScript.Internet, GUILayout.MaxWidth(WindowWidth));
         GUILayout.Label(_gameMasterScript.MeteredConnection, GUILayout.MaxWidth(WindowWidth));
-        GUILayout.Label(_gameMasterScript.EnvironmentConfiguration, GUILayout.MaxWidth(WindowWidth));
-        GUILayout.Label(_gameMasterScript.ExceptionLoggingEnabledForEnvironment, 
+        GUILayout.Label(_gameMasterScript.BuildConfiguration, GUILayout.MaxWidth(WindowWidth));
+        GUILayout.Label(_gameMasterScript.ExceptionLoggingEnabledForBuildConfig, 
             GUILayout.MaxWidth(WindowWidth));
 
         GUI.skin.label.alignment = TextAnchor.MiddleCenter;
@@ -305,7 +305,7 @@ public class GUIMain : MonoBehaviour {
 
         if (string.IsNullOrEmpty(_apiKey))
         {
-            _apiKey = FeaturesManager.Instance.ExceptionLoggingApiKey;
+            _apiKey = GameConfig.Instance.ExceptionLoggingApiKey;
         }
         _apiKey = GUILayout.TextField(_apiKey);
 

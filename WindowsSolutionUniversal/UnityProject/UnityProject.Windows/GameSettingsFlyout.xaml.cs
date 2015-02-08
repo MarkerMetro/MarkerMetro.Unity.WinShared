@@ -14,7 +14,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using MarkerMetro.Unity.WinIntegration.LocalNotifications;
-using MarkerMetro.Unity.WinShared.Tools;
+using UnityProject.Config;
 
 // The Settings Flyout item template is documented at http://go.microsoft.com/fwlink/?LinkId=273769
 
@@ -26,10 +26,9 @@ namespace UnityProject.Win
         {
             this.InitializeComponent();
 
-            var fm = FeaturesManager.Instance;
-            reminderSwitch.Visibility = fm.IsSettingsNotificationsControlEnabled ? 
+            reminderSwitch.Visibility = AppConfig.Instance.NoticationsControlEnabled ? 
                 Visibility.Visible : Visibility.Collapsed;
-            musicSwitch.Visibility = soundSwitch.Visibility = fm.IsSettingsMusicFXControlEnabled ?
+            musicSwitch.Visibility = soundSwitch.Visibility = AppConfig.Instance.MusicFXControlEnabled ?
                 Visibility.Visible : Visibility.Collapsed;
 
             reminderSwitch.IsOn = ReminderManager.AreRemindersEnabled();

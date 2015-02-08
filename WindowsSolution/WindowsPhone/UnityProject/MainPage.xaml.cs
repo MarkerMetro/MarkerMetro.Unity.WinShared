@@ -33,7 +33,7 @@ using MarkerMetro.Unity.WinIntegration.Facebook;
 using MarkerMetro.Unity.WinIntegration.Store;
 using MarkerMetro.Unity.WinIntegration.Logging;
 using MarkerMetro.Unity.WinShared;
-using MarkerMetro.Unity.WinShared.Tools;
+using UnityProject.Config;
 
 namespace UnityProject.WinPhone
 {
@@ -130,11 +130,11 @@ namespace UnityProject.WinPhone
 #else
             StoreManager.Instance.Initialise(false);
 #endif
-            if (FeaturesManager.Instance.IsIapDisclaimerEnabled)
+            if (AppConfig.Instance.IapDisclaimerEnabled)
             {
                 CheckForOFT();
             }
-            if (FeaturesManager.Instance.IsMemoryDisplayEnabledForCurrentEnvironment)
+            if (AppConfig.Instance.DisplayMemoryUsageAllowed)
             {
                 BeginRecording();
             }
