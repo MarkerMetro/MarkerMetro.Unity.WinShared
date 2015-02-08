@@ -70,7 +70,7 @@ public class GUIMain : MonoBehaviour {
             }
 
             // Only show the exception logging menu when this feature is enabled.
-            if (GameConfig.Instance.ExceptionLoggingEnabled)
+            if (GameConfig.Instance != null && GameConfig.Instance.ExceptionLoggingEnabled)
             {
                 // Exception logging menu.
                 GUILayout.Window(ExceptionLoggingWindowID, new Rect(Offset, Offset * 2 + _facebookMenuHeight, 0, 0), ExceptionLogginGUI, "Exception Logging", GUILayout.MinWidth(WindowWidth));
@@ -301,7 +301,7 @@ public class GUIMain : MonoBehaviour {
 
     void ExceptionLogginGUI (int windowID)
     {
-        GUILayout.Label("API Key:");
+        GUILayout.Label("API Key (Restart Required):");
 
         if (string.IsNullOrEmpty(_apiKey))
         {
@@ -311,10 +311,6 @@ public class GUIMain : MonoBehaviour {
 
         if (GUILayout.Button("Log App Crash", GUILayout.MinHeight(ButtonHeight)))
         {
-            if (!ExceptionLogger.IsInitialized)
-            {
-                _gameMasterScript.InitializeLogger(_apiKey);
-            }
             _gameMasterScript.LogAppCrash();
         }
 

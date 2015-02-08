@@ -210,16 +210,18 @@ public class GameMaster : MonoBehaviour {
         Internet = "Is Online: " + Helper.Instance.HasInternetConnection;
         MeteredConnection = "Is metered connection: " + Helper.Instance.IsMeteredConnection;
         ExceptionLoggingEnabledForBuildConfig = "Exception logging for current build config: " + GameConfig.Instance.ExceptionLoggingAllowed.ToString();
+        BuildConfiguration = "Build config: " + GameConfig.Instance.CurrentBuildConfig.ToString()
 #else
-        AppVersion = "AppVersion: ";
-        Language = "Language: ";
-        DeviceID = "Device ID: ";
-        LowEnd = "Is Low End: ";
-        Internet = "Is Online: ";
-        MeteredConnection = "Is metered connection: ";
-        ExceptionLoggingEnabledForBuildConfig = "Exception logging enabled for current Build Config:";
+        AppVersion = "AppVersion: Unknown";
+        Language = "Language: Unknown";
+        DeviceID = "Device ID: Unknown";
+        LowEnd = "Is Low End: Unknown";
+        Internet = "Is Online: Unknown";
+        MeteredConnection = "Is metered connection: Unknown";
+        ExceptionLoggingEnabledForBuildConfig = "Exception logging for current build config: Unknown";
+        BuildConfiguration = "Build config: Unknown";
 #endif
-        BuildConfiguration = "Build config: " + GameConfig.Instance.CurrentBuildConfig.ToString();
+        
     }
 	
 	void Update ()
@@ -781,8 +783,4 @@ public class GameMaster : MonoBehaviour {
         IntegrationManager.DoCrashApp();
     }
 
-    public void InitializeLogger (string apiKey)
-    {
-        IntegrationManager.DoInitializeLogger(apiKey);
-    }
 }

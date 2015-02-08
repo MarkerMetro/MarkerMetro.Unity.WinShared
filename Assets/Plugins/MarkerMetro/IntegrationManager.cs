@@ -17,16 +17,6 @@ namespace MarkerMetro.Unity.WinShared
             }
         }
 
-        public static event Action<string> InitializeLogger;
-
-        public static void DoInitializeLogger (string apiKey)
-        {
-            if (InitializeLogger != null)
-            {
-                InitializeLogger(apiKey);
-            }
-        }
-
         /// <summary>
         /// Initializes all features on the Unity side.
         /// This method is supposed to be called from the Windows code at
@@ -37,6 +27,9 @@ namespace MarkerMetro.Unity.WinShared
             InitExceptionLogger();
         }
 
+        /// <summary>
+        /// Allows for handling of all unity exceptions
+        /// </summary>
         static void InitExceptionLogger()
         {
             Application.LogCallback handleException = (message, stackTrace, type) =>
@@ -48,12 +41,8 @@ namespace MarkerMetro.Unity.WinShared
                         if (WinIntegration.Logging.ExceptionLogger.IsEnabled)
                         {
                             MarkerMetro.Unity.WinIntegration.Logging.ExceptionLogger.Send(message, stackTrace);
-
-                            // reset the exception logger enable status via game settings
                             WinIntegration.Logging.ExceptionLogger.IsEnabled = GameConfig.Instance.ExceptionLoggingAllowed;
                         }
-
-                        WinIntegration.Helper.Instance.ShowDialog(message, "Exception Thrown", null, "OK");
                     }
                     catch (System.Exception ex)
                     {
