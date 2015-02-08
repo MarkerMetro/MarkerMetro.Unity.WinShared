@@ -1,4 +1,5 @@
 ﻿using MarkerMetro.Unity.WinShared;
+using MarkerMetro.Unity.WinIntegration.Storage;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -70,8 +71,12 @@ namespace UnityProject.Config
         {
             get 
             {
-                // set your api key here
-                var apiKey = PlayerPrefs.GetString("MarkerMetro.Unity.WinIntegration.Logging.ExceptionLogger.ApiKey");
+                var apiKey = String.Empty; // set your api key here
+                
+                if (Settings.HasKey("MarkerMetro.Unity.WinIntegration.Logging.ExceptionLogger.ApiKey"))
+                {
+                    apiKey = Settings.GetString("MarkerMetro.Unity.WinIntegration.Logging.ExceptionLogger.ApiKey");
+                }
                 return String.IsNullOrEmpty(apiKey) ? String.Empty : apiKey; 
             } 
         }
