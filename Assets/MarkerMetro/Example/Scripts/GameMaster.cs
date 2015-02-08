@@ -210,7 +210,7 @@ public class GameMaster : MonoBehaviour {
         Internet = "Is Online: " + Helper.Instance.HasInternetConnection;
         MeteredConnection = "Is metered connection: " + Helper.Instance.IsMeteredConnection;
         ExceptionLoggingEnabledForBuildConfig = "Exception logging for current build config: " + GameConfig.Instance.ExceptionLoggingAllowed.ToString();
-        BuildConfiguration = "Build config: " + GameConfig.Instance.CurrentBuildConfig.ToString()
+        BuildConfiguration = "Build config: " + GameConfig.Instance.CurrentBuildConfig.ToString();
 #else
         AppVersion = "AppVersion: Unknown";
         Language = "Language: Unknown";
