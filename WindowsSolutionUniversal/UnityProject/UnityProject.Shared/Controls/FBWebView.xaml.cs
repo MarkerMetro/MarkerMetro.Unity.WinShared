@@ -5,7 +5,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.Web;
 
-namespace Template.Controls
+namespace UnityProject.Controls
 {
     public sealed partial class FBWebView : UserControl, IWebInterface
     {

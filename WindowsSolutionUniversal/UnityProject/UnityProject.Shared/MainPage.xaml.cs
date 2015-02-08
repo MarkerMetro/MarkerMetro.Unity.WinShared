@@ -25,7 +25,11 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.Popups;
-using MarkerMetro.Unity.WinShared.Tools;
+using MarkerMetro.Unity.WinShared;
+using MarkerMetro.Unity.WinIntegration;
+using MarkerMetro.Unity.WinIntegration.Logging;
+using UnityProject.Logging;
+using UnityProject.Config;
 
 #if UNITY_METRO_8_1
 using Windows.UI.ApplicationSettings;
@@ -34,7 +38,7 @@ using MarkerMetro.Unity.WinIntegration.Facebook;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace Template
+namespace UnityProject
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
@@ -61,8 +65,8 @@ namespace Template
             onResizeHandler = new WindowSizeChangedEventHandler((o, e) => OnResize());
             Window.Current.SizeChanged += onResizeHandler;
 
-            // Wire up the configuration file handler:
-            Assets.Plugins.MarkerMetro.DeviceInformation.DoGetEnvironment = GetEnvironment;
+            // provide the unity game config via the app config
+            GameConfig.DoGetGameConfig = () => AppConfig.Instance;
 
             Window.Current.VisibilityChanged += OnWindowVisibilityChanged;
 
@@ -72,7 +76,16 @@ namespace Template
             settingsPane.CommandsRequested += SettingsPaneCommandsRequested;
 #endif
 
-            UnityPlayer.AppCallbacks.Instance.RenderingStarted += () => isUnityLoaded = true;
+            UnityPlayer.AppCallbacks.Instance.RenderingStarted += () =>
+                {
+                    isUnityLoaded = true;
+
+                    InitializeExceptionLogger();
+
+                    IntegrationManager.Init();
+                    IntegrationManager.CrashApp += Crash;
+                    IntegrationManager.InitializeLogger += InitializeLogger;
+                };
 
             // create extended splash timer
             extendedSplashTimer = new DispatcherTimer();
@@ -110,7 +123,7 @@ namespace Template
         {
             var loader = ResourceLoader.GetForViewIndependentUse();
 
-            if (FeaturesManager.Instance.IsGameSettingsEnabled)
+            if (AppConfig.Instance.NoticationsControlEnabled || AppConfig.Instance.MusicFXControlEnabled)
             {
                 args.Request.ApplicationCommands.Add(new SettingsCommand(Guid.NewGuid(),
                     loader.GetString("SettingsCharm_Settings"), h =>
@@ -131,30 +144,16 @@ namespace Template
                 new SettingsCommand(Guid.NewGuid(),
                     loader.GetString("SettingsCharm_PrivacyPolicy"),
                     h => OnViewUrl(loader.GetString("SettingsCharm_PrivacyPolicy_Url"))));
-#if DEBUG
-            args.Request.ApplicationCommands.Add(
-                new SettingsCommand(Guid.NewGuid(),
-                    "Crash",
-                    h => Crash()));
-#endif
-        }
-
-#if DEBUG
-        static async void Crash()
-        {
-            var dialog = new MessageDialog("Do you want to cause the crash to test error reporting?", "Crash?")
+#if DEBUG || QA
+            if (AppConfig.Instance.ExceptionLoggingEnabled)
             {
-                CancelCommandIndex = 1,
-            };
-            dialog.Commands.Add(new UICommand("Yes"));
-            dialog.Commands.Add(new UICommand("No"));
-
-            var result = await dialog.ShowAsync();
-
-            if (result.Label == "Yes")
-                throw new InvalidOperationException("A test crash from Windows Store solution");
-        }
+                args.Request.ApplicationCommands.Add(
+                    new SettingsCommand(Guid.NewGuid(),
+                        "Crash",
+                        h => Crash()));
+            }
 #endif
+        }
 
         static void OnViewUrl(string url)
         {
@@ -164,6 +163,22 @@ namespace Template
             }, false);
         }
 #endif
+
+        static async void Crash()
+        {
+            var dialog = new MessageDialog("Do you want to cause the crash to test error reporting?", "Crash?");
+
+            dialog.Commands.Add(new UICommand("Yes"));
+            dialog.Commands.Add(new UICommand("No"));
+
+            var result = await dialog.ShowAsync();
+
+            if (result.Label=="Yes")
+            {
+                ExceptionLogger.IsEnabled = true;
+                throw new InvalidOperationException("A test crash from Windows Store solution!");
+            }
+        }
 
         async void OnWindowVisibilityChanged(object sender, VisibilityChangedEventArgs e)
         {
@@ -302,8 +317,10 @@ namespace Template
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
-
-                MarkerMetro.Unity.WinIntegration.ExceptionLogger.Instance.Send(ex);
+                if (ExceptionLogger.IsEnabled)
+                {
+                    ExceptionLogger.Send(ex);
+                }
             }
         }
 
@@ -381,7 +398,7 @@ namespace Template
                 Window.Current.SizeChanged -= onResizeHandler;
                 onResizeHandler = null;
             }
-            if (FeaturesManager.Instance.IsIapDisclaimerEnabled)
+            if (AppConfig.Instance.IapDisclaimerEnabled)
             {
                 CheckForOFT();
             }
@@ -411,16 +428,6 @@ namespace Template
             }
         }
 
-        Assets.Plugins.MarkerMetro.DeviceInformation.Environment GetEnvironment()
-        {
-#if QA
-            return Assets.Plugins.MarkerMetro.DeviceInformation.Environment.QA;
-#elif DEBUG
-            return Assets.Plugins.MarkerMetro.DeviceInformation.Environment.Dev;
-#else
-            return Assets.Plugins.MarkerMetro.DeviceInformation.Environment.Production;
-#endif
-        }
 
 #if !UNITY_WP_8_1
         protected override Windows.UI.Xaml.Automation.Peers.AutomationPeer OnCreateAutomationPeer()
@@ -428,5 +435,29 @@ namespace Template
             return new UnityPlayer.XamlPageAutomationPeer(this);
         }
 #endif
+        void InitializeLogger (string apiKey)
+        {
+            if (AppConfig.Instance.ExceptionLoggingEnabled)
+            {
+                if (!string.IsNullOrEmpty(apiKey))
+                {
+                    try
+                    {
+                        ExceptionLogger.Initialize(new RaygunExceptionLogger(apiKey));
+                        ExceptionLogger.IsEnabled = AppConfig.Instance.ExceptionLoggingAllowed;
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine("Failed initializing exception logger.");
+                        Debug.WriteLine(ex.Message);
+                    }
+                }
+            }
+        }
+
+        void InitializeExceptionLogger()
+        {
+            InitializeLogger(AppConfig.Instance.ExceptionLoggingApiKey);
+        }
     }
 }

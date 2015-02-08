@@ -5,8 +5,6 @@ using System.Threading.Tasks;
 using Windows.System;
 using System.Diagnostics;
 
-using UnityPlayer;
-
 #if WINDOWS_PHONE
 using System.Linq;
 using Microsoft.Phone.Info;
@@ -25,7 +23,11 @@ using Windows.Data.Xml.Dom;
 using MarkerMetro.Unity.WinIntegration.Facebook;
 #endif
 
-using DeviceInformation = Assets.Plugins.MarkerMetro.DeviceInformation;
+using MarkerMetro.Unity.WinIntegration.Logging;
+using UnityProject.Logging;
+using UnityPlayer;
+using MarkerMetro.Unity.WinShared;
+using UnityProject.Config;
 
 #if NETFX_CORE
 namespace UnityProject.Win
@@ -47,20 +49,12 @@ namespace UnityProject.WinPhone
 #endif
 
         /**
-         * Exhibits information about memory usage in the game screen. WP8 only.
-         */
-        internal bool DisplayMemoryInfo = false; 
-
-        /**
          * Call this on MainPage.xaml.cs.
          */
         private void Initialize()
         {
             // wire up the configuration file handler:
-            DeviceInformation.DoGetEnvironment = GetEnvironment;
-
-            if (DisplayMemoryInfo)
-                BeginRecording();
+            GameConfig.DoGetGameConfig = () => AppConfig.Instance;
 
 #if NETFX_CORE
 
@@ -69,17 +63,6 @@ namespace UnityProject.WinPhone
 
 #endif
 
-        }
-
-        internal DeviceInformation.Environment GetEnvironment()
-        {
-#if QA
-            return DeviceInformation.Environment.QA;
-#elif DEBUG
-            return DeviceInformation.Environment.Dev;
-#else
-            return DeviceInformation.Environment.Production;
-#endif
         }
 
         /**
@@ -167,5 +150,25 @@ namespace UnityProject.WinPhone
             }
         }
 #endif
+        void InitializeExceptionLogger()
+        {
+            if (AppConfig.Instance.ExceptionLoggingEnabled)
+            {
+                if (!string.IsNullOrEmpty(AppConfig.Instance.ExceptionLoggingApiKey))
+                {
+                    try
+                    {
+                        // Initialize Raygun with API key set in the features setting menu.
+                        ExceptionLogger.Initialize(new RaygunExceptionLogger(AppConfig.Instance.ExceptionLoggingApiKey));
+                        ExceptionLogger.IsEnabled = AppConfig.Instance.ExceptionLoggingAllowed;
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine("Failed initializing exception logger.");
+                        Debug.WriteLine(ex.Message);
+                    }
+                }
+            }
+        }
     }
 }

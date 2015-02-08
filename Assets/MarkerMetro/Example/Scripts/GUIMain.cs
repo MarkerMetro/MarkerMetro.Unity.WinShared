@@ -5,6 +5,8 @@ using UnityEngine;
 using MarkerMetro.Unity.WinIntegration;
 using MarkerMetro.Unity.WinIntegration.LocalNotifications;
 using MarkerMetro.Unity.WinIntegration.Facebook;
+using MarkerMetro.Unity.WinIntegration.Logging;
+using MarkerMetro.Unity.WinShared;
 
 #if (UNITY_WP8 || UNITY_WP_8_1) && !UNITY_EDITOR
 using FBWin = MarkerMetro.Unity.WinIntegration.Facebook.FBNative;
@@ -14,6 +16,13 @@ using FBWin = MarkerMetro.Unity.WinIntegration.Facebook.FB;
 
 public class GUIMain : MonoBehaviour {
 
+    const int FacebookWindowID = 0;
+    const int ExceptionLoggingWindowID = 1;
+    const int InfoWindowID = 2;
+    const int PlatformIntegrationWindowID = 3;
+    const int GameInfoWindowID = 4;
+    const int GameMenuWindowID = 5;
+
     const float Offset = 10f;
     const float WindowWidth = 200;
     const float ButtonHeight = 40f;
@@ -21,6 +30,8 @@ public class GUIMain : MonoBehaviour {
 
     GameMaster _gameMasterScript;
     bool _showInfo = false;
+    float _facebookMenuHeight;
+    string _apiKey;
 
     void Start ()
     {
@@ -48,28 +59,42 @@ public class GUIMain : MonoBehaviour {
 	{
         if (_gameMasterScript.State == GameMaster.GAME_STATE.GS_START)
         {
-            // facebook menu.
-            GUILayout.Window(0, new Rect(Offset, Offset, 0, 0), FacebookIntegrationGUI, "Facebook Integration", GUILayout.MinWidth(WindowWidth));
-            
+            // Facebook menu.
+            Rect facebookScreenRect = GUILayout.Window(FacebookWindowID, new Rect(Offset, Offset, 0, 0), FacebookIntegrationGUI, "Facebook Integration", GUILayout.MinWidth(WindowWidth));
+
+            // OnGUI will run twice every frame, once for EventType.Layout, and once for EventType.Repaint.
+            // The rect returned by GUILayout.Window is correct only for EventType.Repaint.
+            if (Event.current.type == EventType.Repaint)
+            {
+                _facebookMenuHeight = facebookScreenRect.height;
+            }
+
+            // Only show the exception logging menu when this feature is enabled.
+            if (GameConfig.Instance.ExceptionLoggingEnabled)
+            {
+                // Exception logging menu.
+                GUILayout.Window(ExceptionLoggingWindowID, new Rect(Offset, Offset * 2 + _facebookMenuHeight, 0, 0), ExceptionLogginGUI, "Exception Logging", GUILayout.MinWidth(WindowWidth));
+            }
+
             if (_showInfo)
             {
                 // Info menu.
-                GUILayout.Window(3, new Rect((Screen.width - WindowWidth - Offset), Offset, 0, 0), InfoGUI, "Info", GUILayout.MinWidth(WindowWidth));
+                GUILayout.Window(InfoWindowID, new Rect((Screen.width - WindowWidth - Offset), Offset, 0, 0), InfoGUI, "Info", GUILayout.MinWidth(WindowWidth));
             }
             else
             {
-                // platform integration menu.
-                GUILayout.Window(2, new Rect((Screen.width - WindowWidth - Offset), Offset, 0, 0), PlatformIntegrationGUI, "Platform Integration", GUILayout.MinWidth(WindowWidth));
+                // Platform integration menu.
+                GUILayout.Window(PlatformIntegrationWindowID, new Rect((Screen.width - WindowWidth - Offset), Offset, 0, 0), PlatformIntegrationGUI, "Platform Integration", GUILayout.MinWidth(WindowWidth));
             }
         }
         else if (_gameMasterScript.State != GameMaster.GAME_STATE.GS_START && _gameMasterScript.State != GameMaster.GAME_STATE.GS_STORE)
         {
             // Game Info.
-            GUILayout.Window(4, new Rect(Offset, Offset, 0, 0), GameInfoGUI, "Game Info", GUILayout.MinWidth(WindowWidth));
+            GUILayout.Window(GameInfoWindowID, new Rect(Offset, Offset, 0, 0), GameInfoGUI, "Game Info", GUILayout.MinWidth(WindowWidth));
         }
 
-        // game menu.
-        GUILayout.Window(1, new Rect((Screen.width - WindowWidth) * 0.5f, Offset, 0, 0), FaceFlipGUI, "Face Flip Game", GUILayout.MinWidth(WindowWidth));
+        // Game menu.
+        GUILayout.Window(GameMenuWindowID, new Rect((Screen.width - WindowWidth) * 0.5f, Offset, 0, 0), FaceFlipGUI, "Face Flip Game", GUILayout.MinWidth(WindowWidth));
     }
 
     void FacebookIntegrationGUI (int windowID)
@@ -239,12 +264,6 @@ public class GUIMain : MonoBehaviour {
             _gameMasterScript.ExtractStackTrace();
         }
 
-        // Test crash button
-        if (GUILayout.Button("Throw an Exception", GUILayout.MinHeight(ButtonHeight)))
-        {
-            throw new System.Exception("This is test exception from Unity code");
-        }
-
 #if (UNITY_WP8 || UNITY_WP_8_1) && !UNITY_EDITOR
         if (GUILayout.Button("Quit", GUILayout.MinHeight(ButtonHeight)))
         {
@@ -264,7 +283,9 @@ public class GUIMain : MonoBehaviour {
         GUILayout.Label(_gameMasterScript.LowEnd, GUILayout.MaxWidth(WindowWidth));
         GUILayout.Label(_gameMasterScript.Internet, GUILayout.MaxWidth(WindowWidth));
         GUILayout.Label(_gameMasterScript.MeteredConnection, GUILayout.MaxWidth(WindowWidth));
-        GUILayout.Label(_gameMasterScript.EnvironmentConfiguration, GUILayout.MaxWidth(WindowWidth));
+        GUILayout.Label(_gameMasterScript.BuildConfiguration, GUILayout.MaxWidth(WindowWidth));
+        GUILayout.Label(_gameMasterScript.ExceptionLoggingEnabledForBuildConfig, 
+            GUILayout.MaxWidth(WindowWidth));
 
         GUI.skin.label.alignment = TextAnchor.MiddleCenter;
 
@@ -275,6 +296,31 @@ public class GUIMain : MonoBehaviour {
         if (GUILayout.Button("Back", GUILayout.MinHeight(ButtonHeight)))
         {
             _showInfo = false;
+        }
+    }
+
+    void ExceptionLogginGUI (int windowID)
+    {
+        GUILayout.Label("API Key:");
+
+        if (string.IsNullOrEmpty(_apiKey))
+        {
+            _apiKey = GameConfig.Instance.ExceptionLoggingApiKey;
+        }
+        _apiKey = GUILayout.TextField(_apiKey);
+
+        if (GUILayout.Button("Log App Crash", GUILayout.MinHeight(ButtonHeight)))
+        {
+            if (!ExceptionLogger.IsInitialized)
+            {
+                _gameMasterScript.InitializeLogger(_apiKey);
+            }
+            _gameMasterScript.LogAppCrash();
+        }
+
+        if (GUILayout.Button("Log Unity Exception", GUILayout.MinHeight(ButtonHeight)))
+        {
+            throw new System.Exception("This is test exception from Unity code");
         }
     }
 }

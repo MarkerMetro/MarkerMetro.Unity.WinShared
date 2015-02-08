@@ -9,8 +9,9 @@ using MarkerMetro.Unity.WinIntegration.Resources;
 using MarkerMetro.Unity.WinIntegration.LocalNotifications;
 using MarkerMetro.Unity.WinIntegration.Store;
 using MarkerMetro.Unity.WinIntegration.VideoPlayer;
+using MarkerMetro.Unity.WinIntegration.Logging;
 using LitJson;
-using Assets.Plugins.MarkerMetro;
+using MarkerMetro.Unity.WinShared;
 
 #if (UNITY_WP8 || UNITY_WP_8_1) && !UNITY_EDITOR
 using FBWin = MarkerMetro.Unity.WinIntegration.Facebook.FBNative;
@@ -23,6 +24,60 @@ public class GameMaster : MonoBehaviour {
 
     public static bool ReminderScheduled;
     public static bool ForceResetReminderText;
+
+    static GameMaster _instance;
+    static bool _soundEnabled = true;
+    static bool _musicEnabled = true;
+    AudioSource _musicAudioSource = null;
+    bool _musicPlayed = false;
+
+    public static bool SoundEnabled
+    {
+        get
+        {
+            return _soundEnabled;
+        }
+        set
+        {
+            _soundEnabled = value;
+            
+            if (_instance == null)
+                return;
+
+            if(value)
+            {
+                _instance.PlaySound(_instance._flipSound);
+            }
+            else
+            {
+                _instance.audio.Stop();
+            }
+        }
+    }
+
+    public static bool MusicEnabled
+    {
+        get
+        {
+            return _musicEnabled;
+        }
+        set
+        {
+            _musicEnabled = value;
+
+            if (_instance == null)
+                return;
+
+            if (value)
+            {
+                _instance.PlaySound(_instance._flipSound);
+            }
+            else
+            {
+                _instance._musicAudioSource.Stop();
+            }
+        }
+    }
 
     public List<Product> StoreProducts { get; private set; }
 
@@ -41,7 +96,8 @@ public class GameMaster : MonoBehaviour {
     public string LowEnd { get; private set; }
     public string Internet { get; private set; }
     public string MeteredConnection { get; private set; }
-    public string EnvironmentConfiguration { get; private set; }
+    public string BuildConfiguration { get; private set; }
+    public string ExceptionLoggingEnabledForBuildConfig { get; private set; }
 
     // Game info.
     public string Matches { get; private set; }
@@ -53,6 +109,13 @@ public class GameMaster : MonoBehaviour {
     private GameObject _guiMain = null;
     [SerializeField]
 	private GameObject _guiStore = null;
+
+    [SerializeField]
+    private AudioClip _flipSound;
+    [SerializeField]
+    private AudioClip _matchSound;
+    [SerializeField]
+    private AudioClip _failSound;
 
 	private List<GameObject> _tiles = new List<GameObject>();
     private string[] _names = { "Keith", "Tony", "Greg", "Nigel", "Ivan", "Chad", "Damian", "Brian" };
@@ -86,8 +149,21 @@ public class GameMaster : MonoBehaviour {
 		GS_STORE
 	};
 
-	void Start () {
+    void Awake()
+    {
+        _instance = this;
+    }
+
+    void OnDestroy()
+    {
+        _instance = null;
+    }
+
+	void Start () 
+    {
         InitializeInfo();
+
+        _musicAudioSource = GetComponents<AudioSource>()[1];
 
         // Reminder and Facebook aren't supported in Unity Editor.
 #if !UNITY_EDITOR && UNITY_WINRT
@@ -110,7 +186,7 @@ public class GameMaster : MonoBehaviour {
         ChangeState(GAME_STATE.GS_START);
 
 #if !UNITY_EDITOR && UNITY_WINRT
-        FBWin.Init(SetFBInit, Assets.Plugins.MarkerMetro.Constants.FBAppId, null);
+        FBWin.Init(SetFBInit, GameConfig.Instance.FacebookAppId, null);
 #endif
     }
 
@@ -133,6 +209,7 @@ public class GameMaster : MonoBehaviour {
         LowEnd = "Is Low End: " + Helper.Instance.IsLowEndDevice();
         Internet = "Is Online: " + Helper.Instance.HasInternetConnection;
         MeteredConnection = "Is metered connection: " + Helper.Instance.IsMeteredConnection;
+        ExceptionLoggingEnabledForBuildConfig = "Exception logging for current build config: " + GameConfig.Instance.ExceptionLoggingAllowed.ToString();
 #else
         AppVersion = "AppVersion: ";
         Language = "Language: ";
@@ -140,8 +217,9 @@ public class GameMaster : MonoBehaviour {
         LowEnd = "Is Low End: ";
         Internet = "Is Online: ";
         MeteredConnection = "Is metered connection: ";
+        ExceptionLoggingEnabledForBuildConfig = "Exception logging enabled for current Build Config:";
 #endif
-        EnvironmentConfiguration = "Environment configuration: " + DeviceInformation.GetEnvironment().ToString();
+        BuildConfiguration = "Build config: " + GameConfig.Instance.CurrentBuildConfig.ToString();
     }
 	
 	void Update ()
@@ -204,6 +282,7 @@ public class GameMaster : MonoBehaviour {
 			break;
 			case GAME_STATE.GS_PLAYING:
 			{
+                PlayMusic();
                 _guiMain.SetActive(true);
                 _guiStore.SetActive(false);
 				State = state;
@@ -230,6 +309,7 @@ public class GameMaster : MonoBehaviour {
 			break;
             case GAME_STATE.GS_END:
             {
+                _musicPlayed = false;
                 _remainingMoves = _maxMoves;
                 _numberMatches = 0;
                 ChangeState(GAME_STATE.GS_START);
@@ -306,6 +386,7 @@ public class GameMaster : MonoBehaviour {
         if (_currentSwitched1 == null)
 		{
             _currentSwitched1 = script;
+            PlaySound(_flipSound);
 		}
 		else
 		{
@@ -315,16 +396,37 @@ public class GameMaster : MonoBehaviour {
 				// match
 				_currentSwitched1 = null;
 				++_numberMatches;
+                PlaySound(_matchSound);
 			}
 			else
 			{
 				_currentSwitched2 = script;
                 ChangeState(GAME_STATE.GS_WAITING);
+                PlaySound(_failSound);
 			}
 		}
 
 		SetGUIText();
 	}
+
+    void PlaySound(AudioClip clip)
+    {
+        if(SoundEnabled)
+        {
+            audio.clip = clip;
+            audio.Play();
+        }
+    }
+
+    void PlayMusic()
+    {
+        if (MusicEnabled && !_musicPlayed)
+        {
+            _musicAudioSource.Play();
+            // Music plays once, during start:
+            _musicPlayed = true;
+        }
+    }
 
 	void SetGUIText()
 	{
@@ -671,5 +773,16 @@ public class GameMaster : MonoBehaviour {
             Debug.Log("Video Stopped.");
         }, VideoStretch.Uniform);
 #endif
+    }
+
+    public void LogAppCrash ()
+    {
+        ExceptionLogger.IsEnabled = true;
+        IntegrationManager.DoCrashApp();
+    }
+
+    public void InitializeLogger (string apiKey)
+    {
+        IntegrationManager.DoInitializeLogger(apiKey);
     }
 }

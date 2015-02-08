@@ -28,9 +28,12 @@ using UnityProject.WinPhone.Resources;
 using System.Diagnostics;
 
 using MarkerMetro.Common.Converters;
+using MarkerMetro.Unity.WinIntegration;
 using MarkerMetro.Unity.WinIntegration.Facebook;
 using MarkerMetro.Unity.WinIntegration.Store;
-using MarkerMetro.Unity.WinShared.Tools;
+using MarkerMetro.Unity.WinIntegration.Logging;
+using MarkerMetro.Unity.WinShared;
+using UnityProject.Config;
 
 namespace UnityProject.WinPhone
 {
@@ -39,7 +42,7 @@ namespace UnityProject.WinPhone
 		bool _unityStartedLoading;
 		bool _useLocation;
         DispatcherTimer _extendedSplashTimer;
-        public static bool IsUnityLoaded { get; set; }
+        public static bool IsUnityLoaded { get; private set; }
 
 		// Constructor
 		public MainPage()
@@ -61,20 +64,18 @@ namespace UnityProject.WinPhone
             {
                 Interval = TimeSpan.FromMilliseconds(100),
             };
-            _extendedSplashTimer.Tick += ExtendedSplashTimer_Tick;
+            _extendedSplashTimer.Tick += ExtendedSplashTimerTick;
             _extendedSplashTimer.Start();
-
-            AddDebugAppBar();
         }
 	
 	
-		void DrawingSurfaceBackground_Loaded(object sender, RoutedEventArgs e)
+		void DrawingSurfaceBackgroundLoaded(object sender, RoutedEventArgs e)
 		{
 			if (!_unityStartedLoading)
 			{
 				_unityStartedLoading = true;
 
-				UnityApp.SetLoadedCallback(() => { Dispatcher.BeginInvoke(Unity_Loaded); });
+				UnityApp.SetLoadedCallback(() => { Dispatcher.BeginInvoke(UnityLoaded); });
 				
 				int physicalWidth, physicalHeight;
 				object physicalResolution;
@@ -111,9 +112,15 @@ namespace UnityProject.WinPhone
 			}
 		}
 
-		void Unity_Loaded()
+		void UnityLoaded()
 		{
             IsUnityLoaded = true;
+
+
+            InitializeExceptionLogger();
+
+            IntegrationManager.Init();
+            IntegrationManager.CrashApp += Crash;
 
 			SetupGeolocator();
 
@@ -123,9 +130,13 @@ namespace UnityProject.WinPhone
 #else
             StoreManager.Instance.Initialise(false);
 #endif
-            if (FeaturesManager.Instance.IsIapDisclaimerEnabled)
+            if (AppConfig.Instance.IapDisclaimerEnabled)
             {
                 CheckForOFT();
+            }
+            if (AppConfig.Instance.DisplayMemoryUsageAllowed)
+            {
+                BeginRecording();
             }
 		}
 
@@ -138,7 +149,7 @@ namespace UnityProject.WinPhone
             Dispatcher.BeginInvoke(() => callback());
         }
 
-        async void ExtendedSplashTimer_Tick(object sender, EventArgs e)
+        async void ExtendedSplashTimerTick(object sender, EventArgs e)
         {
             var increment = _extendedSplashTimer.Interval.TotalMilliseconds * 10;
             if (!IsUnityLoaded && SplashProgress.Value <= (SplashProgress.Maximum - increment))
@@ -161,7 +172,7 @@ namespace UnityProject.WinPhone
                 DrawingSurfaceBackground.Children.Remove(ExtendedSplashGrid);
         }
 
-		void PhoneApplicationPage_BackKeyPress(object sender, CancelEventArgs e)
+		void PhoneApplicationPageBackKeyPress(object sender, CancelEventArgs e)
 		{
             e.Cancel = FBNative.BackButtonPressed();
 
@@ -171,7 +182,7 @@ namespace UnityProject.WinPhone
             }
 		}
 
-		void PhoneApplicationPage_OrientationChanged(object sender, OrientationChangedEventArgs e)
+		void PhoneApplicationPageOrientationChanged(object sender, OrientationChangedEventArgs e)
 		{
 			UnityApp.SetOrientation((int)e.Orientation);
 		}
@@ -222,29 +233,19 @@ namespace UnityProject.WinPhone
             }
         }
 
-        /// <summary>
-        /// This method adds Application Bar with menu items to test exception handling
-        /// </summary>
-        /// <remarks>
-        /// Change conditional or remove when no longer needed
-        /// </remarks>
-        [Conditional("DEBUG")]
-        void AddDebugAppBar()
+        void Crash()
         {
-            ApplicationBar = new ApplicationBar() 
+            MarkerMetro.Unity.WinIntegration.Dispatcher.InvokeOnUIThread(() =>
             {
-                Mode = ApplicationBarMode.Minimized,
-                Opacity = 0.3,
-            };
-            var hideCrash = new ApplicationBarMenuItem("hide");
-            hideCrash.Click += (s, e) => ApplicationBar.IsVisible = false;
-            ApplicationBar.MenuItems.Add(hideCrash);
-            var cmdCrash = new ApplicationBarMenuItem("crash");
-            cmdCrash.Click += (s, e) => 
+                    MessageBoxResult res = MessageBox.Show("Do you want to cause the crash to test error reporting?", "Crash?", MessageBoxButton.OKCancel);
+
+                    if (res == MessageBoxResult.OK)
             {
-                throw new InvalidOperationException("Test crash from Windows Phone project!"); 
-            };
-            ApplicationBar.MenuItems.Add(cmdCrash);
+                        ExceptionLogger.IsEnabled = true;
+                        throw new InvalidOperationException("A test crash from Windows solution");
+                    }
+
+                });
         }
 	}
 }

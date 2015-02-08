@@ -125,6 +125,12 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\WindowsSolutionUniversal\UnityProject\UnityProject.Shared\Config\AppConfig.cs">
+      <Link>Config\AppConfig.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\WindowsSolutionUniversal\UnityProject\UnityProject.Shared\Logging\RaygunExceptionLogger.cs">
+      <Link>Common\Logging\RaygunExceptionLogger.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\CommonApp.cs">
       <Link>Common\CommonApp.cs</Link>
     </Compile>
@@ -236,7 +242,7 @@
       <HintPath>.\MarkerMetro.Unity.WinLegacy.dll</HintPath>
     </Reference>
     <Reference Include="Mindscape.Raygun4Net.WindowsPhone">
-      <HintPath>.\Mindscape.Raygun4Net.WindowsPhone.dll</HintPath>
+      <HintPath>..\..\packages\Mindscape.Raygun4Net.4.2.0\lib\wp71\Mindscape.Raygun4Net.WindowsPhone.dll</HintPath>
     </Reference>
     <Reference Include="MockIAPLib">
       <HintPath>.\MockIAPLib.dll</HintPath>

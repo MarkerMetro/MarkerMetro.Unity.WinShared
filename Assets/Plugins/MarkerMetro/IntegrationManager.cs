@@ -1,104 +1,70 @@
 ﻿using System;
 using UnityEngine;
+using WinIntegration = MarkerMetro.Unity.WinIntegration;
+using System.Linq;
 
-namespace Assets.Plugins.MarkerMetro
+namespace MarkerMetro.Unity.WinShared
 {
-
-    /**
-     * This singleton is an entry point for Marker Metro MonoBehaviours.
-     * It creates a Game Object that is not destroyed between scene loads.
-     * It offers an easy way to hook up scripts from the game code or from the UI thread and
-     * contains Windows-related events.
-     */
-    public sealed class IntegrationManager : MonoBehaviour
+    public static class IntegrationManager
     {
-        private static IntegrationManager instance = null;
-        public static IntegrationManager Instance
+        public static event Action CrashApp;
+
+        public static void DoCrashApp ()
         {
-            get
+            if (CrashApp != null)
             {
-                if (instance == null) Init();
-                return instance;
+                CrashApp();
             }
         }
 
-        // Delete this and change to Action when this bug is solved:
-        // http://fogbugz.unity3d.com/default.asp?609123_4r6pfprov9jibi2g
-        public delegate void action();
+        public static event Action<string> InitializeLogger;
 
-        /**
-            * Fired every time the Windows key is down.
-            */
-        public event action OnWindowsKeyDown;
+        public static void DoInitializeLogger (string apiKey)
+        {
+            if (InitializeLogger != null)
+            {
+                InitializeLogger(apiKey);
+            }
+        }
 
-        /**
-            * Fired every time the Windows key is down.
-            */
-        public event action OnBackspaceKeyDown;
-
-        /**
-            * Fired every MonoBehaviour Update.
-            */
-        public event action OnUpdate;
-
-        /**
-            * Creates a Game Object and adds the IntegrationManager in it.
-            */
+        /// <summary>
+        /// Initializes all features on the Unity side.
+        /// This method is supposed to be called from the Windows code at
+        /// app startup.
+        /// </summary>
         public static void Init()
         {
-            if (instance != null) return;
-
-            if (!IsWinRT())
-                throw new PlatformNotSupportedException();
-
-            GameObject go = new GameObject("WindowsIntegrationManager");
-            DontDestroyOnLoad(go);
-            instance = go.AddComponent<IntegrationManager>();
+            InitExceptionLogger();
         }
 
-        /**
-            * Instantiates a MonoBehaviour of the given type inside the Manager's Game Object.
-            */
-        public void AddComponent<T>() where T : MonoBehaviour
+        static void InitExceptionLogger()
         {
-            gameObject.AddComponent<T>();
-        }
+            Application.LogCallback handleException = (message, stackTrace, type) =>
+            {
+                if (type == LogType.Exception || type == LogType.Error)
+                {
+                    try
+                    {
+                        if (WinIntegration.Logging.ExceptionLogger.IsEnabled)
+                        {
+                            MarkerMetro.Unity.WinIntegration.Logging.ExceptionLogger.Send(message, stackTrace);
 
-        /**
-            * Destroy the singleton and it's GameObject.
-            */
-        public void Destroy()
-        {
-            Destroy(gameObject);
-            instance = null;
-        }
+                            // reset the exception logger enable status via game settings
+                            WinIntegration.Logging.ExceptionLogger.IsEnabled = GameConfig.Instance.ExceptionLoggingAllowed;
+                        }
 
-        private static bool IsWinRT()
-        {
-            return
-                Application.platform == RuntimePlatform.MetroPlayerARM ||
-                Application.platform == RuntimePlatform.MetroPlayerX64 ||
-                Application.platform == RuntimePlatform.MetroPlayerX86 ||
-                Application.platform == RuntimePlatform.WindowsEditor ||
-                Application.platform == RuntimePlatform.WP8Player;
-        }
+                        WinIntegration.Helper.Instance.ShowDialog(message, "Exception Thrown", null, "OK");
+                    }
+                    catch (System.Exception ex)
+                    {
+                        // not sure there's much useful we can do here 
+                        Debug.LogWarning(string.Format("Failed to handle exception: {0} - because of: {1}",
+                            message, ex.Message));
+                    }
+                }
+            };
 
-        private void Update()
-        {
-            if (OnUpdate != null)
-                OnUpdate();
-
-            if ((Input.GetKeyDown(KeyCode.LeftWindows) ||
-                Input.GetKeyDown(KeyCode.RightWindows) ||
-                Input.GetKeyDown(KeyCode.LeftApple) ||
-                Input.GetKeyDown(KeyCode.RightApple))
-                && OnWindowsKeyDown != null)
-                OnWindowsKeyDown();
-
-            if (Input.GetKeyDown(KeyCode.Backspace) && OnBackspaceKeyDown != null)
-                OnBackspaceKeyDown();
+            Application.RegisterLogCallback(handleException);
         }
     }
-
-
 }

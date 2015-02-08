@@ -25,7 +25,7 @@
   <Target Name="Update">
     <Exec Command="$(NuGetPath) install $(WinLegacy) -o $(WorkingPath) -NoCache"/>
     <Exec Command="$(NuGetPath) install $(LitJson) -o $(WorkingPath) -NoCache"/>	
-	<Exec Command="$(NuGetPath) install $(WinIntegration) -o $(WorkingPath) -NoCache"/>		
+    <Exec Command="$(NuGetPath) install $(WinIntegration) -o $(WorkingPath) -NoCache"/>		
   </Target>
 
   <Target Name="IncludeWinLegacy">
@@ -50,7 +50,10 @@
     <CreateItem Include="$(WorkingPath)\$(WinIntegration)*\lib\windowsphone8\*.dll">
       <Output TaskParameter="Include" ItemName="WP8Dlls"/>
     </CreateItem>
-    <CreateItem Include="$(WorkingPath)\$(WinIntegration)*\lib\wpa81\*.dll">
+    <CreateItem Include="$(WorkingPath)\$(WinIntegration)*\lib\wpa81\Facebook.dll">
+      <Output TaskParameter="Include" ItemName="WP81Dlls"/>
+    </CreateItem>
+    <CreateItem Include="$(WorkingPath)\$(WinIntegration)*\lib\wpa81\MarkerMetro.Unity.WinIntegration.dll">
       <Output TaskParameter="Include" ItemName="WP81Dlls"/>
     </CreateItem>
   </Target>

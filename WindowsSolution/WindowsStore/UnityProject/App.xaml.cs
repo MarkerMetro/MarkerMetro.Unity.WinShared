@@ -17,13 +17,13 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using UnityPlayer;
 using MarkerMetro.Unity.WinIntegration.Store;
+using MarkerMetro.Unity.WinIntegration.Logging;
 using System.Diagnostics;
+using UnityProject.Config;
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=234227
 
 namespace UnityProject.Win
 {
-
-
 	/// <summary>
 	/// Provides application-specific behavior to supplement the default Application class.
 	/// </summary>
@@ -37,8 +37,6 @@ namespace UnityProject.Win
 		/// </summary>
 		public App()
 		{
-            InitializeExceptionLogger();
-
             this.InitializeComponent();
 
 			appCallbacks = new AppCallbacks(false);
@@ -49,7 +47,11 @@ namespace UnityProject.Win
         {
             try
             {
-                MarkerMetro.Unity.WinIntegration.ExceptionLogger.Instance.Send(e.Exception);
+                if (ExceptionLogger.IsEnabled)
+                {
+                    ExceptionLogger.Send(e.Exception);
+                    ExceptionLogger.IsEnabled = AppConfig.Instance.ExceptionLoggingAllowed;
+                }
             }
             catch (Exception ex)
             {
