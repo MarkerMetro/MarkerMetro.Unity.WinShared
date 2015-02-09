@@ -65,13 +65,14 @@ Building the plugins locally allows you also to easily debug a particular Window
 
 ## Sample Game and [WinIntegration](https://github.com/MarkerMetro/MarkerMetro.Unity.WinIntegration) Samples
 
-The FaceFlip.unity scene demonstrates some key ]WinIntegration](https://github.com/MarkerMetro/MarkerMetro.Unity.WinIntegration) features around a simple game such as:
+The FaceFlip.unity scene demonstrates some key [WinIntegration](https://github.com/MarkerMetro/MarkerMetro.Unity.WinIntegration) features around a simple game such as:
 
-- Facebook Integration
-- Store Integration
-- Notifications
-- Platform Specific Debug Info
-- Crash and Exception Testing (if configured)
+- [Facebook Integration](https://github.com/MarkerMetro/MarkerMetro.Unity.WinIntegration/blob/master/README.md#facebook-integration)
+- [Store Integration](https://github.com/MarkerMetro/MarkerMetro.Unity.WinIntegration/blob/master/README.md#store-integration)
+- [Exception Logging](https://github.com/MarkerMetro/MarkerMetro.Unity.WinIntegration/blob/master/README.md#exception-logging) (Crash and Exception Testing)
+- [Local Notifications](https://github.com/MarkerMetro/MarkerMetro.Unity.WinIntegration/blob/master/README.md#local-notifications)
+- [Video Player](https://github.com/MarkerMetro/MarkerMetro.Unity.WinIntegration/blob/master/README.md#video-player)
+- [Platform specific information](https://github.com/MarkerMetro/MarkerMetro.Unity.WinIntegration/blob/master/README.md#helper)
 
 ## Windows Solution Build Output
 
@@ -86,6 +87,16 @@ Note that currently these projects are for Windows 8.1 and Windows Phone 8.0
 Application configuration is provided via the /Config/AppConfig.cs class. You are able to turn various features on and off as well as supplying facebook and exception logging api keys for example.
 
 Note that this class implemented IGameConfig and is supplied to Unity game side as part of app initialization. This way you can have configuration which works across both the app and game levels. 
+
+### Managing Exception Logging
+
+See [WinIntegration Exception Logging](https://github.com/MarkerMetro/MarkerMetro.Unity.WinIntegration/blob/master/README.md#exception-logging) for more on exception logging.
+
+If you are not using Raygun, you can remove Raygun Nuget packages from the solution. Right click the solution and select "Manage Nuget Packages for Solution" and uncheck Raygun. 
+
+You can replace [RaygunExceptionLogger](https://github.com/MarkerMetro/MarkerMetro.Unity.WinShared/blob/master/WindowsSolutionUniversal/UnityProject/UnityProject.Shared/Logging/RaygunExceptionLogger.cs) with an alternative implementation of IExceptionLogger for your crash reporting needs. Ensure that your projects have a reference to the crash reporting solution you are using and wire up your IExceptionLogger implementation to that solution. Lastly, [modify AppConfig.cs](https://github.com/MarkerMetro/MarkerMetro.Unity.WinShared/blob/master/WindowsSolutionUniversal/UnityProject/UnityProject.Shared/Config/AppConfig.cs) to assign your api key as required.
+
+If you are not using exception logging at all, you can remove Raygun as above, and then [modify AppConfig.cs](https://github.com/MarkerMetro/MarkerMetro.Unity.WinShared/blob/master/WindowsSolutionUniversal/UnityProject/UnityProject.Shared/Config/AppConfig.cs) and set the ExceptionLoggingEnabled property to return false to completely disable exception logging. 
 
 ### QA and Master configurations
 
