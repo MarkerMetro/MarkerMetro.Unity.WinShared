@@ -259,12 +259,6 @@ public class GUIMain : MonoBehaviour {
             _gameMasterScript.SendEmail();
         }
 
-        // Test ExtractStackTrace.
-        if (GUILayout.Button("Extract Stack Trace", GUILayout.MinHeight(ButtonHeight)))
-        {
-            _gameMasterScript.ExtractStackTrace();
-        }
-
 #if (UNITY_WP8 || UNITY_WP_8_1) && !UNITY_EDITOR
         if (GUILayout.Button("Quit", GUILayout.MinHeight(ButtonHeight)))
         {
