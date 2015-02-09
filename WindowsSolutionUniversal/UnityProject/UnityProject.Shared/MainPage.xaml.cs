@@ -35,6 +35,9 @@ using UnityProject.Config;
 using Windows.UI.ApplicationSettings;
 using MarkerMetro.Unity.WinIntegration.Facebook;
 #endif
+#if UNITY_WP_8_1
+using System.Threading;
+#endif
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -48,6 +51,9 @@ namespace UnityProject
 
 #if UNITY_METRO_8_1
         static SettingsPane settingsPane;
+#endif
+#if UNITY_WP_8_1
+        private Timer timer;
 #endif
         SplashScreen splash;
         Rect splashImageRect;
@@ -398,6 +404,10 @@ namespace UnityProject
             {
                 CheckForOFT();
             }
+            if (AppConfig.Instance.DisplayMemoryUsageAllowed)
+            {
+                BeginRecording();
+            }
         }
 
         async void CheckForOFT()
@@ -424,6 +434,41 @@ namespace UnityProject
             return new UnityPlayer.XamlPageAutomationPeer(this);
         }
 #endif
+
+        /**
+         * Add this to your DrawingSurfaceBackgroundGrid block in MaingPage.xaml:
+         *  <TextBlock x:Name="TextBoxMemoryStats" Text="0 MB" IsHitTestVisible="False" Visibility="Collapsed"/>
+         */
+        private void BeginRecording()
+        {
+            // start a timer to report memory conditions every 3 seconds 
+#if UNITY_WP_8_1
+            if (AppConfig.Instance.DisplayMemoryUsageEnabled)
+            {
+                TextBlockMemoryStats.Visibility = Visibility.Visible;
+
+                timer = new Timer(state =>
+                {
+                    string report = "";
+
+                    report +=
+                       "Current: " + (MemoryManager.AppMemoryUsage / 1000000).ToString() + "MB\n" +
+                       "Memory Limit: " + (MemoryManager.AppMemoryUsageLimit / 1000000).ToString() + "MB\n\n" +
+                       "Memory Usage Level: " + MemoryManager.AppMemoryUsageLevel.ToString();
+
+
+                    AppCallbacks.Instance.InvokeOnUIThread(delegate
+                    {
+                        TextBlockMemoryStats.Text = report;
+                    }, false);
+
+                },
+                    null,
+                    TimeSpan.FromSeconds(3),
+                    TimeSpan.FromSeconds(3));
+            }
+#endif
+        }
 
     }
 }
