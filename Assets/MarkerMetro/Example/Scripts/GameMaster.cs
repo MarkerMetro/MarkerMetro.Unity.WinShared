@@ -18,7 +18,6 @@ using FBWin = MarkerMetro.Unity.WinIntegration.Facebook.FBNative;
 #else
 using FBWin = MarkerMetro.Unity.WinIntegration.Facebook.FB;
 #endif
-using StackTraceUtility = MarkerMetro.Unity.UnityEngine.StackTraceUtility;
 
 public class GameMaster : MonoBehaviour {
 
@@ -741,21 +740,6 @@ public class GameMaster : MonoBehaviour {
         Helper.Instance.ShowShareUI("Title", "Message", "http://www.markermetro.com");
 #endif
 #endif
-    }
-
-    public void ExtractStackTrace ()
-    {
-        try
-        {
-            ThrowException();
-        }
-        catch (Exception e)
-        {
-            Debug.Log("Extract Stack Trace. " + e.Message);
-#if !UNITY_EDITOR && UNITY_WINRT
-            Helper.Instance.ShowDialog(StackTraceUtility.ExtractStringFromException(e), "Extract Stack Trace", null, "OK");
-#endif
-        }
     }
 
     private void ThrowException ()
