@@ -160,13 +160,13 @@
     <value>Servicio técnico</value>
   </data>
   <data name="SettingsCharm_CustomerSupport_Url" xml:space="preserve">
-    <value>http://disneyinteractivestudios.custhelp.com/</value>
+    <value>http://useyoururl.com/</value>
   </data>
   <data name="SettingsCharm_PrivacyPolicy" xml:space="preserve">
     <value>Política de privacidad</value>
   </data>
   <data name="SettingsCharm_PrivacyPolicy_Url" xml:space="preserve">
-    <value>http://disneyprivacycenter.com/privacy-policy-translations/spanish-latin-american/</value>
+    <value>http://useyoururl.com/</value>
   </data>
   <data name="SettingsCharm_Settings" xml:space="preserve">
     <value>Ajustes del juego</value>
@@ -175,6 +175,6 @@
     <value>Condiciones de uso</value>
   </data>
   <data name="SettingsCharm_TermsOfUse_Url" xml:space="preserve">
-    <value>http://disneytermsofuse.com/spanish-latin-american/</value>
+    <value>http://useyoururl.com/</value>
   </data>
 </root>

@@ -160,13 +160,13 @@
     <value>支持</value>
   </data>
   <data name="SettingsCharm_CustomerSupport_Url" xml:space="preserve">
-    <value>http://disneyinteractivestudios.custhelp.com/</value>
+    <value>http://useyoururl.com/</value>
   </data>
   <data name="SettingsCharm_PrivacyPolicy" xml:space="preserve">
     <value>隐私政策</value>
   </data>
   <data name="SettingsCharm_PrivacyPolicy_Url" xml:space="preserve">
-    <value>http://disneyprivacycenter.com/</value>
+    <value>http://useyoururl.com/</value>
   </data>
   <data name="SettingsCharm_Settings" xml:space="preserve">
     <value>游戏设置</value>
@@ -175,6 +175,6 @@
     <value>使用条款</value>
   </data>
   <data name="SettingsCharm_TermsOfUse_Url" xml:space="preserve">
-    <value>http://disneytermsofuse.com/</value>
+    <value>http://useyoururl.com/</value>
   </data>
 </root>
