@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "UnityProject.Shared", "UnityProject\UnityProject.Shared\UnityProject.Shared.shproj", "{D550EBEE-7F16-4918-B2C6-7BEF519B3973}"
 EndProject
@@ -25,9 +25,9 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9A513B19-3E02-41BF-8968-58BC58B0A6B3}.Debug|ARM.ActiveCfg = Debug|ARM
-		{9A513B19-3E02-41BF-8968-58BC58B0A6B3}.Debug|ARM.Build.0 = Debug|ARM
-		{9A513B19-3E02-41BF-8968-58BC58B0A6B3}.Debug|ARM.Deploy.0 = Debug|ARM
+		{9A513B19-3E02-41BF-8968-58BC58B0A6B3}.Debug|ARM.ActiveCfg = Debug|x86
+		{9A513B19-3E02-41BF-8968-58BC58B0A6B3}.Debug|ARM.Build.0 = Debug|x86
+		{9A513B19-3E02-41BF-8968-58BC58B0A6B3}.Debug|ARM.Deploy.0 = Debug|x86
 		{9A513B19-3E02-41BF-8968-58BC58B0A6B3}.Debug|x86.ActiveCfg = Debug|x86
 		{9A513B19-3E02-41BF-8968-58BC58B0A6B3}.Debug|x86.Build.0 = Debug|x86
 		{9A513B19-3E02-41BF-8968-58BC58B0A6B3}.Debug|x86.Deploy.0 = Debug|x86

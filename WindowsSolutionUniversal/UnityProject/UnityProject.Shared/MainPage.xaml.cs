@@ -79,12 +79,8 @@ namespace UnityProject
             UnityPlayer.AppCallbacks.Instance.RenderingStarted += () =>
                 {
                     isUnityLoaded = true;
-
-                    InitializeExceptionLogger();
-
                     IntegrationManager.Init();
                     IntegrationManager.CrashApp += Crash;
-                    IntegrationManager.InitializeLogger += InitializeLogger;
                 };
 
             // create extended splash timer
@@ -123,7 +119,7 @@ namespace UnityProject
         {
             var loader = ResourceLoader.GetForViewIndependentUse();
 
-            if (AppConfig.Instance.NoticationsControlEnabled || AppConfig.Instance.MusicFXControlEnabled)
+            if (AppConfig.Instance.NotificationsControlEnabled || AppConfig.Instance.MusicFXControlEnabled)
             {
                 args.Request.ApplicationCommands.Add(new SettingsCommand(Guid.NewGuid(),
                     loader.GetString("SettingsCharm_Settings"), h =>
@@ -175,7 +171,7 @@ namespace UnityProject
 
             if (result.Label=="Yes")
             {
-                ExceptionLogger.IsEnabled = true;
+                ExceptionLogger.IsEnabled = true; // override to allow test crashing
                 throw new InvalidOperationException("A test crash from Windows Store solution!");
             }
         }
@@ -406,25 +402,18 @@ namespace UnityProject
 
         async void CheckForOFT()
         {
-            try
+            var settings = ApplicationData.Current.LocalSettings;
+
+            if (!settings.Values.ContainsKey("OFT"))
             {
-                var settings = ApplicationData.Current.LocalSettings;
+                var message = new ResourceLoader().GetString("OFT_Disclosure");
 
-                if (!settings.Values.ContainsKey("OFT"))
-                {
-                    var message = new ResourceLoader().GetString("OFT_Disclosure");
+                var md = new MessageDialog(message);
+                md.Commands.Add(new UICommand("OK"));
 
-                    var md = new MessageDialog(message);
-                    md.Commands.Add(new UICommand("OK"));
+                await md.ShowAsync();
 
-                    await md.ShowAsync();
-
-                    settings.Values.Add("OFT", true);
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.ToString());
+                settings.Values.Add("OFT", true);
             }
         }
 
@@ -435,29 +424,6 @@ namespace UnityProject
             return new UnityPlayer.XamlPageAutomationPeer(this);
         }
 #endif
-        void InitializeLogger (string apiKey)
-        {
-            if (AppConfig.Instance.ExceptionLoggingEnabled)
-            {
-                if (!string.IsNullOrEmpty(apiKey))
-                {
-                    try
-                    {
-                        ExceptionLogger.Initialize(new RaygunExceptionLogger(apiKey));
-                        ExceptionLogger.IsEnabled = AppConfig.Instance.ExceptionLoggingAllowed;
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.WriteLine("Failed initializing exception logger.");
-                        Debug.WriteLine(ex.Message);
-                    }
-                }
-            }
-        }
 
-        void InitializeExceptionLogger()
-        {
-            InitializeLogger(AppConfig.Instance.ExceptionLoggingApiKey);
-        }
     }
 }

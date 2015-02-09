@@ -68,8 +68,6 @@ namespace UnityProject.Win
                 {
                     isUnityLoaded = true;
 
-                    InitializeExceptionLogger();
-
                     IntegrationManager.Init();
                     IntegrationManager.CrashApp += Crash;
                 };
@@ -104,7 +102,7 @@ namespace UnityProject.Win
         {
             var loader = ResourceLoader.GetForViewIndependentUse();
 
-            if (AppConfig.Instance.NoticationsControlEnabled || AppConfig.Instance.MusicFXControlEnabled)
+            if (AppConfig.Instance.NotificationsControlEnabled || AppConfig.Instance.MusicFXControlEnabled)
             {
                 args.Request.ApplicationCommands.Add(new SettingsCommand(Guid.NewGuid(), 
                     loader.GetString("SettingsCharm_Settings"), h =>
@@ -127,10 +125,13 @@ namespace UnityProject.Win
                     h => OnViewUrl(loader.GetString("SettingsCharm_PrivacyPolicy_Url"))));
 
 #if DEBUG || QA
-            args.Request.ApplicationCommands.Add(
-                new SettingsCommand(Guid.NewGuid(),
-                    "Crash",
-                    h => Crash()));
+            if (AppConfig.Instance.ExceptionLoggingEnabled)
+            {
+                args.Request.ApplicationCommands.Add(
+                    new SettingsCommand(Guid.NewGuid(),
+                        "Crash",
+                        h => Crash()));
+            }
 #endif
         }
 

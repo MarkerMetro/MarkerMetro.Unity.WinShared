@@ -26,7 +26,7 @@ namespace UnityProject.Win
         {
             this.InitializeComponent();
 
-            reminderSwitch.Visibility = AppConfig.Instance.NoticationsControlEnabled ? 
+            reminderSwitch.Visibility = AppConfig.Instance.NotificationsControlEnabled ? 
                 Visibility.Visible : Visibility.Collapsed;
             musicSwitch.Visibility = soundSwitch.Visibility = AppConfig.Instance.MusicFXControlEnabled ?
                 Visibility.Visible : Visibility.Collapsed;

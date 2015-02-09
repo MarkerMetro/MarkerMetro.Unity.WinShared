@@ -1,8 +1,10 @@
 ﻿using MarkerMetro.Unity.WinShared;
+using MarkerMetro.Unity.WinIntegration.Storage;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using UnityEngine;
 
 namespace UnityProject.Config
 {
@@ -55,7 +57,7 @@ namespace UnityProject.Config
             get { return true; }
         }
 
-        public bool NoticationsControlEnabled
+        public bool NotificationsControlEnabled
         {
             get { return true; }
         }
@@ -67,7 +69,16 @@ namespace UnityProject.Config
 
         public string ExceptionLoggingApiKey
         {
-            get { return ""; } // set your api key here
+            get 
+            {
+                var apiKey = String.Empty; // set your api key here
+                
+                if (Settings.HasKey("MarkerMetro.Unity.WinIntegration.Logging.ExceptionLogger.ApiKey"))
+                {
+                    apiKey = Settings.GetString("MarkerMetro.Unity.WinIntegration.Logging.ExceptionLogger.ApiKey");
+                }
+                return String.IsNullOrEmpty(apiKey) ? String.Empty : apiKey; 
+            } 
         }
 
         public List<BuildConfig> ExceptionLoggingBuildConfigs

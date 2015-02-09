@@ -116,9 +116,6 @@ namespace UnityProject.WinPhone
 		{
             IsUnityLoaded = true;
 
-
-            InitializeExceptionLogger();
-
             IntegrationManager.Init();
             IntegrationManager.CrashApp += Crash;
 

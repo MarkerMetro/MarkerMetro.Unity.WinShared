@@ -42,6 +42,8 @@ namespace UnityProject
 			// Phone-specific initialization
 			InitializePhoneApplication();
 
+            InitializeExceptionLogger();
+
 			// Show graphics profiling information while debugging.
 			if (System.Diagnostics.Debugger.IsAttached)
 			{

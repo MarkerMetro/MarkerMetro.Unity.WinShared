@@ -6,6 +6,7 @@ using MarkerMetro.Unity.WinIntegration;
 using MarkerMetro.Unity.WinIntegration.LocalNotifications;
 using MarkerMetro.Unity.WinIntegration.Facebook;
 using MarkerMetro.Unity.WinIntegration.Logging;
+using MarkerMetro.Unity.WinIntegration.Storage;
 using MarkerMetro.Unity.WinShared;
 
 #if (UNITY_WP8 || UNITY_WP_8_1) && !UNITY_EDITOR
@@ -70,7 +71,7 @@ public class GUIMain : MonoBehaviour {
             }
 
             // Only show the exception logging menu when this feature is enabled.
-            if (GameConfig.Instance.ExceptionLoggingEnabled)
+            if (GameConfig.Instance != null && GameConfig.Instance.ExceptionLoggingEnabled)
             {
                 // Exception logging menu.
                 GUILayout.Window(ExceptionLoggingWindowID, new Rect(Offset, Offset * 2 + _facebookMenuHeight, 0, 0), ExceptionLogginGUI, "Exception Logging", GUILayout.MinWidth(WindowWidth));
@@ -301,7 +302,7 @@ public class GUIMain : MonoBehaviour {
 
     void ExceptionLogginGUI (int windowID)
     {
-        GUILayout.Label("API Key:");
+        GUILayout.Label("API Key (Restart Required):");
 
         if (string.IsNullOrEmpty(_apiKey))
         {
@@ -309,12 +310,13 @@ public class GUIMain : MonoBehaviour {
         }
         _apiKey = GUILayout.TextField(_apiKey);
 
+        if (GUILayout.Button("Set API Key", GUILayout.MinHeight(ButtonHeight)))
+        {
+            Settings.Set("MarkerMetro.Unity.WinIntegration.Logging.ExceptionLogger.ApiKey", _apiKey);
+        }
+
         if (GUILayout.Button("Log App Crash", GUILayout.MinHeight(ButtonHeight)))
         {
-            if (!ExceptionLogger.IsInitialized)
-            {
-                _gameMasterScript.InitializeLogger(_apiKey);
-            }
             _gameMasterScript.LogAppCrash();
         }
 
