@@ -1,7 +1,7 @@
 ## Parameters
 #   platform: WindowsStore | WindowsPhone | WindowsUniversal
-#   projectPath: in relation to the script path
-#   outputPath: in relation to the project path
+#   projectPath: absolute path to the Unity project
+#   outputPath: absolute path to the Windows solution or project folder
 #   unityPath: absolute path to Unity.exe
 
 param(
@@ -10,16 +10,14 @@ param(
     [parameter(Mandatory=$true)][string]$outputPath,
     [parameter(Mandatory=$true)][string]$unityPath
 )
-$projectPath="$PSScriptRoot\"+$projectPath
 
+Try 
+{
 if(Test-Path $projectPath\logs)
 {
  rmdir $projectPath\logs -Force -Recurse | Out-Null
 }
 mkdir $projectPath\logs | Out-Null
-
-Try 
-{
 
 if(!(Test-Path "$unityPath"))
 {
@@ -70,6 +68,8 @@ if(!$result){
   throw "$displayName Player Build Failed"
 }
 }
-Finally {
+Finally
+{
 Write-Host "##teamcity[blockClosed name='Building $displayName Player Build']"
+	exit($lastexitcode)
 }
