@@ -4,11 +4,13 @@
 #   outputPath: in relation to the project path
 #   unityPath: absolute path to Unity.exe
 
-[string]$platform=$args[0]
-[string]$projectPath="$PSScriptRoot\"+$args[1]
-[string]$outputPath=$args[2]
-[string]$unityPath=$args[3]
-
+param(
+    [parameter(Mandatory=$true)][string]$platform,
+    [parameter(Mandatory=$true)][string]$projectPath,
+    [parameter(Mandatory=$true)][string]$outputPath,
+    [parameter(Mandatory=$true)][string]$unityPath
+)
+$projectPath="$PSScriptRoot\"+$projectPath
 
 if(Test-Path $projectPath\logs)
 {
