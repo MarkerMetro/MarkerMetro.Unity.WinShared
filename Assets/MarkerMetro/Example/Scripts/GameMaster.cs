@@ -168,17 +168,24 @@ public class GameMaster : MonoBehaviour {
 #if !UNITY_EDITOR && UNITY_WINRT
         if (ReminderManager.AreRemindersEnabled() && DateTime.TryParse(PlayerPrefs.GetString("_reminderStartTime", string.Empty), out _reminderStartTime))
         {
-            ReminderScheduled = true;
-            ReminderInfo = ReminderTextPrefix + _reminderStartTime.AddSeconds(ReminderTime).ToString("hh:mm tt");
+            CheckReminder();
+
+            if (ReminderScheduled)
+            {
+                ReminderInfo = ReminderTextPrefix + _reminderStartTime.AddSeconds(ReminderTime).ToString("hh:mm tt");
 #if UNITY_WP8
-            ReminderInfo += ReminderTextSuffix;
+                ReminderInfo += ReminderTextSuffix;
 #endif
+            }
         }
         else
         {
             ReminderScheduled = false;
             ReminderInfo = NoReminderText;
         }
+#else
+        ReminderScheduled = false;
+        ReminderInfo = NoReminderText;
 #endif
 
         CreateTiles();
@@ -264,6 +271,11 @@ public class GameMaster : MonoBehaviour {
         {
             ForceResetReminderText = false;
             ReminderInfo = NoReminderText;
+        }
+
+        if (ReminderScheduled)
+        {
+            CheckReminder();
         }
 	}
 
@@ -651,6 +663,24 @@ public class GameMaster : MonoBehaviour {
         ReminderManager.SetRemindersStatus(true);
         ReminderManager.RegisterReminder("testID", "Face Flip", "This is a reminder.", DateTime.Now.AddSeconds(ReminderTime));
 #endif
+    }
+
+    /// <summary>
+    /// Check whether the reminder has expired, and reset the reminder info if it has.
+    /// </summary>
+    void CheckReminder ()
+    {
+        DateTime reminderExpireTime = _reminderStartTime.AddSeconds(ReminderTime);
+
+        if (DateTime.Compare(DateTime.Now, reminderExpireTime) > 0)
+        {
+            ReminderScheduled = false;
+            ReminderInfo = NoReminderText;
+        }
+        else
+        {
+            ReminderScheduled = true;
+        }
     }
 
     /// <summary>
