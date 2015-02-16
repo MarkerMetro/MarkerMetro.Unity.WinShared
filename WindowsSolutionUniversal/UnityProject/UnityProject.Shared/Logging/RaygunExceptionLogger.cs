@@ -24,32 +24,23 @@ namespace UnityProject.Logging
 
         RaygunClient BuildRaygunClient(string apiKey)
         {
+            string version = null, user = null;
+
+            version = Helper.Instance.GetAppVersion();
             try
             {
-                string version = null, user = null;
-
-                version = Helper.Instance.GetAppVersion();
-                try
-                {
-                    user = Helper.Instance.GetUserDeviceId();
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine("Failed to get UserDeviceId: {0}", ex);
-                }
-
-                return new RaygunClient(apiKey)
-                {
-                    ApplicationVersion = version,
-                    User = user,
-                };
+                user = Helper.Instance.GetUserDeviceId();
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Failed to BuildRaygunClient", ex);
-
-                throw;
+                Debug.WriteLine("Failed to get UserDeviceId: {0}", ex);
             }
+
+            return new RaygunClient(apiKey)
+            {
+                ApplicationVersion = version,
+                User = user,
+            };
         }
 
         public void Send(Exception ex)
