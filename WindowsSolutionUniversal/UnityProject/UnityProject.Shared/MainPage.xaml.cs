@@ -168,18 +168,8 @@ namespace UnityProject
 
         static async void Crash()
         {
-            var dialog = new MessageDialog("Do you want to cause the crash to test error reporting?", "Crash?");
-
-            dialog.Commands.Add(new UICommand("Yes"));
-            dialog.Commands.Add(new UICommand("No"));
-
-            var result = await dialog.ShowAsync();
-
-            if (result.Label=="Yes")
-            {
-                ExceptionLogger.IsEnabled = true; // override to allow test crashing
-                throw new InvalidOperationException("A test crash from Windows Store solution!");
-            }
+            ExceptionLogger.IsEnabled = true; // override to allow test crashing
+            throw new InvalidOperationException("A test crash from Windows Universal solution!");
         }
 
         async void OnWindowVisibilityChanged(object sender, VisibilityChangedEventArgs e)
