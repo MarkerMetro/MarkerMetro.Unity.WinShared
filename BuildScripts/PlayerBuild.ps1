@@ -1,11 +1,11 @@
 ## Parameters
 #   platform: WindowsStore | WindowsPhone | WindowsUniversal
-#   projectPath: in relation to the script path
-#   outputPath: in relation to the project path
+#   projectPath: absolute path to the Unity project
+#   outputPath: absolute path to the Windows solution or project folder
 #   unityPath: absolute path to Unity.exe
 
 [string]$platform=$args[0]
-[string]$projectPath="$PSScriptRoot\"+$args[1]
+[string]$projectPath=$args[1]
 [string]$outputPath=$args[2]
 [string]$unityPath=$args[3]
 
