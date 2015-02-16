@@ -279,6 +279,8 @@ public class GameMaster : MonoBehaviour {
 				State = state;
 
                 SetupTiles();
+                _currentSwitched1 = null;
+                _currentSwitched2 = null;
 			}
 			break;
 			case GAME_STATE.GS_PLAYING:
