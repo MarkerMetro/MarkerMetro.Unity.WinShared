@@ -4,6 +4,12 @@
 #   outputPath: absolute path to the Windows solution or project folder
 #   unityPath: absolute path to Unity.exe
 
+trap
+{
+    write-output $_
+    ##teamcity[buildStatus status='FAILURE' ]
+    exit 1
+}
 
 Try 
 {
@@ -77,5 +83,5 @@ Try
 Finally
 {
 	Write-Host "##teamcity[blockClosed name='Building $displayName Player Build']"
-	exit($lastexitcode)
+	#exit($lastexitcode)
 }
