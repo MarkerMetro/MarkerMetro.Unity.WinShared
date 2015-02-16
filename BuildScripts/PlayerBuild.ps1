@@ -3,6 +3,12 @@
 #   projectPath: absolute path to the Unity project
 #   outputPath: absolute path to the Windows solution or project folder
 #   unityPath: absolute path to Unity.exe
+param(
+	[parameter(Mandatory=$true)][string]$platform,
+	[parameter(Mandatory=$true)][string]$projectPath,
+	[parameter(Mandatory=$true)][string]$outputPath,
+	[parameter(Mandatory=$true)][string]$unityPath
+)
 
 trap
 {
@@ -13,13 +19,6 @@ trap
 
 Try 
 {
-	param(
-		[parameter(Mandatory=$true)][string]$platform,
-		[parameter(Mandatory=$true)][string]$projectPath,
-		[parameter(Mandatory=$true)][string]$outputPath,
-		[parameter(Mandatory=$true)][string]$unityPath
-	)
-
 	if(Test-Path $projectPath\logs)
 	{
 	 rmdir $projectPath\logs -Force -Recurse | Out-Null
