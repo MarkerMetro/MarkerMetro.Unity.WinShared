@@ -30,13 +30,20 @@ You will need to provide following:
 - WindowsSolutionTargetDir: optional. sub-directory under TargetRepoPath where Windows Solution is built to. (e.g. defaults to 'WindowsSolutionUniversal', for Win 8.1/WP8.0 use 'WindowsSolution')
 - IncludeExamples : optional. Boolean to indicate whether to include the example scene and game from Marker Metro to demonstrate WinIntegration features. Defaults to false.
 
-This script will copy the following files and folders to your target project:
+This script will always copy the following files and folders to your target project:
 
 * .gitignore - Up to date git ignore for Unity projects (you should manually merge this if there is an existing one)
 * /BuildScripts/* - helper build scripts
-* /Assets/MarkerMetro/Editor/* - helper editor scripts, including Tools > MarkerMetro menu options
-* /Assets/MarkerMetro/Example/* - see FaceFlip.unity, a small optional game scene with [WinIntegration](https://github.com/MarkerMetro/MarkerMetro.Unity.WinIntegration) test points (recommended to see WinIntegration features in action)
 * /Assets/Plugins/* - plugin binaries and scripts
+* /Assets/MarkerMetro/Editor/* - helper editor scripts, including Tools > MarkerMetro menu options
+
+If 'IncludeExamples' is true the following will be copied across:
+
+* /Assets/MarkerMetro/Example/* - see FaceFlip.unity, a small optional game scene with [WinIntegration](https://github.com/MarkerMetro/MarkerMetro.Unity.WinIntegration) test points (recommended to see WinIntegration features in action)
+* /Assets/StreamingAssets/MarkerMetro/* - supporting example video for WinIntegration tests
+
+Based on the value of 'WindowsSolutionTargetDir' one of the following Windows Solution folders will be copied across:
+
 - WindowsSolution - boilerplate windows 8.1/Windows Phone 8.0 solution folder, enhanced version of what Unity outputs
 - WindowsSolutionUniversal - boilerplate windows 8.1 Universal solution folder, enhanced version of what Unity outputs
 
