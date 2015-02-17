@@ -27,6 +27,8 @@ You will need to provide following:
 - TargetRepoPath - full path to root folder of new repository (for example: `C:\Code\SomeProject\`)
 - UnityProjectTargetDir - subdirectory under _TargetRepoPath_ that contains Unity project (can be empty, if it is in the root of repo, for example: `Unity` for Unity project to be in `C:\Code\SomeProject\Unity`)
 - ProjectName - name of new project (ensure same as ProductName in PlayerSettings). Script will rename Windows projects, namespaces and solutions to match this name.
+- WindowsSolutionTargetDir: optional. sub-directory under TargetRepoPath where Windows Solution is built to. (e.g. defaults to 'WindowsSolutionUniversal', for Win 8.1/WP8.0 use 'WindowsSolution')
+- IncludeExamples : optional. Boolean to indicate whether to include the example scene and game from Marker Metro to demonstrate WinIntegration features. Defaults to false.
 
 This script will copy the following files and folders to your target project:
 
@@ -108,7 +110,7 @@ At this point the differences are:
 
 - Store Integration - QA uses simulated IAP, Master will attempt to use real production store APIs.
 - Exception Logging - QA enables ability to crash test via Windows settings charm, but will be off by default. Master will hide this capability but ensure Exception Logging is on by default (if a key has been supplied)
-- All for Assets.Plugins.MarkerMetro.DeviceInformation.GetEnvironment() call in Unity to return QA or Production based QA/Master configuraiton at runtime which can be useful to apply environment specific login within the game side.
+- GameConfig.Instance.CurrentBuildCOnfig in Unity will return Debug/QA/Master configuraiton at runtime (based on app solution configuration) which can be useful to apply environment specific login within the game side.
 
 ## Windows Phone Low Memory Optimization
 
