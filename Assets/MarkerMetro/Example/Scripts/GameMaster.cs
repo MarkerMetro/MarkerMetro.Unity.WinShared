@@ -254,7 +254,7 @@ namespace MarkerMetro.Unity.WinShared.Example
                 if (_waitingTimer > WaitAfterSwitch)
                 {
                     _waitingTimer = 0.0f;
-                    DoChangeState(GAME_STATE.GS_PLAYING);
+                    ChangeState(GAME_STATE.GS_PLAYING);
                 }
                 else
                 {
@@ -267,13 +267,13 @@ namespace MarkerMetro.Unity.WinShared.Example
                 if (_numberMatches == _tiles.Count / 2)
                 {
                     // Win
-                    DoChangeState(GAME_STATE.GS_END);
+                    ChangeState(GAME_STATE.GS_END);
                     GameResult = "YOU WIN";
                 }
                 else if (_remainingMoves == 0)
                 {
                     // Loss
-                    DoChangeState(GAME_STATE.GS_END);
+                    ChangeState(GAME_STATE.GS_END);
                     GameResult = "YOU LOSE";
                 }
             }
