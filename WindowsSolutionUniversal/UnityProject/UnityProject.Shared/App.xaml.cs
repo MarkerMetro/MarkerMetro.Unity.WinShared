@@ -19,7 +19,6 @@ using Windows.UI.Xaml.Navigation;
 using UnityPlayer;
 using System.Diagnostics;
 using MarkerMetro.Unity.WinIntegration.Logging;
-using MarkerMetro.Unity.WinShared;
 using UnityProject.Config;
 using UnityProject.Logging;
 
