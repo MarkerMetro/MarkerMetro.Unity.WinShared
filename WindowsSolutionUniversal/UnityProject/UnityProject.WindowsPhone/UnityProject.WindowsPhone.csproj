@@ -110,14 +110,13 @@
       <HintPath>.\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Content Include="Assets\AlignmentGrid.png" />
-    <Content Include="Assets\ApplicationIcon.png" />
-    <Content Include="Assets\Logo.scale-100.png" />
-    <Content Include="Assets\Logo.scale-140.png" />
-    <Content Include="Assets\Logo.scale-240.png" />
-    <Content Include="Assets\MediumLogo.scale-100.png" />
-    <Content Include="Assets\MediumLogo.scale-140.png" />
-    <Content Include="Assets\MediumLogo.scale-240.png" />
-    <Content Include="Assets\SmallLogo.scale-240.png" />
+    <Content Include="Assets\MediumTile.scale-100.png" />
+    <Content Include="Assets\MediumTile.scale-140.png" />
+    <Content Include="Assets\MediumTile.scale-240.png" />
+    <Content Include="Assets\SmallTile.scale-100.png" />
+    <Content Include="Assets\SmallTile.scale-140.png" />
+    <Content Include="Assets\SmallTile.scale-240.png" />
+    <Content Include="Assets\AppIcon.scale-240.png" />
     <Content Include="Assets\SplashScreen.scale-100.png" />
     <Content Include="Assets\SplashScreen.scale-140.png" />
     <Content Include="Assets\SplashScreen.scale-240.png" />
@@ -129,8 +128,8 @@
     <Content Include="Assets\Tiles\FlipCycleTileSmall.png" />
     <Content Include="Assets\Tiles\IconicTileMediumLarge.png" />
     <Content Include="Assets\Tiles\IconicTileSmall.png" />
-    <Content Include="Assets\SmallLogo.scale-100.png" />
-    <Content Include="Assets\SmallLogo.scale-140.png" />
+    <Content Include="Assets\AppIcon.scale-100.png" />
+    <Content Include="Assets\AppIcon.scale-140.png" />
     <Content Include="Assets\Tiles\TileFrontMedium.png" />
     <Content Include="Assets\Tiles\TileFrontWide.png" />
     <Content Include="Assets\Tiles\TileSmall.png" />
