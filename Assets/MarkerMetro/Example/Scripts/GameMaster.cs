@@ -111,11 +111,11 @@ public class GameMaster : MonoBehaviour {
 	private GameObject _guiStore = null;
 
     [SerializeField]
-    private AudioClip _flipSound;
+    private AudioClip _flipSound = null;
     [SerializeField]
-    private AudioClip _matchSound;
+    private AudioClip _matchSound = null;
     [SerializeField]
-    private AudioClip _failSound;
+    private AudioClip _failSound = null;
 
 	private List<GameObject> _tiles = new List<GameObject>();
     private string[] _names = { "Keith", "Tony", "Greg", "Nigel", "Ivan", "Chad", "Damian", "Brian" };
@@ -212,6 +212,7 @@ public class GameMaster : MonoBehaviour {
         }
         catch (Exception e)
         {
+            Debug.Log(e.Message);
             DeviceID = "Device ID: not available.";
         }
         LowEnd = "Is Low End: " + Helper.Instance.IsLowEndDevice();

@@ -19,6 +19,11 @@ namespace Assets.Editor.MarkerMetro
         }
 
         [MenuItem("Tools/MarkerMetro/Build/Windows Universal 8.1", priority = 2)]
+        public static void BuildUniversalFromMenu ()
+        {
+            DoBuildUniversal(string.Empty);
+        }
+
         public static void BuildUniversal()
         {
             string outputPath = MarkerMetro.CommandLineReader.GetCustomArgument("outputPath");
@@ -27,6 +32,11 @@ namespace Assets.Editor.MarkerMetro
                 outputPath = MarkerMetro.CommandLineReader.GetCustomArgument("universalOutputPath");
             }
 
+            DoBuildUniversal(outputPath);
+        }
+
+        public static void DoBuildUniversal (string outputPath)
+        {
             Build(BuildTarget.MetroPlayer,
                 outputPath,
                 () =>
@@ -38,6 +48,11 @@ namespace Assets.Editor.MarkerMetro
         }
 
         [MenuItem("Tools/MarkerMetro/Build/Windows 8.1", priority = 3)]
+        public static void BuildMetroFromMenu ()
+        {
+            DoBuildMetro(string.Empty);
+        }
+
         public static void BuildMetro()
         {
             string outputPath = MarkerMetro.CommandLineReader.GetCustomArgument("outputPath");
@@ -46,6 +61,11 @@ namespace Assets.Editor.MarkerMetro
                 outputPath = MarkerMetro.CommandLineReader.GetCustomArgument("metroOutputPath");
             }
 
+            DoBuildMetro(outputPath);
+        }
+
+        public static void DoBuildMetro (string outputPath)
+        {
             Build(BuildTarget.MetroPlayer,
                 outputPath,
                 () =>
@@ -57,6 +77,11 @@ namespace Assets.Editor.MarkerMetro
         }
 
         [MenuItem("Tools/MarkerMetro/Build/Windows Phone 8.0", priority = 4)]
+        public static void BuildWP8FromMenu ()
+        {
+            DoBuildWP8(string.Empty);
+        }
+
         public static void BuildWP8()
         {
             string outputPath = MarkerMetro.CommandLineReader.GetCustomArgument("outputPath");
@@ -65,6 +90,11 @@ namespace Assets.Editor.MarkerMetro
                 outputPath = MarkerMetro.CommandLineReader.GetCustomArgument("wp8OutputPath");
             }
 
+            DoBuildWP8(outputPath);
+        }
+
+        public static void DoBuildWP8 (string outputPath)
+        {
             Build(BuildTarget.WP8Player,
                 outputPath,
                 () =>
