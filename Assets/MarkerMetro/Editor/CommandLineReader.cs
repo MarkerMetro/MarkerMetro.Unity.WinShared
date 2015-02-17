@@ -51,7 +51,7 @@ using System.Linq;
 using UnityEngine;
 #endregion
 
-namespace Assets.Editor.MarkerMetro
+namespace MarkerMetro.Unity.WinShared.Editor
 {
 
     public class CommandLineReader

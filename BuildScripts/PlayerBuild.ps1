@@ -34,7 +34,7 @@ Try
 	   throw "Unity executable was not found at $unityPath"
 	}
 
-	$methodName = "Assets.Editor.MarkerMetro.MarkerMetroBuilder."
+	$methodName = "MarkerMetro.Unity.WinShared.Editor.MarkerMetroBuilder."
 
 	Switch ($platform)
 	{

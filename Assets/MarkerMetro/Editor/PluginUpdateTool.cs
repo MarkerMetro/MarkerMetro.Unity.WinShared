@@ -1,12 +1,11 @@
-﻿using UnityEngine;
-using UnityEditor;
+﻿using UnityEditor;
 using System;
 using System.Collections;
 using System.Diagnostics;
-using PluginSource = Assets.Editor.MarkerMetro.PluginConfigHelper.PluginSource;
-using BuildConfig = Assets.Editor.MarkerMetro.PluginConfigHelper.BuildConfig;
+using PluginSource = MarkerMetro.Unity.WinShared.Editor.PluginConfigHelper.PluginSource;
+using BuildConfig = MarkerMetro.Unity.WinShared.Editor.PluginConfigHelper.BuildConfig;
 
-namespace Assets.Editor.MarkerMetro
+namespace MarkerMetro.Unity.WinShared.Editor
 {
     internal static class PluginUpdateTool
     {
@@ -194,12 +193,12 @@ namespace Assets.Editor.MarkerMetro
                     }
                     else
                     {
-                        UnityEngine.Debug.Log(e.Data);
+                        global::UnityEngine.Debug.Log(e.Data);
                     }
                 }
                 else
                 {
-                    UnityEngine.Debug.Log(e.Data);
+                    global::UnityEngine.Debug.Log(e.Data);
 
                     if (e.Data.Contains("Successfully installed"))
                     {
@@ -222,7 +221,7 @@ namespace Assets.Editor.MarkerMetro
         /// </summary>
         static void ProcessErrorDataReceived(object sender, DataReceivedEventArgs e)
         {
-            UnityEngine.Debug.LogError(e.Data);
+            global::UnityEngine.Debug.LogError(e.Data);
             ErrorMessage = e.Data;
             CmdProcess.Close();
             CmdProcess = null;

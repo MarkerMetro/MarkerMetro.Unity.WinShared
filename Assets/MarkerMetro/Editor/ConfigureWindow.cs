@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.Collections;
-using BuildConfig = Assets.Editor.MarkerMetro.PluginConfigHelper.BuildConfig;
-using PluginSource = Assets.Editor.MarkerMetro.PluginConfigHelper.PluginSource;
+using BuildConfig = MarkerMetro.Unity.WinShared.Editor.PluginConfigHelper.BuildConfig;
+using PluginSource = MarkerMetro.Unity.WinShared.Editor.PluginConfigHelper.PluginSource;
 
-namespace Assets.Editor.MarkerMetro
+namespace MarkerMetro.Unity.WinShared.Editor
 {
     internal sealed class ConfigureWindow : EditorWindow
     {
