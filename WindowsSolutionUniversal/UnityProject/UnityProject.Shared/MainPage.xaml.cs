@@ -25,11 +25,13 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.Popups;
-using MarkerMetro.Unity.WinShared;
 using MarkerMetro.Unity.WinIntegration;
 using MarkerMetro.Unity.WinIntegration.Logging;
 using UnityProject.Logging;
 using UnityProject.Config;
+// be specific to avoid naming clashes with existing game Unity scripts
+using MMGameConfig = MarkerMetro.Unity.WinShared.GameConfig;
+using MMIntegrationManager = MarkerMetro.Unity.WinShared.IntegrationManager;
 
 #if UNITY_METRO_8_1
 using Windows.UI.ApplicationSettings;
@@ -72,7 +74,7 @@ namespace UnityProject
             Window.Current.SizeChanged += onResizeHandler;
 
             // provide the unity game config via the app config
-            GameConfig.DoGetGameConfig = () => AppConfig.Instance;
+            MMGameConfig.DoGetGameConfig = () => AppConfig.Instance;
 
             Window.Current.VisibilityChanged += OnWindowVisibilityChanged;
 
@@ -85,8 +87,8 @@ namespace UnityProject
             UnityPlayer.AppCallbacks.Instance.RenderingStarted += () =>
                 {
                     isUnityLoaded = true;
-                    IntegrationManager.Init();
-                    IntegrationManager.CrashApp += Crash;
+                    MMIntegrationManager.Init();
+                    MMIntegrationManager.CrashApp += Crash;
                 };
 
             // create extended splash timer
