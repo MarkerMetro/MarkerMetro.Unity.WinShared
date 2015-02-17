@@ -13,9 +13,9 @@ namespace Assets.Editor.MarkerMetro
         [MenuItem("Tools/MarkerMetro/Build/All", priority = 1)]
         public static void BuildAll()
         {
-            BuildMetro();
-            BuildWP8();
-            BuildUniversal();
+            BuildMetroFromMenu();
+            BuildWP8FromMenu();
+            BuildUniversalFromMenu();
         }
 
         [MenuItem("Tools/MarkerMetro/Build/Windows Universal 8.1", priority = 2)]
