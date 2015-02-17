@@ -3,6 +3,8 @@
 #   projectPath: absolute path to the Unity project
 #   outputPath: absolute path to the Windows solution or project folder
 #   unityPath: absolute path to Unity.exe
+
+# param should be the first thing in a script
 param(
 	[parameter(Mandatory=$true)][string]$platform,
 	[parameter(Mandatory=$true)][string]$projectPath,
@@ -10,6 +12,8 @@ param(
 	[parameter(Mandatory=$true)][string]$unityPath
 )
 
+# this hack is necessary even in TC9:
+# from http://stackoverflow.com/questions/15777492/why-are-my-powershell-exit-codes-always-0
 trap
 {
     write-output $_
@@ -57,7 +61,7 @@ Try
 		
 		default
 		{
-			throw "Invalid platform $platform"
+			throw "Invalid platform"
 		}
 	}
 
