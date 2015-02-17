@@ -103,6 +103,7 @@ public class GameMaster : MonoBehaviour {
     public string MovesRemaining { get; private set; }
     public string GameResult { get; private set; }
     public GAME_STATE State { get; private set; }
+    private GAME_STATE _newState = GAME_STATE.GS_UNDEFINED;
 
     [SerializeField]
     private GameObject _guiMain = null;
@@ -110,11 +111,11 @@ public class GameMaster : MonoBehaviour {
 	private GameObject _guiStore = null;
 
     [SerializeField]
-    private AudioClip _flipSound;
+    private AudioClip _flipSound = null;
     [SerializeField]
-    private AudioClip _matchSound;
+    private AudioClip _matchSound = null;
     [SerializeField]
-    private AudioClip _failSound;
+    private AudioClip _failSound = null;
 
 	private List<GameObject> _tiles = new List<GameObject>();
     private string[] _names = { "Keith", "Tony", "Greg", "Nigel", "Ivan", "Chad", "Damian", "Brian" };
@@ -145,7 +146,8 @@ public class GameMaster : MonoBehaviour {
 		GS_PLAYING,
 		GS_WAITING,
         GS_END,
-		GS_STORE
+		GS_STORE,
+        GS_UNDEFINED
 	};
 
     void Awake()
@@ -189,7 +191,7 @@ public class GameMaster : MonoBehaviour {
 #endif
 
         CreateTiles();
-        ChangeState(GAME_STATE.GS_START);
+        DoChangeState(GAME_STATE.GS_START);
 
 #if !UNITY_EDITOR && UNITY_WINRT
         FBWin.Init(SetFBInit, GameConfig.Instance.FacebookAppId, null);
@@ -210,6 +212,7 @@ public class GameMaster : MonoBehaviour {
         }
         catch (Exception e)
         {
+            Debug.Log(e.Message);
             DeviceID = "Device ID: not available.";
         }
         LowEnd = "Is Low End: " + Helper.Instance.IsLowEndDevice();
@@ -238,12 +241,17 @@ public class GameMaster : MonoBehaviour {
         Internet = "Is Online: " + Helper.Instance.HasInternetConnection;
         MeteredConnection = "Is metered connection: " + Helper.Instance.IsMeteredConnection;
 #endif
+        if (State != _newState)
+        {
+            DoChangeState(_newState);
+        }
+
         if (State == GAME_STATE.GS_WAITING)
 		{
             if (_waitingTimer > WaitAfterSwitch)
 			{
 				_waitingTimer = 0.0f;
-                ChangeState(GAME_STATE.GS_PLAYING);
+                DoChangeState(GAME_STATE.GS_PLAYING);
 			}
 			else
 			{
@@ -256,13 +264,13 @@ public class GameMaster : MonoBehaviour {
             if (_numberMatches == _tiles.Count / 2)
 			{
 				// Win
-                ChangeState(GAME_STATE.GS_END);
+                DoChangeState(GAME_STATE.GS_END);
 				GameResult = "YOU WIN";
 			}
 			else if ( _remainingMoves == 0 )
 			{
 				// Loss
-                ChangeState(GAME_STATE.GS_END);
+                DoChangeState(GAME_STATE.GS_END);
 				GameResult = "YOU LOSE";
 			}
 		}
@@ -279,8 +287,13 @@ public class GameMaster : MonoBehaviour {
         }
 	}
 
+    public void ChangeState (GAME_STATE state)
+    {
+        _newState = state;
+    }
+
 	// Change the games state.
-    public void ChangeState(GAME_STATE state)
+    void DoChangeState(GAME_STATE state)
 	{
         switch (state)
 		{
