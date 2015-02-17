@@ -18,7 +18,7 @@ function Change-ProjectName([Parameter(Mandatory=$true)][String]$newPath, [Param
     Get-ChildItem $newPath -recurse | % { if ( $_.Name.Contains("UnityProject")) { Rename-Item $_.FullName $_.Name.Replace("UnityProject",$name) } }
 }
 
-Write-Host 'TMarker Metro script that allows you to add WinShared support to existing Unity project repository'
+Write-Host 'Marker Metro script that allows you to add WinShared support to existing Unity project repository'
 Write-Host 'For this script you''l need to provide: '
 Write-Host '-TargetRepoPath: required. path to a directory where Unity repository has been git-clonned to (example: C:\Code\TestProject\)'
 Write-Host '-UnityProjectTargetDir: required. sub-directory under TargetRepoPath where Unity files are, can be empry (example: Unity\)'
