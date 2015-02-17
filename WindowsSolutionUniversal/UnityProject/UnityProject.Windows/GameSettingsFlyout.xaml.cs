@@ -16,6 +16,8 @@ using Windows.UI.Xaml.Navigation;
 using MarkerMetro.Unity.WinIntegration.LocalNotifications;
 using UnityProject.Config;
 
+using GameMaster = MarkerMetro.Unity.WinShared.Example.GameMaster;
+
 // The Settings Flyout item template is documented at http://go.microsoft.com/fwlink/?LinkId=273769
 
 namespace UnityProject.Win

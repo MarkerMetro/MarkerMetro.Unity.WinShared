@@ -5,8 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using System.Collections.Generic;
+using CommandLineReader = MarkerMetro.Unity.WinShared.Editor.CommandLineReader;
 
-namespace Assets.Editor.MarkerMetro
+namespace MarkerMetro.Unity.WinShared.Editor
 {
     public static class MarkerMetroBuilder
     {
@@ -26,10 +27,10 @@ namespace Assets.Editor.MarkerMetro
 
         public static void BuildUniversal()
         {
-            string outputPath = MarkerMetro.CommandLineReader.GetCustomArgument("outputPath");
+            string outputPath = CommandLineReader.GetCustomArgument("outputPath");
             if (String.IsNullOrEmpty(outputPath))
             {
-                outputPath = MarkerMetro.CommandLineReader.GetCustomArgument("universalOutputPath");
+                outputPath = CommandLineReader.GetCustomArgument("universalOutputPath");
             }
 
             DoBuildUniversal(outputPath);
@@ -55,10 +56,10 @@ namespace Assets.Editor.MarkerMetro
 
         public static void BuildMetro()
         {
-            string outputPath = MarkerMetro.CommandLineReader.GetCustomArgument("outputPath");
+            string outputPath = CommandLineReader.GetCustomArgument("outputPath");
             if (String.IsNullOrEmpty(outputPath))
             {
-                outputPath = MarkerMetro.CommandLineReader.GetCustomArgument("metroOutputPath");
+                outputPath = CommandLineReader.GetCustomArgument("metroOutputPath");
             }
 
             DoBuildMetro(outputPath);
@@ -84,10 +85,10 @@ namespace Assets.Editor.MarkerMetro
 
         public static void BuildWP8()
         {
-            string outputPath = MarkerMetro.CommandLineReader.GetCustomArgument("outputPath");
+            string outputPath = CommandLineReader.GetCustomArgument("outputPath");
             if (String.IsNullOrEmpty(outputPath))
             {
-                outputPath = MarkerMetro.CommandLineReader.GetCustomArgument("wp8OutputPath");
+                outputPath = CommandLineReader.GetCustomArgument("wp8OutputPath");
             }
 
             DoBuildWP8(outputPath);
