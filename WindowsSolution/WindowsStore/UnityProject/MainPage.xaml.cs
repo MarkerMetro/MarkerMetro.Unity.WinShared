@@ -137,18 +137,8 @@ namespace UnityProject.Win
 
         static async void Crash()
         {
-            var dialog = new MessageDialog("Do you want to cause the crash to test error reporting?", "Crash?");
-
-            dialog.Commands.Add(new UICommand("Yes"));
-            dialog.Commands.Add(new UICommand("No"));
-
-            var result = await dialog.ShowAsync();
-
-            if (result.Label == "Yes")
-            {
-                ExceptionLogger.IsEnabled = true;
-                throw new InvalidOperationException("A test crash from Windows Store solution!");
-            }
+            ExceptionLogger.IsEnabled = true;
+            throw new InvalidOperationException("A test crash from Windows Store solution!");
         }
 
         static void OnViewUrl(string url)

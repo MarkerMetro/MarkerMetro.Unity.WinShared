@@ -40,7 +40,7 @@ namespace MarkerMetro.Unity.WinShared
                     {
                         if (WinIntegration.Logging.ExceptionLogger.IsEnabled)
                         {
-                            MarkerMetro.Unity.WinIntegration.Logging.ExceptionLogger.Send(message, stackTrace);
+                            WinIntegration.Logging.ExceptionLogger.Send(message, stackTrace);
                             WinIntegration.Logging.ExceptionLogger.IsEnabled = GameConfig.Instance.ExceptionLoggingAllowed;
                         }
                     }

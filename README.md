@@ -18,6 +18,8 @@ Setup
 
 ## Starting a new porting project
 
+Note: Please ignore this section if you have already installed via Unity Asset Store.
+
 To initialize an exiting Unity project using WinShared code you can use Init.ps1 script, located in root of this repo.
 
 You will need to provide following:

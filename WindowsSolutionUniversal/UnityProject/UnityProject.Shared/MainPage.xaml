@@ -15,5 +15,6 @@
             <ProgressBar x:Name="SplashProgress" Foreground="#FFFFFFFF" Background="#FF333333" Maximum="25000" Width="320" Height="25" Margin="0,350,0,0"/>
         </Grid>
         <localControls:FBWebView x:Name="web" Visibility="Collapsed" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+        <TextBlock x:Name="TextBlockMemoryStats" Text="0 MB" IsHitTestVisible="False" Visibility="Collapsed"/>
     </SwapChainPanel>
 </Page>

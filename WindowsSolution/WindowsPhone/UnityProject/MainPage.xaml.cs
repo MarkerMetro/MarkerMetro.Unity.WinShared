@@ -232,17 +232,11 @@ namespace UnityProject.WinPhone
 
         void Crash()
         {
-            MarkerMetro.Unity.WinIntegration.Dispatcher.InvokeOnUIThread(() =>
+            InvokeOnUIThread(() =>
             {
-                    MessageBoxResult res = MessageBox.Show("Do you want to cause the crash to test error reporting?", "Crash?", MessageBoxButton.OKCancel);
-
-                    if (res == MessageBoxResult.OK)
-            {
-                        ExceptionLogger.IsEnabled = true;
-                        throw new InvalidOperationException("A test crash from Windows solution");
-                    }
-
-                });
+                ExceptionLogger.IsEnabled = true;
+                throw new InvalidOperationException("A test crash from Windows Phone solution");
+            });
         }
 	}
 }
