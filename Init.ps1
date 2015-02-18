@@ -122,6 +122,16 @@ try
     Write-Host ('Copying .gitignore to: ' + $targetRepoPath + '...')
     Copy-Item (ScriptSubDirectory '.gitignore') $unityProjectTargetPath -Force
 
+    # Always copy universal solution over to the target project
+    if ($winSolutionTargetDir -ne 'WindowsSolutionUniversal')
+    {
+        Write-Host ('Copying Windows Universal Solution files and folders to: ' + $targetRepoPath + '...')
+        robocopy (ScriptSubDirectory 'WindowsSolutionUniversal') (Join-Path $targetRepoPath 'WindowsSolutionUniversal') /e | Out-Null
+
+        Write-Host ('Setting Project Name to: ' + $projectName + '...')
+        Change-ProjectName (Join-Path $targetRepoPath 'WindowsSolutionUniversal') $projectName
+    }
+
     Write-Host ('Copying Windows Solution files and folders to: ' + $targetRepoPath + '...')
     robocopy (ScriptSubDirectory $winSolutionTargetDir) (Join-Path $targetRepoPath $winSolutionTargetDir) /e | Out-Null
 
