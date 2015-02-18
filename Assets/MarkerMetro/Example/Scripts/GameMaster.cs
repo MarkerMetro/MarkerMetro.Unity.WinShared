@@ -147,7 +147,7 @@ namespace MarkerMetro.Unity.WinShared.Example
 
         void Awake()
         {
-            GameController.Instance.GameSettings = this;
+            GameController.Instance.Init(this);
         }
 
         void Start()

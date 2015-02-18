@@ -76,7 +76,7 @@ namespace UnityProject
             settingsPane.CommandsRequested += SettingsPaneCommandsRequested;
 #endif
             // provide the game configuration
-            MarkerMetro.Unity.WinShared.GameController.Instance.GameConfig = AppConfig.Instance;
+            MarkerMetro.Unity.WinShared.GameController.Instance.Init(AppConfig.Instance);
 
             UnityPlayer.AppCallbacks.Instance.RenderingStarted += () =>
                 {

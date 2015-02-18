@@ -34,13 +34,30 @@ namespace MarkerMetro.Unity.WinShared
             }
         }
 
+        public void Init(IGameSettings gameSettings)
+        {
+            if (_gameSettings != null)
+            {
+                throw new InvalidOperationException("GameSettings has already been initialized");
+            }
+            _gameSettings = gameSettings;
+        }
+
+        public void Init(IGameConfig gameConfig)
+        {
+            if (_gameConfig != null)
+            {
+                throw new InvalidOperationException("GameConfig has already been initialized");
+            }
+            _gameConfig = gameConfig;
+        }
+
         /// <summary>
         /// Game Configuration required by the Unity game
         /// </summary>
         public IGameConfig GameConfig
         {
             get { return _gameConfig; }
-            set { _gameConfig = value; }
         }
         
         /// <summary>
@@ -49,7 +66,6 @@ namespace MarkerMetro.Unity.WinShared
         public IGameSettings GameSettings
         {
             get { return _gameSettings; }
-            set { _gameSettings = value; }
         }
 
     }

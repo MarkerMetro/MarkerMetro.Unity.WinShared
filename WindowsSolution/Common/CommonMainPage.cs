@@ -53,7 +53,7 @@ namespace UnityProject.WinPhone
         private void Initialize()
         {
             // provide the game configuration
-            MarkerMetro.Unity.WinShared.GameController.Instance.GameConfig = AppConfig.Instance;
+            MarkerMetro.Unity.WinShared.GameController.Instance.Init(AppConfig.Instance);
 
 #if NETFX_CORE
 
