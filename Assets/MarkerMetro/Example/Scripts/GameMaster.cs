@@ -9,9 +9,9 @@ using MarkerMetro.Unity.WinIntegration.Resources;
 using MarkerMetro.Unity.WinIntegration.LocalNotifications;
 using MarkerMetro.Unity.WinIntegration.Store;
 using MarkerMetro.Unity.WinIntegration.VideoPlayer;
-using MarkerMetro.Unity.WinIntegration.Logging;
 using LitJson;
 using MarkerMetro.Unity.WinShared;
+using Logger = MarkerMetro.Unity.WinIntegration.Logging.ExceptionLogger;
 
 #if (UNITY_WP8 || UNITY_WP_8_1) && !UNITY_EDITOR
 using FBWin = MarkerMetro.Unity.WinIntegration.Facebook.FBNative;
@@ -21,19 +21,17 @@ using FBWin = MarkerMetro.Unity.WinIntegration.Facebook.FB;
 
 namespace MarkerMetro.Unity.WinShared.Example
 {
-    public class GameMaster : MonoBehaviour
+    public class GameMaster : MonoBehaviour, IGameSettings
     {
-
         public static bool ReminderScheduled;
         public static bool ForceResetReminderText;
 
-        static GameMaster _instance;
-        static bool _soundEnabled = true;
-        static bool _musicEnabled = true;
+        bool _soundEnabled = true;
+        bool _musicEnabled = true;
         AudioSource _musicAudioSource = null;
         bool _musicPlayed = false;
 
-        public static bool SoundEnabled
+        public bool SoundEnabled
         {
             get
             {
@@ -43,21 +41,18 @@ namespace MarkerMetro.Unity.WinShared.Example
             {
                 _soundEnabled = value;
 
-                if (_instance == null)
-                    return;
-
                 if (value)
                 {
-                    _instance.PlaySound(_instance._flipSound);
+                    PlaySound(_flipSound);
                 }
                 else
                 {
-                    _instance.audio.Stop();
+                    audio.Stop();
                 }
             }
         }
 
-        public static bool MusicEnabled
+        public bool MusicEnabled
         {
             get
             {
@@ -67,16 +62,13 @@ namespace MarkerMetro.Unity.WinShared.Example
             {
                 _musicEnabled = value;
 
-                if (_instance == null)
-                    return;
-
                 if (value)
                 {
-                    _instance.PlaySound(_instance._flipSound);
+                    PlaySound(_flipSound);
                 }
                 else
                 {
-                    _instance._musicAudioSource.Stop();
+                    _musicAudioSource.Stop();
                 }
             }
         }
@@ -106,33 +98,33 @@ namespace MarkerMetro.Unity.WinShared.Example
         public string MovesRemaining { get; private set; }
         public string GameResult { get; private set; }
         public GAME_STATE State { get; private set; }
-        private GAME_STATE _newState = GAME_STATE.GS_UNDEFINED;
+        GAME_STATE _newState = GAME_STATE.GS_UNDEFINED;
 
         [SerializeField]
-        private GameObject _guiMain = null;
+        GameObject _guiMain = null;
         [SerializeField]
-        private GameObject _guiStore = null;
+        GameObject _guiStore = null;
 
         [SerializeField]
-        private AudioClip _flipSound = null;
+        AudioClip _flipSound = null;
         [SerializeField]
-        private AudioClip _matchSound = null;
+        AudioClip _matchSound = null;
         [SerializeField]
-        private AudioClip _failSound = null;
+        AudioClip _failSound = null;
 
-        private List<GameObject> _tiles = new List<GameObject>();
-        private string[] _names = { "Keith", "Tony", "Greg", "Nigel", "Ivan", "Chad", "Damian", "Brian" };
-        private Tile _currentSwitched1 = null;
-        private Tile _currentSwitched2 = null;
-        private float _waitingTimer = 0.0f;
+        List<GameObject> _tiles = new List<GameObject>();
+        string[] _names = { "Keith", "Tony", "Greg", "Nigel", "Ivan", "Chad", "Damian", "Brian" };
+        Tile _currentSwitched1 = null;
+        Tile _currentSwitched2 = null;
+        float _waitingTimer = 0.0f;
 
-        private int _maxMoves = 15;
-        private int _remainingMoves = 0;
-        private int _numberMatches = 0;
+        int _maxMoves = 15;
+        int _remainingMoves = 0;
+        int _numberMatches = 0;
 
-        private Dictionary<string, Texture2D> _facebookFriends = new Dictionary<string, Texture2D>();
+        Dictionary<string, Texture2D> _facebookFriends = new Dictionary<string, Texture2D>();
 
-        private DateTime _reminderStartTime = DateTime.Now;
+        DateTime _reminderStartTime = DateTime.Now;
 
         const float ReminderTime = 120f;
         const string ReminderTextPrefix = "Reminder scheduled for ";
@@ -155,12 +147,7 @@ namespace MarkerMetro.Unity.WinShared.Example
 
         void Awake()
         {
-            _instance = this;
-        }
-
-        void OnDestroy()
-        {
-            _instance = null;
+            GameController.InitSettings(this);
         }
 
         void Start()
@@ -171,23 +158,23 @@ namespace MarkerMetro.Unity.WinShared.Example
 
             // Reminder and Facebook aren't supported in Unity Editor.
 #if !UNITY_EDITOR && UNITY_WINRT
-        if (ReminderManager.AreRemindersEnabled() && DateTime.TryParse(PlayerPrefs.GetString("_reminderStartTime", string.Empty), out _reminderStartTime))
-        {
-            CheckReminder();
-
-            if (ReminderScheduled)
+            if (ReminderManager.AreRemindersEnabled() && DateTime.TryParse(PlayerPrefs.GetString("_reminderStartTime", string.Empty), out _reminderStartTime))
             {
-                ReminderInfo = ReminderTextPrefix + _reminderStartTime.AddSeconds(ReminderTime).ToString("hh:mm tt");
+                CheckReminder();
+
+                if (ReminderScheduled)
+                {
+                    ReminderInfo = ReminderTextPrefix + _reminderStartTime.AddSeconds(ReminderTime).ToString("hh:mm tt");
 #if UNITY_WP8
-                ReminderInfo += ReminderTextSuffix;
+                   ReminderInfo += ReminderTextSuffix;
 #endif
+                }
             }
-        }
-        else
-        {
-            ReminderScheduled = false;
-            ReminderInfo = NoReminderText;
-        }
+            else
+            {
+                ReminderScheduled = false;
+                ReminderInfo = NoReminderText;
+            }
 #else
             ReminderScheduled = false;
             ReminderInfo = NoReminderText;
@@ -197,7 +184,7 @@ namespace MarkerMetro.Unity.WinShared.Example
             DoChangeState(GAME_STATE.GS_START);
 
 #if !UNITY_EDITOR && UNITY_WINRT
-        FBWin.Init(SetFBInit, GameConfig.Instance.FacebookAppId, null);
+            FBWin.Init(SetFBInit, GameController.Instance.GameConfig.FacebookAppId, null);
 #endif
         }
 
@@ -207,22 +194,22 @@ namespace MarkerMetro.Unity.WinShared.Example
             _numberMatches = 0;
 
 #if !UNITY_EDITOR && UNITY_WINRT
-        AppVersion = "AppVersion: " + Helper.Instance.GetAppVersion();
-        Language = "Language: " + Helper.Instance.GetAppLanguage();
-        try
-        {
-            DeviceID = "Device ID: " + Helper.Instance.GetUserDeviceId();
-        }
-        catch (Exception e)
-        {
-            Debug.Log(e.Message);
-            DeviceID = "Device ID: not available.";
-        }
-        LowEnd = "Is Low End: " + Helper.Instance.IsLowEndDevice();
-        Internet = "Is Online: " + Helper.Instance.HasInternetConnection;
-        MeteredConnection = "Is metered connection: " + Helper.Instance.IsMeteredConnection;
-        ExceptionLoggingEnabledForBuildConfig = "Exception logging for current build config: " + GameConfig.Instance.ExceptionLoggingAllowed.ToString();
-        BuildConfiguration = "Build config: " + GameConfig.Instance.CurrentBuildConfig.ToString();
+            AppVersion = "AppVersion: " + Helper.Instance.GetAppVersion();
+            Language = "Language: " + Helper.Instance.GetAppLanguage();
+            try
+            {
+                DeviceID = "Device ID: " + Helper.Instance.GetUserDeviceId();
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e.Message);
+                DeviceID = "Device ID: not available.";
+            }
+            LowEnd = "Is Low End: " + Helper.Instance.IsLowEndDevice();
+            Internet = "Is Online: " + Helper.Instance.HasInternetConnection;
+            MeteredConnection = "Is metered connection: " + Helper.Instance.IsMeteredConnection;
+            ExceptionLoggingEnabledForBuildConfig = "Exception logging for current build config: " + GameController.Instance.GameConfig.ExceptionLoggingAllowed.ToString();
+            BuildConfiguration = "Build config: " + GameController.Instance.GameConfig.CurrentBuildConfig.ToString();
 #else
             AppVersion = "AppVersion: Unknown";
             Language = "Language: Unknown";
@@ -239,10 +226,10 @@ namespace MarkerMetro.Unity.WinShared.Example
         void Update()
         {
 #if !UNITY_EDITOR && UNITY_WINRT
-        // Update Info.
-        Language = "Language: " + Helper.Instance.GetAppLanguage();
-        Internet = "Is Online: " + Helper.Instance.HasInternetConnection;
-        MeteredConnection = "Is metered connection: " + Helper.Instance.IsMeteredConnection;
+            // Update Info.
+            Language = "Language: " + Helper.Instance.GetAppLanguage();
+            Internet = "Is Online: " + Helper.Instance.HasInternetConnection;
+            MeteredConnection = "Is metered connection: " + Helper.Instance.IsMeteredConnection;
 #endif
             if (State != _newState)
             {
@@ -476,7 +463,7 @@ namespace MarkerMetro.Unity.WinShared.Example
         //
         // Facebook Test Functions.
         //
-        private void SetFBInit()
+        void SetFBInit()
         {
             Debug.Log("Set FB Init");
             if (FBWin.IsLoggedIn)
@@ -529,15 +516,15 @@ namespace MarkerMetro.Unity.WinShared.Example
             if (FBWin.IsLoggedIn)
             {
 #if (UNITY_WP8 || UNITY_WP_8_1) && !UNITY_EDITOR
-            FBNative.GetCurrentUser((user) =>
-            {
-                StartCoroutine(SetFBStatus(user));
-            });
+                FBNative.GetCurrentUser((user) =>
+                {
+                    StartCoroutine(SetFBStatus(user));
+                });
 #elif (UNITY_METRO && !UNITY_EDITOR)
-            FacebookName = FB.UserName; 
-            PopulateFriends();
-            FacebookImage = new Texture2D(128, 128, TextureFormat.DXT1, false);
-            yield return StartCoroutine(GetFBPicture(FB.UserId, FacebookImage));
+                FacebookName = FB.UserName; 
+                PopulateFriends();
+                FacebookImage = new Texture2D(128, 128, TextureFormat.DXT1, false);
+                yield return StartCoroutine(GetFBPicture(FB.UserId, FacebookImage));
 #else
                 FacebookName = "Logged In (picture and name to do!)";
                 yield break;
@@ -567,11 +554,11 @@ namespace MarkerMetro.Unity.WinShared.Example
         {
             Debug.Log("Populate Friends.");
 #if !UNITY_EDITOR && UNITY_WINRT
-        if (FBWin.IsLoggedIn)
-        {
-            // Get the friends
-            FBWin.API("/me/friends", HttpMethod.GET, GetFriendsCallback);
-        }
+            if (FBWin.IsLoggedIn)
+            {
+                // Get the friends
+                FBWin.API("/me/friends", HttpMethod.GET, GetFriendsCallback);
+            }
 #endif
         }
 
@@ -579,20 +566,20 @@ namespace MarkerMetro.Unity.WinShared.Example
         {
             Debug.Log("Invite Friends.");
 #if !UNITY_EDITOR && UNITY_WINRT
-        if (FBWin.IsLoggedIn)
-        {
-            // title param only supported in WP8 (FBNative) at the moment.
-            FBWin.AppRequest(message: "Come Play FaceFlip!", callback: (result) =>
+            if (FBWin.IsLoggedIn)
             {
-                Debug.Log("AppRequest result: " + result.Text);
-                if (result.Json != null)
-                    Debug.Log("AppRequest Json: " + result.Json.ToString());
+                // title param only supported in WP8 (FBNative) at the moment.
+                FBWin.AppRequest(message: "Come Play FaceFlip!", callback: (result) =>
+                {
+                    Debug.Log("AppRequest result: " + result.Text);
+                    if (result.Json != null)
+                        Debug.Log("AppRequest Json: " + result.Json.ToString());
 #if UNITY_WP8 || UNITY_WP_8_1
-            }, title: "FaceFlip Invite");
+                }, title: "FaceFlip Invite");
 #else
-            });
+                });
 #endif
-        }
+            }
 #endif
         }
 
@@ -600,21 +587,21 @@ namespace MarkerMetro.Unity.WinShared.Example
         {
             Debug.Log("Post to Feed.");
 #if !UNITY_EDITOR && UNITY_WINRT
-        if (FBWin.IsLoggedIn)
-        {
-            FBWin.Feed(
-                link: "http://www.markermetro.com",
-                linkName: "linkName",
-                linkCaption: "linkCaption",
-                linkDescription: "linkDescription",
-                picture: "https://pbs.twimg.com/profile_images/1668748982/icon-metro-tw-128_normal.png",
-                callback: (result) =>
+            if (FBWin.IsLoggedIn)
             {
-                Debug.Log("Feed result: " + result.Text);
-                if (result.Json != null)
-                    Debug.Log("Feed Json: " + result.Json.ToString());
-            });
-        }
+                FBWin.Feed(
+                    link: "http://www.markermetro.com",
+                    linkName: "linkName",
+                    linkCaption: "linkCaption",
+                    linkDescription: "linkDescription",
+                    picture: "https://pbs.twimg.com/profile_images/1668748982/icon-metro-tw-128_normal.png",
+                    callback: (result) =>
+                {
+                    Debug.Log("Feed result: " + result.Text);
+                    if (result.Json != null)
+                        Debug.Log("Feed Json: " + result.Json.ToString());
+                });
+            }
 #endif
         }
 
@@ -676,8 +663,8 @@ namespace MarkerMetro.Unity.WinShared.Example
             Debug.Log("Set Reminder.");
 
 #if !UNITY_EDITOR && UNITY_WINRT
-        ReminderManager.SetRemindersStatus(true);
-        ReminderManager.RegisterReminder("testID", "Face Flip", "This is a reminder.", DateTime.Now.AddSeconds(ReminderTime));
+            ReminderManager.SetRemindersStatus(true);
+            ReminderManager.RegisterReminder("testID", "Face Flip", "This is a reminder.", DateTime.Now.AddSeconds(ReminderTime));
 #endif
         }
 
@@ -703,7 +690,7 @@ namespace MarkerMetro.Unity.WinShared.Example
         /// Switch off/Cancel reminder.
         /// Will be called from GameSettingsFlyout.
         /// </summary>
-        public static void CancelReminder()
+        public void CancelReminder()
         {
             ReminderScheduled = false;
             ForceResetReminderText = true;
@@ -714,7 +701,7 @@ namespace MarkerMetro.Unity.WinShared.Example
 
             Debug.Log("Remove Reminder.");
 #if !UNITY_EDITOR && UNITY_WINRT
-        ReminderManager.RemoveReminder("testID");
+            ReminderManager.RemoveReminder("testID");
 #endif
         }
 
@@ -722,8 +709,8 @@ namespace MarkerMetro.Unity.WinShared.Example
         {
             Debug.Log("Send Email.");
 #if !UNITY_EDITOR && UNITY_WINRT
-        Helper.Instance.SendEmail("test@example.com;test2@example.com", "Hello!",
-            "This is a test mail.\nBye!");
+            Helper.Instance.SendEmail("test@example.com;test2@example.com", "Hello!",
+                "This is a test mail.\nBye!");
 #endif
         }
 
@@ -731,19 +718,19 @@ namespace MarkerMetro.Unity.WinShared.Example
         {
             Debug.Log("Retrieve Products.");
 #if !UNITY_EDITOR && UNITY_WINRT
-        // retrieve store products.
-        StoreManager.Instance.RetrieveProducts((products) =>
-        {
-            if (products != null)
+            // retrieve store products.
+            StoreManager.Instance.RetrieveProducts((products) =>
             {
-                StoreProducts = products;
-                StoreProducts.Sort((a, b) => { return string.Compare(a.ProductID, b.ProductID); });
-            }
-            else
-            {
-                Helper.Instance.ShowDialog("Please switch to Debug/QA build, store not functional in Master configuration.", "Error", null, "OK");
-            }
-        });
+                if (products != null)
+                {
+                    StoreProducts = products;
+                    StoreProducts.Sort((a, b) => { return string.Compare(a.ProductID, b.ProductID); });
+                }
+                else
+                {
+                    Helper.Instance.ShowDialog("Please switch to Debug/QA build, store not functional in Master configuration.", "Error", null, "OK");
+                }
+            });
 #endif
         }
 
@@ -751,18 +738,18 @@ namespace MarkerMetro.Unity.WinShared.Example
         {
             Debug.Log("Purchase Move.");
 #if !UNITY_EDITOR && UNITY_WINRT
-        StoreManager.Instance.PurchaseProduct(product, (receipt) =>
-        {
-            if (receipt.Success)
+            StoreManager.Instance.PurchaseProduct(product, (receipt) =>
             {
-                _remainingMoves += int.Parse(receipt.Product.Name.Split(' ')[0]);
-                Helper.Instance.ShowDialog("You now have " + _remainingMoves + " moves.", "Success", null, "OK");
-            }
-            else
-            {
-                Helper.Instance.ShowDialog(receipt.Status.ToString(), "Error", null, "OK");
-            }
-        });
+                if (receipt.Success)
+                {
+                    _remainingMoves += int.Parse(receipt.Product.Name.Split(' ')[0]);
+                    Helper.Instance.ShowDialog("You now have " + _remainingMoves + " moves.", "Success", null, "OK");
+                }
+                else
+                {
+                    Helper.Instance.ShowDialog(receipt.Status.ToString(), "Error", null, "OK");
+                }
+            });
 #endif
         }
 
@@ -783,9 +770,9 @@ namespace MarkerMetro.Unity.WinShared.Example
             Debug.Log("Show Share UI.");
 #if !UNITY_EDITOR && UNITY_WINRT
 #if UNITY_METRO
-        Helper.Instance.ShowShareUI();
+            Helper.Instance.ShowShareUI();
 #else
-        Helper.Instance.ShowShareUI("Title", "Message", "http://www.markermetro.com");
+            Helper.Instance.ShowShareUI("Title", "Message", "http://www.markermetro.com");
 #endif
 #endif
         }
@@ -801,19 +788,18 @@ namespace MarkerMetro.Unity.WinShared.Example
         {
             Debug.Log("PlayVideo.");
 #if !UNITY_EDITOR && UNITY_WINRT
-        string path = Application.streamingAssetsPath + "/MarkerMetro/Example/ExampleVideo.mp4";
-        VideoPlayer.PlayVideo(path, () =>
-        {
-            Debug.Log("Video Stopped.");
-        }, VideoStretch.Uniform);
+            string path = Application.streamingAssetsPath + "/MarkerMetro/Example/ExampleVideo.mp4";
+            VideoPlayer.PlayVideo(path, () =>
+            {
+                Debug.Log("Video Stopped.");
+            }, VideoStretch.Uniform);
 #endif
         }
 
         public void LogAppCrash()
         {
-            ExceptionLogger.IsEnabled = true;
-            IntegrationManager.DoCrashApp();
+            Logger.IsEnabled = true;
+            GameController.Instance.DoAppCrashTest();
         }
-
     }
 }

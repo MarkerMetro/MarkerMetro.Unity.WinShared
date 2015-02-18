@@ -15,8 +15,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using MarkerMetro.Unity.WinIntegration.LocalNotifications;
 using UnityProject.Config;
-
-using GameMaster = MarkerMetro.Unity.WinShared.Example.GameMaster;
+using MarkerMetro.Unity.WinShared;
 
 // The Settings Flyout item template is documented at http://go.microsoft.com/fwlink/?LinkId=273769
 
@@ -36,25 +35,25 @@ namespace UnityProject.Win
             reminderSwitch.IsOn = ReminderManager.AreRemindersEnabled();
             
             // get the state of music/sound from the game
-            musicSwitch.IsOn = GameMaster.MusicEnabled;
-            soundSwitch.IsOn = GameMaster.SoundEnabled;
+            musicSwitch.IsOn = GameController.Instance.GameSettings.MusicEnabled;
+            soundSwitch.IsOn = GameController.Instance.GameSettings.SoundEnabled;
         }
 
         public void ActivateSound(bool active)
         {
             // if clause to not play the sound when GameSettingsFlyout is constructed.
-            if (GameMaster.SoundEnabled != active)
+            if (GameController.Instance.GameSettings.SoundEnabled != active)
             {
-                GameMaster.SoundEnabled = active;
+                GameController.Instance.GameSettings.SoundEnabled = active;
             }
         }
 
         public void ActivateMusic(bool active)
         {
             // if clause to not play the sound when GameSettingsFlyout is constructed.
-            if (GameMaster.MusicEnabled != active)
+            if (GameController.Instance.GameSettings.MusicEnabled != active)
             {
-                GameMaster.MusicEnabled = active;
+                GameController.Instance.GameSettings.MusicEnabled = active;
             }
         }
 
@@ -62,7 +61,7 @@ namespace UnityProject.Win
         {
             if (!active)
             {
-                GameMaster.CancelReminder();
+                GameController.Instance.GameSettings.CancelReminder();
             }
         }
 

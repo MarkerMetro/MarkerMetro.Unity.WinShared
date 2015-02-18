@@ -26,7 +26,7 @@ using MarkerMetro.Unity.WinIntegration.Facebook;
 using MarkerMetro.Unity.WinIntegration.Logging;
 using UnityProject.Logging;
 using UnityPlayer;
-using MMGameConfig = MarkerMetro.Unity.WinShared.GameConfig;
+using MMGameController = MarkerMetro.Unity.WinShared.GameController;
 using UnityProject.Config;
 
 #if NETFX_CORE
@@ -54,7 +54,7 @@ namespace UnityProject.WinPhone
         private void Initialize()
         {
             // wire up the configuration file handler:
-            MMGameConfig.DoGetGameConfig = () => AppConfig.Instance;
+            MMGameController.InitConfig(AppConfig.Instance);
 
 #if NETFX_CORE
 
