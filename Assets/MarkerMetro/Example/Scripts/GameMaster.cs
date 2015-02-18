@@ -98,33 +98,33 @@ namespace MarkerMetro.Unity.WinShared.Example
         public string MovesRemaining { get; private set; }
         public string GameResult { get; private set; }
         public GAME_STATE State { get; private set; }
-        private GAME_STATE _newState = GAME_STATE.GS_UNDEFINED;
+        GAME_STATE _newState = GAME_STATE.GS_UNDEFINED;
 
         [SerializeField]
-        private GameObject _guiMain = null;
+        GameObject _guiMain = null;
         [SerializeField]
-        private GameObject _guiStore = null;
+        GameObject _guiStore = null;
 
         [SerializeField]
-        private AudioClip _flipSound = null;
+        AudioClip _flipSound = null;
         [SerializeField]
-        private AudioClip _matchSound = null;
+        AudioClip _matchSound = null;
         [SerializeField]
-        private AudioClip _failSound = null;
+        AudioClip _failSound = null;
 
-        private List<GameObject> _tiles = new List<GameObject>();
-        private string[] _names = { "Keith", "Tony", "Greg", "Nigel", "Ivan", "Chad", "Damian", "Brian" };
-        private Tile _currentSwitched1 = null;
-        private Tile _currentSwitched2 = null;
-        private float _waitingTimer = 0.0f;
+        List<GameObject> _tiles = new List<GameObject>();
+        string[] _names = { "Keith", "Tony", "Greg", "Nigel", "Ivan", "Chad", "Damian", "Brian" };
+        Tile _currentSwitched1 = null;
+        Tile _currentSwitched2 = null;
+        float _waitingTimer = 0.0f;
 
-        private int _maxMoves = 15;
-        private int _remainingMoves = 0;
-        private int _numberMatches = 0;
+        int _maxMoves = 15;
+        int _remainingMoves = 0;
+        int _numberMatches = 0;
 
-        private Dictionary<string, Texture2D> _facebookFriends = new Dictionary<string, Texture2D>();
+        Dictionary<string, Texture2D> _facebookFriends = new Dictionary<string, Texture2D>();
 
-        private DateTime _reminderStartTime = DateTime.Now;
+        DateTime _reminderStartTime = DateTime.Now;
 
         const float ReminderTime = 120f;
         const string ReminderTextPrefix = "Reminder scheduled for ";
@@ -463,7 +463,7 @@ namespace MarkerMetro.Unity.WinShared.Example
         //
         // Facebook Test Functions.
         //
-        private void SetFBInit()
+        void SetFBInit()
         {
             Debug.Log("Set FB Init");
             if (FBWin.IsLoggedIn)

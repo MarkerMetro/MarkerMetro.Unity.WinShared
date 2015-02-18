@@ -139,7 +139,7 @@ namespace MarkerMetro.Unity.WinShared.Editor
             }
         }
 
-        private static string GetPath(BuildTarget target, bool isUniversal)
+        static string GetPath(BuildTarget target, bool isUniversal)
         {
             string projectName = string.Empty;
             string defaultDir = string.Empty;
