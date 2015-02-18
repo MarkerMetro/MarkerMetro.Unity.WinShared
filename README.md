@@ -107,7 +107,11 @@ If you are not using Raygun, you can remove Raygun Nuget packages from the solut
 
 You can replace [RaygunExceptionLogger](https://github.com/MarkerMetro/MarkerMetro.Unity.WinShared/blob/master/WindowsSolutionUniversal/UnityProject/UnityProject.Shared/Logging/RaygunExceptionLogger.cs) with an alternative implementation of IExceptionLogger for your crash reporting needs. Ensure that your projects have a reference to the crash reporting solution you are using and wire up your IExceptionLogger implementation to that solution. Lastly, [modify AppConfig.cs](https://github.com/MarkerMetro/MarkerMetro.Unity.WinShared/blob/master/WindowsSolutionUniversal/UnityProject/UnityProject.Shared/Config/AppConfig.cs) to assign your api key as required.
 
-If you are not using exception logging at all, you can remove Raygun as above, and then [modify AppConfig.cs](https://github.com/MarkerMetro/MarkerMetro.Unity.WinShared/blob/master/WindowsSolutionUniversal/UnityProject/UnityProject.Shared/Config/AppConfig.cs) and set the ExceptionLoggingEnabled property to return false to completely disable exception logging. 
+If you are not using exception logging at all, you can remove Raygun. 
+
+- Remove the RaygunExceptionLogger class from the project
+- Change the ExceptionLogger.Initialize line in App.xaml.cs to ExceptionLogger.Initialize(null);
+- [modify AppConfig.cs](https://github.com/MarkerMetro/MarkerMetro.Unity.WinShared/blob/master/WindowsSolutionUniversal/UnityProject/UnityProject.Shared/Config/AppConfig.cs)  to set the ExceptionLoggingEnabled property to return false to completely disable exception logging. 
 
 ### QA and Master configurations
 
