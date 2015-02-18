@@ -5,9 +5,9 @@ using UnityEngine;
 using MarkerMetro.Unity.WinIntegration;
 using MarkerMetro.Unity.WinIntegration.LocalNotifications;
 using MarkerMetro.Unity.WinIntegration.Facebook;
-using MarkerMetro.Unity.WinIntegration.Logging;
 using MarkerMetro.Unity.WinIntegration.Storage;
 using MarkerMetro.Unity.WinShared;
+using Logger = MarkerMetro.Unity.WinIntegration.Logging.ExceptionLogger;
 
 #if (UNITY_WP8 || UNITY_WP_8_1) && !UNITY_EDITOR
 using FBWin = MarkerMetro.Unity.WinIntegration.Facebook.FBNative;
@@ -34,7 +34,9 @@ namespace MarkerMetro.Unity.WinShared.Example
 
         GameMaster _gameMasterScript;
         bool _showInfo = false;
+#if !UNITY_EDITOR && UNITY_WINRT
         float _facebookMenuHeight;
+#endif
         string _apiKey;
 
         void Start()
@@ -64,8 +66,13 @@ namespace MarkerMetro.Unity.WinShared.Example
             if (_gameMasterScript.State == GameMaster.GAME_STATE.GS_START)
             {
                 // Facebook menu.
+#if !UNITY_EDITOR && UNITY_WINRT
                 Rect facebookScreenRect = GUILayout.Window(FacebookWindowID, new Rect(Offset, Offset, 0, 0), FacebookIntegrationGUI, "Facebook Integration", GUILayout.MinWidth(WindowWidth));
+#else
+                GUILayout.Window(FacebookWindowID, new Rect(Offset, Offset, 0, 0), FacebookIntegrationGUI, "Facebook Integration", GUILayout.MinWidth(WindowWidth));
+#endif
 
+#if !UNITY_EDITOR && UNITY_WINRT
                 // OnGUI will run twice every frame, once for EventType.Layout, and once for EventType.Repaint.
                 // The rect returned by GUILayout.Window is correct only for EventType.Repaint.
                 if (Event.current.type == EventType.Repaint)
@@ -74,11 +81,12 @@ namespace MarkerMetro.Unity.WinShared.Example
                 }
 
                 // Only show the exception logging menu when this feature is enabled.
-                if (GameConfig.Instance != null && GameConfig.Instance.ExceptionLoggingEnabled)
+                if (GameController.Instance.GameConfig.ExceptionLoggingEnabled)
                 {
                     // Exception logging menu.
                     GUILayout.Window(ExceptionLoggingWindowID, new Rect(Offset, Offset * 2 + _facebookMenuHeight, 0, 0), ExceptionLogginGUI, "Exception Logging", GUILayout.MinWidth(WindowWidth));
                 }
+#endif
 
                 if (_showInfo)
                 {
@@ -213,7 +221,7 @@ namespace MarkerMetro.Unity.WinShared.Example
             {
                 if (GUILayout.Button("Remove Reminder", GUILayout.MinHeight(ButtonHeight)))
                 {
-                    GameMaster.CancelReminder();
+                    _gameMasterScript.CancelReminder();
                 }
             }
             else
@@ -303,7 +311,7 @@ namespace MarkerMetro.Unity.WinShared.Example
 
             if (string.IsNullOrEmpty(_apiKey))
             {
-                _apiKey = GameConfig.Instance.ExceptionLoggingApiKey;
+                _apiKey = GameController.Instance.GameConfig.ExceptionLoggingApiKey;
             }
             _apiKey = GUILayout.TextField(_apiKey);
 
@@ -319,7 +327,7 @@ namespace MarkerMetro.Unity.WinShared.Example
 
             if (GUILayout.Button("Log Unity Exception", GUILayout.MinHeight(ButtonHeight)))
             {
-                ExceptionLogger.IsEnabled = true;
+                Logger.IsEnabled = true;
                 throw new System.Exception("This is test exception from Unity code");
             }
         }
