@@ -3,7 +3,7 @@
 namespace MarkerMetro.Unity.WinShared
 {
     /// <summary>
-    /// Defines settings values required by the game
+    /// Defines setting managed by the game
     /// </summary>
     public interface IGameSettings
     {

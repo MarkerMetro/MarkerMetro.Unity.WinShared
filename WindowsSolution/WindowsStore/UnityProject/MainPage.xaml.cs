@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using UnityEngine.Windows;
 using UnityPlayer;
 using Windows.Data.Xml.Dom;
-using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI;
@@ -20,16 +15,10 @@ using Windows.UI.Core;
 using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using Windows.UI.Popups;
 using MarkerMetro.Unity.WinIntegration;
 using MarkerMetro.Unity.WinIntegration.Logging;
-// be specific to avoid naming clashes with existing game Unity scripts
-using MMGameController = MarkerMetro.Unity.WinShared.GameController;
 using UnityProject.Config;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -68,8 +57,8 @@ namespace UnityProject.Win
             UnityPlayer.AppCallbacks.Instance.RenderingStarted += () =>
                 {
                     isUnityLoaded = true;
-
-                    MMGameController.AppCrashTest += Crash;
+                    MarkerMetro.Unity.WinShared.ExceptionManager.Instance.Init();
+                    MarkerMetro.Unity.WinShared.ExceptionManager.Instance.AppCrashTest += Crash;
                 };
 
             // create extended splash timer

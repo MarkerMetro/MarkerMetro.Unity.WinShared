@@ -26,7 +26,6 @@ using MarkerMetro.Unity.WinIntegration.Facebook;
 using MarkerMetro.Unity.WinIntegration.Logging;
 using UnityProject.Logging;
 using UnityPlayer;
-using MMGameController = MarkerMetro.Unity.WinShared.GameController;
 using UnityProject.Config;
 
 #if NETFX_CORE
@@ -53,14 +52,13 @@ namespace UnityProject.WinPhone
          */
         private void Initialize()
         {
-            // wire up the configuration file handler:
-            MMGameController.InitConfig(AppConfig.Instance);
+            // provide the game configuration
+            MarkerMetro.Unity.WinShared.GameController.Instance.GameConfig = AppConfig.Instance;
 
 #if NETFX_CORE
 
             // set the fb web interface (only for Win8.1)
             FB.SetPlatformInterface(web);
-
 #endif
 
         }

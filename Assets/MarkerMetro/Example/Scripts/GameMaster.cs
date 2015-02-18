@@ -11,7 +11,7 @@ using MarkerMetro.Unity.WinIntegration.Store;
 using MarkerMetro.Unity.WinIntegration.VideoPlayer;
 using LitJson;
 using MarkerMetro.Unity.WinShared;
-using Logger = MarkerMetro.Unity.WinIntegration.Logging.ExceptionLogger;
+using MarkerMetro.Unity.WinIntegration.Logging;
 
 #if (UNITY_WP8 || UNITY_WP_8_1) && !UNITY_EDITOR
 using FBWin = MarkerMetro.Unity.WinIntegration.Facebook.FBNative;
@@ -147,7 +147,7 @@ namespace MarkerMetro.Unity.WinShared.Example
 
         void Awake()
         {
-            GameController.InitSettings(this);
+            GameController.Instance.GameSettings = this;
         }
 
         void Start()
@@ -798,8 +798,8 @@ namespace MarkerMetro.Unity.WinShared.Example
 
         public void LogAppCrash()
         {
-            Logger.IsEnabled = true;
-            GameController.Instance.DoAppCrashTest();
+            ExceptionLogger.IsEnabled = true;
+            ExceptionManager.Instance.DoAppCrashTest();
         }
     }
 }
