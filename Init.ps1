@@ -1,5 +1,4 @@
-﻿# KP - is this function required? Not called so delete?
-function Get-ScriptSubDirectory([Parameter(Mandatory=$true)][String]$path)
+﻿function Get-ScriptSubDirectory([Parameter(Mandatory=$true)][String]$path)
 {
     $root = $MyInvocation.PSScriptRoot
     if(![System.String]::IsNullOrWhiteSpace($root))
@@ -26,73 +25,111 @@ Write-Host '-ProjectName: required. name for the project you are initializing ma
 Write-Host '-WindowsSolutionTargetDir: optional. sub-directory under TargetRepoPath where Windows Solution is built to. (e.g. defaults to ''WindowsSolutionUniversal'', for Win 8.1/WP8.0 use''WindowsSolution'')'
 Write-Host '-IncludeExamples : optional. Boolean to indicate whether to include the example scene and game from Marker Metro to demonstrate WinIntegration features. Defaults to false'
 
-## Sanitize input
-
-$targetRepoPath = Read-Host 'TargetRepoPath'
-$unityProjectTargetDir = Read-Host 'UnityProjectTargetDir'
-$projectName = Read-Host 'ProjectName'
-$winSolutionTargetDir = Read-Host 'WindowsSolutionTargetDir'
-$includeExamples = Read-Host 'IncludeExamples'
-
-
-if(!(Test-Path $targetRepoPath -PathType Container))
+try
 {
-    Write-Error -Message ('TargetRepoPath not found: ' + $targetRepoPath) -Category ObjectNotFound
-    # shouldn't we throw here instead, this is a critical error!
-}
+    ## Sanitize input
 
-if(!(Test-Path ($targetRepoPath + '\.git\') -PathType Container))
+    $targetRepoPath = Read-Host 'TargetRepoPath'
+
+    if([System.String]::IsNullOrWhiteSpace($targetRepoPath))
+    {
+        throw ('TargetRepoPath is required')
+    }
+
+    if(!(Test-Path $targetRepoPath -PathType Container))
+    {
+        # Critical error, TargetRepoPath is required.
+        throw ('TargetRepoPath not found: ' + $targetRepoPath)
+    }
+
+    if(!(Test-Path ($targetRepoPath + '\.git\') -PathType Container))
+    {
+        # Not critical, you should still be able to use this on projects not using Git.
+        Write-Warning ('No .git folder found in: ' + $targetRepoPath)
+    }
+
+    $unityProjectTargetDir = Read-Host 'UnityProjectTargetDir'
+
+    if([System.String]::IsNullOrWhiteSpace($unityProjectTargetDir))
+    {
+        $unityProjectTargetPath = $targetRepoPath
+    }
+    else
+    {
+        $unityProjectTargetPath = Join-Path -Path $targetRepoPath -ChildPath $unityProjectTargetDir
+    }
+
+    if(!(Test-Path $unityProjectTargetPath -PathType Container))
+    {
+        # Critical error, the unityProjectTargetPath has to be there.
+        throw 'Could not find directory: "' + $unityProjectTargetPath + '"'
+    }
+
+    $projectName = Read-Host 'ProjectName'
+    if([System.String]::IsNullOrWhiteSpace($projectName))
+    {
+        # Critical error, a project name has to be specified.
+        throw 'Invalid project name'
+    }
+
+    $winSolutionTargetDir = Read-Host 'WindowsSolutionTargetDir'
+
+    if([System.String]::IsNullOrWhiteSpace($winSolutionTargetDir))
+    {
+        # Set default winSolutionTargetDir to WindowsSolutionUniversal
+        $winSolutionTargetDir = 'WindowsSolutionUniversal'
+    }
+
+    # Ensure winSolutionTargetDir exists in WinShared
+    if(!(Test-Path (Join-Path (split-path -parent $MyInvocation.MyCommand.Definition) $winSolutionTargetDir) -PathType Container))
+    {
+        throw 'Could not find directory: "' + $winSolutionTargetDir + '" in current directory'
+    }
+    
+    $includeExamples = Read-Host 'IncludeExamples'
+
+    if([System.String]::IsNullOrWhiteSpace($includeExamples))
+    {
+        $includeExamples = 'false'
+    }
+
+    try
+    {
+        $includeExamples = [System.Convert]::ToBoolean($includeExamples)
+    }
+    catch
+    {
+        throw 'IncludeExamples must be "true" or "false"'
+    }
+
+
+    ## Copy Folders and Files
+
+    Write-Host ('Copying Build Script files and folders to: ' + $unityProjectTargetPath + '...')
+    robocopy (ScriptSubDirectory 'BuildScripts') (Join-Path $unityProjectTargetPath 'BuildScripts') /e | Out-Null
+
+    Write-Host ('Copying Unity files and folders to: ' + $unityProjectTargetPath + '...')
+
+    if ($includeExamples)
+    {
+        robocopy (ScriptSubDirectory 'Assets') (Join-Path $unityProjectTargetPath 'Assets') /e | Out-Null
+    }
+    else
+    {
+        robocopy (ScriptSubDirectory 'Assets') (Join-Path $unityProjectTargetPath 'Assets') /MIR /XD (ScriptSubDirectory 'Assets\MarkerMetro\Example') (ScriptSubDirectory 'Assets\StreamingAssets\MarkerMetro') /XF (ScriptSubDirectory 'Assets\MarkerMetro\Example.meta') (ScriptSubDirectory 'Assets\StreamingAssets\MarkerMetro.meta') | Out-Null
+    }
+
+    Write-Host ('Copying .gitignore to: ' + $targetRepoPath + '...')
+    Copy-Item (ScriptSubDirectory '.gitignore') $unityProjectTargetPath -Force
+
+    Write-Host ('Copying Windows Solution files and folders to: ' + $targetRepoPath + '...')
+    robocopy (ScriptSubDirectory $winSolutionTargetDir) (Join-Path $targetRepoPath $winSolutionTargetDir) /e | Out-Null
+
+    Write-Host ('Setting Project Name to: ' + $projectName + '...')
+    Change-ProjectName (Join-Path $targetRepoPath $winSolutionTargetDir) $projectName
+}
+catch
 {
-    Write-Warning ('No .git folder found in: ' + $targetRepoPath)
-    # shouldn't we throw here instead, this is a critical error!
+    Write-Error $_.Exception.Message
+    Pause
 }
-
-if([System.String]::IsNullOrWhiteSpace($unityProjectTargetDir))
-{
-    $unityProjectTargetPath = $targetRepoPath
-}
-else
-{
-    $unityProjectTargetPath = Join-Path -Path $targetRepoPath -ChildPath $unityProjectTargetDir
-}
-
-if(!(Test-Path $unityProjectTargetPath -PathType Container))
-{
-    Write-Warning ('Cound not find directory: "' + $unityProjectTargetPath + '" script will create it. Stop script now if this is not desired outcome')
-     # shouldn't we throw here instead, this is a critical error!
-}
-
-if([System.String]::IsNullOrWhiteSpace($projectName))
-{
-    Write-Error -Message 'Invalid project name' -Category InvalidArgument
-    # shouldn't we throw here instead, this is a critical error!
-}
-
-if(!(Test-Path $unityProjectTargetPath -PathType Container))
-{
-    Write-Host ('Creating: ' + $unityProjectTargetPath + '...')
-    mkdir $unityProjectTargetPath 
-}
-
-# KP ensure winSolutionTargetDir in current directory, and if not throw. It's optional, default to WindowsSolutionUniversal
-# KP ensure includeExamples if supplied (it's optional) is a boolean.
-
-## Copy Folders and Files
-
-Write-Host ('Copying Build Script files and folders to: ' + $unityProjectTargetPath + '...')
-robocopy (ScriptSubDirectory 'BuildScripts') (Join-Path $unityProjectTargetPath 'BuildScripts') /e | Out-Null
-
-Write-Host ('Copying Unity files and folders to: ' + $unityProjectTargetPath + '...')
-robocopy (ScriptSubDirectory 'Assets') (Join-Path $unityProjectTargetPath 'Assets') /e | Out-Null
-# use includeExamples to determine whether or not to copy /Assets/MarkerMetro/Example and /Assets/StreamingAssets/MarkerMetro
-# ideally, we would have everything to do with the game in one folder, or at least use an Example sub folder /Assets/StreamingAssets/MarkerMetro/Example for the video
-# anything else to not copy if we don't want the game?
-
-Write-Host ('Copying .gitignore to: ' + $targetRepoPath + '...')
-Copy-Item (ScriptSubDirectory '.gitignore') $unityProjectTargetPath -Force
-
-Write-Host ('Copying Windows Solution files and folders to: ' + $targetRepoPath + '...')
-robocopy (ScriptSubDirectory $winSolutionTargetDir) (Join-Path $targetRepoPath $winSolutionTargetDir) /e | Out-Null
-
-Write-Host ('Setting Project Name to: ' + $projectName + '...')
-Change-ProjectName (Join-Path $targetRepoPath $winSolutionTargetDir) $projectName

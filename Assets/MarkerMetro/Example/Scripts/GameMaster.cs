@@ -785,7 +785,7 @@ public class GameMaster : MonoBehaviour {
     {
         Debug.Log("PlayVideo.");
 #if !UNITY_EDITOR && UNITY_WINRT
-        string path = Application.streamingAssetsPath + "/MarkerMetro/ExampleVideo.mp4";
+        string path = Application.streamingAssetsPath + "/MarkerMetro/Example/ExampleVideo.mp4";
         VideoPlayer.PlayVideo(path, () =>
         {
             Debug.Log("Video Stopped.");
