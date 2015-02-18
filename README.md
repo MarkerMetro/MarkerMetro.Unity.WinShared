@@ -103,13 +103,12 @@ Note that this class implemented IGameConfig and is supplied to Unity game side 
 
 See [WinIntegration Exception Logging](https://github.com/MarkerMetro/MarkerMetro.Unity.WinIntegration/blob/master/README.md#exception-logging) for more on exception logging.
 
-If you are not using Raygun, you can remove Raygun Nuget packages from the solution. Right click the solution and select "Manage Nuget Packages for Solution" and uncheck Raygun. 
-
 You can replace [RaygunExceptionLogger](https://github.com/MarkerMetro/MarkerMetro.Unity.WinShared/blob/master/WindowsSolutionUniversal/UnityProject/UnityProject.Shared/Logging/RaygunExceptionLogger.cs) with an alternative implementation of IExceptionLogger for your crash reporting needs. Ensure that your projects have a reference to the crash reporting solution you are using and wire up your IExceptionLogger implementation to that solution. Lastly, [modify AppConfig.cs](https://github.com/MarkerMetro/MarkerMetro.Unity.WinShared/blob/master/WindowsSolutionUniversal/UnityProject/UnityProject.Shared/Config/AppConfig.cs) to assign your api key as required.
 
-If you are not using exception logging at all, you can remove Raygun. 
+If you are not using exception logging at all you can remove Raygun as follows:
 
-- Remove the RaygunExceptionLogger class from the project
+- Remove Raygun Nuget packages from the solution. Right click the solution and select "Manage Nuget Packages for Solution" and uncheck Raygun. 
+- Remove the RaygunExceptionLogger.cs class
 - Change the ExceptionLogger.Initialize line in App.xaml.cs to ExceptionLogger.Initialize(null);
 - [modify AppConfig.cs](https://github.com/MarkerMetro/MarkerMetro.Unity.WinShared/blob/master/WindowsSolutionUniversal/UnityProject/UnityProject.Shared/Config/AppConfig.cs)  to set the ExceptionLoggingEnabled property to return false to completely disable exception logging. 
 
@@ -121,7 +120,7 @@ At this point the differences are:
 
 - Store Integration - QA uses simulated IAP, Master will attempt to use real production store APIs.
 - Exception Logging - QA enables ability to crash test via Windows settings charm, but will be off by default. Master will hide this capability but ensure Exception Logging is on by default (if a key has been supplied)
-- GameConfig.Instance.CurrentBuildCOnfig in Unity will return Debug/QA/Master configuraiton at runtime (based on app solution configuration) which can be useful to apply environment specific login within the game side.
+- GameController.Instance.GameConfig.CurrentBuildConfig in Unity will return Debug/QA/Master configuraiton at runtime (based on app solution configuration) which can be useful to apply environment specific login within the game side.
 
 ## Windows Phone Low Memory Optimization
 
