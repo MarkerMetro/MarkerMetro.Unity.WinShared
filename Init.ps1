@@ -13,7 +13,9 @@
 
 function Change-ProjectName([Parameter(Mandatory=$true)][String]$newPath, [Parameter(Mandatory=$true)][String]$name)
 {
-    Get-ChildItem $newPath -include *.xaml,*.*proj,*.cs,*.resw,*.resx,*.sln,*.appxmanifest,*StoreAssociation.xml,*AppManifest.xml -recurse | Where-Object {$_.Attributes -ne "Directory"} | ForEach-Object { (Get-Content $_) -replace "UnityProject",$name | Set-Content -path $_ }
+    $projectDir = $name + "Dir"
+    Get-ChildItem $newPath -include *.xaml,*.*proj,*.cs,*.resw,*.resx,*.sln,*.appxmanifest,*StoreAssociation.xml,*AppManifest.xml -recurse | Where-Object {$_.Attributes -ne "Directory"} | ForEach-Object { (Get-Content $_ -Encoding UTF8) -replace "UnityProject",$name | Set-Content -path $_ -Encoding UTF8 }
+    Get-ChildItem $newPath -include *.*proj -recurse | Where-Object {$_.Attributes -ne "Directory"} | ForEach-Object { (Get-Content $_ -Encoding UTF8) -replace $projectDir,"UnityProjectDir" | Set-Content -path $_ -Encoding UTF8}
     Get-ChildItem $newPath -recurse | % { if ( $_.Name.Contains("UnityProject")) { Rename-Item $_.FullName $_.Name.Replace("UnityProject",$name) } }
 }
 
@@ -30,10 +32,14 @@ try
     ## Sanitize input
 
     $targetRepoPath = Read-Host 'TargetRepoPath'
+    $renameOnly = $false
 
     if([System.String]::IsNullOrWhiteSpace($targetRepoPath))
     {
-        throw ('TargetRepoPath is required')
+        # Not critical, you can run the script directly to just rename the WindowsSolution project
+        Write-Warning ('TargetRepoPath not specified, will just rename the WindowsSolution Project')
+        $targetRepoPath = split-path -parent $MyInvocation.MyCommand.Definition
+        $renameOnly = $true
     }
 
     if(!(Test-Path $targetRepoPath -PathType Container))
@@ -86,54 +92,63 @@ try
         throw 'Could not find directory: "' + $winSolutionTargetDir + '" in current directory'
     }
     
-    $includeExamples = Read-Host 'IncludeExamples'
-
-    if([System.String]::IsNullOrWhiteSpace($includeExamples))
+    if (!$renameOnly)
     {
-        $includeExamples = 'false'
+        $includeExamples = Read-Host 'IncludeExamples'
+
+        if([System.String]::IsNullOrWhiteSpace($includeExamples))
+        {
+            $includeExamples = 'false'
+        }
+
+        try
+        {
+            $includeExamples = [System.Convert]::ToBoolean($includeExamples)
+        }
+        catch
+        {
+            throw 'IncludeExamples must be "true" or "false"'
+        }
+
+
+        ## Copy Folders and Files
+
+        Write-Host ('Copying Build Script files and folders to: ' + $unityProjectTargetPath + '...')
+        robocopy (ScriptSubDirectory 'BuildScripts') (Join-Path $unityProjectTargetPath 'BuildScripts') /e | Out-Null
+
+        Write-Host ('Copying Unity files and folders to: ' + $unityProjectTargetPath + '...')
+
+        if ($includeExamples)
+        {
+            robocopy (ScriptSubDirectory 'Assets') (Join-Path $unityProjectTargetPath 'Assets') /e | Out-Null
+        }
+        else
+        {
+            robocopy (ScriptSubDirectory 'Assets') (Join-Path $unityProjectTargetPath 'Assets') /MIR /XD (ScriptSubDirectory 'Assets\MarkerMetro\Example') (ScriptSubDirectory 'Assets\StreamingAssets\MarkerMetro') /XF (ScriptSubDirectory 'Assets\MarkerMetro\Example.meta') (ScriptSubDirectory 'Assets\StreamingAssets\MarkerMetro.meta') | Out-Null
+        }
+
+        Write-Host ('Copying .gitignore to: ' + $targetRepoPath + '...')
+        Copy-Item (ScriptSubDirectory '.gitignore') $unityProjectTargetPath -Force
     }
 
-    try
-    {
-        $includeExamples = [System.Convert]::ToBoolean($includeExamples)
-    }
-    catch
-    {
-        throw 'IncludeExamples must be "true" or "false"'
-    }
-
-
-    ## Copy Folders and Files
-
-    Write-Host ('Copying Build Script files and folders to: ' + $unityProjectTargetPath + '...')
-    robocopy (ScriptSubDirectory 'BuildScripts') (Join-Path $unityProjectTargetPath 'BuildScripts') /e | Out-Null
-
-    Write-Host ('Copying Unity files and folders to: ' + $unityProjectTargetPath + '...')
-
-    if ($includeExamples)
-    {
-        robocopy (ScriptSubDirectory 'Assets') (Join-Path $unityProjectTargetPath 'Assets') /e | Out-Null
-    }
-    else
-    {
-        robocopy (ScriptSubDirectory 'Assets') (Join-Path $unityProjectTargetPath 'Assets') /MIR /XD (ScriptSubDirectory 'Assets\MarkerMetro\Example') (ScriptSubDirectory 'Assets\StreamingAssets\MarkerMetro') /XF (ScriptSubDirectory 'Assets\MarkerMetro\Example.meta') (ScriptSubDirectory 'Assets\StreamingAssets\MarkerMetro.meta') | Out-Null
-    }
-
-    Write-Host ('Copying .gitignore to: ' + $targetRepoPath + '...')
-    Copy-Item (ScriptSubDirectory '.gitignore') $unityProjectTargetPath -Force
-
-    # Always copy universal solution over to the target project
+    # Always copy universal solution over to the target project if it is not rename only
     if ($winSolutionTargetDir -ne 'WindowsSolutionUniversal')
     {
-        Write-Host ('Copying Windows Universal Solution files and folders to: ' + $targetRepoPath + '...')
-        robocopy (ScriptSubDirectory 'WindowsSolutionUniversal') (Join-Path $targetRepoPath 'WindowsSolutionUniversal') /e | Out-Null
+        if (!$renameOnly)
+        {
+            Write-Host ('Copying Windows Universal Solution files and folders to: ' + $targetRepoPath + '...')
+            robocopy (ScriptSubDirectory 'WindowsSolutionUniversal') (Join-Path $targetRepoPath 'WindowsSolutionUniversal') /e | Out-Null
+        }
 
         Write-Host ('Setting Project Name to: ' + $projectName + '...')
         Change-ProjectName (Join-Path $targetRepoPath 'WindowsSolutionUniversal') $projectName
     }
 
-    Write-Host ('Copying Windows Solution files and folders to: ' + $targetRepoPath + '...')
-    robocopy (ScriptSubDirectory $winSolutionTargetDir) (Join-Path $targetRepoPath $winSolutionTargetDir) /e | Out-Null
+    if (!$renameOnly)
+    {
+        Write-Host ('Copying Windows Solution files and folders to: ' + $targetRepoPath + '...')
+        robocopy (ScriptSubDirectory $winSolutionTargetDir) (Join-Path $targetRepoPath $winSolutionTargetDir) /e | Out-Null
+    }
 
     Write-Host ('Setting Project Name to: ' + $projectName + '...')
     Change-ProjectName (Join-Path $targetRepoPath $winSolutionTargetDir) $projectName
