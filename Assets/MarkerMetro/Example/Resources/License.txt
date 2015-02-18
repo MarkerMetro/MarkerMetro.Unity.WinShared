@@ -1,0 +1,6 @@
+This program uses these sounds from freesound:
+"Music" by Soughtaftersounds ( http://www.freesound.org/people/Soughtaftersounds/ )
+All other audio files by lluiset7 ( http://www.freesound.org/people/lluiset7/ )
+
+"Music" is licensed under the Creative Commons Attribution License (http://creativecommons.org/licenses/by/3.0/):
+Copyright © 2011 Varazuvi™ www.varazuvi.com
