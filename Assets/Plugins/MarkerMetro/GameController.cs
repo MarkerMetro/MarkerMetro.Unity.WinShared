@@ -32,7 +32,7 @@ namespace MarkerMetro.Unity.WinShared
                 }
                 if (_instance._gameConfig != null)
                 {
-                    throw new InvalidOperationException("GameController.Init has already been invoked and can only be called once");
+                    throw new InvalidOperationException("GameController.InitConfig has already been invoked and can only be called once");
                 }
                 _instance._gameConfig = gameConfig;
             }
@@ -54,7 +54,7 @@ namespace MarkerMetro.Unity.WinShared
                 }
                 if (_instance._gameSetting != null)
                 {
-                    throw new InvalidOperationException("GameController.Init has already been invoked and can only be called once");
+                    throw new InvalidOperationException("GameController.InitSettings has already been invoked and can only be called once");
                 }
 
                 _instance._gameSetting = gameSetting;
@@ -70,7 +70,7 @@ namespace MarkerMetro.Unity.WinShared
             {
                 if (_instance == null)
                 {
-                    throw new NullReferenceException("GameContoller.Instance is null, did you call Init first?");
+                    throw new NullReferenceException("GameContoller.Instance is null, did you call InitConfig or InitSettings first?");
                 }
                 return _instance;
             }
