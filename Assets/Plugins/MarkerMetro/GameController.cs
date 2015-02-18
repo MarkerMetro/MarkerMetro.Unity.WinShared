@@ -70,11 +70,13 @@ namespace MarkerMetro.Unity.WinShared
             {
                 if (_instance == null)
                 {
-                    throw new NullReferenceException("GameContoller.Instance is null, did you call InitConfig or InitSettings first?");
+                    throw new NullReferenceException("GameContoller._instance is null, did you call InitConfig or InitSettings first?");
                 }
                 return _instance;
             }
         }
+
+        private GameController() { }
 
         public IGameConfig GameConfig
         {
