@@ -26,9 +26,10 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.Popups;
-using MarkerMetro.Unity.WinShared;
 using MarkerMetro.Unity.WinIntegration;
 using MarkerMetro.Unity.WinIntegration.Logging;
+// be specific to avoid naming clashes with existing game Unity scripts
+using MMGameController = MarkerMetro.Unity.WinShared.GameController;
 using UnityProject.Config;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -68,8 +69,7 @@ namespace UnityProject.Win
                 {
                     isUnityLoaded = true;
 
-                    IntegrationManager.Init();
-                    IntegrationManager.CrashApp += Crash;
+                    MMGameController.AppCrashTest += Crash;
                 };
 
             // create extended splash timer

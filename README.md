@@ -27,14 +27,23 @@ You will need to provide following:
 - TargetRepoPath - full path to root folder of new repository (for example: `C:\Code\SomeProject\`)
 - UnityProjectTargetDir - subdirectory under _TargetRepoPath_ that contains Unity project (can be empty, if it is in the root of repo, for example: `Unity` for Unity project to be in `C:\Code\SomeProject\Unity`)
 - ProjectName - name of new project (ensure same as ProductName in PlayerSettings). Script will rename Windows projects, namespaces and solutions to match this name.
+- WindowsSolutionTargetDir: optional. sub-directory under TargetRepoPath where Windows Solution is built to. (e.g. defaults to 'WindowsSolutionUniversal', for Win 8.1/WP8.0 use 'WindowsSolution')
+- IncludeExamples : optional. Boolean to indicate whether to include the example scene and game from Marker Metro to demonstrate WinIntegration features. Defaults to false.
 
-This script will copy the following files and folders to your target project:
+This script will always copy the following files and folders to your target project:
 
 * .gitignore - Up to date git ignore for Unity projects (you should manually merge this if there is an existing one)
 * /BuildScripts/* - helper build scripts
-* /Assets/MarkerMetro/Editor/* - helper editor scripts, including Tools > MarkerMetro menu options
-* /Assets/MarkerMetro/Example/* - see FaceFlip.unity, a small optional game scene with [WinIntegration](https://github.com/MarkerMetro/MarkerMetro.Unity.WinIntegration) test points (recommended to see WinIntegration features in action)
 * /Assets/Plugins/* - plugin binaries and scripts
+* /Assets/MarkerMetro/Editor/* - helper editor scripts, including Tools > MarkerMetro menu options
+
+If 'IncludeExamples' is true the following will be copied across:
+
+* /Assets/MarkerMetro/Example/* - see FaceFlip.unity, a small optional game scene with [WinIntegration](https://github.com/MarkerMetro/MarkerMetro.Unity.WinIntegration) test points (recommended to see WinIntegration features in action)
+* /Assets/StreamingAssets/MarkerMetro/* - supporting example video for WinIntegration tests
+
+Based on the value of 'WindowsSolutionTargetDir' one of the following Windows Solution folders will be copied across:
+
 - WindowsSolution - boilerplate windows 8.1/Windows Phone 8.0 solution folder, enhanced version of what Unity outputs
 - WindowsSolutionUniversal - boilerplate windows 8.1 Universal solution folder, enhanced version of what Unity outputs
 
@@ -94,11 +103,14 @@ Note that this class implemented IGameConfig and is supplied to Unity game side 
 
 See [WinIntegration Exception Logging](https://github.com/MarkerMetro/MarkerMetro.Unity.WinIntegration/blob/master/README.md#exception-logging) for more on exception logging.
 
-If you are not using Raygun, you can remove Raygun Nuget packages from the solution. Right click the solution and select "Manage Nuget Packages for Solution" and uncheck Raygun. 
-
 You can replace [RaygunExceptionLogger](https://github.com/MarkerMetro/MarkerMetro.Unity.WinShared/blob/master/WindowsSolutionUniversal/UnityProject/UnityProject.Shared/Logging/RaygunExceptionLogger.cs) with an alternative implementation of IExceptionLogger for your crash reporting needs. Ensure that your projects have a reference to the crash reporting solution you are using and wire up your IExceptionLogger implementation to that solution. Lastly, [modify AppConfig.cs](https://github.com/MarkerMetro/MarkerMetro.Unity.WinShared/blob/master/WindowsSolutionUniversal/UnityProject/UnityProject.Shared/Config/AppConfig.cs) to assign your api key as required.
 
-If you are not using exception logging at all, you can remove Raygun as above, and then [modify AppConfig.cs](https://github.com/MarkerMetro/MarkerMetro.Unity.WinShared/blob/master/WindowsSolutionUniversal/UnityProject/UnityProject.Shared/Config/AppConfig.cs) and set the ExceptionLoggingEnabled property to return false to completely disable exception logging. 
+If you are not using exception logging at all you can remove Raygun as follows:
+
+- Remove Raygun Nuget packages from the solution. Right click the solution and select "Manage Nuget Packages for Solution" and uncheck Raygun. 
+- Remove the RaygunExceptionLogger.cs class
+- Change the ExceptionLogger.Initialize line in App.xaml.cs to ExceptionLogger.Initialize(null);
+- [modify AppConfig.cs](https://github.com/MarkerMetro/MarkerMetro.Unity.WinShared/blob/master/WindowsSolutionUniversal/UnityProject/UnityProject.Shared/Config/AppConfig.cs)  to set the ExceptionLoggingEnabled property to return false to completely disable exception logging. 
 
 ### QA and Master configurations
 
@@ -108,7 +120,7 @@ At this point the differences are:
 
 - Store Integration - QA uses simulated IAP, Master will attempt to use real production store APIs.
 - Exception Logging - QA enables ability to crash test via Windows settings charm, but will be off by default. Master will hide this capability but ensure Exception Logging is on by default (if a key has been supplied)
-- All for Assets.Plugins.MarkerMetro.DeviceInformation.GetEnvironment() call in Unity to return QA or Production based QA/Master configuraiton at runtime which can be useful to apply environment specific login within the game side.
+- GameController.Instance.GameConfig.CurrentBuildConfig in Unity will return Debug/QA/Master configuraiton at runtime (based on app solution configuration) which can be useful to apply environment specific login within the game side.
 
 ## Windows Phone Low Memory Optimization
 

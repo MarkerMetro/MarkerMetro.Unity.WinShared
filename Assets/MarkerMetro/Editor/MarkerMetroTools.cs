@@ -1,8 +1,11 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace Assets.Editor.MarkerMetro
+namespace MarkerMetro.Unity.WinShared.Editor
 {
+    /// <summary>
+    /// This class contains methods of general purpose.
+    /// </summary>
     public static class MarkerMetroTools
     {
         [MenuItem("Tools/MarkerMetro/Preferences/Player Prefs/Delete All", priority = 20)]

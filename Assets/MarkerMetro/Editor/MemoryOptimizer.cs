@@ -10,7 +10,7 @@ using UnityEditor;
  * Important: Texture Resizing won't happen twice with the same texture, even when changing the
  *  TextureResizingFactor, so you can safely run the script multiple times in the same textures.
  */
-namespace Assets.Editor.MarkerMetro
+namespace MarkerMetro.Unity.WinShared.Editor
 {
     class MemoryOptimizer : AssetPostprocessor
     {
