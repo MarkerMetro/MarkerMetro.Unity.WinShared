@@ -5,13 +5,45 @@ using System.Linq;
 
 namespace MarkerMetro.Unity.WinShared
 {
-    internal static class ExceptionLogger
+
+    /// <summary>
+    /// Manages exceptions from Unity
+    /// </summary>
+    public class ExceptionManager
     {
+
+        private static ExceptionManager _instance;
+        private static readonly object _sync = new object();
+
         /// <summary>
-        /// Allows for handling of all unity exceptions
+        /// Handled by the application to perform crash test
         /// </summary>
-        internal static void Init()
+        private Action _appCrashTest;
+
+        private ExceptionManager() { }
+
+        public static ExceptionManager Instance
         {
+            get
+            {
+                lock (_sync)
+                {
+                    if (_instance == null)
+                    {
+                        _instance = new ExceptionManager();
+                    }
+                }
+                return _instance;
+            }
+        }
+
+        /// <summary>
+        /// Initializes exception management within the Unity side
+        /// </summary>
+        public void Init(Action appCrashTest = null)
+        {
+            _appCrashTest = appCrashTest;
+
             Application.LogCallback handleException = (message, stackTrace, type) =>
             {
                 if (type == LogType.Exception || type == LogType.Error)
@@ -35,5 +67,17 @@ namespace MarkerMetro.Unity.WinShared
 
             Application.RegisterLogCallback(handleException);
         }
+
+        /// <summary>
+        /// Allows Unity game to crash test the application
+        /// </summary>
+        public void AppCrashTest()
+        {
+            if (_appCrashTest != null)
+            {
+                _appCrashTest();
+            }
+        }
+
     }
 }

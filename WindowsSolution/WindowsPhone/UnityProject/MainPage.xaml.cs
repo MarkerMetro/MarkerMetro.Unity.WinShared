@@ -31,8 +31,6 @@ using MarkerMetro.Unity.WinIntegration;
 using MarkerMetro.Unity.WinIntegration.Facebook;
 using MarkerMetro.Unity.WinIntegration.Store;
 using MarkerMetro.Unity.WinIntegration.Logging;
-// be specific to avoid naming clashes with existing game Unity scripts
-using MMGameController = MarkerMetro.Unity.WinShared.GameController;
 using UnityProject.Config;
 
 namespace UnityProject.WinPhone
@@ -116,7 +114,7 @@ namespace UnityProject.WinPhone
 		{
             IsUnityLoaded = true;
 
-            MMGameController.AppCrashTest += Crash;
+            MarkerMetro.Unity.WinShared.ExceptionManager.Instance.Init(Crash);
 
 			SetupGeolocator();
 

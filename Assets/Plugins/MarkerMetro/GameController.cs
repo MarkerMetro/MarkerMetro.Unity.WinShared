@@ -4,96 +4,69 @@ using UnityEngine;
 namespace MarkerMetro.Unity.WinShared
 {
     /// <summary>
-    /// Allows for control over the game
+    /// Provides configuration and settings control for the game
     /// </summary>
+    /// <remarks>
+    /// A gateway class between the application and Unity game
+    /// </remarks>
     public class GameController
     {
         private static GameController _instance;
         private static readonly object _sync = new object();
 
         private IGameConfig _gameConfig;
-        private IGameSettings _gameSetting;
+        private IGameSettings _gameSettings;
 
-        public static event Action AppCrashTest;
-
-        public static void InitConfig(IGameConfig gameConfig)
-        {
-            if (gameConfig == null)
-            {
-                throw new ArgumentNullException("gameConfig");
-            }
-            lock (_sync)
-            {
-
-                // create singleton
-                if (_instance == null)
-                {
-                    _instance = new GameController();
-                }
-                if (_instance._gameConfig != null)
-                {
-                    throw new InvalidOperationException("GameController.InitConfig has already been invoked and can only be called once");
-                }
-                _instance._gameConfig = gameConfig;
-            }
-        }
-
-        public static void InitSettings(IGameSettings gameSetting)
-        {
-            if (gameSetting == null)
-            {
-                throw new ArgumentNullException("gameSetting");
-            }
-            lock (_sync)
-            {
-
-                // create singleton
-                if (_instance == null)
-                {
-                    _instance = new GameController();
-                }
-                if (_instance._gameSetting != null)
-                {
-                    throw new InvalidOperationException("GameController.InitSettings has already been invoked and can only be called once");
-                }
-
-                _instance._gameSetting = gameSetting;
-
-                // initialize dependencies
-                ExceptionLogger.Init();
-            }
-        }
+        private GameController() { }
 
         public static GameController Instance
         {
             get
             {
-                if (_instance == null)
+                lock (_sync)
                 {
-                    throw new NullReferenceException("GameContoller._instance is null, did you call InitConfig or InitSettings first?");
+                    if (_instance == null)
+                    {
+                        _instance = new GameController();
+                    }
                 }
                 return _instance;
             }
         }
 
-        private GameController() { }
+        public void Init(IGameSettings gameSettings)
+        {
+            if (_gameSettings != null)
+            {
+                throw new InvalidOperationException("GameSettings has already been initialized");
+            }
+            _gameSettings = gameSettings;
+        }
 
+        public void Init(IGameConfig gameConfig)
+        {
+            if (_gameConfig != null)
+            {
+                throw new InvalidOperationException("GameConfig has already been initialized");
+            }
+            _gameConfig = gameConfig;
+        }
+
+        /// <summary>
+        /// Game Configuration required by the Unity game
+        /// </summary>
         public IGameConfig GameConfig
         {
             get { return _gameConfig; }
         }
-
+        
+        /// <summary>
+        /// Game Settings control provided by the Unity game
+        /// </summary>
         public IGameSettings GameSettings
         {
-            get { return _gameSetting; }
+            get { return _gameSettings; }
         }
 
-        public void DoAppCrashTest ()
-        {
-            if (AppCrashTest != null)
-            {
-                AppCrashTest();
-            }
-        }
     }
 }

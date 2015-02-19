@@ -29,9 +29,6 @@ using MarkerMetro.Unity.WinIntegration;
 using MarkerMetro.Unity.WinIntegration.Logging;
 using UnityProject.Logging;
 using UnityProject.Config;
-// be specific to avoid naming clashes with existing game Unity scripts
-using MMGameController = MarkerMetro.Unity.WinShared.GameController;
-
 #if UNITY_METRO_8_1
 using Windows.UI.ApplicationSettings;
 using MarkerMetro.Unity.WinIntegration.Facebook;
@@ -78,12 +75,13 @@ namespace UnityProject
             settingsPane = SettingsPane.GetForCurrentView();
             settingsPane.CommandsRequested += SettingsPaneCommandsRequested;
 #endif
-            MMGameController.InitConfig(AppConfig.Instance);
+            // provide the game configuration
+            MarkerMetro.Unity.WinShared.GameController.Instance.Init(AppConfig.Instance);
 
             UnityPlayer.AppCallbacks.Instance.RenderingStarted += () =>
                 {
                     isUnityLoaded = true;
-                    MMGameController.AppCrashTest += Crash;
+                    MarkerMetro.Unity.WinShared.ExceptionManager.Instance.Init(Crash);
                 };
 
             // create extended splash timer
