@@ -9,6 +9,6 @@ namespace MarkerMetro.Unity.WinShared
     {
         bool MusicEnabled { get; set; }
         bool SoundEnabled { get; set; }
-        void CancelReminder();
+        bool RemindersEnabled { get; set; }
     }
 }

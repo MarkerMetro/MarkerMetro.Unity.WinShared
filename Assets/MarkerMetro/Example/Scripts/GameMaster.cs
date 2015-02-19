@@ -23,11 +23,12 @@ namespace MarkerMetro.Unity.WinShared.Example
 {
     public class GameMaster : MonoBehaviour, IGameSettings
     {
-        public static bool ReminderScheduled;
-        public static bool ForceResetReminderText;
-
         bool _soundEnabled = true;
         bool _musicEnabled = true;
+#if UNITY_EDITOR || !UNITY_WINRT
+        bool _reminderEnabled = true;
+#endif
+
         AudioSource _musicAudioSource = null;
         bool _musicPlayed = false;
 
@@ -72,6 +73,32 @@ namespace MarkerMetro.Unity.WinShared.Example
                 }
             }
         }
+
+        public bool RemindersEnabled
+        {
+            get
+            {
+#if !UNITY_EDITOR && UNITY_WINRT
+                return ReminderManager.AreRemindersEnabled();
+#else
+                return _reminderEnabled;
+#endif
+            }
+            set
+            {
+#if !UNITY_EDITOR && UNITY_WINRT
+                ReminderManager.SetRemindersStatus(value);
+#else
+                _reminderEnabled = value;
+#endif
+                if (!value)
+                {
+                    CancelReminder();
+                }
+            }
+        }
+
+        public bool ReminderScheduled { get; set; }
 
         public List<Product> StoreProducts { get; private set; }
 
@@ -263,12 +290,6 @@ namespace MarkerMetro.Unity.WinShared.Example
                     ChangeState(GAME_STATE.GS_END);
                     GameResult = "YOU LOSE";
                 }
-            }
-
-            if (ForceResetReminderText)
-            {
-                ForceResetReminderText = false;
-                ReminderInfo = NoReminderText;
             }
 
             if (ReminderScheduled)
@@ -693,7 +714,7 @@ namespace MarkerMetro.Unity.WinShared.Example
         public void CancelReminder()
         {
             ReminderScheduled = false;
-            ForceResetReminderText = true;
+            ReminderInfo = NoReminderText;
             if (PlayerPrefs.HasKey("reminderStartTime"))
             {
                 PlayerPrefs.DeleteKey("reminderStartTime");
@@ -781,6 +802,7 @@ namespace MarkerMetro.Unity.WinShared.Example
         {
             throw new Exception("This is used to test ExtractStackTrace.");
         }
+
 
         /// There's a bug causing Video to remain on the screen after it finishes playing on WP8.
         /// Submitted a bug report to Unity: http://fogbugz.unity3d.com/default.asp?663800_4o1v5omb7fan6gfq

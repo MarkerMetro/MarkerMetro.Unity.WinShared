@@ -124,10 +124,13 @@ namespace UnityProject.Win
 #endif
         }
 
-        static async void Crash()
+        static void Crash()
         {
-            ExceptionLogger.IsEnabled = true;
-            throw new InvalidOperationException("A test crash from Windows Store solution!");
+            AppCallbacks.Instance.InvokeOnUIThread(() =>
+            {
+                ExceptionLogger.IsEnabled = true;
+                throw new InvalidOperationException("A test crash from Windows Store solution!");
+            }, false);
         }
 
         static void OnViewUrl(string url)

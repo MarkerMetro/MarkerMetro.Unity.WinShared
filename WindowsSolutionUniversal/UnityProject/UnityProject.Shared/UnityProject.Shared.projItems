@@ -7,7 +7,7 @@
     <ApplicationDefinition Include="$(MSBuildThisFileDirectory)App.xaml">
     </ApplicationDefinition>
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
-      <DependentUpon>$(MSBuildThisFileDirectory)App.xaml</DependentUpon>
+      <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\FBWebView.xaml.cs">
       <DependentUpon>FBWebView.xaml</DependentUpon>
@@ -24,7 +24,7 @@
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="$(MSBuildThisFileDirectory)MainPage.xaml.cs">
-      <DependentUpon>$(MSBuildThisFileDirectory)MainPage.xaml</DependentUpon>
+      <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs">
     </Compile>

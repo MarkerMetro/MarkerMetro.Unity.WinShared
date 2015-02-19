@@ -23,21 +23,6 @@ namespace UnityProject.Controls
 
             web.NavigationStarting += HandleNavigationStarting;
             web.NavigationCompleted += HandleNavigationCompleted;
-            web.NavigationFailed += HandleNavigationFailed;
-        }
-
-        private void HandleNavigationFailed(object sender, WebViewNavigationFailedEventArgs e)
-        {
-            progressBar.Visibility = Visibility.Collapsed;
-            progressBar.IsIndeterminate = false;
-
-            var uri = e.Uri;
-            var error = e.WebErrorStatus;
-            UnityPlayer.AppCallbacks.Instance.InvokeOnAppThread(() =>
-            {
-                if (_onError != null)
-                    _onError(uri, (int)error, _state);
-            }, false);
         }
 
         private void HandleNavigationCompleted(WebView sender, WebViewNavigationCompletedEventArgs args)
