@@ -163,10 +163,13 @@ namespace UnityProject
         }
 #endif
 
-        static async void Crash()
+        static void Crash()
         {
-            ExceptionLogger.IsEnabled = true; // override to allow test crashing
-            throw new InvalidOperationException("A test crash from Windows Universal solution!");
+            AppCallbacks.Instance.InvokeOnUIThread(() =>
+            {
+                ExceptionLogger.IsEnabled = true; // override to allow test crashing
+                throw new InvalidOperationException("A test crash from Windows Universal solution!");
+            }, false);
         }
 
         async void OnWindowVisibilityChanged(object sender, VisibilityChangedEventArgs e)
