@@ -217,7 +217,7 @@ namespace MarkerMetro.Unity.WinShared.Example
                 _showInfo = true;
             }
 
-            if (GameMaster.ReminderScheduled)
+            if (_gameMasterScript.ReminderScheduled)
             {
                 if (GUILayout.Button("Remove Reminder", GUILayout.MinHeight(ButtonHeight)))
                 {
