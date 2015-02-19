@@ -42,9 +42,8 @@ namespace MarkerMetro.Unity.WinShared.Editor
                 outputPath,
                 () =>
                 {
-                    EditorUserBuildSettings.selectedBuildTargetGroup = BuildTargetGroup.Metro;
-                    EditorUserBuildSettings.metroBuildType = MetroBuildType.VisualStudioCSharp;
-                    EditorUserBuildSettings.metroSDK = MetroSDK.UniversalSDK81;
+                    EditorUserBuildSettings.selectedBuildTargetGroup = BuildTargetGroup.WSA;
+                    EditorUserBuildSettings.wsaSDK = WSASDK.UniversalSDK81;
                 }, true);
         }
 
@@ -71,9 +70,8 @@ namespace MarkerMetro.Unity.WinShared.Editor
                 outputPath,
                 () =>
                 {
-                    EditorUserBuildSettings.selectedBuildTargetGroup = BuildTargetGroup.Metro;
-                    EditorUserBuildSettings.metroBuildType = MetroBuildType.VisualStudioCSharp;
-                    EditorUserBuildSettings.metroSDK = MetroSDK.SDK81;
+					EditorUserBuildSettings.selectedBuildTargetGroup = BuildTargetGroup.WSA;
+					EditorUserBuildSettings.wsaSDK = WSASDK.SDK81;
                 });
         }
 
