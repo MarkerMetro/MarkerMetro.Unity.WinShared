@@ -31,12 +31,11 @@ namespace UnityProject.Win
                 Visibility.Visible : Visibility.Collapsed;
             musicSwitch.Visibility = soundSwitch.Visibility = AppConfig.Instance.MusicFXControlEnabled ?
                 Visibility.Visible : Visibility.Collapsed;
-
-            reminderSwitch.IsOn = ReminderManager.AreRemindersEnabled();
             
             // get the state of music/sound from the game
             musicSwitch.IsOn = GameController.Instance.GameSettings.MusicEnabled;
             soundSwitch.IsOn = GameController.Instance.GameSettings.SoundEnabled;
+            reminderSwitch.IsOn = GameController.Instance.GameSettings.RemindersEnabled;
         }
 
         public void ActivateSound(bool active)
@@ -59,9 +58,9 @@ namespace UnityProject.Win
 
         public void ActivateReminder(bool active)
         {
-            if (!active)
+            if (GameController.Instance.GameSettings.RemindersEnabled != active)
             {
-                GameController.Instance.GameSettings.CancelReminder();
+                GameController.Instance.GameSettings.RemindersEnabled = active;
             }
         }
 
@@ -80,7 +79,6 @@ namespace UnityProject.Win
         void reminderSwitch_Toggled(object sender, RoutedEventArgs e)
         {
             var value = reminderSwitch.IsOn;
-            ReminderManager.SetRemindersStatus(value);
             UnityPlayer.AppCallbacks.Instance.InvokeOnAppThread(() => ActivateReminder(value), false);
         }
     }
