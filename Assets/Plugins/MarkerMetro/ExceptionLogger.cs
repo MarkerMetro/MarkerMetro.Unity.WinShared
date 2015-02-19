@@ -33,7 +33,7 @@ namespace MarkerMetro.Unity.WinShared
                 }
             };
 
-            Application.RegisterLogCallback(handleException);
+            Application.logMessageReceived += handleException;
         }
     }
 }

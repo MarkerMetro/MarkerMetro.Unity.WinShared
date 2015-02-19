@@ -38,7 +38,7 @@ namespace MarkerMetro.Unity.WinShared.Editor
 
         public static void DoBuildUniversal (string outputPath)
         {
-            Build(BuildTarget.MetroPlayer,
+            Build(BuildTarget.WSAPlayer,
                 outputPath,
                 () =>
                 {
@@ -67,7 +67,7 @@ namespace MarkerMetro.Unity.WinShared.Editor
 
         public static void DoBuildMetro (string outputPath)
         {
-            Build(BuildTarget.MetroPlayer,
+            Build(BuildTarget.WSAPlayer,
                 outputPath,
                 () =>
                 {
