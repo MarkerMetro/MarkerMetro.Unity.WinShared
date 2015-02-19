@@ -21,7 +21,7 @@ function Change-ProjectName([Parameter(Mandatory=$true)][String]$newPath, [Param
 
 Write-Host 'Marker Metro script that allows you to add WinShared support to existing Unity project repository'
 Write-Host 'For this script you''l need to provide: '
-Write-Host '-TargetRepoPath: required. path to a directory where Unity repository has been git-clonned to (example: C:\Code\TestProject\)'
+Write-Host '-TargetRepoPath: optional. path to a directory where Unity repository has been git-clonned to (example: C:\Code\TestProject\), if supplied WinShared will be copied to this directory.'
 Write-Host '-UnityProjectTargetDir: required. sub-directory under TargetRepoPath where Unity files are, can be empry (example: Unity\)'
 Write-Host '-ProjectName: required. name for the project you are initializing matching Unity PlayerSettings (example: MyGame)'
 Write-Host '-WindowsSolutionTargetDir: optional. sub-directory under TargetRepoPath where Windows Solution is built to. (e.g. defaults to ''WindowsSolutionUniversal'', for Win 8.1/WP8.0 use''WindowsSolution'')'
