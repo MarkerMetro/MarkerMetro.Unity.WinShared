@@ -114,8 +114,7 @@ namespace UnityProject.WinPhone
 		{
             IsUnityLoaded = true;
 
-            MarkerMetro.Unity.WinShared.ExceptionManager.Instance.Init();
-            MarkerMetro.Unity.WinShared.ExceptionManager.Instance.AppCrashTest += Crash;
+            MarkerMetro.Unity.WinShared.ExceptionManager.Instance.Init(Crash);
 
 			SetupGeolocator();
 

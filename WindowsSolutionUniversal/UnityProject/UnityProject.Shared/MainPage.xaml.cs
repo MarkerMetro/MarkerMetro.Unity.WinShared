@@ -81,8 +81,7 @@ namespace UnityProject
             UnityPlayer.AppCallbacks.Instance.RenderingStarted += () =>
                 {
                     isUnityLoaded = true;
-                    MarkerMetro.Unity.WinShared.ExceptionManager.Instance.Init();
-                    MarkerMetro.Unity.WinShared.ExceptionManager.Instance.AppCrashTest += Crash;
+                    MarkerMetro.Unity.WinShared.ExceptionManager.Instance.Init(Crash);
                 };
 
             // create extended splash timer

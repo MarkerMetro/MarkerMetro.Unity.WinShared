@@ -821,7 +821,7 @@ namespace MarkerMetro.Unity.WinShared.Example
         public void LogAppCrash()
         {
             ExceptionLogger.IsEnabled = true;
-            ExceptionManager.Instance.DoAppCrashTest();
+            ExceptionManager.Instance.AppCrashTest();
         }
     }
 }
