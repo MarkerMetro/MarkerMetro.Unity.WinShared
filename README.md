@@ -18,7 +18,7 @@ Setup
 
 ## Starting a new porting project
 
-Note: Please ignore this section if you have already installed via Unity Asset Store.
+Note: Please ignore this section if you have already installed via Unity Asset Store
 
 To initialize an exiting Unity project using WinShared code you can use Init.ps1 script, located in root of this repo.
 
@@ -85,13 +85,20 @@ The FaceFlip.unity scene demonstrates some key [WinIntegration](https://github.c
 - [Video Player](https://github.com/MarkerMetro/MarkerMetro.Unity.WinIntegration/blob/master/README.md#video-player)
 - [Platform specific information](https://github.com/MarkerMetro/MarkerMetro.Unity.WinIntegration/blob/master/README.md#helper)
 
+
 ## Windows Solution Build Output
 
 There are 2 base folders to be used for all Unity Projects, WindowsSolution (Windows 8.1 and Windows Phone 8.0) and WindowsSolutionUniversal (Windows 8.1 and Windows Phone 8.1 Universal). This contains the Windows Store and Windows Phone apps.
 
-You can then subsequently build out from Unity using the Tools > MarkerMetro > Build menu or specify the path manually via a standard File > Build Settings build. 
+### Building to Windows
 
-Note that currently these projects are for Windows 8.1 and Windows Phone 8.0
+You must build out from Unity for the Windows Solutions to work. You can do this using the Tools > MarkerMetro > Build menu or specify the path manually via a standard File > Build Settings build.
+
+Ensure that you build out to the correct output folders as follows:
+
+- Windows 8.1 Universal > /WindowsSolutionUniversal
+- Windows 8.1 > /WindowsSolution/WindowsStore
+- Windows Phone 8.0 > /WindowsSolution/WindowsPhone
 
 ### Application Configuration
 
