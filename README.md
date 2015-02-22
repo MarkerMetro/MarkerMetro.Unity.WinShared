@@ -18,11 +18,11 @@ Setup
 
 ## Starting a new porting project
 
-Note: Please ignore this section if you have already installed via Unity Asset Store
+Follow the steps in this section To initialize an exiting Unity project using WinShared. To do this, you will execeute the Init.ps1 PowerShell script, located in root of this repo.
 
-To initialize an exiting Unity project using WinShared code you can use Init.ps1 script, located in root of this repo.
+Note: Please ignore this section if you have already installed via Unity Asset Store.
 
-You will need to provide following:
+You will need to provide following parameters:
 
 - TargetRepoPath - full path to root folder of new repository (for example: `C:\Code\SomeProject\`)
 - UnityProjectTargetDir - subdirectory under _TargetRepoPath_ that contains Unity project (can be empty, if it is in the root of repo, for example: `Unity` for Unity project to be in `C:\Code\SomeProject\Unity`)
