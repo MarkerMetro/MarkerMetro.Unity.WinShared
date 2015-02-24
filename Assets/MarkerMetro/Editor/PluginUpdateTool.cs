@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Diagnostics;
 using PluginSource = MarkerMetro.Unity.WinShared.Editor.PluginConfigHelper.PluginSource;
-using BuildConfig = MarkerMetro.Unity.WinShared.Editor.PluginConfigHelper.BuildConfig;
+using PluginBuildConfig = MarkerMetro.Unity.WinShared.Editor.PluginConfigHelper.PluginBuildConfig;
 
 namespace MarkerMetro.Unity.WinShared.Editor
 {
@@ -87,7 +87,7 @@ namespace MarkerMetro.Unity.WinShared.Editor
                 if (!fromNuGet)
                 {
                     CmdProcess.StartInfo.Arguments = CmdProcess.StartInfo.Arguments + " " + PluginConfigHelper.WinLegacyDir + " " + PluginConfigHelper.WinIntegrationDir +
-                    " " + PluginConfigHelper.UnityPluginsDir + " " + ((BuildConfig)PluginConfigHelper.CurrentBuildConfig).ToString();
+                    " " + PluginConfigHelper.UnityPluginsDir + " " + ((PluginBuildConfig)PluginConfigHelper.CurrentBuildConfig).ToString();
                 }
                 CmdProcess.StartInfo.RedirectStandardOutput = true;
                 CmdProcess.EnableRaisingEvents = true;
