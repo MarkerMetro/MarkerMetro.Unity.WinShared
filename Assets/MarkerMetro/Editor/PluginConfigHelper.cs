@@ -16,7 +16,7 @@ namespace MarkerMetro.Unity.WinShared.Editor
             Local
         }
 
-        public enum BuildConfig
+        public enum PluginBuildConfig
         {
             Debug,
             Release

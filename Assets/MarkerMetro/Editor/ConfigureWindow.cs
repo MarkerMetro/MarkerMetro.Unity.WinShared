@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.Collections;
-using BuildConfig = MarkerMetro.Unity.WinShared.Editor.PluginConfigHelper.BuildConfig;
+using PluginBuildConfig = MarkerMetro.Unity.WinShared.Editor.PluginConfigHelper.PluginBuildConfig;
 using PluginSource = MarkerMetro.Unity.WinShared.Editor.PluginConfigHelper.PluginSource;
 
 namespace MarkerMetro.Unity.WinShared.Editor
@@ -22,7 +22,7 @@ namespace MarkerMetro.Unity.WinShared.Editor
         string _nugetDir;
         string _vsCommonToolDir;
         PluginSource _pluginSource;
-        BuildConfig _buildConfig;
+        PluginBuildConfig _buildConfig;
 
         Vector2 _scrollPosition;
 
@@ -30,7 +30,7 @@ namespace MarkerMetro.Unity.WinShared.Editor
         {
             PluginConfigHelper.SearchVSCommonToolsDir();
             _pluginSource = (PluginSource)PluginConfigHelper.CurrentPluginSource;
-            _buildConfig = (BuildConfig)PluginConfigHelper.CurrentBuildConfig;
+            _buildConfig = (PluginBuildConfig)PluginConfigHelper.CurrentBuildConfig;
             _winLegacyDir = PluginConfigHelper.WinLegacyDir;
             _winIntegrationDir = PluginConfigHelper.WinIntegrationDir;
             _nugetDir = PluginConfigHelper.BuildScriptsDir;
@@ -79,7 +79,7 @@ namespace MarkerMetro.Unity.WinShared.Editor
         void DrawBuildConfig()
         {
             GUI.changed = false;
-            _buildConfig = (BuildConfig)EditorGUILayout.EnumPopup("Build Local", _buildConfig, GUILayout.MaxWidth(250f));
+            _buildConfig = (PluginBuildConfig)EditorGUILayout.EnumPopup("Build Local", _buildConfig, GUILayout.MaxWidth(250f));
             if (GUI.changed)
             {
                 PluginConfigHelper.CurrentBuildConfig = (int)_buildConfig;

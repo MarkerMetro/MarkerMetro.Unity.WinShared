@@ -78,10 +78,13 @@ namespace UnityProject
             // provide the game configuration
             MarkerMetro.Unity.WinShared.GameController.Instance.Init(AppConfig.Instance);
 
-            UnityPlayer.AppCallbacks.Instance.RenderingStarted += () =>
+            AppCallbacks.Instance.RenderingStarted += () =>
                 {
                     isUnityLoaded = true;
-                    MarkerMetro.Unity.WinShared.ExceptionManager.Instance.Init(Crash);
+                    AppCallbacks.Instance.InvokeOnAppThread(() =>
+                    {
+                        MarkerMetro.Unity.WinShared.ExceptionManager.Instance.Init(Crash);
+                    }, false);
                 };
 
             // create extended splash timer
