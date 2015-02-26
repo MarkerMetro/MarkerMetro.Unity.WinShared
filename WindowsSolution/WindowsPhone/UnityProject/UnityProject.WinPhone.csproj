@@ -171,15 +171,15 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\..\..\WindowsSolutionUniversal\UnityProject\UnityProject.Shared\FacebookConfig.xml">
+      <Link>FacebookConfig.xml</Link>
+    </Content>
     <Content Include="Assets\ExtendedSplashScreenImage.Screen-720p.jpg" />
     <Content Include="Assets\ExtendedSplashScreenImage.Screen-WVGA.jpg" />
     <Content Include="Assets\ExtendedSplashScreenImage.Screen-WXGA.jpg" />
     <Content Include="Assets\Tiles\TileFrontMedium.png" />
     <Content Include="Assets\Tiles\TileFrontWide.png" />
     <Content Include="Assets\Tiles\TileSmall.png" />
-    <Content Include="FacebookConfig.xml">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="iap_simulator.xml" />
     <Content Include="Assets\AlignmentGrid.png" />
     <Content Include="Assets\ApplicationIcon.png">
