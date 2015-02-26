@@ -89,6 +89,11 @@ namespace MarkerMetro.Unity.WinShared.Editor
                     CmdProcess.StartInfo.Arguments = CmdProcess.StartInfo.Arguments + " " + PluginConfigHelper.WinLegacyDir + " " + PluginConfigHelper.WinIntegrationDir +
                     " " + PluginConfigHelper.UnityPluginsDir + " " + ((PluginBuildConfig)PluginConfigHelper.CurrentBuildConfig).ToString();
                 }
+                else
+                {
+                    UnityEngine.Debug.Log(PluginConfigHelper.UnityPluginsDir);
+                    CmdProcess.StartInfo.Arguments = CmdProcess.StartInfo.Arguments + " " + PluginConfigHelper.UnityPluginsDir;
+                }
                 CmdProcess.StartInfo.RedirectStandardOutput = true;
                 CmdProcess.EnableRaisingEvents = true;
 
