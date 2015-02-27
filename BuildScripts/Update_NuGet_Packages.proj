@@ -50,9 +50,6 @@
     <CreateItem Include="$(WorkingPath)\$(WinIntegration)*\lib\windowsphone8\*.dll">
       <Output TaskParameter="Include" ItemName="WP8Dlls"/>
     </CreateItem>
-    <CreateItem Include="$(WorkingPath)\$(WinIntegration)*\lib\wpa81\*.dll">
-      <Output TaskParameter="Include" ItemName="WP81Dlls"/>
-    </CreateItem>
   </Target>
 
   
@@ -106,7 +103,6 @@
     <Copy SourceFiles="@(Dlls)" DestinationFolder="$(DestinationFolder)\Assets\Plugins" />
     <Copy SourceFiles="@(MetroDlls)" DestinationFolder="$(DestinationFolder)\Assets\Plugins\Metro" />
     <Copy SourceFiles="@(WP8Dlls)" DestinationFolder="$(DestinationFolder)\Assets\Plugins\WP8" />
-    <Copy SourceFiles="@(WP81Dlls)" DestinationFolder="$(DestinationFolder)\Assets\Plugins\Metro\WindowsPhone81" />
     <Copy SourceFiles="@(Poly2TriDlls)" DestinationFolder="$(DestinationFolder)\Assets\AstarPathfindingProject\Plugins\Poly2Tri" />
   </Target>
 </Project>

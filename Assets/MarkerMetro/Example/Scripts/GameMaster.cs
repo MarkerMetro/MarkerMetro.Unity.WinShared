@@ -232,7 +232,11 @@ namespace MarkerMetro.Unity.WinShared.Example
                 Debug.Log(e.Message);
                 DeviceID = "Device ID: not available.";
             }
+#if UNITY_WP_8_1
+            LowEnd = "Is Low End: Unknown";
+#else
             LowEnd = "Is Low End: " + Helper.Instance.IsLowEndDevice();
+#endif
             Internet = "Is Online: " + Helper.Instance.HasInternetConnection;
             MeteredConnection = "Is metered connection: " + Helper.Instance.IsMeteredConnection;
             ExceptionLoggingEnabledForBuildConfig = "Exception logging for current build config: " + GameController.Instance.GameConfig.ExceptionLoggingAllowed.ToString();
