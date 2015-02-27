@@ -62,7 +62,7 @@ namespace UnityProject.Config
             }
         }
 
-        internal async static Task<string> GetFacebookConfigValue(string node, string attribute)
+        internal async Task<string> GetFacebookConfigValue(string node, string attribute)
         {
             var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///FacebookConfig.xml"));
             using (Stream strm = await file.OpenStreamForReadAsync())
