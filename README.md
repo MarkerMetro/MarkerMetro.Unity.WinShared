@@ -1,7 +1,9 @@
 Getting Started
 ====================
 
-Starting framework and sample code for Unity ports to Windows.
+WinShared is both a starting framework and sample code for Unity ports to Windows.
+
+The repository itself is a Unity project with useful plugins, scripts, tools and a sample game. The repository contains Windows Solutions which enhance and extend the base solutions outputted from Unity specifically for Windows.
 
 You can view an overview of the architecture here:
 https://www.dropbox.com/s/w8wt0au5602vl57/MarkerMetro.Unity.WinShared.jpg
@@ -13,12 +15,16 @@ Prerequisites
 - Nuget Package Manager
 - Unity 4.6.1f1 is required
 
-Setup
-==================
+Using WinShared on an existing porting project
+============================================
 
-## Starting a new porting project
+Skip this step if you just want to take a look at WinShared.
 
-Follow the steps in this section To initialize an exiting Unity project using WinShared. To do this, you will execeute the Init.ps1 PowerShell script, located in root of this repo.
+Follow the steps in this section To initialize an exiting Unity project you may be working on using WinShared. 
+
+This will include al the functionality of WinShared and related plugins as detailed in this read me, making your porting efforts hopefully a lot easier.
+
+To do this, you will execeute the Init.ps1 PowerShell script, located in root of this repo.
 
 Note: Please ignore this section if you have already installed via Unity Asset Store.
 
@@ -50,41 +56,7 @@ Based on the value of 'WindowsSolutionTargetDir' one of the following Windows So
 Guidance
 ==================
 
-Provided here is guidance for working with WinShared based projects which you should read and understand but are not directly related to setting up a new project.
-
-## Marker Metro Tools Menu
-
-Tools > MarkerMetro provides some useful features for Unity developers porting to Windows.
-
-### Build Menu
-
-Alows you to quickly build to Windows 8.l, Windows Phone 8.0, Windows Universal or All (cycling through Windows 8.1, Windows Phone 8.0 and Windows Universal). 
-
-### Plugins Menu
-
-This repository includes a stable version of all dependent Marker Metro plugins. You can easily update to later versions, as well as use and debug local versions of WinLegacy and WinIntegration.
-
-Plugins > Update allows you to update the Marker Metro plugins (WinIntegration and WinLegacy) to the latest version. By default this option gets latest stable versions via the main public NuGet field, but you can also configure to use local solution folders if you are using your own fork for example.
-
-Building the plugins locally allows you also to easily debug a particular Windows Store or Windows Phone plugin project as follows:
-
-- Add the platform specific plugin project to your Windows solution (e.g. MarkerMetro.Unity.WinIntegrationMetro)
-- Tools > MarkerMetro > Plugins > Configure ( ensure Plugin Source is Local, and Build Local is Debug)
-- Tools > MarkerMetro > Plugins > Update
-- Tools > MarkerMetro > Build > (e.g. Windows 8.1)
-- Set breakpoints in your platform specific plugin project and then F5 on your app
-
-## Sample Game and [WinIntegration](https://github.com/MarkerMetro/MarkerMetro.Unity.WinIntegration) Samples
-
-The FaceFlip.unity scene demonstrates some key [WinIntegration](https://github.com/MarkerMetro/MarkerMetro.Unity.WinIntegration) features around a simple game such as:
-
-- [Facebook Integration](https://github.com/MarkerMetro/MarkerMetro.Unity.WinIntegration/blob/master/README.md#facebook-integration)
-- [Store Integration](https://github.com/MarkerMetro/MarkerMetro.Unity.WinIntegration/blob/master/README.md#store-integration)
-- [Exception Logging](https://github.com/MarkerMetro/MarkerMetro.Unity.WinIntegration/blob/master/README.md#exception-logging) (Crash and Exception Testing)
-- [Local Notifications](https://github.com/MarkerMetro/MarkerMetro.Unity.WinIntegration/blob/master/README.md#local-notifications)
-- [Video Player](https://github.com/MarkerMetro/MarkerMetro.Unity.WinIntegration/blob/master/README.md#video-player)
-- [Platform specific information](https://github.com/MarkerMetro/MarkerMetro.Unity.WinIntegration/blob/master/README.md#helper)
-
+Provided here is guidance for working with WinShared (and projects based on WinShared) which you should read and understand but are not directly related to setting up a new project.
 
 ## Windows Solution Build Output
 
@@ -128,6 +100,40 @@ At this point the differences are:
 - Store Integration - QA uses simulated IAP, Master will attempt to use real production store APIs.
 - Exception Logging - QA enables ability to crash test via Windows settings charm, but will be off by default. Master will hide this capability but ensure Exception Logging is on by default (if a key has been supplied)
 - GameController.Instance.GameConfig.CurrentBuildConfig in Unity will return Debug/QA/Master configuraiton at runtime (based on app solution configuration) which can be useful to apply environment specific login within the game side.
+
+## Marker Metro Tools Menu
+
+Tools > MarkerMetro provides some useful features for Unity developers porting to Windows.
+
+### Build Menu
+
+Alows you to quickly build to Windows 8.l, Windows Phone 8.0, Windows Universal or All (cycling through Windows 8.1, Windows Phone 8.0 and Windows Universal). 
+
+### Plugins Menu
+
+This repository includes a stable version of all dependent Marker Metro plugins. You can easily update to later versions, as well as use and debug local versions of WinLegacy and WinIntegration.
+
+Plugins > Update allows you to update the Marker Metro plugins (WinIntegration and WinLegacy) to the latest version. By default this option gets latest stable versions via the main public NuGet field, but you can also configure to use local solution folders if you are using your own fork for example.
+
+Building the plugins locally allows you also to easily debug a particular Windows Store or Windows Phone plugin project as follows:
+
+- Add the platform specific plugin project to your Windows solution (e.g. MarkerMetro.Unity.WinIntegrationMetro)
+- Tools > MarkerMetro > Plugins > Configure ( ensure Plugin Source is Local, and Build Local is Debug)
+- Tools > MarkerMetro > Plugins > Update
+- Tools > MarkerMetro > Build > (e.g. Windows 8.1)
+- Set breakpoints in your platform specific plugin project and then F5 on your app
+
+## Sample Game and [WinIntegration](https://github.com/MarkerMetro/MarkerMetro.Unity.WinIntegration) Samples
+
+The FaceFlip.unity scene demonstrates some key [WinIntegration](https://github.com/MarkerMetro/MarkerMetro.Unity.WinIntegration) features around a simple game such as:
+
+- [Facebook Integration](https://github.com/MarkerMetro/MarkerMetro.Unity.WinIntegration/blob/master/README.md#facebook-integration)
+- [Store Integration](https://github.com/MarkerMetro/MarkerMetro.Unity.WinIntegration/blob/master/README.md#store-integration)
+- [Exception Logging](https://github.com/MarkerMetro/MarkerMetro.Unity.WinIntegration/blob/master/README.md#exception-logging) (Crash and Exception Testing)
+- [Local Notifications](https://github.com/MarkerMetro/MarkerMetro.Unity.WinIntegration/blob/master/README.md#local-notifications)
+- [Video Player](https://github.com/MarkerMetro/MarkerMetro.Unity.WinIntegration/blob/master/README.md#video-player)
+- [Platform specific information](https://github.com/MarkerMetro/MarkerMetro.Unity.WinIntegration/blob/master/README.md#helper)
+
 
 ## Windows Phone Low Memory Optimization
 
