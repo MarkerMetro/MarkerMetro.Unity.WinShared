@@ -6,6 +6,11 @@ using System.Text;
 using System.Linq;
 using UnityEngine;
 
+using System.Threading.Tasks;
+using System.IO;
+using Windows.Storage;
+using System.Xml.Linq;
+
 namespace UnityProject.Config
 {
     /// <summary>
@@ -42,10 +47,41 @@ namespace UnityProject.Config
             }
         }
 
+        string _facebookAppId;
         public string FacebookAppId
         {
-            get {return "540541885996234";} // microsoft fb sdk test app
+            get
+            {
+                if (string.IsNullOrEmpty(_facebookAppId))
+                {
+                    var task = Task.Run(async () => await GetFacebookConfigValue("Facebook", "AppId"));
+                    task.Wait();
+                    _facebookAppId = task.Result;
+                }
+                return _facebookAppId;
+            }
         }
+
+        internal async Task<string> GetFacebookConfigValue(string node, string attribute)
+        {
+            var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///FacebookConfig.xml"));
+            using (Stream strm = await file.OpenStreamForReadAsync())
+            {
+                var xml = XElement.Load(strm);
+                var filteredAttributeValue = (from app in xml.Descendants(node)
+                                              let xAttribute = app.Attribute(attribute)
+                                              where xAttribute != null
+                                              select xAttribute.Value).FirstOrDefault();
+
+                if (string.IsNullOrWhiteSpace(filteredAttributeValue))
+                {
+                    return string.Empty;
+                }
+
+                return filteredAttributeValue;
+            }
+        }
+
 
         public bool IapDisclaimerEnabled
         {

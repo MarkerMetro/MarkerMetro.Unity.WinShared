@@ -171,6 +171,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\..\..\WindowsSolutionUniversal\UnityProject\UnityProject.Shared\FacebookConfig.xml">
+      <Link>FacebookConfig.xml</Link>
+    </Content>
     <Content Include="Assets\ExtendedSplashScreenImage.Screen-720p.jpg" />
     <Content Include="Assets\ExtendedSplashScreenImage.Screen-WVGA.jpg" />
     <Content Include="Assets\ExtendedSplashScreenImage.Screen-WXGA.jpg" />
