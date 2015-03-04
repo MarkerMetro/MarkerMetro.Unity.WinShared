@@ -13,7 +13,7 @@ Prerequisites
 
 - Visual Studio 2013 with latest updates
 - Nuget Package Manager
-- Unity 4.6.1f1 is required
+- Unity 4.6.3f1 is latest version tested (also should work on any 4.6.x variant)
 
 Using WinShared on an existing porting project
 ============================================
