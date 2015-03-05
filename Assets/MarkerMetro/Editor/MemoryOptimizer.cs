@@ -109,8 +109,14 @@ namespace MarkerMetro.Unity.WinShared.Editor
             if (!AudioCompressionEnabled)
                 return;
             AudioImporter audioImporter = assetImporter as AudioImporter;
+#if UNITY_5
+			AudioImporterSampleSettings settings = audioImporter.defaultSampleSettings;
+			settings.loadType = AudioClipLoadType.Streaming;
+			audioImporter.defaultSampleSettings = settings;
+#else
             audioImporter.loadType = AudioImporterLoadType.StreamFromDisc;
             audioImporter.compressionBitrate = 32000;
+#endif
         }
 
 #pragma warning restore

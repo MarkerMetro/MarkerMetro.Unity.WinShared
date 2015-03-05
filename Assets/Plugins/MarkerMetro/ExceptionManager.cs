@@ -65,7 +65,12 @@ namespace MarkerMetro.Unity.WinShared
                 }
             };
 
+#if UNITY_5
+            Application.logMessageReceived += handleException;
+#else
             Application.RegisterLogCallback(handleException);
+#endif
+
         }
 
         /// <summary>

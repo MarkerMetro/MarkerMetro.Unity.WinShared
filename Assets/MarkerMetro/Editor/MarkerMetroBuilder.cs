@@ -38,13 +38,22 @@ namespace MarkerMetro.Unity.WinShared.Editor
 
         public static void DoBuildUniversal (string outputPath)
         {
+#if UNITY_5
+            Build(BuildTarget.WSAPlayer,
+#else
             Build(BuildTarget.MetroPlayer,
+#endif
                 outputPath,
                 () =>
                 {
+#if UNITY_5
+                    EditorUserBuildSettings.selectedBuildTargetGroup = BuildTargetGroup.WSA;
+                    EditorUserBuildSettings.wsaSDK = WSASDK.UniversalSDK81;
+#else
                     EditorUserBuildSettings.selectedBuildTargetGroup = BuildTargetGroup.Metro;
                     EditorUserBuildSettings.metroBuildType = MetroBuildType.VisualStudioCSharp;
                     EditorUserBuildSettings.metroSDK = MetroSDK.UniversalSDK81;
+#endif
                 }, true);
         }
 
@@ -67,13 +76,22 @@ namespace MarkerMetro.Unity.WinShared.Editor
 
         public static void DoBuildMetro (string outputPath)
         {
+#if UNITY_5
+            Build(BuildTarget.WSAPlayer,
+#else
             Build(BuildTarget.MetroPlayer,
+#endif
                 outputPath,
                 () =>
                 {
+#if UNITY_5
+					EditorUserBuildSettings.selectedBuildTargetGroup = BuildTargetGroup.WSA;
+					EditorUserBuildSettings.wsaSDK = WSASDK.SDK81;
+#else
                     EditorUserBuildSettings.selectedBuildTargetGroup = BuildTargetGroup.Metro;
                     EditorUserBuildSettings.metroBuildType = MetroBuildType.VisualStudioCSharp;
                     EditorUserBuildSettings.metroSDK = MetroSDK.SDK81;
+#endif
                 });
         }
 

@@ -48,7 +48,7 @@ namespace MarkerMetro.Unity.WinShared.Example
                 }
                 else
                 {
-                    audio.Stop();
+                    GetComponent<AudioSource>().Stop();
                 }
             }
         }
@@ -456,8 +456,9 @@ namespace MarkerMetro.Unity.WinShared.Example
         {
             if (SoundEnabled)
             {
-                audio.clip = clip;
-                audio.Play();
+				AudioSource audio = GetComponent<AudioSource>();
+				audio.clip = clip;
+				audio.Play();
             }
         }
 
