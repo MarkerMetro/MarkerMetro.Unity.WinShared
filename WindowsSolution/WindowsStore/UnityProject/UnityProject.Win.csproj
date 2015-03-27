@@ -148,6 +148,9 @@
     <PRIResource Include="Resources\es-419\Resources.resw" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\..\..\WindowsSolutionUniversal\UnityProject\UnityProject.Shared\FacebookConfig.xml">
+      <Link>FacebookConfig.xml</Link>
+    </Content>
     <Content Include="Assets\Logo.scale-100.png" />
     <Content Include="Assets\Logo.scale-140.png" />
     <Content Include="Assets\Logo.scale-180.png" />
