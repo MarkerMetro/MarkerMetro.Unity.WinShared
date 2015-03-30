@@ -1,5 +1,7 @@
 fileFormatVersion: 2
-guid: 3cd3ee97534717543841bb1110ec6b2d
+guid: e0b45a30d9e89d64aa8b553ebbc25d63
+timeCreated: 1427686138
+licenseType: Pro
 PluginImporter:
   serializedVersion: 1
   iconMap: {}
@@ -55,7 +57,7 @@ PluginImporter:
         CPU: AnyCPU
         DontProcess: False
         PlaceholderPath: 
-        SDK: AnySDK
+        SDK: PhoneSDK81
     iOS:
       enabled: 0
       settings:

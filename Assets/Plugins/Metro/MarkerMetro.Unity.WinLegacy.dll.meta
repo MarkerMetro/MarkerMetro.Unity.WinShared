@@ -55,7 +55,7 @@ PluginImporter:
         CPU: AnyCPU
         DontProcess: False
         PlaceholderPath: Assets/Plugins/MarkerMetro.Unity.WinLegacy.dll
-        SDK: AnySDK
+        SDK: SDK81
     iOS:
       enabled: 0
       settings:

@@ -1,5 +1,7 @@
 fileFormatVersion: 2
-guid: 1b7f2bf921135324da044d3a1b616b45
+guid: 41fc7941328369a45aa7ef399e0208bf
+timeCreated: 1427680705
+licenseType: Pro
 PluginImporter:
   serializedVersion: 1
   iconMap: {}
@@ -54,8 +56,8 @@ PluginImporter:
       settings:
         CPU: AnyCPU
         DontProcess: False
-        PlaceholderPath: Assets/Plugins/Facebook.dll
-        SDK: SDK81
+        PlaceholderPath: Assets/Plugins/MarkerMetro.Unity.WinLegacy.dll
+        SDK: PhoneSDK81
     iOS:
       enabled: 0
       settings:
