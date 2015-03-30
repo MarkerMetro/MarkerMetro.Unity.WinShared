@@ -12,8 +12,6 @@ IF "%2" == "" (
 SET winLegacy=MarkerMetro.Unity.WinLegacy
 SET winIntegration=MarkerMetro.Unity.WinIntegration
 
-echo "%unityPluginDir%\Metro\%winLegacy%.pdb"
-
 if exist "%unityPluginDir%\Metro\%winLegacy%.pdb" (
     del "%unityPluginDir%\Metro\%winLegacy%.pdb"
     del "%unityPluginDir%\Metro\%winLegacy%.pdb.meta"

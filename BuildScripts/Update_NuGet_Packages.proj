@@ -13,7 +13,7 @@
     <JsonFx>MarkerMetro.Unity.JsonFx</JsonFx>
     <IonicZip>MarkerMetro.Unity.Pathfinding.Ionic.Zip</IonicZip>
     <Poly2Tri>MarkerMetro.Unity.Poly2Tri</Poly2Tri>
-	<WinIntegration>MarkerMetro.Unity.WinIntegration</WinIntegration>
+    <WinIntegration>MarkerMetro.Unity.WinIntegration</WinIntegration>
 </PropertyGroup>
 
   <Target Name="UpdateAll" DependsOnTargets="Clear;Update;Deploy"/>
@@ -25,7 +25,7 @@
   <Target Name="Update">
     <Exec Command="$(NuGetPath) install $(WinLegacy) -o $(WorkingPath) -NoCache"/>
     <Exec Command="$(NuGetPath) install $(LitJson) -o $(WorkingPath) -NoCache"/>	
-	<Exec Command="$(NuGetPath) install $(WinIntegration) -o $(WorkingPath) -NoCache"/>		
+    <Exec Command="$(NuGetPath) install $(WinIntegration) -o $(WorkingPath) -NoCache"/>		
   </Target>
 
   <Target Name="IncludeWinLegacy">
