@@ -35,9 +35,6 @@
     <CreateItem Include="$(WorkingPath)\$(WinLegacy)*\lib\netcore45\*.dll">
       <Output TaskParameter="Include" ItemName="MetroDlls"/>
     </CreateItem>
-    <CreateItem Include="$(WorkingPath)\$(WinLegacy)*\lib\windowsphone8\*.dll">
-      <Output TaskParameter="Include" ItemName="WP8Dlls"/>
-    </CreateItem>
   </Target>
 
   <Target Name="IncludeWinIntegration">
@@ -47,8 +44,8 @@
     <CreateItem Include="$(WorkingPath)\$(WinIntegration)*\lib\netcore45\*.dll">
       <Output TaskParameter="Include" ItemName="MetroDlls"/>
     </CreateItem>
-    <CreateItem Include="$(WorkingPath)\$(WinIntegration)*\lib\windowsphone8\*.dll">
-      <Output TaskParameter="Include" ItemName="WP8Dlls"/>
+    <CreateItem Include="$(WorkingPath)\$(WinIntegration)*\lib\wpa81\*.dll">
+      <Output TaskParameter="Include" ItemName="WP81Dlls"/>
     </CreateItem>
   </Target>
 
@@ -60,9 +57,6 @@
     <CreateItem Include="$(WorkingPath)\$(LitJson)*\lib\netcore45\*.dll">
       <Output TaskParameter="Include" ItemName="MetroDlls"/>
     </CreateItem>
-    <CreateItem Include="$(WorkingPath)\$(LitJson)*\lib\windowsphone8\*.dll">
-      <Output TaskParameter="Include" ItemName="WP8Dlls"/>
-    </CreateItem>
   </Target>
 
   <Target Name="IncludeJsonFx">
@@ -73,10 +67,6 @@
     <CreateItem Include="$(WorkingPath)\$(JsonFx)*\lib\netcore45\*.dll">
       <Output TaskParameter="Include" ItemName="MetroDlls"/>
     </CreateItem>
-
-    <CreateItem Include="$(WorkingPath)\$(JsonFx)*\lib\windowsphone8\*.dll">
-      <Output TaskParameter="Include" ItemName="WP8Dlls"/>
-    </CreateItem>
   </Target>
 
   <Target Name="IncludeIonicZip">
@@ -86,10 +76,6 @@
 
     <CreateItem Include="$(WorkingPath)\$(IonicZip)*\lib\netcore45\*.dll">
       <Output TaskParameter="Include" ItemName="MetroDlls"/>
-    </CreateItem>
-
-    <CreateItem Include="$(WorkingPath)\$(IonicZip)*\lib\windowsphone8\*.dll">
-      <Output TaskParameter="Include" ItemName="WP8Dlls"/>
     </CreateItem>
   </Target>
 
@@ -102,7 +88,7 @@
   <Target Name="Deploy" DependsOnTargets="IncludeWinLegacy;IncludeLitJson;IncludeJsonFx;IncludeIonicZip;IncludePoly2Tri;IncludeWinIntegration">
     <Copy SourceFiles="@(Dlls)" DestinationFolder="$(DestinationFolder)\Assets\Plugins" />
     <Copy SourceFiles="@(MetroDlls)" DestinationFolder="$(DestinationFolder)\Assets\Plugins\Metro" />
-    <Copy SourceFiles="@(WP8Dlls)" DestinationFolder="$(DestinationFolder)\Assets\Plugins\WP8" />
+    <Copy SourceFiles="@(WP81Dlls)" DestinationFolder="$(DestinationFolder)\Assets\Plugins\Metro\WindowsPhone81" />
     <Copy SourceFiles="@(Poly2TriDlls)" DestinationFolder="$(DestinationFolder)\Assets\AstarPathfindingProject\Plugins\Poly2Tri" />
   </Target>
 </Project>
