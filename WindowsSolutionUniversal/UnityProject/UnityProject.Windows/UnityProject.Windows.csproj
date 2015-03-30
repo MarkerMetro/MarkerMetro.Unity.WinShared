@@ -117,10 +117,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-  </ItemGroup>
-  <ItemGroup>
-  </ItemGroup>
-  <ItemGroup>
     <Reference Include="Mindscape.Raygun4Net.WindowsStore">
       <HintPath>..\..\packages\Mindscape.Raygun4Net.4.2.0\lib\portable-net45+win81+wpa81+windows81\Mindscape.Raygun4Net.WindowsStore.dll</HintPath>
     </Reference>
@@ -143,6 +139,9 @@
     <Reference Include="UnityEngineProxy">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Players\Windows81\$(PlatformTarget)\$(UnityConfig)\UnityEngineProxy.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>.\UnityEngine.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -227,31 +226,30 @@
   </PropertyGroup>
   <Import Project="..\UnityProject.Shared\UnityProject.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
-  <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
-  </PropertyGroup>
-<Target Name="BeforeResolveReferences">
+  <ItemGroup>
+    <UnprocessedFile Include="$(ProjectDir)Unprocessed\*" />
+  </ItemGroup>
+  <Target Name="BeforeResolveReferences">
     <Copy SourceFiles="$(ProjectDir)Plugins\WSA\Facebook.Client.dll" DestinationFiles="$(ProjectDir)Facebook.Client.dll" />
     <Delete Files="$(ProjectDir)Facebook.Client.pdb" Condition="Exists('$(ProjectDir)Facebook.Client.pdb')" />
     <Delete Files="$(ProjectDir)Facebook.Client.dll.mdb" Condition="Exists('$(ProjectDir)Facebook.Client.dll.mdb')" />
     <Copy SourceFiles="$(ProjectDir)Plugins\WSA\Facebook.Client.pdb" DestinationFiles="$(ProjectDir)Facebook.Client.pdb" Condition="Exists('$(ProjectDir)Plugins\WSA\Facebook.Client.pdb')" />
-    <Copy SourceFiles="$(ProjectDir)Plugins\WSA\SDK81\MarkerMetro.Unity.WinLegacy.dll" DestinationFiles="$(ProjectDir)MarkerMetro.Unity.WinLegacy.dll" />
+    <Copy SourceFiles="$(ProjectDir)Plugins\WSA\MarkerMetro.Unity.WinLegacy.dll" DestinationFiles="$(ProjectDir)MarkerMetro.Unity.WinLegacy.dll" />
     <Delete Files="$(ProjectDir)MarkerMetro.Unity.WinLegacy.pdb" Condition="Exists('$(ProjectDir)MarkerMetro.Unity.WinLegacy.pdb')" />
     <Delete Files="$(ProjectDir)MarkerMetro.Unity.WinLegacy.dll.mdb" Condition="Exists('$(ProjectDir)MarkerMetro.Unity.WinLegacy.dll.mdb')" />
-    <Copy SourceFiles="$(ProjectDir)Plugins\WSA\SDK81\MarkerMetro.Unity.WinLegacy.pdb" DestinationFiles="$(ProjectDir)MarkerMetro.Unity.WinLegacy.pdb" Condition="Exists('$(ProjectDir)Plugins\WSA\SDK81\MarkerMetro.Unity.WinLegacy.pdb')" />
+    <Copy SourceFiles="$(ProjectDir)Plugins\WSA\MarkerMetro.Unity.WinLegacy.pdb" DestinationFiles="$(ProjectDir)MarkerMetro.Unity.WinLegacy.pdb" Condition="Exists('$(ProjectDir)Plugins\WSA\MarkerMetro.Unity.WinLegacy.pdb')" />
     <Copy SourceFiles="$(ProjectDir)Plugins\WSA\LitJson.dll" DestinationFiles="$(ProjectDir)LitJson.dll" />
     <Delete Files="$(ProjectDir)LitJson.pdb" Condition="Exists('$(ProjectDir)LitJson.pdb')" />
     <Delete Files="$(ProjectDir)LitJson.dll.mdb" Condition="Exists('$(ProjectDir)LitJson.dll.mdb')" />
     <Copy SourceFiles="$(ProjectDir)Plugins\WSA\LitJson.pdb" DestinationFiles="$(ProjectDir)LitJson.pdb" Condition="Exists('$(ProjectDir)Plugins\WSA\LitJson.pdb')" />
-    <Copy SourceFiles="$(ProjectDir)Plugins\WSA\SDK81\Facebook.dll" DestinationFiles="$(ProjectDir)Facebook.dll" />
+    <Copy SourceFiles="$(ProjectDir)Plugins\WSA\Facebook.dll" DestinationFiles="$(ProjectDir)Facebook.dll" />
     <Delete Files="$(ProjectDir)Facebook.pdb" Condition="Exists('$(ProjectDir)Facebook.pdb')" />
     <Delete Files="$(ProjectDir)Facebook.dll.mdb" Condition="Exists('$(ProjectDir)Facebook.dll.mdb')" />
-    <Copy SourceFiles="$(ProjectDir)Plugins\WSA\SDK81\Facebook.pdb" DestinationFiles="$(ProjectDir)Facebook.pdb" Condition="Exists('$(ProjectDir)Plugins\WSA\SDK81\Facebook.pdb')" />
-    <Copy SourceFiles="$(ProjectDir)Plugins\WSA\SDK81\MarkerMetro.Unity.WinIntegration.dll" DestinationFiles="$(ProjectDir)MarkerMetro.Unity.WinIntegration.dll" />
+    <Copy SourceFiles="$(ProjectDir)Plugins\WSA\Facebook.pdb" DestinationFiles="$(ProjectDir)Facebook.pdb" Condition="Exists('$(ProjectDir)Plugins\WSA\Facebook.pdb')" />
+    <Copy SourceFiles="$(ProjectDir)Plugins\WSA\MarkerMetro.Unity.WinIntegration.dll" DestinationFiles="$(ProjectDir)MarkerMetro.Unity.WinIntegration.dll" />
     <Delete Files="$(ProjectDir)MarkerMetro.Unity.WinIntegration.pdb" Condition="Exists('$(ProjectDir)MarkerMetro.Unity.WinIntegration.pdb')" />
     <Delete Files="$(ProjectDir)MarkerMetro.Unity.WinIntegration.dll.mdb" Condition="Exists('$(ProjectDir)MarkerMetro.Unity.WinIntegration.dll.mdb')" />
-    <Copy SourceFiles="$(ProjectDir)Plugins\WSA\SDK81\MarkerMetro.Unity.WinIntegration.pdb" DestinationFiles="$(ProjectDir)MarkerMetro.Unity.WinIntegration.pdb" Condition="Exists('$(ProjectDir)Plugins\WSA\SDK81\MarkerMetro.Unity.WinIntegration.pdb')" />
+    <Copy SourceFiles="$(ProjectDir)Plugins\WSA\MarkerMetro.Unity.WinIntegration.pdb" DestinationFiles="$(ProjectDir)MarkerMetro.Unity.WinIntegration.pdb" Condition="Exists('$(ProjectDir)Plugins\WSA\MarkerMetro.Unity.WinIntegration.pdb')" />
     <Message Importance="high" Text="UnityInstallationDir &quot;$(UnityInstallationDir)&quot;." />
     <Message Importance="high" Text="UnityWSAPlayerDir &quot;$(UnityWSAPlayerDir)&quot;." />
     <Message Importance="high" Text="UnityProjectDir &quot;$(UnityProjectDir)&quot;." />

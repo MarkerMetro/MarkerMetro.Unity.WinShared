@@ -53,7 +53,7 @@ PluginImporter:
       enabled: 1
       settings:
         CPU: AnyCPU
-        DontProcess: True
+        DontProcess: False
         PlaceholderPath: 
         SDK: AnySDK
     iOS:
