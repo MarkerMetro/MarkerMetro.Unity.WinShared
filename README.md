@@ -13,7 +13,7 @@ Prerequisites
 
 - Visual Studio 2013 with latest updates
 - Nuget Package Manager
-- Unity 4.6.3f1 is latest version tested (also should work on any 4.6.x variant)
+- Unity 5.0.0
 
 Using WinShared on an existing porting project
 ============================================
@@ -33,7 +33,6 @@ You will need to provide following parameters:
 - TargetRepoPath - full path to root folder of new repository (for example: `C:\Code\SomeProject\`)
 - UnityProjectTargetDir - subdirectory under _TargetRepoPath_ that contains Unity project (can be empty, if it is in the root of repo, for example: `Unity` for Unity project to be in `C:\Code\SomeProject\Unity`)
 - ProjectName - name of new project (ensure same as ProductName in PlayerSettings). Script will rename Windows projects, namespaces and solutions to match this name.
-- WindowsSolutionTargetDir: optional. sub-directory under TargetRepoPath where Windows Solution is built to. (e.g. defaults to 'WindowsSolutionUniversal', for Win 8.1/WP8.0 use 'WindowsSolution')
 - IncludeExamples : optional. Boolean to indicate whether to include the example scene and game from Marker Metro to demonstrate WinIntegration features. Defaults to false.
 
 This script will always copy the following files and folders to your target project:
@@ -42,16 +41,12 @@ This script will always copy the following files and folders to your target proj
 * /BuildScripts/* - helper build scripts
 * /Assets/Plugins/* - plugin binaries and scripts
 * /Assets/MarkerMetro/Editor/* - helper editor scripts, including Tools > MarkerMetro menu options
+* /WindowsSolutionUniversal - boilerplate windows 8.1 Universal solution folder, enhanced version of what Unity outputs
 
 If 'IncludeExamples' is true the following will be copied across:
 
 * /Assets/MarkerMetro/Example/* - see FaceFlip.unity, a small optional game scene with [WinIntegration](https://github.com/MarkerMetro/MarkerMetro.Unity.WinIntegration) test points (recommended to see WinIntegration features in action)
 * /Assets/StreamingAssets/MarkerMetro/* - supporting example video for WinIntegration tests
-
-Based on the value of 'WindowsSolutionTargetDir' one of the following Windows Solution folders will be copied across:
-
-- WindowsSolution - boilerplate windows 8.1/Windows Phone 8.0 solution folder, enhanced version of what Unity outputs
-- WindowsSolutionUniversal - boilerplate windows 8.1 Universal solution folder, enhanced version of what Unity outputs
 
 Guidance
 ==================
@@ -60,7 +55,7 @@ Provided here is guidance for working with WinShared (and projects based on WinS
 
 ## Windows Solution Build Output
 
-There are 2 base folders to be used for all Unity Projects, WindowsSolution (Windows 8.1 and Windows Phone 8.0) and WindowsSolutionUniversal (Windows 8.1 and Windows Phone 8.1 Universal). This contains the Windows Store and Windows Phone apps.
+The WindowsSolutionUniversal folder contains the Windows Store and Windows Phone apps (Windows 8.1 and Windows Phone 8.1 Universal).
 
 ### Building to Windows
 
@@ -69,8 +64,6 @@ You must build out from Unity for the Windows Solutions to work. You can do this
 Ensure that you build out to the correct output folders as follows:
 
 - Windows 8.1 Universal > /WindowsSolutionUniversal
-- Windows 8.1 > /WindowsSolution/WindowsStore
-- Windows Phone 8.0 > /WindowsSolution/WindowsPhone
 
 ### Application Configuration
 
@@ -107,7 +100,7 @@ Tools > MarkerMetro provides some useful features for Unity developers porting t
 
 ### Build Menu
 
-Alows you to quickly build to Windows 8.l, Windows Phone 8.0, Windows Universal or All (cycling through Windows 8.1, Windows Phone 8.0 and Windows Universal). 
+Alows you to quickly build to  Windows Universal.
 
 ### Plugins Menu
 
@@ -120,7 +113,7 @@ Building the plugins locally allows you also to easily debug a particular Window
 - Add the platform specific plugin project to your Windows solution (e.g. MarkerMetro.Unity.WinIntegrationMetro)
 - Tools > MarkerMetro > Plugins > Configure ( ensure Plugin Source is Local, and Build Local is Debug)
 - Tools > MarkerMetro > Plugins > Update
-- Tools > MarkerMetro > Build > (e.g. Windows 8.1)
+- Tools > MarkerMetro > Build >
 - Set breakpoints in your platform specific plugin project and then F5 on your app
 
 ## Sample Game and [WinIntegration](https://github.com/MarkerMetro/MarkerMetro.Unity.WinIntegration) Samples
@@ -137,19 +130,11 @@ The FaceFlip.unity scene demonstrates some key [WinIntegration](https://github.c
 
 ## Windows Phone Low Memory Optimization
 
-There is a script that tries to optimize assets settings to lower memory usage, which is useful specially for Windows Phone 8.
+There is a script that tries to optimize assets settings to lower memory usage, which is useful specially for Windows Phone.
+
 You can find it at `\Assets\Editor\MarkerMetro\MemoryOptimizer.cs`.
 Please refer to the code documentation for instructions on how to use it.
 
 ## App Name Localization
 
 Windows 8.1 and Windows Phone 8.1 app manifest uses AppName and AppDescription resources to localize the store name, application name and description.
-
-Windows Phone 8.0 manifest uses a build-process generated AppResLib.dll[*.mui] files that pull strings from resources automatically:
-- ApplicationTitle is used to generate resource string 100, wich is used to Application Display Name
-- ApplicationTileTitle is used to generate resource string 101, wich is used to set Tile Title in manifest
-- ApplicationDescription is used to generate resource string 102, which is used to set Application Description
-
-If any of these strings are missing from resources, AppResLibGenerator will report a warning.
-
-AppResLibGenerator is referenced as [Nuget Package](https://www.nuget.org/packages/MarkerMetro.WindowsPhone.AppResLibGenerator/) and is also on [Github](https://github.com/MarkerMetro/AppResLibGenerator)
