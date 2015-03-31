@@ -33,9 +33,11 @@ msbuild "%winIntegrationDir%\%winIntegration%WP81\%winIntegration%WP81.csproj" /
 echo progress 100
 
 copy /y "%winLegacyDir%\%winLegacy%Metro\bin\%buildConfig%\%winLegacy%.dll" "%unityPluginDir%\Metro\%winLegacy%.dll"
+copy /y "%winLegacyDir%\%winLegacy%Metro\bin\%buildConfig%\%winLegacy%.dll" "%unityPluginDir%\Metro\WindowsPhone81\%winLegacy%.dll"
 copy /y "%winLegacyDir%\%winLegacy%Unity\bin\%buildConfig%\%winLegacy%.dll" "%unityPluginDir%\%winLegacy%.dll"
 
 copy /y "%winLegacyDir%\%winLegacy%Metro\bin\%buildConfig%\%winLegacy%.pdb" "%unityPluginDir%\Metro\%winLegacy%.pdb"
+copy /y "%winLegacyDir%\%winLegacy%Metro\bin\%buildConfig%\%winLegacy%.pdb" "%unityPluginDir%\Metro\WindowsPhone81\%winLegacy%.pdb"
 copy /y "%winLegacyDir%\%winLegacy%Unity\bin\%buildConfig%\%winLegacy%.pdb" "%unityPluginDir%\%winLegacy%.pdb"
 
 copy /y "%winIntegrationDir%\%winIntegration%Metro\bin\%buildConfig%\%winIntegration%.dll" "%unityPluginDir%\Metro\%winIntegration%.dll"
