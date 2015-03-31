@@ -208,9 +208,8 @@ namespace UnityProject
             {
                 //***********************************************
                 //Adjust these parameters with appropriate values
-                string frontMediumImagePath = "/Assets/Logo.png";
+                string frontMediumImagePath = "/Assets/MediumTile.png";
                 string frontWideImagePath = "/Assets/WideLogo.png";
-                string backWideImagePath = "/Assets/Logo.png";
 
                 string mediumText1 = "Level"; // **Don't forget to localise**
                 string mediumText2 = "Score";
@@ -239,24 +238,18 @@ namespace UnityProject
                 // https://msdn.microsoft.com/library/windows/apps/windows.ui.notifications.tiletemplatetype
 
                 // Retrieve the XML that defines the appearance of the tiles
-                XmlDocument frontMediumTemplate = TileUpdateManager.GetTemplateContent(TileTemplateType.TileSquare150x150Image);
-                XmlDocument backMediumTemplate = TileUpdateManager.GetTemplateContent(TileTemplateType.TileSquare150x150Text01);
-                XmlDocument frontWideTemplate = TileUpdateManager.GetTemplateContent(TileTemplateType.TileWide310x150Image);
-                XmlDocument backWideTemplate = TileUpdateManager.GetTemplateContent(TileTemplateType.TileWide310x150SmallImageAndText02);
+                XmlDocument frontMediumTemplate = TileUpdateManager.GetTemplateContent(TileTemplateType.TileSquare150x150PeekImageAndText01);
+                XmlDocument frontWideTemplate = TileUpdateManager.GetTemplateContent(TileTemplateType.TileWide310x150PeekImage02);
 
                 // Tiles should display game name on the back, but not on the front, as it will be in the image
                 // retrieve the 'binding' element from the xml
                 XmlElement frontMediumBinding = (XmlElement)frontMediumTemplate.GetElementsByTagName("binding").Single();
-                XmlElement backMediumBinding = (XmlElement)backMediumTemplate.GetElementsByTagName("binding").Single();
                 XmlElement frontWideBinding = (XmlElement)frontWideTemplate.GetElementsByTagName("binding").Single();
-                XmlElement backWideBinding = (XmlElement)backWideTemplate.GetElementsByTagName("binding").Single();
 
                 // Set 'branding' attribute on 'binding' element
                 // fronts need 'none' backs need 'name'
                 frontMediumBinding.SetAttribute("branding", "none");
-                backMediumBinding.SetAttribute("branding", "name");
                 frontWideBinding.SetAttribute("branding", "none");
-                backWideBinding.SetAttribute("branding", "name");
 
                 // Set 'src' attribute in 'image' elements
                 // Both front tiles need images
@@ -264,16 +257,14 @@ namespace UnityProject
                 // Access elements
                 XmlElement frontMediumImage = (XmlElement)frontMediumTemplate.GetElementsByTagName("image").Single();
                 XmlElement frontWideImage = (XmlElement)frontWideTemplate.GetElementsByTagName("image").Single();
-                XmlElement backWideImage = (XmlElement)backWideTemplate.GetElementsByTagName("image").Single();
                 // Set attributes
                 frontMediumImage.SetAttribute("src", frontMediumImagePath);
                 frontWideImage.SetAttribute("src", frontWideImagePath);
-                backWideImage.SetAttribute("src", backWideImagePath);
 
                 // Set lines of text to appear on back of tiles.
                 // Retrieve lists of text elements
-                XmlNodeList mediumTextList = backMediumTemplate.GetElementsByTagName("text");
-                XmlNodeList wideTextList = backWideTemplate.GetElementsByTagName("text");
+                XmlNodeList mediumTextList = frontMediumTemplate.GetElementsByTagName("text");
+                XmlNodeList wideTextList = frontWideTemplate.GetElementsByTagName("text");
                 // Set text for each element
                 mediumTextList[0].InnerText = string.Format("{0}: {1}", mediumText1, mediumData1);
                 mediumTextList[1].InnerText = string.Format("{0}: {1}", mediumText2, mediumData2);
@@ -289,23 +280,18 @@ namespace UnityProject
                 // Join the templates.
                 // Access 'visual' element of medium which contains medium 'binding' element
                 IXmlNode frontVisual = frontMediumTemplate.GetElementsByTagName("visual").Single();
-                IXmlNode backVisual = backMediumTemplate.GetElementsByTagName("visual").Single();
                 //add 'wide' binding element to it
                 frontVisual.AppendChild(frontMediumTemplate.ImportNode(frontWideBinding, true)); 
-                backVisual.AppendChild(backMediumTemplate.ImportNode(backWideBinding, true));
 
                 TileNotification frontNotification = new TileNotification(frontMediumTemplate); // Both contains medium and wide after join.
-                TileNotification BackNotification = new TileNotification(backMediumTemplate); 
-
+                
                 TileUpdater tileUpdater = TileUpdateManager.CreateTileUpdaterForApplication();  // Access tile updater
                 tileUpdater.EnableNotificationQueue(true);                                      // Enable queing to cycle through front and back
                 tileUpdater.Clear();                                                            // Make sure queue is empty
-                tileUpdater.Update(BackNotification);                                           // Switch to back tile
                 tileUpdater.Update(frontNotification);                                          // Queue up front tile
 
                 // Reading the actual Xml help to understand what is happening here.
                 Debug.WriteLine(frontMediumTemplate.GetXml());
-                Debug.WriteLine(backMediumTemplate.GetXml());
             }
             catch (Exception ex)
             {
