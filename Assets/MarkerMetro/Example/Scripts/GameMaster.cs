@@ -48,7 +48,7 @@ namespace MarkerMetro.Unity.WinShared.Example
                 }
                 else
                 {
-                    audio.Stop();
+                    GetComponent<AudioSource>().Stop();
                 }
             }
         }
@@ -232,11 +232,7 @@ namespace MarkerMetro.Unity.WinShared.Example
                 Debug.Log(e.Message);
                 DeviceID = "Device ID: not available.";
             }
-#if UNITY_WP_8_1
-            LowEnd = "Is Low End: Unknown";
-#else
             LowEnd = "Is Low End: " + Helper.Instance.IsLowEndDevice();
-#endif
             Internet = "Is Online: " + Helper.Instance.HasInternetConnection;
             MeteredConnection = "Is metered connection: " + Helper.Instance.IsMeteredConnection;
             ExceptionLoggingEnabledForBuildConfig = "Exception logging for current build config: " + GameController.Instance.GameConfig.ExceptionLoggingAllowed.ToString();
@@ -456,8 +452,9 @@ namespace MarkerMetro.Unity.WinShared.Example
         {
             if (SoundEnabled)
             {
-                audio.clip = clip;
-                audio.Play();
+				AudioSource audio = GetComponent<AudioSource>();
+				audio.clip = clip;
+				audio.Play();
             }
         }
 
@@ -563,6 +560,7 @@ namespace MarkerMetro.Unity.WinShared.Example
             }
         }
 
+#if (UNITY_WP8 || UNITY_WP_8_1) && !UNITY_EDITOR
         private IEnumerator SetFBStatus(FBUser user)
         {
             FacebookName = user.Name;
@@ -570,6 +568,7 @@ namespace MarkerMetro.Unity.WinShared.Example
             FacebookImage = new Texture2D(128, 128, TextureFormat.DXT1, false);
             yield return StartCoroutine(GetFBPicture(user.Id, FacebookImage));
         }
+#endif
 
         // Request the players friends.
         // As per FB API v2.0 You can only request friends that have installed and logged in on the app, 

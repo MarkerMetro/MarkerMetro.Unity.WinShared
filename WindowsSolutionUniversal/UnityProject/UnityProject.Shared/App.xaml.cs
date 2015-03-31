@@ -43,7 +43,7 @@ namespace UnityProject
 		{
 			this.InitializeComponent();
 
-            appCallbacks = new AppCallbacks(false);
+            appCallbacks = new AppCallbacks();
             UnhandledException += LogUnhandledException;
 
             // Prevents display to dim while the app is visible:

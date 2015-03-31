@@ -1,5 +1,7 @@
 fileFormatVersion: 2
-guid: 1b7f2bf921135324da044d3a1b616b45
+guid: e0b45a30d9e89d64aa8b553ebbc25d63
+timeCreated: 1427686138
+licenseType: Pro
 PluginImporter:
   serializedVersion: 1
   iconMap: {}
@@ -54,8 +56,8 @@ PluginImporter:
       settings:
         CPU: AnyCPU
         DontProcess: False
-        PlaceholderPath: Assets/Plugins/Facebook.dll
-        SDK: SDK81
+        PlaceholderPath: 
+        SDK: PhoneSDK81
     iOS:
       enabled: 0
       settings:

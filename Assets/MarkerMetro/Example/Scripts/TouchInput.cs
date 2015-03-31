@@ -40,7 +40,7 @@ namespace MarkerMetro.Unity.WinShared.Example
 
             if (touched)
             {
-                Ray ray = camera.ScreenPointToRay(touch_position);
+                Ray ray = GetComponent<Camera>().ScreenPointToRay(touch_position);
                 RaycastHit hit;
 
                 if (Physics.Raycast(ray, out hit, touch_input_mask_))

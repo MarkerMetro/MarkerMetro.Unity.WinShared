@@ -12,32 +12,30 @@ IF "%2" == "" (
 SET winLegacy=MarkerMetro.Unity.WinLegacy
 SET winIntegration=MarkerMetro.Unity.WinIntegration
 
-echo "%unityPluginDir%\Metro\%winLegacy%.pdb"
-
 if exist "%unityPluginDir%\Metro\%winLegacy%.pdb" (
     del "%unityPluginDir%\Metro\%winLegacy%.pdb"
     del "%unityPluginDir%\Metro\%winLegacy%.pdb.meta"
 )
+if exist "%unityPluginDir%\Metro\WindowsPhone81\%winLegacy%.pdb" (
+    del "%unityPluginDir%\Metro\WindowsPhone81\%winLegacy%.pdb"
+    del "%unityPluginDir%\Metro\WindowsPhone81\%winLegacy%.pdb.meta"
+)
 if exist "%unityPluginDir%\%winLegacy%.pdb" (
     del "%unityPluginDir%\%winLegacy%.pdb"
     del "%unityPluginDir%\%winLegacy%.pdb.meta"
-)
-if exist "%unityPluginDir%\WP8\%winLegacy%.pdb" (
-    del "%unityPluginDir%\WP8\%winLegacy%.pdb"
-    del "%unityPluginDir%\WP8\%winLegacy%.pdb.meta"
 )
 
 if exist "%unityPluginDir%\Metro\%winIntegration%.pdb" (
     del "%unityPluginDir%\Metro\%winIntegration%.pdb"
     del "%unityPluginDir%\Metro\%winIntegration%.pdb.meta"
 )
+if exist "%unityPluginDir%\Metro\WindowsPhone81\%winIntegration%.pdb" (
+    del "%unityPluginDir%\Metro\WindowsPhone81\%winIntegration%.pdb"
+    del "%unityPluginDir%\Metro\WindowsPhone81\%winIntegration%.pdb.meta"
+)
 if exist "%unityPluginDir%\%winIntegration%.pdb" (
     del "%unityPluginDir%\%winIntegration%.pdb"
     del "%unityPluginDir%\%winIntegration%.pdb.meta"
-)
-if exist "%unityPluginDir%\WP8\%winIntegration%.pdb" (
-    del "%unityPluginDir%\WP8\%winIntegration%.pdb"
-    del "%unityPluginDir%\WP8\%winIntegration%.pdb.meta"
 )
 
 

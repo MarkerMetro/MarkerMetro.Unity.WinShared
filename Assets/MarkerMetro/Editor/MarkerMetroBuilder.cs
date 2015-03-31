@@ -11,15 +11,7 @@ namespace MarkerMetro.Unity.WinShared.Editor
 {
     public static class MarkerMetroBuilder
     {
-        [MenuItem("Tools/MarkerMetro/Build/All", priority = 1)]
-        public static void BuildAll()
-        {
-            BuildMetroFromMenu();
-            BuildWP8FromMenu();
-            BuildUniversalFromMenu();
-        }
-
-        [MenuItem("Tools/MarkerMetro/Build/Windows Universal 8.1", priority = 2)]
+        [MenuItem("Tools/MarkerMetro/Build/Windows Universal 8.1", priority = 1)]
         public static void BuildUniversalFromMenu ()
         {
             DoBuildUniversal(string.Empty);
@@ -38,76 +30,28 @@ namespace MarkerMetro.Unity.WinShared.Editor
 
         public static void DoBuildUniversal (string outputPath)
         {
+#if UNITY_5
+            Build(BuildTarget.WSAPlayer,
+#else
             Build(BuildTarget.MetroPlayer,
+#endif
                 outputPath,
                 () =>
                 {
+#if UNITY_5
+                    EditorUserBuildSettings.selectedBuildTargetGroup = BuildTargetGroup.WSA;
+                    EditorUserBuildSettings.wsaSDK = WSASDK.UniversalSDK81;
+#else
                     EditorUserBuildSettings.selectedBuildTargetGroup = BuildTargetGroup.Metro;
                     EditorUserBuildSettings.metroBuildType = MetroBuildType.VisualStudioCSharp;
                     EditorUserBuildSettings.metroSDK = MetroSDK.UniversalSDK81;
-                }, true);
-        }
-
-        [MenuItem("Tools/MarkerMetro/Build/Windows 8.1", priority = 3)]
-        public static void BuildMetroFromMenu ()
-        {
-            DoBuildMetro(string.Empty);
-        }
-
-        public static void BuildMetro()
-        {
-            string outputPath = CommandLineReader.GetCustomArgument("outputPath");
-            if (String.IsNullOrEmpty(outputPath))
-            {
-                outputPath = CommandLineReader.GetCustomArgument("metroOutputPath");
-            }
-
-            DoBuildMetro(outputPath);
-        }
-
-        public static void DoBuildMetro (string outputPath)
-        {
-            Build(BuildTarget.MetroPlayer,
-                outputPath,
-                () =>
-                {
-                    EditorUserBuildSettings.selectedBuildTargetGroup = BuildTargetGroup.Metro;
-                    EditorUserBuildSettings.metroBuildType = MetroBuildType.VisualStudioCSharp;
-                    EditorUserBuildSettings.metroSDK = MetroSDK.SDK81;
-                });
-        }
-
-        [MenuItem("Tools/MarkerMetro/Build/Windows Phone 8.0", priority = 4)]
-        public static void BuildWP8FromMenu ()
-        {
-            DoBuildWP8(string.Empty);
-        }
-
-        public static void BuildWP8()
-        {
-            string outputPath = CommandLineReader.GetCustomArgument("outputPath");
-            if (String.IsNullOrEmpty(outputPath))
-            {
-                outputPath = CommandLineReader.GetCustomArgument("wp8OutputPath");
-            }
-
-            DoBuildWP8(outputPath);
-        }
-
-        public static void DoBuildWP8 (string outputPath)
-        {
-            Build(BuildTarget.WP8Player,
-                outputPath,
-                () =>
-                {
-                    EditorUserBuildSettings.selectedBuildTargetGroup = BuildTargetGroup.WP8;
+#endif
                 });
         }
 
         public static void Build(BuildTarget target,
             string outputPath = null,
-            Action beforeBuild = null,
-            bool isUniversal = false)
+            Action beforeBuild = null)
         {
             if (Application.isPlaying)
             {
@@ -124,7 +68,7 @@ namespace MarkerMetro.Unity.WinShared.Editor
 
             if (string.IsNullOrEmpty(outputPath))
             {
-                outputPath = GetPath(target, isUniversal);
+                outputPath = GetPath(target);
             }
 
             if (beforeBuild != null)
@@ -139,21 +83,10 @@ namespace MarkerMetro.Unity.WinShared.Editor
             }
         }
 
-        static string GetPath(BuildTarget target, bool isUniversal)
+        static string GetPath(BuildTarget target)
         {
-            string projectName = string.Empty;
-            string defaultDir = string.Empty;
-
-            if (isUniversal)
-            {
-                projectName = "Universal";
-                defaultDir = Path.GetFullPath(Path.Combine(Application.dataPath, "../WindowsSolutionUniversal"));
-            }
-            else
-            {
-                projectName = target == BuildTarget.WP8Player ? "WindowsPhone" : "WindowsStore";
-                defaultDir = Path.GetFullPath(Path.Combine(Application.dataPath, "../WindowsSolution/" + projectName));
-            }
+            string projectName = "Universal";
+            string defaultDir = Path.GetFullPath(Path.Combine(Application.dataPath, "../WindowsSolutionUniversal"));
             
             string outputPath = EditorUtility.OpenFolderPanel("Choose Folder (" + projectName + ")", defaultDir, "");
             if (string.IsNullOrEmpty(outputPath))
