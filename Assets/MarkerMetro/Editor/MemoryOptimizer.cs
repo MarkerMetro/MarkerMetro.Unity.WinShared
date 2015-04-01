@@ -6,9 +6,6 @@ using UnityEditor;
  * To use enable/disable the constants defined below and import the assets.
  * 
  * Important: to apply the script, a "reimport all" will not work, you may have to select the assets and reimport.
- * 
- * Important: Texture Resizing won't happen twice with the same texture, even when changing the
- *  TextureResizingFactor, so you can safely run the script multiple times in the same textures.
  */
 namespace MarkerMetro.Unity.WinShared.Editor
 {
@@ -22,7 +19,14 @@ namespace MarkerMetro.Unity.WinShared.Editor
         // the NPOT strategy is global.
         const bool TextureCompressionEnabled = false;
 
-        // THE SCRIPT WAS HACKED TO RESIZE THE TEXTURES FOR ALL THE PLATFORMS INSTEAD OF ONLY WP8.
+        // If enabled, changes the "Max Size" of a texture, acording to it's original size and a factor defined by
+        // It only changes the meta file of the texture.
+        // PLEASE NOTE that this occour after the processing of the texture, so the texture must be reimported again in
+        // order for the changes that were made by this part of the script to take effect. So:
+        // 1 - set these bools to true;
+        // 2 - import the textures - meta files will change, but the imported internal texture won't;
+        // 3 - set these bools to false - you don't want to resize/compress again;
+        // 4 - reimport the textures - changes made to the meta files will take effect.
         const bool TextureResizingEnabled = false;
 
         // Factor that will define the max size of a texture.
@@ -47,9 +51,9 @@ namespace MarkerMetro.Unity.WinShared.Editor
             TextureImporter textureImporter = assetImporter as TextureImporter;
             int originalMaxTextureSize;
             TextureImporterFormat format;
-            TextureImporterSettings s = new TextureImporterSettings();
-            textureImporter.ReadTextureSettings(s);
-            format = s.textureFormat;
+            TextureImporterSettings textureImporterSettings = new TextureImporterSettings();
+            textureImporter.ReadTextureSettings(textureImporterSettings);
+            format = textureImporterSettings.textureFormat;
 
             if (format != TextureImporterFormat.DXT1)
             {
@@ -61,41 +65,38 @@ namespace MarkerMetro.Unity.WinShared.Editor
 
             textureImporter.npotScale = TextureImporterNPOTScale.ToNearest;
 
-            s.textureFormat = format;
-            textureImporter.SetTextureSettings(s);
+            textureImporterSettings.textureFormat = format;
+            textureImporter.SetTextureSettings(textureImporterSettings);
         }
-        public void OnPostprocessTexture(Texture2D t)
+        public void OnPostprocessTexture(Texture2D texture)
         {
             if (!TextureResizingEnabled)
                 return;
 
             TextureImporter textureImporter = assetImporter as TextureImporter;
-            int wp8MaxTextureSize, standaloneMaxTextureSize;
+            int standaloneMaxTextureSize;
             TextureImporterFormat format;
 
             textureImporter.GetPlatformTextureSettings("Standalone", out standaloneMaxTextureSize, out format); // format will be discarded.
-            TextureImporterSettings s = new TextureImporterSettings();
-            textureImporter.ReadTextureSettings(s);
+            TextureImporterSettings textureImporterSettings = new TextureImporterSettings();
+            textureImporter.ReadTextureSettings(textureImporterSettings);
            
 
-            // the size here depends on the current MaxTextureSize for the chosen platform (WP8),
             // so it's not reliable for checking if the texture was previously modified or not.
-            float size = Mathf.Max(t.width, t.height);
+            float size = Mathf.Max(texture.width, texture.height);
 
-            Debug.LogError("original size = " + size + "  orig max size = " + s.maxTextureSize);
+            Debug.LogError("original size = " + size + "  orig max size = " + textureImporterSettings.maxTextureSize);
 
-            // when wp8MaxTexSize == standaloneMaxTexSize there's a chance the size/2 is still bigger than wp8MaxTexSize, 
             // so we need to get the smallest one:
-            size = Mathf.Min(Mathf.Pow(2f, Mathf.Floor(Mathf.Log(size, 2f)) - TextureResizingFactor), s.maxTextureSize);
+            size = Mathf.Min(Mathf.Pow(2f, Mathf.Floor(Mathf.Log(size, 2f)) - TextureResizingFactor), textureImporterSettings.maxTextureSize);
 
             Debug.LogError("chosen   size = " + size);
 
             // we won't make any changes if the calculate size is lesser than the minimum on Unity dropdown box (32):
             if (size >= 32)
             {
-                s.maxTextureSize = (int)size;
-                textureImporter.SetTextureSettings(s);
-
+                textureImporterSettings.maxTextureSize = (int)size;
+                textureImporter.SetTextureSettings(textureImporterSettings);
             }
         }
 
@@ -118,21 +119,3 @@ namespace MarkerMetro.Unity.WinShared.Editor
     }
 }
 
-// If you plan to resize NGUI atlases as well, this may interest you. Put the above WP8 code on UISprite.cs
-// (the location is defined by these 2 first and 2 last lines):
-//
-//               mSprite.width - mSprite.borderLeft - mSprite.borderRight,
-//               mSprite.height - mSprite.borderBottom - mSprite.borderTop);
-//#if UNITY_WP8
-//              float resizingFactor = 0.5f // <- Ajust according to TextureResizingFactor.
-//              mOuterUV.x *= resizingFactor;
-//              mOuterUV.y *= resizingFactor;
-//              mOuterUV.width *= resizingFactor;
-//              mOuterUV.height *= resizingFactor;
-//              mInnerUV.x *= resizingFactor;
-//              mInnerUV.y *= resizingFactor;
-//              mInnerUV.width *= resizingFactor;
-//              mInnerUV.height *= resizingFactor;
-//#endif
-//              mOuterUV = NGUIMath.ConvertToTexCoords(mOuterUV, tex.width, tex.height);
-//              mInnerUV = NGUIMath.ConvertToTexCoords(mInnerUV, tex.width, tex.height);
