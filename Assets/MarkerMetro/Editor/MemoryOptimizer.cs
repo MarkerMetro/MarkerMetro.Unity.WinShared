@@ -22,15 +22,7 @@ namespace MarkerMetro.Unity.WinShared.Editor
         // the NPOT strategy is global.
         const bool TextureCompressionEnabled = false;
 
-        // If enabled, changes the "Max Size" of a texture, acording to it's original size and a factor defined by
-        // TextureResizingFactor. ONLY FOR WINDOWS PHONE, don't worry about WSA as it only changes settings for WP8.
-        // It only changes the meta file of the texture.
-        // PLEASE NOTE that this occour after the processing of the texture, so the texture must be reimported again in
-        // order for the changes that were made by this part of the script to take effect. So:
-        // 1 - set these bools to true;
-        // 2 - import the textures - meta files will change, but the imported internal texture won't;
-        // 3 - set these bools to false - you don't want to resize/compress again;
-        // 4 - reimport the textures - changes made to the meta files will take effect.
+        // THE SCRIPT WAS HACKED TO RESIZE THE TEXTURES FOR ALL THE PLATFORMS INSTEAD OF ONLY WP8.
         const bool TextureResizingEnabled = false;
 
         // Factor that will define the max size of a texture.
@@ -55,8 +47,9 @@ namespace MarkerMetro.Unity.WinShared.Editor
             TextureImporter textureImporter = assetImporter as TextureImporter;
             int originalMaxTextureSize;
             TextureImporterFormat format;
-
-            textureImporter.GetPlatformTextureSettings("WP8", out originalMaxTextureSize, out format);
+            TextureImporterSettings s = new TextureImporterSettings();
+            textureImporter.ReadTextureSettings(s);
+            format = s.textureFormat;
 
             if (format != TextureImporterFormat.DXT1)
             {
@@ -68,7 +61,8 @@ namespace MarkerMetro.Unity.WinShared.Editor
 
             textureImporter.npotScale = TextureImporterNPOTScale.ToNearest;
 
-            textureImporter.SetPlatformTextureSettings("WP8", originalMaxTextureSize, format);
+            s.textureFormat = format;
+            textureImporter.SetTextureSettings(s);
         }
         public void OnPostprocessTexture(Texture2D t)
         {
@@ -80,28 +74,29 @@ namespace MarkerMetro.Unity.WinShared.Editor
             TextureImporterFormat format;
 
             textureImporter.GetPlatformTextureSettings("Standalone", out standaloneMaxTextureSize, out format); // format will be discarded.
-            textureImporter.GetPlatformTextureSettings("WP8", out wp8MaxTextureSize, out format);
-
-            // if the texture was already resized for WP8 we won't resize it more. This is the only reliable way I found
-            // to detect if the texture size changed for WP8:
-            if (wp8MaxTextureSize < standaloneMaxTextureSize)
-                return;
+            TextureImporterSettings s = new TextureImporterSettings();
+            textureImporter.ReadTextureSettings(s);
+           
 
             // the size here depends on the current MaxTextureSize for the chosen platform (WP8),
             // so it's not reliable for checking if the texture was previously modified or not.
             float size = Mathf.Max(t.width, t.height);
 
-            Debug.LogError("DEPOI original size = " + size + "  orig max size = " + wp8MaxTextureSize);
+            Debug.LogError("original size = " + size + "  orig max size = " + s.maxTextureSize);
 
             // when wp8MaxTexSize == standaloneMaxTexSize there's a chance the size/2 is still bigger than wp8MaxTexSize, 
             // so we need to get the smallest one:
-            size = Mathf.Min(Mathf.Pow(2f, Mathf.Floor(Mathf.Log(size, 2f)) - TextureResizingFactor), wp8MaxTextureSize);
+            size = Mathf.Min(Mathf.Pow(2f, Mathf.Floor(Mathf.Log(size, 2f)) - TextureResizingFactor), s.maxTextureSize);
 
             Debug.LogError("chosen   size = " + size);
 
             // we won't make any changes if the calculate size is lesser than the minimum on Unity dropdown box (32):
             if (size >= 32)
-                textureImporter.SetPlatformTextureSettings("WP8", (int)size, format);
+            {
+                s.maxTextureSize = (int)size;
+                textureImporter.SetTextureSettings(s);
+
+            }
         }
 
         public void OnPreprocessAudio()
@@ -110,9 +105,9 @@ namespace MarkerMetro.Unity.WinShared.Editor
                 return;
             AudioImporter audioImporter = assetImporter as AudioImporter;
 #if UNITY_5
-			AudioImporterSampleSettings settings = audioImporter.defaultSampleSettings;
-			settings.loadType = AudioClipLoadType.Streaming;
-			audioImporter.defaultSampleSettings = settings;
+            AudioImporterSampleSettings settings = audioImporter.defaultSampleSettings;
+            settings.loadType = AudioClipLoadType.Streaming;
+            audioImporter.defaultSampleSettings = settings;
 #else
             audioImporter.loadType = AudioImporterLoadType.StreamFromDisc;
             audioImporter.compressionBitrate = 32000;
