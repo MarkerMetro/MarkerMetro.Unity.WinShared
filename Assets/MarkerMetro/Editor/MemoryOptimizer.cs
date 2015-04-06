@@ -74,20 +74,17 @@ namespace MarkerMetro.Unity.WinShared.Editor
                 return;
 
             TextureImporter textureImporter = assetImporter as TextureImporter;
-            int standaloneMaxTextureSize;
             TextureImporterFormat format;
 
-            textureImporter.GetPlatformTextureSettings("Standalone", out standaloneMaxTextureSize, out format); // format will be discarded.
             TextureImporterSettings textureImporterSettings = new TextureImporterSettings();
             textureImporter.ReadTextureSettings(textureImporterSettings);
            
-
-            // so it's not reliable for checking if the texture was previously modified or not.
+            //grabbing the max texture dimension for use in size calculation
             float size = Mathf.Max(texture.width, texture.height);
 
             Debug.LogError("original size = " + size + "  orig max size = " + textureImporterSettings.maxTextureSize);
 
-            // so we need to get the smallest one:
+            // Getting the smallest texture size between original texture size, to be resized  by TextureResizingFactor, and maxTextureSize set in asset importer settings:
             size = Mathf.Min(Mathf.Pow(2f, Mathf.Floor(Mathf.Log(size, 2f)) - TextureResizingFactor), textureImporterSettings.maxTextureSize);
 
             Debug.LogError("chosen   size = " + size);
