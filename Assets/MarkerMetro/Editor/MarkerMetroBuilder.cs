@@ -81,38 +81,33 @@ namespace MarkerMetro.Unity.WinShared.Editor
             {
                 throw new Exception(error); // ensures exit code != 0.
             }
-#if UNITY_EDITOR
+
             //Unity creates unused assets no matter what
             //this hack removes those assets after the compilation
             RemoveIncorrectAssets(outputPath);
-#endif
         }
+
         static void RemoveIncorrectAssets(string outputPath)
         {
             string projectName = PlayerSettings.productName;
             string assetsPath = outputPath + "/" + projectName + "/" + projectName + ".Windows/Assets/";
 
-            //removing unused assets for windows
-            if (File.Exists(assetsPath + "WideTile.scale-100.png"))
-                File.Delete(assetsPath + "WideTile.scale-100.png");
+            //removing unused assets from WINDOWS project
+            File.Delete(assetsPath + "WideTile.scale-100.png");
 
-            if (File.Exists(assetsPath + "MediumTile.scale-100.png"))
-                File.Delete(assetsPath + "MediumTile.scale-100.png");
+            File.Delete(assetsPath + "MediumTile.scale-100.png");
 
-            //removing unused assets for windowsPhone
+            //removing unused assets from WINDOWS_PHONE project
             assetsPath = outputPath + "/" + projectName + "/" + projectName + ".WindowsPhone/Assets/";
-            if (File.Exists(assetsPath + "WideTile.scale-100.png"))
-                File.Delete(assetsPath + "WideTile.scale-100.png");
+            File.Delete(assetsPath + "WideTile.scale-100.png");
 
-            if (File.Exists(assetsPath + "SmallTile.scale-240.png"))
-                File.Delete(assetsPath + "SmallTile.scale-240.png");
+            File.Delete(assetsPath + "SmallTile.scale-240.png");
 
-            if (File.Exists(assetsPath + "MediumTile.scale-240.png"))
-                File.Delete(assetsPath + "MediumTile.scale-240.png");
+            File.Delete(assetsPath + "MediumTile.scale-240.png");
 
-            if (File.Exists(assetsPath + "MediumTile.scale-100.png"))
-                File.Delete(assetsPath + "MediumTile.scale-100.png");
+            File.Delete(assetsPath + "MediumTile.scale-100.png");
         }
+
         static string GetPath(BuildTarget target)
         {
             string projectName = "Universal";
