@@ -6,9 +6,6 @@ using UnityEditor;
  * To use enable/disable the constants defined below and import the assets.
  * 
  * Important: to apply the script, a "reimport all" will not work, you may have to select the assets and reimport.
- * 
- * Important: Texture Resizing won't happen twice with the same texture, even when changing the
- *  TextureResizingFactor, so you can safely run the script multiple times in the same textures.
  */
 namespace MarkerMetro.Unity.WinShared.Editor
 {
@@ -23,7 +20,6 @@ namespace MarkerMetro.Unity.WinShared.Editor
         const bool TextureCompressionEnabled = false;
 
         // If enabled, changes the "Max Size" of a texture, acording to it's original size and a factor defined by
-        // TextureResizingFactor. ONLY FOR WINDOWS PHONE, don't worry about WSA as it only changes settings for WP8.
         // It only changes the meta file of the texture.
         // PLEASE NOTE that this occour after the processing of the texture, so the texture must be reimported again in
         // order for the changes that were made by this part of the script to take effect. So:
@@ -55,8 +51,9 @@ namespace MarkerMetro.Unity.WinShared.Editor
             TextureImporter textureImporter = assetImporter as TextureImporter;
             int originalMaxTextureSize;
             TextureImporterFormat format;
-
-            textureImporter.GetPlatformTextureSettings("WP8", out originalMaxTextureSize, out format);
+            TextureImporterSettings textureImporterSettings = new TextureImporterSettings();
+            textureImporter.ReadTextureSettings(textureImporterSettings);
+            format = textureImporterSettings.textureFormat;
 
             if (format != TextureImporterFormat.DXT1)
             {
@@ -68,40 +65,36 @@ namespace MarkerMetro.Unity.WinShared.Editor
 
             textureImporter.npotScale = TextureImporterNPOTScale.ToNearest;
 
-            textureImporter.SetPlatformTextureSettings("WP8", originalMaxTextureSize, format);
+            textureImporterSettings.textureFormat = format;
+            textureImporter.SetTextureSettings(textureImporterSettings);
         }
-        public void OnPostprocessTexture(Texture2D t)
+        public void OnPostprocessTexture(Texture2D texture)
         {
             if (!TextureResizingEnabled)
                 return;
 
             TextureImporter textureImporter = assetImporter as TextureImporter;
-            int wp8MaxTextureSize, standaloneMaxTextureSize;
             TextureImporterFormat format;
 
-            textureImporter.GetPlatformTextureSettings("Standalone", out standaloneMaxTextureSize, out format); // format will be discarded.
-            textureImporter.GetPlatformTextureSettings("WP8", out wp8MaxTextureSize, out format);
+            TextureImporterSettings textureImporterSettings = new TextureImporterSettings();
+            textureImporter.ReadTextureSettings(textureImporterSettings);
+           
+            //grabbing the max texture dimension for use in size calculation
+            float size = Mathf.Max(texture.width, texture.height);
 
-            // if the texture was already resized for WP8 we won't resize it more. This is the only reliable way I found
-            // to detect if the texture size changed for WP8:
-            if (wp8MaxTextureSize < standaloneMaxTextureSize)
-                return;
+            Debug.LogError("original size = " + size + "  orig max size = " + textureImporterSettings.maxTextureSize);
 
-            // the size here depends on the current MaxTextureSize for the chosen platform (WP8),
-            // so it's not reliable for checking if the texture was previously modified or not.
-            float size = Mathf.Max(t.width, t.height);
-
-            Debug.LogError("DEPOI original size = " + size + "  orig max size = " + wp8MaxTextureSize);
-
-            // when wp8MaxTexSize == standaloneMaxTexSize there's a chance the size/2 is still bigger than wp8MaxTexSize, 
-            // so we need to get the smallest one:
-            size = Mathf.Min(Mathf.Pow(2f, Mathf.Floor(Mathf.Log(size, 2f)) - TextureResizingFactor), wp8MaxTextureSize);
+            // Getting the smallest texture size between original texture size, to be resized  by TextureResizingFactor, and maxTextureSize set in asset importer settings:
+            size = Mathf.Min(Mathf.Pow(2f, Mathf.Floor(Mathf.Log(size, 2f)) - TextureResizingFactor), textureImporterSettings.maxTextureSize);
 
             Debug.LogError("chosen   size = " + size);
 
             // we won't make any changes if the calculate size is lesser than the minimum on Unity dropdown box (32):
             if (size >= 32)
-                textureImporter.SetPlatformTextureSettings("WP8", (int)size, format);
+            {
+                textureImporterSettings.maxTextureSize = (int)size;
+                textureImporter.SetTextureSettings(textureImporterSettings);
+            }
         }
 
         public void OnPreprocessAudio()
@@ -110,9 +103,9 @@ namespace MarkerMetro.Unity.WinShared.Editor
                 return;
             AudioImporter audioImporter = assetImporter as AudioImporter;
 #if UNITY_5
-			AudioImporterSampleSettings settings = audioImporter.defaultSampleSettings;
-			settings.loadType = AudioClipLoadType.Streaming;
-			audioImporter.defaultSampleSettings = settings;
+            AudioImporterSampleSettings settings = audioImporter.defaultSampleSettings;
+            settings.loadType = AudioClipLoadType.Streaming;
+            audioImporter.defaultSampleSettings = settings;
 #else
             audioImporter.loadType = AudioImporterLoadType.StreamFromDisc;
             audioImporter.compressionBitrate = 32000;
@@ -123,21 +116,3 @@ namespace MarkerMetro.Unity.WinShared.Editor
     }
 }
 
-// If you plan to resize NGUI atlases as well, this may interest you. Put the above WP8 code on UISprite.cs
-// (the location is defined by these 2 first and 2 last lines):
-//
-//               mSprite.width - mSprite.borderLeft - mSprite.borderRight,
-//               mSprite.height - mSprite.borderBottom - mSprite.borderTop);
-//#if UNITY_WP8
-//              float resizingFactor = 0.5f // <- Ajust according to TextureResizingFactor.
-//              mOuterUV.x *= resizingFactor;
-//              mOuterUV.y *= resizingFactor;
-//              mOuterUV.width *= resizingFactor;
-//              mOuterUV.height *= resizingFactor;
-//              mInnerUV.x *= resizingFactor;
-//              mInnerUV.y *= resizingFactor;
-//              mInnerUV.width *= resizingFactor;
-//              mInnerUV.height *= resizingFactor;
-//#endif
-//              mOuterUV = NGUIMath.ConvertToTexCoords(mOuterUV, tex.width, tex.height);
-//              mInnerUV = NGUIMath.ConvertToTexCoords(mInnerUV, tex.width, tex.height);
