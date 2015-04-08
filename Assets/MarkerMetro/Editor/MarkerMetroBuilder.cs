@@ -12,7 +12,7 @@ namespace MarkerMetro.Unity.WinShared.Editor
     public static class MarkerMetroBuilder
     {
         [MenuItem("Tools/MarkerMetro/Build/Windows Universal 8.1", priority = 1)]
-        public static void BuildUniversalFromMenu ()
+        public static void BuildUniversalFromMenu()
         {
             DoBuildUniversal(string.Empty);
         }
@@ -28,14 +28,14 @@ namespace MarkerMetro.Unity.WinShared.Editor
             DoBuildUniversal(outputPath);
         }
 
-        public static void DoBuildUniversal (string outputPath)
+        public static void DoBuildUniversal(string outputPath)
         {
 #if UNITY_5
             Build(BuildTarget.WSAPlayer,
 #else
             Build(BuildTarget.MetroPlayer,
 #endif
-                outputPath,
+ outputPath,
                 () =>
                 {
 #if UNITY_5
@@ -81,13 +81,38 @@ namespace MarkerMetro.Unity.WinShared.Editor
             {
                 throw new Exception(error); // ensures exit code != 0.
             }
+
+            //Unity creates unused assets no matter what
+            //this hack removes those assets after the compilation
+            RemoveIncorrectAssets(outputPath);
+        }
+
+        static void RemoveIncorrectAssets(string outputPath)
+        {
+            string projectName = PlayerSettings.productName;
+            string assetsPath = outputPath + "/" + projectName + "/" + projectName + ".Windows/Assets/";
+
+            //removing unused assets from WINDOWS project
+            File.Delete(assetsPath + "WideTile.scale-100.png");
+
+            File.Delete(assetsPath + "MediumTile.scale-100.png");
+
+            //removing unused assets from WINDOWS_PHONE project
+            assetsPath = outputPath + "/" + projectName + "/" + projectName + ".WindowsPhone/Assets/";
+            File.Delete(assetsPath + "WideTile.scale-100.png");
+
+            File.Delete(assetsPath + "SmallTile.scale-240.png");
+
+            File.Delete(assetsPath + "MediumTile.scale-240.png");
+
+            File.Delete(assetsPath + "MediumTile.scale-100.png");
         }
 
         static string GetPath(BuildTarget target)
         {
             string projectName = "Universal";
             string defaultDir = Path.GetFullPath(Path.Combine(Application.dataPath, "../WindowsSolutionUniversal"));
-            
+
             string outputPath = EditorUtility.OpenFolderPanel("Choose Folder (" + projectName + ")", defaultDir, "");
             if (string.IsNullOrEmpty(outputPath))
             {
