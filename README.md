@@ -78,7 +78,7 @@ musicSwitch.IsOn = GameController.Instance.GameSettings.MusicEnabled;
 The GameController class is an intermediary class between the Application and Unity. Make sure that you initialize the Game Settings on the game side with a class which implements [IGameSettings] (https://github.com/MarkerMetro/MarkerMetro.Unity.WinShared/blob/master/Assets/Plugins/MarkerMetro/IGameSettings.cs)
 
 ```csharp
-GameController.Instance.Init(this);
+GameController.Instance.Init(IGameSettings gameSettings);
 ```
 Within the example game in WinShared this is done with the main GameMaster.cs class in the Awake method, [see here] (https://github.com/MarkerMetro/MarkerMetro.Unity.WinShared/blob/master/Assets/MarkerMetro/Example/Scripts/GameMaster.cs).
 
