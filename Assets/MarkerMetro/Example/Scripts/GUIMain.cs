@@ -47,18 +47,7 @@ namespace MarkerMetro.Unity.WinShared.Example
 
         void Update()
         {
-#if (UNITY_WP8 || UNITY_WP_8_1) && !UNITY_EDITOR
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            MarkerMetro.Unity.WinIntegration.Helper.Instance.ShowDialog("Are you sure you want to quit?", "Quit Confirm", (okPressed) =>
-            {
-                if (okPressed)
-                {
-                    Application.Quit();
-                }
-            }, "Yes", "No");
-        }
-#endif
+
         }
 
         void OnGUI()
