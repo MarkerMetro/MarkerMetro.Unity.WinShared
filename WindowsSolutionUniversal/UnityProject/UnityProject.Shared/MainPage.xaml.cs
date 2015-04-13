@@ -27,6 +27,7 @@ using Windows.UI.Xaml.Navigation;
 using Windows.UI.Popups;
 using MarkerMetro.Unity.WinIntegration;
 using MarkerMetro.Unity.WinIntegration.Logging;
+using NotificationsExtensions.TileContent;
 using UnityProject.Logging;
 using UnityProject.Config;
 #if UNITY_METRO_8_1
@@ -62,7 +63,7 @@ namespace UnityProject
         public MainPage(SplashScreen splashScreen)
         {
             this.InitializeComponent();
-
+            
             splash = splashScreen;
             GetSplashBackgroundColor();
             OnResize();
@@ -92,7 +93,7 @@ namespace UnityProject
             extendedSplashTimer.Interval = TimeSpan.FromMilliseconds(100);
             extendedSplashTimer.Tick += ExtendedSplashTimer_Tick;
             extendedSplashTimer.Start();
-
+            
 #if UNITY_METRO_8_1
             // set the fb web interface (only for Win8.1).
             FB.SetPlatformInterface(web);
@@ -218,11 +219,10 @@ namespace UnityProject
 
                 string mediumData1 = "99"; // **This data should come from a game class**
                 string mediumData2 = "1234";
-                string mediumData3 = DateTime.Now.ToString("HH:mm:ss",
-                                System.Globalization.CultureInfo.InvariantCulture);
+                string mediumData3 = DateTime.Now.ToString("HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
                 string mediumData4 = "7";
 
-                string wideText1 = mediumText1; // **These can be made different if more detail is wanted for wide tile**
+                string wideText1 = mediumText1; // **These can be made different if more detail is wanted for wide tile **
                 string wideText2 = mediumText2;
                 string wideText3 = mediumText3;
                 string wideText4 = mediumText4;
@@ -234,64 +234,57 @@ namespace UnityProject
                 //
                 //***********************************************
 
-                // Check this link for valid tile templates for Windows Store and Windows Phone:
-                // https://msdn.microsoft.com/library/windows/apps/windows.ui.notifications.tiletemplatetype
 
-                // Retrieve the XML that defines the appearance of the tiles
-                XmlDocument mediumTemplate = TileUpdateManager.GetTemplateContent(TileTemplateType.TileSquare150x150PeekImageAndText01);
-                XmlDocument wideTemplate = TileUpdateManager.GetTemplateContent(TileTemplateType.TileWide310x150PeekImage02);
+                // Using NotificationsExtensions library to build up tile content
+                // Choose the tile templates to use for 150x150, 310x150 and 310x310 sizes
+                // Check this link for the tile catalog for Windows Store and Windows Phone:
+                // https://msdn.microsoft.com/en-us/library/windows/apps/hh761491.aspx
 
-                // Tiles should display game name on the back, but not on the front, as it will be in the image
-                // retrieve the 'binding' element from the xml
-                XmlElement mediumBinding = (XmlElement)mediumTemplate.GetElementsByTagName("binding").Single();
-                XmlElement wideBinding = (XmlElement)wideTemplate.GetElementsByTagName("binding").Single();
+                var mediumTile = TileContentFactory.CreateTileSquare150x150PeekImageAndText01();
+                var wideTile = TileContentFactory.CreateTileWide310x150PeekImage02();
+                var largeTile = TileContentFactory.CreateTileSquare310x310SmallImageAndText01();
 
-                // Set 'branding' attribute on 'binding' element
-                // fronts need 'none' backs need 'name'
-                mediumBinding.SetAttribute("branding", "none");
-                wideBinding.SetAttribute("branding", "none");
+                // Set the branding value for the tiles (weather or not to display the app name)
+                mediumTile.Branding = TileBranding.None;
+                wideTile.Branding = TileBranding.None;
+                largeTile.Branding = TileBranding.Name;
 
-                // Set 'src' attribute in 'image' elements
-                // Both front tiles need images
-                // only wide tile has image on back
-                // Access elements
-                XmlElement mediumImage = (XmlElement)mediumTemplate.GetElementsByTagName("image").Single();
-                XmlElement wideImage = (XmlElement)wideTemplate.GetElementsByTagName("image").Single();
-                // Set attributes
-                mediumImage.SetAttribute("src", mediumImagePath);
-                wideImage.SetAttribute("src", wideImagePath);
+                //Set the tile template images
+                mediumTile.Image.Src = mediumImagePath;
+                wideTile.Image.Src = wideImagePath;
+                largeTile.Image.Src = mediumImagePath;
 
-                // Set lines of text to appear on back of tiles.
-                // Retrieve lists of text elements
-                XmlNodeList mediumTextList = mediumTemplate.GetElementsByTagName("text");
-                XmlNodeList wideTextList = wideTemplate.GetElementsByTagName("text");
-                // Set text for each element
-                mediumTextList[0].InnerText = string.Format("{0}: {1}", mediumText1, mediumData1);
-                mediumTextList[1].InnerText = string.Format("{0}: {1}", mediumText2, mediumData2);
-                mediumTextList[2].InnerText = string.Format("{0}: {1}", mediumText3, mediumData3);
-                mediumTextList[3].InnerText = string.Format("{0}: {1}", mediumText4, mediumData4);
-                wideTextList[0].InnerText = string.Format("{0}: {1}", wideText1, wideData1);
-                wideTextList[1].InnerText = string.Format("{0}: {1}", wideText2, wideData2);
-                wideTextList[2].InnerText = string.Format("{0}: {1}", wideText3, wideData3);
-                wideTextList[3].InnerText = string.Format("{0}: {1}", wideText4, wideData4);
+                //Set the tile template text values
+                mediumTile.TextHeading.Text = string.Format("{0}: {1}", mediumText1, mediumData1);
+                mediumTile.TextBody1.Text = string.Format("{0}: {1}", mediumText2, mediumData2);
+                mediumTile.TextBody2.Text = string.Format("{0}: {1}", mediumText3, mediumData3);
+                mediumTile.TextBody3.Text = string.Format("{0}: {1}", mediumText4, mediumData4);
 
-                // Each notification requires the data for the wide and medium tiles
-                // One notification for the front, and one for the back
-                // Join the templates.
-                // Access 'visual' element of medium which contains medium 'binding' element
-                IXmlNode frontVisual = mediumTemplate.GetElementsByTagName("visual").Single();
-                //add 'wide' binding element to it
-                frontVisual.AppendChild(mediumTemplate.ImportNode(wideBinding, true)); 
+                wideTile.TextHeading.Text = string.Format("{0}: {1}", wideText1, wideData1);
+                wideTile.TextBody1.Text = string.Format("{0}: {1}", wideText2, wideData2);
+                wideTile.TextBody2.Text = string.Format("{0}: {1}", wideText3, wideData3);
+                wideTile.TextBody3.Text = string.Format("{0}: {1}", wideText4, wideData4);
+                wideTile.TextBody4.Text = string.Empty;
 
-                TileNotification frontNotification = new TileNotification(mediumTemplate); // Both contains medium and wide after join.
-                
-                TileUpdater tileUpdater = TileUpdateManager.CreateTileUpdaterForApplication();  // Access tile updater
-                tileUpdater.EnableNotificationQueue(true);                                      // Enable queing to cycle through front and back
-                tileUpdater.Clear();                                                            // Make sure queue is empty
-                tileUpdater.Update(frontNotification);                                          // Queue up front tile
+                largeTile.TextHeading.Text = string.Format("{0}: {1}", wideText1, wideData1);
+                largeTile.TextBodyWrap.Text = string.Format("{0}: {1} - {2}: {3}", wideText2, wideData2, wideText4, wideData4);
+                largeTile.TextBody.Text = string.Format("{0}: {1}", wideText3, wideData3);
 
-                // Reading the actual Xml help to understand what is happening here.
-                Debug.WriteLine(mediumTemplate.GetXml());
+                //This merges the tile templates together to create the single xml for all of them
+                wideTile.Square150x150Content = mediumTile;
+                largeTile.Wide310x150Content = wideTile;
+
+                //Create the tile updater and update the tiles
+                var updater = TileUpdateManager.CreateTileUpdaterForApplication();
+                //This is dumb... Will fix with an updated library soon
+                var xml = largeTile.GetXml();
+                var xDoc = new XmlDocument();
+                xDoc.LoadXml(xml.ToString());
+                TileNotification tileNotification = new TileNotification(xDoc);
+                updater.Update(tileNotification);
+
+                // Reading the actual Xml to understand what is happening here.
+                Debug.WriteLine(xml.ToString());
             }
             catch (Exception ex)
             {
