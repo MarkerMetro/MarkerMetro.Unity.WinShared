@@ -65,11 +65,32 @@ Ensure that you build out to the correct output folders as follows:
 
 - Windows 8.1 Universal > /WindowsSolutionUniversal
 
+### Game Settings
+
+Some game settings need to be provided via the application side such as music, sound and notifications enabled status via the Windows 8 charms bar. 
+
+For example in the [Windows Store Settings Charm Control] (https://github.com/MarkerMetro/MarkerMetro.Unity.WinShared/blob/master/WindowsSolutionUniversal/UnityProject/UnityProject.Windows/GameSettingsFlyout.xaml.cs) you will see code similar to the following:
+
+```csharp
+musicSwitch.IsOn = GameController.Instance.GameSettings.MusicEnabled;
+```
+
+The GameController class is an intermediary class between the Application and Unity. Make sure that you initialize the Game Settings on the game side with a class which implements [IGameSettings] (https://github.com/MarkerMetro/MarkerMetro.Unity.WinShared/blob/master/Assets/Plugins/MarkerMetro/IGameSettings.cs)
+
+```csharp
+GameController.Instance.Init(this);
+```
+Within the example game in WinShared this is done with the main GameMaster.cs class in the Awake method, [see here] (https://github.com/MarkerMetro/MarkerMetro.Unity.WinShared/blob/master/Assets/MarkerMetro/Example/Scripts/GameMaster.cs).
+
 ### Application Configuration
 
 Application configuration is provided via the /Config/AppConfig.cs class. You are able to turn various features on and off as well as supplying facebook and exception logging api keys for example.
 
-Note that this class implemented IGameConfig and is supplied to Unity game side as part of app initialization. This way you can have configuration which works across both the app and game levels. 
+Note that this class implemented IGameConfig and is supplied to Unity game side as part of app initialization within [MainPage.xaml.cs] (https://github.com/MarkerMetro/MarkerMetro.Unity.WinShared/blob/master/WindowsSolutionUniversal/UnityProject/UnityProject.Shared/MainPage.xaml.cs). This way you can have configuration which works across both the app and game. 
+
+```csharp
+MarkerMetro.Unity.WinShared.GameController.Instance.Init(AppConfig.Instance);
+```
 
 ### Managing Exception Logging
 
