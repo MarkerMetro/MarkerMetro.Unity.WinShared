@@ -109,7 +109,6 @@
     <Reference Include="Assembly-CSharp.dll">
       <HintPath>.\Assembly-CSharp.dll</HintPath>
     </Reference>
-    <Content Include="Assets\AlignmentGrid.png" />
     <Content Include="Assets\AppIcon.scale-240.png" />
     <Content Include="Assets\Logo.scale-100.png" />
     <Content Include="Assets\Logo.scale-140.png" />
@@ -123,16 +122,8 @@
     <Content Include="Assets\StoreLogo.scale-100.png" />
     <Content Include="Assets\StoreLogo.scale-140.png" />
     <Content Include="Assets\StoreLogo.scale-240.png" />
-    <Content Include="Assets\Tiles\FlipCycleTileLarge.png" />
-    <Content Include="Assets\Tiles\FlipCycleTileMedium.png" />
-    <Content Include="Assets\Tiles\FlipCycleTileSmall.png" />
-    <Content Include="Assets\Tiles\IconicTileMediumLarge.png" />
-    <Content Include="Assets\Tiles\IconicTileSmall.png" />
     <Content Include="Assets\AppIcon.scale-100.png" />
     <Content Include="Assets\AppIcon.scale-140.png" />
-    <Content Include="Assets\Tiles\TileFrontMedium.png" />
-    <Content Include="Assets\Tiles\TileFrontWide.png" />
-    <Content Include="Assets\Tiles\TileSmall.png" />
     <Content Include="Assets\WideLogo.scale-100.png" />
     <Content Include="Assets\WideLogo.scale-140.png" />
     <Content Include="Assets\WideLogo.scale-240.png" />
