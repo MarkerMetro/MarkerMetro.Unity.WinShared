@@ -542,7 +542,7 @@ namespace MarkerMetro.Unity.WinShared.Example
                 {
                     StartCoroutine(SetFBStatus(user));
                 });
-#elif (UNITY_METRO && !UNITY_EDITOR)
+#elif (UNITY_WSA && !UNITY_EDITOR)
                 FacebookName = FB.UserName; 
                 PopulateFriends();
                 FacebookImage = new Texture2D(128, 128, TextureFormat.DXT1, false);
@@ -557,6 +557,8 @@ namespace MarkerMetro.Unity.WinShared.Example
                 FacebookName = "Not Logged In";
                 FacebookFriends = "No Friends";
                 FacebookImage = null;
+                _facebookFriends.Clear();
+                SetupTiles();
             }
         }
 
@@ -577,7 +579,7 @@ namespace MarkerMetro.Unity.WinShared.Example
         public void PopulateFriends()
         {
             Debug.Log("Populate Friends.");
-#if !UNITY_EDITOR && UNITY_WINRT
+#if !UNITY_EDITOR && UNITY_WSA
             if (FBWin.IsLoggedIn)
             {
                 // Get the friends
