@@ -32,6 +32,7 @@ namespace MarkerMetro.Unity.WinShared.Editor
          * Simply create a CSV file using Excel with a list of paths.
          * Path example: Assets/MarkerMetro/Example/Resources/Ivan.jpg
          */
+        [MenuItem("Tools/Marker Metro/General/Memory Optimization/Optimize Texture Settings")]
         public static void OptimizeSettings()
         {
             const string ignoreListPath = "WindowsAssetIgnoreList.csv";
