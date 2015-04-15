@@ -151,10 +151,17 @@ The FaceFlip.unity scene demonstrates some key [WinIntegration](https://github.c
 
 ## Windows Phone Low Memory Optimization
 
-There is a script that tries to optimize assets settings to lower memory usage, which is useful specially for Windows Phone.
+There is a script that optimize texture settings to lower memory usage, which is useful specially for Windows Phone.
 
-You can find it at `\Assets\Editor\MarkerMetro\MemoryOptimizer.cs`.
-Please refer to the code documentation for instructions on how to use it.
+It basically lowers the maximum size that a texture can have, the default is to use half of the resolution that is currently being used but it can be configured to be more aggressive. Note that if you run the script multiple times it will lower the resolution even more, but if that's your intention you should play around with the `TextureResizingFactor` variable in the script.
+
+The script also forces the textures to use DXT compression, which is the best option for Windows.
+
+The script is located at `\Assets\Editor\MarkerMetro\MemoryOptimizer.cs`, but you can use the menu item _Tools > Marker Metro > General > Memory Optimization > Optimize Texture Settings_ to run it. It will locate all texture assets in the project and optimize their settings. You can also create an ignore list of files that you don't want to change; for this, create a CSV file called `WindowsAssetIgnoreList.csv` in the root of your Unity project with the paths of the files you want the script to ignore (e.g. `Assets/Resources/ignoreme.jpg`). You can use Excel for this, just remember to save as CSV.
+
+Texture settings are stored in their meta files, therefore this script only changes texture's meta files.
+
+Please refer to the code documentation if you need more details.
 
 ## App Name Localization
 
