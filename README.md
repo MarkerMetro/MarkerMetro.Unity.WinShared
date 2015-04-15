@@ -159,7 +159,7 @@ The script also forces the textures to use DXT compression, which is the best op
 
 The script is located at `\Assets\Editor\MarkerMetro\MemoryOptimizer.cs`, but you can use the menu item _Tools > Marker Metro > General > Memory Optimization > Optimize Texture Settings_ to run it. It will locate all texture assets in the project and optimize their settings. You can also create an ignore list of files that you don't want to change; for this, create a CSV file called `WindowsAssetIgnoreList.csv` in the root of your Unity project with the paths of the files you want the script to ignore (e.g. `Assets/Resources/ignoreme.jpg`). You can use Excel for this, just remember to save as CSV.
 
-Texture settings are stored in their meta files, therefore this script only changes texture's meta files.
+Texture settings are stored in their corresponding meta files, therefore this script only changes texture's meta files. Since Windows 8 and Windows Phone 8 use the same textures in Universal build, we cannot change these settings for Windows Phone only. Therefore, the build servers have a special configuration that runs this script and generate low memory builds just after generating the regular builds. The settings are then reset to what they were before, for the next builds.
 
 Please refer to the code documentation if you need more details.
 
