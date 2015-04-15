@@ -8,13 +8,13 @@ namespace MarkerMetro.Unity.WinShared.Editor
     /// </summary>
     public static class MarkerMetroTools
     {
-        [MenuItem("Tools/MarkerMetro/Preferences/Player Prefs/Delete All", priority = 20)]
+        [MenuItem("Tools/Marker Metro/General/Preferences/Player Prefs/Delete All", priority = 20)]
         public static void DeletePlayerPrefs()
         {
             PlayerPrefs.DeleteAll();
         }
 
-        [MenuItem("Tools/MarkerMetro/Preferences/Editor Prefs/Delete All", priority = 21)]
+        [MenuItem("Tools/Marker Metro/General/Preferences/Editor Prefs/Delete All", priority = 21)]
         public static void DeleteEditorPrefs()
         {
             EditorPrefs.DeleteAll();

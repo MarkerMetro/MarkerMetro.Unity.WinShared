@@ -11,7 +11,7 @@ namespace MarkerMetro.Unity.WinShared.Editor
 {
     public static class MarkerMetroBuilder
     {
-        [MenuItem("Tools/MarkerMetro/Build/Windows Universal 8.1", priority = 1)]
+        [MenuItem("Tools/Marker Metro/Build/Windows Universal 8.1", priority = 1)]
         public static void BuildUniversalFromMenu()
         {
             DoBuildUniversal(string.Empty);

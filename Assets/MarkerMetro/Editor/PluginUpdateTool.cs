@@ -21,7 +21,7 @@ namespace MarkerMetro.Unity.WinShared.Editor
         /// <summary>
         /// Configure Plugin update source, local WinLegacy/WinIntegration solution directories.
         /// </summary>
-        [MenuItem("Tools/MarkerMetro/Plugins/Configure", priority = 11)]
+        [MenuItem("Tools/Marker Metro/Plugins/Configure", priority = 11)]
         public static void Configure()
         {
             EditorWindow.GetWindow<ConfigureWindow>(false, "Configure", true).Show();
@@ -30,7 +30,7 @@ namespace MarkerMetro.Unity.WinShared.Editor
         /// <summary>
         /// Update Plugins.
         /// </summary>
-        [MenuItem("Tools/MarkerMetro/Plugins/Update", priority = 12)]
+        [MenuItem("Tools/Marker Metro/Plugins/Update", priority = 12)]
         public static void UpdatePlugins()
         {
             if (EditorApplication.isCompiling)
