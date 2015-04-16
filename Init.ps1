@@ -33,12 +33,6 @@ try
     $targetRepoPath = Read-Host 'TargetRepoPath'
     $renameOnly = $false
 	
-	#clearing the asset ignore list that is being used in memory optimization
-	$assetIgnoreListPath = 'Assets\MarkerMetro\Editor\WindowsAssetIgnoreList.csv'
-	if(Test-Path $assetIgnoreListPath)
-    {
-		Clear-Content $assetIgnoreListPath;
-	}
     if([System.String]::IsNullOrWhiteSpace($targetRepoPath))
     {
         # Not critical, you can run the script directly to just rename the WindowsSolution project
@@ -125,7 +119,15 @@ try
         else
         {
             robocopy (ScriptSubDirectory 'Assets') (Join-Path $unityProjectTargetPath 'Assets') /e /XD (ScriptSubDirectory 'Assets\MarkerMetro\Example') (ScriptSubDirectory 'Assets\StreamingAssets\MarkerMetro') /XF (ScriptSubDirectory 'Assets\MarkerMetro\Example.meta') (ScriptSubDirectory 'Assets\StreamingAssets\MarkerMetro.meta') | Out-Null
-        }
+        	
+			#clearing the asset ignore list that is being used in memory optimization
+			
+			$assetIgnoreListPath = 'Assets\MarkerMetro\Editor\MemoryOptimizerExcludeList.csv'
+			if(Test-Path $assetIgnoreListPath)
+			{
+				Clear-Content $assetIgnoreListPath;
+			}
+		}
 
         Write-Host ('Copying .gitignore to: ' + $targetRepoPath + '...')
         Copy-Item (ScriptSubDirectory '.gitignore') $unityProjectTargetPath -Force
