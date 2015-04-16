@@ -24,7 +24,7 @@ Using WinShared on an existing porting project
 
 Skip this step if you just want to take a look at WinShared.
 
-Follow the steps in this section To initialize an exiting Unity project you may be working on using WinShared. 
+Follow the steps in this section To initialize an existing Unity project you may be working on using WinShared. 
 
 This will include al the functionality of WinShared and related plugins as detailed in this read me, making your porting efforts hopefully a lot easier.
 
