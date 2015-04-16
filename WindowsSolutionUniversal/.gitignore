@@ -182,3 +182,11 @@ UpgradeLog*.htm
 
 # Microsoft Fakes
 FakesAssemblies/
+
+# Unused assets
+/WindowsSolutionUniversal/UnityProject/UnityProject.Windows/Assets/MediumTile.scale-100.png
+/WindowsSolutionUniversal/UnityProject/UnityProject.Windows/Assets/WideTile.scale-100.png
+/WindowsSolutionUniversal/UnityProject/UnityProject.WindowsPhone/Assets/MediumTile.scale-100.png
+/WindowsSolutionUniversal/UnityProject/UnityProject.WindowsPhone/Assets/MediumTile.scale-240.png
+/WindowsSolutionUniversal/UnityProject/UnityProject.WindowsPhone/Assets/SmallTile.scale-240.png
+/WindowsSolutionUniversal/UnityProject/UnityProject.WindowsPhone/Assets/WideTile.scale-100.png
