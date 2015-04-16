@@ -8,6 +8,10 @@ The repository itself is a Unity project with useful plugins, scripts, tools and
 You can view an overview of the architecture here:
 https://www.dropbox.com/s/w8wt0au5602vl57/MarkerMetro.Unity.WinShared.jpg
 
+![build status](http://alice.markermetro.com/app/rest/builds/buildType:(id:WinShared_Ci)/statusIcon) **CI**
+
+![build status](http://alice.markermetro.com/app/rest/builds/buildType:(id:WinShared_Release)/statusIcon) **Release**
+
 Prerequisites
 ==================
 
