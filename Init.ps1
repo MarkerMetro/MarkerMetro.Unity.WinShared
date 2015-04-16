@@ -120,7 +120,7 @@ try
         {
             robocopy (ScriptSubDirectory 'Assets') (Join-Path $unityProjectTargetPath 'Assets') /e /XD (ScriptSubDirectory 'Assets\MarkerMetro\Example') (ScriptSubDirectory 'Assets\StreamingAssets\MarkerMetro') /XF (ScriptSubDirectory 'Assets\MarkerMetro\Example.meta') (ScriptSubDirectory 'Assets\StreamingAssets\MarkerMetro.meta') | Out-Null
 			#clearing the asset ignore list that is being used in memory optimization
-			$assetIgnoreListPath = Join-Path $unityProjectTargetDir 'Assets\MarkerMetro\Editor\MemoryOptimizerExcludeList.csv'
+			$assetIgnoreListPath = Join-Path $unityProjectTargetPath 'Assets\MarkerMetro\Editor\MemoryOptimizerExcludeList.csv'
 			if(Test-Path $assetIgnoreListPath)
 			{
 				Clear-Content $assetIgnoreListPath;
