@@ -132,10 +132,22 @@ Plugins > Update allows you to update the Marker Metro plugins (WinIntegration a
 Building the plugins locally allows you also to easily debug a particular Windows Store or Windows Phone plugin project as follows:
 
 - Add the platform specific plugin project to your Windows solution (e.g. MarkerMetro.Unity.WinIntegrationMetro)
-- Tools > MarkerMetro > Plugins > Configure ( ensure Plugin Source is Local, and Build Local is Debug)
-- Tools > MarkerMetro > Plugins > Update
-- Tools > MarkerMetro > Build >
+- Tools > Marker Metro > Plugins > Configure ( ensure Plugin Source is Local, and Build Local is Debug)
+- Tools > Marker Metro > Plugins > Update
+- Tools > Marker Metro > Build >
 - Set breakpoints in your platform specific plugin project and then F5 on your app
+
+### Memory Optimization Menu
+
+There is a [memory optimization script](https://github.com/MarkerMetro/MarkerMetro.Unity.WinShared/blob/master/Assets/MarkerMetro/Editor/MemoryOptimizer.cs) that optimize texture settings to lower memory usage, which is useful specially for Windows Phone.
+
+You can use the menu item _Tools > Marker Metro > Memory Optimization > Optimize Texture Settings_ to run it. 
+
+It will locate all texture assets in the project and optimize their settings. You can also update an exclude list of files that you don't want to change using [MemoryOptimizerExcludeList.csv](https://github.com/MarkerMetro/MarkerMetro.Unity.WinShared/blob/master/Assets/MarkerMetro/Editor/MemoryOptimizerExcludeList.csv). Simply enter the paths of the files you want the script to ignore (e.g. `Assets/Resources/ignoreme.jpg`). 
+
+The script lowers the maximum size that a texture can have, the default is to use half of the resolution that is currently being used but it can be configured to be more aggressive. Note that if you run the script multiple times it will lower the resolution even more, but if that's your intention you should play around with the `TextureResizingFactor` variable in the script. The script also forces the textures to use DXT compression, which is the best option for Windows.
+
+Texture settings are stored in their corresponding meta files, therefore this script only changes a texture's meta files. Since Windows 8.1 and Windows Phone 8.1 use the same textures for a Universal build, we cannot change these settings for Windows Phone only. Therefore, you will need to essentially run a secnd low memory build after running this script specifically for Windows Phone.
 
 ## Sample Game and [WinIntegration](https://github.com/MarkerMetro/MarkerMetro.Unity.WinIntegration) Samples
 
@@ -148,16 +160,6 @@ The FaceFlip.unity scene demonstrates some key [WinIntegration](https://github.c
 - [Video Player](https://github.com/MarkerMetro/MarkerMetro.Unity.WinIntegration/blob/master/README.md#video-player)
 - [Platform specific information](https://github.com/MarkerMetro/MarkerMetro.Unity.WinIntegration/blob/master/README.md#helper)
 
-
-## Windows Phone Low Memory Optimization
-
-There is a [memory optimization script](https://github.com/MarkerMetro/MarkerMetro.Unity.WinShared/blob/master/Assets/MarkerMetro/Editor/MemoryOptimizer.cs) that optimize texture settings to lower memory usage, which is useful specially for Windows Phone.
-
-The script lowers the maximum size that a texture can have, the default is to use half of the resolution that is currently being used but it can be configured to be more aggressive. Note that if you run the script multiple times it will lower the resolution even more, but if that's your intention you should play around with the `TextureResizingFactor` variable in the script. The script also forces the textures to use DXT compression, which is the best option for Windows.
-
-You can use the menu item _Tools > Marker Metro > Memory Optimization > Optimize Texture Settings_ to run it. It will locate all texture assets in the project and optimize their settings. You can also create an ignore list of files that you don't want to change; for this, create a CSV file called `WindowsAssetIgnoreList.csv` in the root of your Unity project with the paths of the files you want the script to ignore (e.g. `Assets/Resources/ignoreme.jpg`). 
-
-Texture settings are stored in their corresponding meta files, therefore this script only changes a texture's meta files. Since Windows 8.1 and Windows Phone 8.1 use the same textures for a Universal build, we cannot change these settings for Windows Phone only. Therefore, you will need to essentially run a secnd low memory build after running this script specifically for Windows Phone.
 
 ## App Name Localization
 
