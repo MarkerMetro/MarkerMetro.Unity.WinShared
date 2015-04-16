@@ -9,7 +9,7 @@ using MarkerMetro.Unity.WinIntegration.Storage;
 using MarkerMetro.Unity.WinShared;
 using Logger = MarkerMetro.Unity.WinIntegration.Logging.ExceptionLogger;
 
-#if (UNITY_WP8 || UNITY_WP_8_1) && !UNITY_EDITOR
+#if (UNITY_WP_8_1) && !UNITY_EDITOR
 using FBWin = MarkerMetro.Unity.WinIntegration.Facebook.FBNative;
 #else
 using FBWin = MarkerMetro.Unity.WinIntegration.Facebook.FB;
@@ -34,7 +34,7 @@ namespace MarkerMetro.Unity.WinShared.Example
 
         GameMaster _gameMasterScript;
         bool _showInfo = false;
-#if !UNITY_EDITOR && UNITY_WINRT
+#if !UNITY_EDITOR && UNITY_WINRT_8_1
         float _facebookMenuHeight;
 #endif
         string _apiKey;
@@ -47,7 +47,7 @@ namespace MarkerMetro.Unity.WinShared.Example
 
         void Update()
         {
-#if (UNITY_WP8 || UNITY_WP_8_1) && !UNITY_EDITOR
+#if (UNITY_WP_8_1) && !UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             MarkerMetro.Unity.WinIntegration.Helper.Instance.ShowDialog("Are you sure you want to quit?", "Quit Confirm", (okPressed) =>
@@ -66,13 +66,13 @@ namespace MarkerMetro.Unity.WinShared.Example
             if (_gameMasterScript.State == GameMaster.GAME_STATE.GS_START)
             {
                 // Facebook menu.
-#if !UNITY_EDITOR && UNITY_WINRT
+#if !UNITY_EDITOR && UNITY_WINRT_8_1
                 Rect facebookScreenRect = GUILayout.Window(FacebookWindowID, new Rect(Offset, Offset, 0, 0), FacebookIntegrationGUI, "Facebook Integration", GUILayout.MinWidth(WindowWidth));
 #else
                 GUILayout.Window(FacebookWindowID, new Rect(Offset, Offset, 0, 0), FacebookIntegrationGUI, "Facebook Integration", GUILayout.MinWidth(WindowWidth));
 #endif
 
-#if !UNITY_EDITOR && UNITY_WINRT
+#if !UNITY_EDITOR && UNITY_WINRT_8_1
                 // OnGUI will run twice every frame, once for EventType.Layout, and once for EventType.Repaint.
                 // The rect returned by GUILayout.Window is correct only for EventType.Repaint.
                 if (Event.current.type == EventType.Repaint)
@@ -115,7 +115,7 @@ namespace MarkerMetro.Unity.WinShared.Example
             {
                 if (GUILayout.Button("Login", GUILayout.MinHeight(ButtonHeight)))
                 {
-#if !UNITY_EDITOR && UNITY_WINRT
+#if !UNITY_EDITOR && UNITY_WINRT_8_1
                 FBWin.Login("email,publish_actions,user_friends", _gameMasterScript.FBLoginCallback);
 #endif
                 }
@@ -251,7 +251,7 @@ namespace MarkerMetro.Unity.WinShared.Example
             if (GUILayout.Button("Show Native Dialog", GUILayout.MinHeight(ButtonHeight)))
             {
                 Debug.Log("Show Native Dialog.");
-#if !UNITY_EDITOR && UNITY_WINRT
+#if !UNITY_EDITOR && UNITY_WINRT_8_1
             Action<bool> callback = b => Debug.Log("Native Dialog: User response is " + b);
             Helper.Instance.ShowDialog("How cool is that?", "This is a native dialog!", callback,
                 "So cool!", "Meh...");
@@ -270,7 +270,7 @@ namespace MarkerMetro.Unity.WinShared.Example
                 _gameMasterScript.SendEmail();
             }
 
-#if (UNITY_WP8 || UNITY_WP_8_1) && !UNITY_EDITOR
+#if (UNITY_WP_8_1) && !UNITY_EDITOR
         if (GUILayout.Button("Quit", GUILayout.MinHeight(ButtonHeight)))
         {
             Application.Quit();
