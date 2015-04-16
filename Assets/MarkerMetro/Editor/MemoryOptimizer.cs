@@ -35,7 +35,7 @@ namespace MarkerMetro.Unity.WinShared.Editor
         [MenuItem("Tools/Marker Metro/Memory Optimization/Optimize Texture Settings", priority = 30)]
         public static void OptimizeSettings()
         {
-            const string ignoreListPath = "WindowsAssetIgnoreList.csv";
+            const string ignoreListPath = "Assets/MarkerMetro/Editor/WindowsAssetIgnoreList.csv";
             List<string> ignoreList;
             if (File.Exists(ignoreListPath))
             {

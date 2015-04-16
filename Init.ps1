@@ -32,7 +32,13 @@ try
 
     $targetRepoPath = Read-Host 'TargetRepoPath'
     $renameOnly = $false
-
+	
+	#clearing the asset ignore list that is being used in memory optimization
+	$assetIgnoreListPath = 'Assets\MarkerMetro\Editor\WindowsAssetIgnoreList.csv'
+	if(Test-Path $assetIgnoreListPath)
+    {
+		Clear-Content $assetIgnoreListPath;
+	}
     if([System.String]::IsNullOrWhiteSpace($targetRepoPath))
     {
         # Not critical, you can run the script directly to just rename the WindowsSolution project
@@ -52,7 +58,7 @@ try
         # Not critical, you should still be able to use this on projects not using Git.
         Write-Warning ('No .git folder found in: ' + $targetRepoPath)
     }
-
+	
     $unityProjectTargetDir = Read-Host 'UnityProjectTargetDir'
 
     if([System.String]::IsNullOrWhiteSpace($unityProjectTargetDir))
