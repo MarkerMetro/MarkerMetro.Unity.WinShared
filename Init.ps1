@@ -88,7 +88,7 @@ try
     
     if (!$renameOnly)
     {
-        $includeExamples = Read-Host 'IncludeExamples'
+        $includeExamples = Read-Host 'IncludeExamples (true or false)'
 
         if([System.String]::IsNullOrWhiteSpace($includeExamples))
         {
