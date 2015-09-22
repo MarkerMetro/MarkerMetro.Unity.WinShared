@@ -17,7 +17,7 @@ Prerequisites
 
 - Visual Studio 2013 with latest updates
 - Nuget Package Manager
-- Unity 5.2.0p1
+- Unity 5.2.0p1 or later (commit 0362f4e564f515047690331610d9975609a69e7a is the last one that supports Unity 5.0)
 
 Using WinShared on an existing porting project
 ============================================

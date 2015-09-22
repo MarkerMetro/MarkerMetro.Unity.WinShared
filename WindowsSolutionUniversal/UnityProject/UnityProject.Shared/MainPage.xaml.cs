@@ -79,7 +79,7 @@ namespace UnityProject
             appCallbacks.SetCoreWindowEvents(Window.Current.CoreWindow);
             appCallbacks.InitializeD3DXAML();
 
-            splash = ((App)App.Current).splashScreen;
+            splash = ((App)App.Current).SplashScreen;
             GetSplashBackgroundColor();
             OnResize();
 
@@ -87,7 +87,7 @@ namespace UnityProject
             Window.Current.SizeChanged += onResizeHandler;
 
 #if UNITY_WP_8_1
-			SetupLocationService();
+            SetupLocationService();
 #endif
 
 #if UNITY_METRO_8_1
@@ -340,8 +340,8 @@ namespace UnityProject
             var inverseScaleX = 1.0f;
             var inverseScaleY = 1.0f;
 #if UNITY_WP_8_1
-			inverseScaleX = inverseScaleX / DXSwapChainPanel.CompositionScaleX;
-			inverseScaleY = inverseScaleY / DXSwapChainPanel.CompositionScaleY;
+            inverseScaleX = inverseScaleX / DXSwapChainPanel.CompositionScaleX;
+            inverseScaleY = inverseScaleY / DXSwapChainPanel.CompositionScaleY;
 #endif
 
             ExtendedSplashImage.SetValue(Canvas.LeftProperty, splashImageRect.X * inverseScaleX);
@@ -409,47 +409,47 @@ namespace UnityProject
             return new UnityPlayer.XamlPageAutomationPeer(this);
         }
 #else
-		// This is the default setup to show location consent message box to the user
-		// You can customize it to your needs, but do not remove it completely if your application
-		// uses location services, as it is a requirement in Windows Store certification process
-		private async void SetupLocationService()
-		{
-			AppCallbacks appCallbacks = AppCallbacks.Instance;
-			if (!appCallbacks.IsLocationCapabilitySet())
-			{
-				return;
-			}
+        // This is the default setup to show location consent message box to the user
+        // You can customize it to your needs, but do not remove it completely if your application
+        // uses location services, as it is a requirement in Windows Store certification process
+        private async void SetupLocationService()
+        {
+            AppCallbacks appCallbacks = AppCallbacks.Instance;
+            if (!appCallbacks.IsLocationCapabilitySet())
+            {
+                return;
+            }
 
-			const string settingName = "LocationContent";
-			bool userGaveConsent = false;
+            const string settingName = "LocationContent";
+            bool userGaveConsent = false;
 
-			object consent;
-			var settings = Windows.Storage.ApplicationData.Current.LocalSettings;
-			var userWasAskedBefore = settings.Values.TryGetValue(settingName, out consent);
+            object consent;
+            var settings = Windows.Storage.ApplicationData.Current.LocalSettings;
+            var userWasAskedBefore = settings.Values.TryGetValue(settingName, out consent);
 
-			if (!userWasAskedBefore)
-			{
-				var messageDialog = new Windows.UI.Popups.MessageDialog("Can this application use your location?", "Location services");
+            if (!userWasAskedBefore)
+            {
+                var messageDialog = new Windows.UI.Popups.MessageDialog("Can this application use your location?", "Location services");
 
-				var acceptCommand = new Windows.UI.Popups.UICommand("Yes");
-				var declineCommand = new Windows.UI.Popups.UICommand("No");
+                var acceptCommand = new Windows.UI.Popups.UICommand("Yes");
+                var declineCommand = new Windows.UI.Popups.UICommand("No");
 
-				messageDialog.Commands.Add(acceptCommand);
-				messageDialog.Commands.Add(declineCommand);
+                messageDialog.Commands.Add(acceptCommand);
+                messageDialog.Commands.Add(declineCommand);
 
-				userGaveConsent = (await messageDialog.ShowAsync()) == acceptCommand;
-				settings.Values.Add(settingName, userGaveConsent);
-			}
-			else
-			{
-				userGaveConsent = (bool)consent;
-			}
+                userGaveConsent = (await messageDialog.ShowAsync()) == acceptCommand;
+                settings.Values.Add(settingName, userGaveConsent);
+            }
+            else
+            {
+                userGaveConsent = (bool)consent;
+            }
 
-			if (userGaveConsent)
-			{	// Must be called from UI thread
-				appCallbacks.SetupGeolocator();
-			}
-		}
+            if (userGaveConsent)
+            {	// Must be called from UI thread
+                appCallbacks.SetupGeolocator();
+            }
+        }
 #endif
 
         async void CheckForOFT()
