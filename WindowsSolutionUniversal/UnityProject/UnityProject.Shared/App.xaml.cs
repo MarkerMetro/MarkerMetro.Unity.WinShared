@@ -31,9 +31,8 @@ namespace UnityProject
 	/// </summary>
 	sealed partial class App : Application
 	{
-		WinRTBridge.WinRTBridge _bridge;
-		AppCallbacks appCallbacks;
-
+        private AppCallbacks appCallbacks;
+        public SplashScreen splashScreen;
 
 		/// <summary>
 		/// Initializes the singleton application object.  This is the first line of authored code
@@ -42,8 +41,8 @@ namespace UnityProject
 		public App()
 		{
 			this.InitializeComponent();
-
             appCallbacks = new AppCallbacks();
+
             UnhandledException += LogUnhandledException;
 
             // Prevents display to dim while the app is visible:
@@ -112,7 +111,7 @@ namespace UnityProject
 		protected override void OnActivated(IActivatedEventArgs args)
 		{
 			string appArgs = "";
-			Windows.ApplicationModel.Activation.SplashScreen splashScreen = null;
+
 			switch (args.Kind)
 			{
 				case ActivationKind.Protocol:
@@ -125,7 +124,7 @@ namespace UnityProject
 #endif
 					break;
 			}
-			InitializeUnity(appArgs, splashScreen);
+			InitializeUnity(appArgs);
 		}
 
 		/// <summary>
@@ -134,100 +133,45 @@ namespace UnityProject
 		/// search results, and so forth.
 		/// </summary>
 		/// <param name="args">Details about the launch request and process.</param>
-		protected override void OnLaunched(LaunchActivatedEventArgs args)
-		{
-			InitializeUnity(args.Arguments, args.SplashScreen);
-		}
+        protected override void OnLaunched(LaunchActivatedEventArgs args)
+        {
+            splashScreen = args.SplashScreen;
+            InitializeUnity(args.Arguments);
+        }
 
-		void InitializeUnity(string args, Windows.ApplicationModel.Activation.SplashScreen splashScreen)
-		{
+        private void InitializeUnity(string args)
+        {
 #if UNITY_WP_8_1
 			ApplicationView.GetForCurrentView().SuppressSystemOverlays = true;
 #pragma warning disable 4014
 			StatusBar.GetForCurrentView().HideAsync();
 #pragma warning restore 4014
 #endif
+            appCallbacks.SetAppArguments(args);
+            Frame rootFrame = Window.Current.Content as Frame;
 
-			appCallbacks.SetAppArguments(args);
-
-			// Do not repeat app initialization when the Window already has content,
-			// just ensure that the window is active
-			if (!appCallbacks.IsInitialized())
-			{
+            // Do not repeat app initialization when the Window already has content,
+            // just ensure that the window is active
+            if (rootFrame == null && !appCallbacks.IsInitialized())
+            {
                 // Initialise Store system
 #if QA || DEBUG
                 MarkerMetro.Unity.WinIntegration.Store.StoreManager.Instance.Initialise(true);
 #else
                 MarkerMetro.Unity.WinIntegration.Store.StoreManager.Instance.Initialise(false);
 #endif
-                var mainPage = new MainPage(splashScreen);
-				Window.Current.Content = mainPage;
-				Window.Current.Activate();
 
-				// Setup scripting bridge
-				_bridge = new WinRTBridge.WinRTBridge();
-				appCallbacks.SetBridge(_bridge);
+                rootFrame = new Frame();
+                Window.Current.Content = rootFrame;
+                Window.Current.Activate();
 
-#if !UNITY_WP_8_1
-				appCallbacks.SetKeyboardTriggerControl(mainPage);
-#endif
-
-				appCallbacks.SetSwapChainPanel(mainPage.GetSwapChainPanel());
-				appCallbacks.SetCoreWindowEvents(Window.Current.CoreWindow);
-				appCallbacks.InitializeD3DXAML();
+                rootFrame.Navigate(typeof(MainPage));
 
                 AppCallBacksInitialized();
-			}
+            }
 
-			Window.Current.Activate();
-			
-#if UNITY_WP_8_1
-			SetupLocationService();
-#endif
-		}
-		
-#if UNITY_WP_8_1
-		// This is the default setup to show location consent message box to the user
-		// You can customize it to your needs, but do not remove it completely if your application
-		// uses location services, as it is a requirement in Windows Store certification process
-		async void SetupLocationService()
-		{
-			if (!appCallbacks.IsLocationCapabilitySet())
-			{
-				return;
-			}
-
-			const string settingName = "LocationContent";
-			bool userGaveConsent = false;
-
-			object consent;
-			var settings = Windows.Storage.ApplicationData.Current.LocalSettings;
-			var userWasAskedBefore = settings.Values.TryGetValue(settingName, out consent);
-
-			if (!userWasAskedBefore)
-			{
-				var messageDialog = new Windows.UI.Popups.MessageDialog("Can this application use your location?", "Location services");
-
-				var acceptCommand = new Windows.UI.Popups.UICommand("Yes");
-				var declineCommand = new Windows.UI.Popups.UICommand("No");
-
-				messageDialog.Commands.Add(acceptCommand);
-				messageDialog.Commands.Add(declineCommand);
-
-				userGaveConsent = (await messageDialog.ShowAsync()) == acceptCommand;
-				settings.Values.Add(settingName, userGaveConsent);
-			}
-			else
-			{
-				userGaveConsent = (bool)consent;
-			}
-
-			if (userGaveConsent)
-			{	// Must be called from UI thread
-				appCallbacks.SetupGeolocator();
-			}
-		}
-#endif
+            Window.Current.Activate();
+        }
 
         void AppCallBacksInitialized()
         {
