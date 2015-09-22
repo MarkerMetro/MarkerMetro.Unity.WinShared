@@ -2,7 +2,7 @@
 <Package xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns="http://schemas.microsoft.com/appx/2010/manifest">
   <Identity Name="UnityProject" Publisher="CN=Marker Metro" Version="1.0.0.0" ProcessorArchitecture="x86" />
   <Properties>
-    <DisplayName>UnityProject</DisplayName>
+    <DisplayName>ms-resource:AppName</DisplayName>
     <PublisherDisplayName>Marker Metro</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -15,7 +15,7 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="UnityProject.App">
-      <m2:VisualElements DisplayName="UnityProject" Square150x150Logo="Assets\Logo.png" Square30x30Logo="Assets\SmallLogo.png" Description="UnityProject" ForegroundText="light" BackgroundColor="#000000" ToastCapable="true">
+      <m2:VisualElements DisplayName="ms-resource:AppName" Square150x150Logo="Assets\Logo.png" Square30x30Logo="Assets\SmallLogo.png" Description="UnityProject" ForegroundText="light" BackgroundColor="#000000" ToastCapable="true">
         <m2:DefaultTile ShortName="ms-resource:AppName" Wide310x150Logo="Assets\WideLogo.png" DefaultSize="square150x150Logo" Square310x310Logo="Assets\LargeLogo.png">
         </m2:DefaultTile>
         <m2:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="#000000" />

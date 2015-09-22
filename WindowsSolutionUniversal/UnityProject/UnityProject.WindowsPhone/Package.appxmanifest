@@ -3,7 +3,7 @@
   <Identity Name="b00f6819-de2a-40d7-8cd3-44cd3e5fafd0" Publisher="CN=DefaultCompany" Version="1.0.0.0" ProcessorArchitecture="x86" />
   <PhoneIdentity PhoneProductId="b00f6819-de2a-40d7-8cd3-44cd3e5fafd0" PhonePublisherId="00000000-0000-0000-0000-000000000000" xmlns="http://schemas.microsoft.com/appx/2014/phone/manifest" />
   <Properties>
-    <DisplayName>UnityProject</DisplayName>
+    <DisplayName>ms-resource:AppName</DisplayName>
     <PublisherDisplayName>Marker Metro</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -16,8 +16,8 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="UnityProject.App">
-      <VisualElements DisplayName="UnityProject" Square150x150Logo="Assets\Logo.png" Square44x44Logo="Assets\AppIcon.png" Description="UnityProject" ForegroundText="light" BackgroundColor="#000000" xmlns="http://schemas.microsoft.com/appx/2014/manifest" ToastCapable="true">
-        <DefaultTile ShortName="UnityProject" DefaultSize="square150x150Logo" Wide310x150Logo="Assets\WideLogo.png" Square71x71Logo="Assets\SmallLogo.png">
+      <VisualElements DisplayName="ms-resource:AppName" Square150x150Logo="Assets\Logo.png" Square44x44Logo="Assets\AppIcon.png" Description="UnityProject" ForegroundText="light" BackgroundColor="#000000" xmlns="http://schemas.microsoft.com/appx/2014/manifest" ToastCapable="true">
+        <DefaultTile ShortName="ms-resource:AppName" DefaultSize="square150x150Logo" Wide310x150Logo="Assets\WideLogo.png" Square71x71Logo="Assets\SmallLogo.png">
         </DefaultTile>
         <SplashScreen Image="Assets\SplashScreen.png" />
         <InitialRotationPreference>
