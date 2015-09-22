@@ -114,6 +114,15 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <None Include="..\UnityProject.Shared\MetroTestCertificate.pfx" />
+    <PRIResource Include="..\UnityProject.Shared\Resources\es-419\Resources.resw">
+      <Link>Resources\es-419\Resources.resw</Link>
+    </PRIResource>
+    <PRIResource Include="..\UnityProject.Shared\Resources\zh-Hans\Resources.resw">
+      <Link>Resources\zh-Hans\Resources.resw</Link>
+    </PRIResource>
+    <PRIResource Include="..\UnityProject.Shared\Resources\zh-Hant\Resources.resw">
+      <Link>Resources\zh-Hant\Resources.resw</Link>
+    </PRIResource>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

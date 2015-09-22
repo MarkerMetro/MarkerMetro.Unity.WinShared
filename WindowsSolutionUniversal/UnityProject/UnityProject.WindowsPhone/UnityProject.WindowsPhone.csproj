@@ -185,6 +185,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <PRIResource Include="..\UnityProject.Shared\Resources\es-419\Resources.resw">
+      <Link>Resources\es-MX\Resources.resw</Link>
+    </PRIResource>
+    <PRIResource Include="..\UnityProject.Shared\Resources\zh-Hans\Resources.resw">
+      <Link>Resources\zh-CN\Resources.resw</Link>
+    </PRIResource>
+    <PRIResource Include="..\UnityProject.Shared\Resources\zh-Hant\Resources.resw">
+      <Link>Resources\zh-TW\Resources.resw</Link>
+    </PRIResource>
     <None Include="packages.config" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
@@ -224,6 +233,7 @@
   <ItemGroup>
     <UnprocessedFile Include="$(ProjectDir)Unprocessed\*" />
   </ItemGroup>
+  <ItemGroup />
   <Target Name="BeforeResolveReferences">
     <Copy SourceFiles="$(ProjectDir)Plugins\WSA\PhoneSDK81\Facebook.Client.dll" DestinationFiles="$(ProjectDir)Facebook.Client.dll" />
     <Delete Files="$(ProjectDir)Facebook.Client.pdb" Condition="Exists('$(ProjectDir)Facebook.Client.pdb')" />
