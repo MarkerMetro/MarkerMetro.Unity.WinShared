@@ -36,6 +36,19 @@ namespace UnityProject.Win
             musicSwitch.IsOn = GameController.Instance.GameSettings.MusicEnabled;
             soundSwitch.IsOn = GameController.Instance.GameSettings.SoundEnabled;
             reminderSwitch.IsOn = GameController.Instance.GameSettings.RemindersEnabled;
+
+            this.Loaded += GameSettingsFlyout_Loaded;
+            this.Unloaded += GameSettingsFlyout_Unloaded;
+        }
+
+        void GameSettingsFlyout_Loaded(object sender, RoutedEventArgs e)
+        {
+            UnityPlayer.AppCallbacks.Instance.UnitySetInput(false);
+        }
+
+        void GameSettingsFlyout_Unloaded(object sender, RoutedEventArgs e)
+        {
+            UnityPlayer.AppCallbacks.Instance.UnitySetInput(true);
         }
 
         public void ActivateSound(bool active)
