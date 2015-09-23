@@ -26,21 +26,21 @@ using UnityProject.Logging;
 
 namespace UnityProject
 {
-	/// <summary>
-	/// Provides application-specific behavior to supplement the default Application class.
-	/// </summary>
-	sealed partial class App : Application
-	{
+    /// <summary>
+    /// Provides application-specific behavior to supplement the default Application class.
+    /// </summary>
+    sealed partial class App : Application
+    {
         private AppCallbacks appCallbacks;
-        public SplashScreen splashScreen;
+        internal SplashScreen SplashScreen { get; private set; }
 
-		/// <summary>
-		/// Initializes the singleton application object.  This is the first line of authored code
-		/// executed, and as such is the logical equivalent of main() or WinMain().
-		/// </summary>
-		public App()
-		{
-			this.InitializeComponent();
+        /// <summary>
+        /// Initializes the singleton application object.  This is the first line of authored code
+        /// executed, and as such is the logical equivalent of main() or WinMain().
+        /// </summary>
+        public App()
+        {
+            this.InitializeComponent();
             appCallbacks = new AppCallbacks();
 
             UnhandledException += LogUnhandledException;
@@ -103,48 +103,48 @@ namespace UnityProject
             }
         }
 
-		/// <summary>
-		/// Invoked when application is launched through protocol.
-		/// Read more - http://msdn.microsoft.com/library/windows/apps/br224742
-		/// </summary>
-		/// <param name="args"></param>
-		protected override void OnActivated(IActivatedEventArgs args)
-		{
-			string appArgs = "";
+        /// <summary>
+        /// Invoked when application is launched through protocol.
+        /// Read more - http://msdn.microsoft.com/library/windows/apps/br224742
+        /// </summary>
+        /// <param name="args"></param>
+        protected override void OnActivated(IActivatedEventArgs args)
+        {
+            string appArgs = "";
 
-			switch (args.Kind)
-			{
-				case ActivationKind.Protocol:
-					ProtocolActivatedEventArgs eventArgs = args as ProtocolActivatedEventArgs;
-					splashScreen = eventArgs.SplashScreen;
-					appArgs += string.Format("Uri={0}", eventArgs.Uri.AbsoluteUri);
+            switch (args.Kind)
+            {
+                case ActivationKind.Protocol:
+                    ProtocolActivatedEventArgs eventArgs = args as ProtocolActivatedEventArgs;
+                    SplashScreen = eventArgs.SplashScreen;
+                    appArgs += string.Format("Uri={0}", eventArgs.Uri.AbsoluteUri);
 
 #if UNITY_WP_8_1
                     MarkerMetro.Unity.WinIntegration.Facebook.FBNative.MapUri(eventArgs.Uri);
 #endif
-					break;
-			}
-			InitializeUnity(appArgs);
-		}
+                    break;
+            }
+            InitializeUnity(appArgs);
+        }
 
-		/// <summary>
-		/// Invoked when the application is launched normally by the end user.  Other entry points
-		/// will be used when the application is launched to open a specific file, to display
-		/// search results, and so forth.
-		/// </summary>
-		/// <param name="args">Details about the launch request and process.</param>
+        /// <summary>
+        /// Invoked when the application is launched normally by the end user.  Other entry points
+        /// will be used when the application is launched to open a specific file, to display
+        /// search results, and so forth.
+        /// </summary>
+        /// <param name="args">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
-            splashScreen = args.SplashScreen;
+            SplashScreen = args.SplashScreen;
             InitializeUnity(args.Arguments);
         }
 
         private void InitializeUnity(string args)
         {
 #if UNITY_WP_8_1
-			ApplicationView.GetForCurrentView().SuppressSystemOverlays = true;
+            ApplicationView.GetForCurrentView().SuppressSystemOverlays = true;
 #pragma warning disable 4014
-			StatusBar.GetForCurrentView().HideAsync();
+            StatusBar.GetForCurrentView().HideAsync();
 #pragma warning restore 4014
 #endif
             appCallbacks.SetAppArguments(args);
@@ -191,5 +191,5 @@ namespace UnityProject
         {
             appCallbacks.InvokeOnUIThread(() => callback(), false);
         }
-	}
+    }
 }
