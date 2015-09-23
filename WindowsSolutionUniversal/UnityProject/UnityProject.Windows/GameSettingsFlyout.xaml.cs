@@ -41,14 +41,35 @@ namespace UnityProject.Win
             this.Unloaded += GameSettingsFlyout_Unloaded;
         }
 
+        bool inputDisableByThis;
+
         void GameSettingsFlyout_Loaded(object sender, RoutedEventArgs e)
         {
+            inputDisableByThis = true;
             UnityPlayer.AppCallbacks.Instance.UnitySetInput(false);
+
+            var parent = Parent as Popup;
+
+            if (parent != null)
+                parent.Closed += parent_Closed;
+        }
+
+        void parent_Closed(object sender, object e)
+        {
+            if (inputDisableByThis)
+            {
+                inputDisableByThis = false;
+                UnityPlayer.AppCallbacks.Instance.UnitySetInput(true);
+            }
         }
 
         void GameSettingsFlyout_Unloaded(object sender, RoutedEventArgs e)
         {
-            UnityPlayer.AppCallbacks.Instance.UnitySetInput(true);
+            if (inputDisableByThis)
+            {
+                inputDisableByThis = false;
+                UnityPlayer.AppCallbacks.Instance.UnitySetInput(true);
+            }
         }
 
         public void ActivateSound(bool active)
