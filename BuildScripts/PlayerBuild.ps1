@@ -71,7 +71,7 @@ Try
 
 	Get-Content $projectPath\logs\$methodName.log | Out-Default
 
-	if(!((Get-Content $projectPath\logs\$methodName.log -Tail 10).Contains("Exiting batchmode successfully now!"))){
+	if(!((Get-Content $projectPath\logs\$methodName.log -Tail 100).Contains("Exiting batchmode successfully now!"))){
 		throw "Batch Mode did not complete successfully"
 	}
 
