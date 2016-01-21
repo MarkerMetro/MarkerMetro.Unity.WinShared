@@ -85,6 +85,7 @@ namespace UnityProject
 
             onResizeHandler = new WindowSizeChangedEventHandler((o, e) => OnResize());
             Window.Current.SizeChanged += onResizeHandler;
+            Window.Current.VisibilityChanged += OnWindowVisibilityChanged;
 
 #if UNITY_WP_8_1
             SetupLocationService();
