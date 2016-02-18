@@ -65,7 +65,7 @@ Try
 		}
 	}
 
-	& "$unityPath" -buildTarget $buildTarget -projectPath $projectPath -batchmode -quit -logFile $projectPath\logs\$methodName.log -executeMethod $methodName -CustomArgs:outputPath=$outputPath | Out-Null
+	& "$unityPath" -buildTarget $buildTarget -projectPath $projectPath -batchmode -nographics -quit -logFile $projectPath\logs\$methodName.log -executeMethod $methodName -CustomArgs:outputPath=$outputPath | Out-Null
 
 	$result = $?
 

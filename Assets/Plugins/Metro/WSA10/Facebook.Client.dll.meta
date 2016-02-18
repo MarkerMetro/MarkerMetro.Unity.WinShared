@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 63b757720e622714386a347eccadbffb
-timeCreated: 1427680508
+guid: e0b45a30d9e89d64aa8b553ebbc25d63
+timeCreated: 1427686138
 licenseType: Pro
 PluginImporter:
   serializedVersion: 1
@@ -37,6 +37,10 @@ PluginImporter:
       enabled: 0
       settings:
         CPU: AnyCPU
+    SamsungTV:
+      enabled: 0
+      settings:
+        STV_MODEL: STANDARD_13
     WP8:
       enabled: 0
       settings:
@@ -55,9 +59,9 @@ PluginImporter:
       enabled: 1
       settings:
         CPU: AnyCPU
-        DontProcess: False
-        PlaceholderPath: Assets/Plugins/Facebook.dll
-        SDK: PhoneSDK81
+        DontProcess: True
+        PlaceholderPath: 
+        SDK: UWP
     iOS:
       enabled: 0
       settings:
