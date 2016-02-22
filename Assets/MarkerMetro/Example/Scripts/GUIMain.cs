@@ -11,6 +11,8 @@ using Logger = MarkerMetro.Unity.WinIntegration.Logging.ExceptionLogger;
 
 #if UNITY_WP_8_1 && !UNITY_EDITOR
 using FBWin = MarkerMetro.Unity.WinIntegration.Facebook.FBNative;
+#elif UNITY_WSA_10_0
+using FBWin = MarkerMetro.Unity.WinIntegration.Facebook.FBUWP;
 #else
 using FBWin = MarkerMetro.Unity.WinIntegration.Facebook.FB;
 #endif

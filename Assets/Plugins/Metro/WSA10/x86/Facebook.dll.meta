@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 1b82f478511411b4b896da871e8ec35a
-timeCreated: 1427680508
+guid: d01c3afedb372344e943b8d0ed24699e
+timeCreated: 1456107434
 licenseType: Pro
 PluginImporter:
   serializedVersion: 1
@@ -58,9 +58,9 @@ PluginImporter:
     WindowsStoreApps:
       enabled: 1
       settings:
-        CPU: AnyCPU
+        CPU: X86
         DontProcess: True
-        PlaceholderPath: Assets/Plugins/Facebook.dll
+        PlaceholderPath: 
         SDK: UWP
     iOS:
       enabled: 0

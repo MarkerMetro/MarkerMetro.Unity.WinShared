@@ -15,6 +15,8 @@ using MarkerMetro.Unity.WinIntegration.Logging;
 
 #if UNITY_WP_8_1 && !UNITY_EDITOR
 using FBWin = MarkerMetro.Unity.WinIntegration.Facebook.FBNative;
+#elif UNITY_WSA_10_0
+using FBWin = MarkerMetro.Unity.WinIntegration.Facebook.FBUWP;
 #else
 using FBWin = MarkerMetro.Unity.WinIntegration.Facebook.FB;
 #endif
@@ -541,10 +543,10 @@ namespace MarkerMetro.Unity.WinShared.Example
                     StartCoroutine(SetFBStatus(user));
                 });
 #elif (UNITY_WSA_10_0 || UNITY_WSA_8_1) && !UNITY_EDITOR
-                FacebookName = FB.UserName; 
+                FacebookName = FBWin.UserName; 
                 PopulateFriends();
                 FacebookImage = new Texture2D(128, 128, TextureFormat.DXT1, false);
-                yield return StartCoroutine(GetFBPicture(FB.UserId, FacebookImage));
+                yield return StartCoroutine(GetFBPicture(FBWin.UserId, FacebookImage));
 #else
                 FacebookName = "Logged In (picture and name to do!)";
                 yield break;
@@ -596,8 +598,10 @@ namespace MarkerMetro.Unity.WinShared.Example
                 FBWin.AppRequest(message: "Come Play FaceFlip!", callback: (result) =>
                 {
                     Debug.Log("AppRequest result: " + result.Text);
+#if !UNITY_WSA_10_0
                     if (result.Json != null)
                         Debug.Log("AppRequest Json: " + result.Json.ToString());
+#endif
 #if UNITY_WP_8_1
                 }, title: "FaceFlip Invite");
 #else
@@ -622,8 +626,10 @@ namespace MarkerMetro.Unity.WinShared.Example
                     callback: (result) =>
                 {
                     Debug.Log("Feed result: " + result.Text);
+#if !UNITY_WSA_10_0
                     if (result.Json != null)
                         Debug.Log("Feed Json: " + result.Json.ToString());
+#endif
                 });
             }
 #endif

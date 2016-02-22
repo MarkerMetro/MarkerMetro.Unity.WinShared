@@ -112,11 +112,6 @@ namespace UnityProject
             extendedSplashTimer.Interval = TimeSpan.FromMilliseconds(100);
             extendedSplashTimer.Tick += ExtendedSplashTimer_Tick;
             extendedSplashTimer.Start();
-
-#if UNITY_UWP
-            // set the fb web interface (only for Win8.1).
-            FB.SetPlatformInterface(web);
-#endif
 		}
 
 		/// <summary>

@@ -146,16 +146,11 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Page Include="Controls\FBWebView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="Config\AppConfig.cs" />
-    <Compile Include="Controls\FBWebView.xaml.cs" />
     <Compile Include="Logging\RaygunExceptionLogger.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -172,7 +167,9 @@
     </Content>
     <Compile Include="Properties\AssemblyInfo.cs">
     </Compile>
-    <Content Include="iap_simulator.xml" />
+    <Content Include="iap_simulator.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Properties\Default.rd.xml">
     </Content>
     <Reference Include="Assembly-CSharp-firstpass">
@@ -187,9 +184,6 @@
     <Reference Include="WinRTLegacy">
       <HintPath>.\WinRTLegacy.dll</HintPath>
     </Reference>
-    <Reference Include="Facebook.Client">
-      <HintPath>.\Facebook.Client.dll</HintPath>
-    </Reference>
     <Reference Include="MarkerMetro.Unity.WinLegacy">
       <HintPath>.\MarkerMetro.Unity.WinLegacy.dll</HintPath>
     </Reference>
@@ -201,9 +195,6 @@
     </Reference>
     <Reference Include="LitJson">
       <HintPath>.\LitJson.dll</HintPath>
-    </Reference>
-    <Reference Include="Facebook">
-      <HintPath>.\Facebook.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Networking">
       <HintPath>.\UnityEngine.Networking.dll</HintPath>
@@ -246,11 +237,13 @@
   <ItemGroup>
     <UnprocessedFile Include="$(ProjectDir)Unprocessed\*" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\winsdkfb\FBWinSDK\FBSDK-UWP\FBSDK-UWP\FBSDK-UWP.vcxproj">
+      <Project>{973a943b-ff77-4267-8f30-f5fe2b7f5583}</Project>
+      <Name>Facebook</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Target Name="BeforeResolveReferences" Condition="'$(BuildingProject)' == 'true'">
-    <Copy SourceFiles="$(ProjectDir)Plugins\UWP\Facebook.Client.dll" DestinationFiles="$(ProjectDir)Facebook.Client.dll" />
-    <Delete Files="$(ProjectDir)Facebook.Client.pdb" Condition="Exists('$(ProjectDir)Facebook.Client.pdb')" />
-    <Delete Files="$(ProjectDir)Facebook.Client.dll.mdb" Condition="Exists('$(ProjectDir)Facebook.Client.dll.mdb')" />
-    <Copy SourceFiles="$(ProjectDir)Plugins\UWP\Facebook.Client.pdb" DestinationFiles="$(ProjectDir)Facebook.Client.pdb" Condition="Exists('$(ProjectDir)Plugins\UWP\Facebook.Client.pdb')" />
     <Copy SourceFiles="$(ProjectDir)Plugins\UWP\MarkerMetro.Unity.WinLegacy.dll" DestinationFiles="$(ProjectDir)MarkerMetro.Unity.WinLegacy.dll" />
     <Delete Files="$(ProjectDir)MarkerMetro.Unity.WinLegacy.pdb" Condition="Exists('$(ProjectDir)MarkerMetro.Unity.WinLegacy.pdb')" />
     <Delete Files="$(ProjectDir)MarkerMetro.Unity.WinLegacy.dll.mdb" Condition="Exists('$(ProjectDir)MarkerMetro.Unity.WinLegacy.dll.mdb')" />
@@ -259,10 +252,12 @@
     <Delete Files="$(ProjectDir)MarkerMetro.Unity.WinIntegration.pdb" Condition="Exists('$(ProjectDir)MarkerMetro.Unity.WinIntegration.pdb')" />
     <Delete Files="$(ProjectDir)MarkerMetro.Unity.WinIntegration.dll.mdb" Condition="Exists('$(ProjectDir)MarkerMetro.Unity.WinIntegration.dll.mdb')" />
     <Copy SourceFiles="$(ProjectDir)Plugins\UWP\MarkerMetro.Unity.WinIntegration.pdb" DestinationFiles="$(ProjectDir)MarkerMetro.Unity.WinIntegration.pdb" Condition="Exists('$(ProjectDir)Plugins\UWP\MarkerMetro.Unity.WinIntegration.pdb')" />
-    <Copy SourceFiles="$(ProjectDir)Plugins\UWP\Facebook.dll" DestinationFiles="$(ProjectDir)Facebook.dll" />
+    <Copy SourceFiles="$(ProjectDir)Plugins\UWP\$(Platform)\Facebook.winmd" DestinationFiles="$(ProjectDir)Facebook.winmd" />
     <Delete Files="$(ProjectDir)Facebook.pdb" Condition="Exists('$(ProjectDir)Facebook.pdb')" />
     <Delete Files="$(ProjectDir)Facebook.dll.mdb" Condition="Exists('$(ProjectDir)Facebook.dll.mdb')" />
-    <Copy SourceFiles="$(ProjectDir)Plugins\UWP\Facebook.pdb" DestinationFiles="$(ProjectDir)Facebook.pdb" Condition="Exists('$(ProjectDir)Plugins\UWP\Facebook.pdb')" />
+    <Copy SourceFiles="$(ProjectDir)Plugins\UWP\$(Platform)\Facebook.pdb" DestinationFiles="$(ProjectDir)Facebook.pdb" Condition="Exists('$(ProjectDir)Plugins\UWP\$(Platform)\Facebook.pdb')" />
+    <Delete Files="$(ProjectDir)Facebook.dll" Condition="Exists('$(ProjectDir)Facebook.dll')" />
+    <Copy SourceFiles="$(ProjectDir)Plugins\UWP\$(Platform)\Facebook.dll" DestinationFiles="$(ProjectDir)Facebook.dll" Condition="Exists('$(ProjectDir)Plugins\UWP\$(Platform)\Facebook.dll')" />
     <Message Importance="high" Text="UnityInstallationDir &quot;$(UnityInstallationDir)&quot;." />
     <Message Importance="high" Text="UnityWSAPlayerDir &quot;$(UnityWSAPlayerDir)&quot;." />
     <Message Importance="high" Text="UnityProjectDir &quot;$(UnityProjectDir)&quot;." />
@@ -271,7 +266,7 @@
   </Target>
   <Target Name="BeforeCompile" Condition="'$(BuildingProject)' == 'true'">
     <Message Importance="high" Text="Running AssemblyConverter..." />
-    <Exec Command="&quot;$(UnityWSAToolsDir)\AssemblyConverter.exe&quot; -platform=uap -lock=&quot;$(ProjectDir)project.lock.json&quot; -bits=$(UnityBits) -path=&quot;.&quot; -path=&quot;..\Players\UAP\$(PlatformTarget)\$(Configuration)&quot; &quot;$(ProjectDir)Assembly-CSharp-firstpass.dll&quot; &quot;$(ProjectDir)Assembly-CSharp.dll&quot; &quot;$(ProjectDir)UnityEngine.dll&quot; &quot;$(ProjectDir)Facebook.Client.dll&quot; &quot;$(ProjectDir)MarkerMetro.Unity.WinLegacy.dll&quot; &quot;$(ProjectDir)MarkerMetro.Unity.WinIntegration.dll&quot; &quot;$(ProjectDir)UnityEngine.UI.dll&quot; &quot;$(ProjectDir)Facebook.dll&quot; &quot;$(ProjectDir)UnityEngine.Networking.dll&quot;" />
+    <Exec Command="&quot;$(UnityWSAToolsDir)\AssemblyConverter.exe&quot; -platform=uap -lock=&quot;$(ProjectDir)project.lock.json&quot; -bits=$(UnityBits) -path=&quot;.&quot; -path=&quot;..\Players\UAP\$(PlatformTarget)\$(Configuration)&quot; &quot;$(ProjectDir)Assembly-CSharp-firstpass.dll&quot; &quot;$(ProjectDir)Assembly-CSharp.dll&quot; &quot;$(ProjectDir)UnityEngine.dll&quot; &quot;$(ProjectDir)UnityEngine.UI.dll&quot; &quot;$(ProjectDir)UnityEngine.Networking.dll&quot;" />
     <Message Importance="high" Text="AssemblyConverter done." />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
