@@ -167,6 +167,11 @@
     </Content>
     <Compile Include="Properties\AssemblyInfo.cs">
     </Compile>
+    <Content Include="Facebook.dll" />
+    <Content Include="Facebook\FBAppRequest.xml" />
+    <Content Include="Facebook\FBProfilePicture.xml" />
+    <Content Include="Facebook\FBProfilePictureData.xml" />
+    <Content Include="Facebook\Images\fb_blank_profile_portrait.png" />
     <Content Include="iap_simulator.xml">
       <SubType>Designer</SubType>
     </Content>
@@ -205,6 +210,7 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <None Include="Facebook.pri" />
     <None Include="project.json" />
     <None Include="WSATestCertificate.pfx" />
   </ItemGroup>
@@ -237,12 +243,7 @@
   <ItemGroup>
     <UnprocessedFile Include="$(ProjectDir)Unprocessed\*" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\winsdkfb\FBWinSDK\FBSDK-UWP\FBSDK-UWP\FBSDK-UWP.vcxproj">
-      <Project>{973a943b-ff77-4267-8f30-f5fe2b7f5583}</Project>
-      <Name>Facebook</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <ItemGroup />
   <Target Name="BeforeResolveReferences" Condition="'$(BuildingProject)' == 'true'">
     <Copy SourceFiles="$(ProjectDir)Plugins\UWP\MarkerMetro.Unity.WinLegacy.dll" DestinationFiles="$(ProjectDir)MarkerMetro.Unity.WinLegacy.dll" />
     <Delete Files="$(ProjectDir)MarkerMetro.Unity.WinLegacy.pdb" Condition="Exists('$(ProjectDir)MarkerMetro.Unity.WinLegacy.pdb')" />
