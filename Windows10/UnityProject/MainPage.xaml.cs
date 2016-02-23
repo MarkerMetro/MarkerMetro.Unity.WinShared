@@ -517,19 +517,19 @@ namespace UnityProject
 
         async void CheckForOFT()
         {
-            //var settings = ApplicationData.Current.LocalSettings;
+            var settings = ApplicationData.Current.LocalSettings;
 
-            //if (!settings.Values.ContainsKey("OFT"))
-            //{
-            //    var message = new ResourceLoader().GetString("OFT_Disclosure");
+            if (!settings.Values.ContainsKey("OFT"))
+            {
+                var message = new ResourceLoader().GetString("OFT_Disclosure");
 
-            //    var md = new MessageDialog(message);
-            //    md.Commands.Add(new UICommand("OK"));
+                var md = new MessageDialog(message);
+                md.Commands.Add(new UICommand("OK"));
 
-            //    await md.ShowAsync();
+                await md.ShowAsync();
 
-            //    settings.Values.Add("OFT", true);
-            //}
+                settings.Values.Add("OFT", true);
+            }
         }
 
         /**
