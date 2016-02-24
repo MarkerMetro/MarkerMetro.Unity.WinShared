@@ -59,6 +59,13 @@ Try
 			$buildTarget = "Metro"			
 		}
 		
+        "Windows10"
+		{
+			$methodName += "BuildUniversal10"
+			$displayName = "Windows 10"	
+			$buildTarget = "Metro"			
+		}
+
 		default
 		{
 			throw "Invalid platform"
