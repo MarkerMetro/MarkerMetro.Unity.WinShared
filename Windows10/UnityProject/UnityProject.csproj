@@ -212,6 +212,17 @@
     </AppxManifest>
     <None Include="Facebook.pri" />
     <None Include="project.json" />
+    <PRIResource Include="Resources\de\Resources.resw" />
+    <PRIResource Include="Resources\en-US\Resources.resw" />
+    <PRIResource Include="Resources\es-419\Resources.resw" />
+    <PRIResource Include="Resources\fr\Resources.resw" />
+    <PRIResource Include="Resources\it\Resources.resw" />
+    <PRIResource Include="Resources\ja\Resources.resw" />
+    <PRIResource Include="Resources\ko\Resources.resw" />
+    <PRIResource Include="Resources\pt-Br\Resources.resw" />
+    <PRIResource Include="Resources\ru\Resources.resw" />
+    <PRIResource Include="Resources\zh-Hans\Resources.resw" />
+    <PRIResource Include="Resources\zh-Hant\Resources.resw" />
     <None Include="WSATestCertificate.pfx" />
   </ItemGroup>
   <ItemGroup>
@@ -239,11 +250,49 @@
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'QA|ARM'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM\QA\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;UNITY_METRO;UNITY_WSA;UNITY_UWP;UNITY_WSA_10_0;CODE_ANALYSIS;QA</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>full</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'QA|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\QA\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;UNITY_METRO;UNITY_WSA;UNITY_UWP;UNITY_WSA_10_0;CODE_ANALYSIS;QA</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'QA|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\QA\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;UNITY_METRO;UNITY_WSA;UNITY_UWP;UNITY_WSA_10_0;CODE_ANALYSIS;QA</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <ItemGroup>
     <UnprocessedFile Include="$(ProjectDir)Unprocessed\*" />
   </ItemGroup>
-  <ItemGroup />
   <Target Name="BeforeResolveReferences" Condition="'$(BuildingProject)' == 'true'">
     <Copy SourceFiles="$(ProjectDir)Plugins\UWP\MarkerMetro.Unity.WinLegacy.dll" DestinationFiles="$(ProjectDir)MarkerMetro.Unity.WinLegacy.dll" />
     <Delete Files="$(ProjectDir)MarkerMetro.Unity.WinLegacy.pdb" Condition="Exists('$(ProjectDir)MarkerMetro.Unity.WinLegacy.pdb')" />

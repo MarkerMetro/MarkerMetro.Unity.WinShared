@@ -17,6 +17,12 @@ namespace MarkerMetro.Unity.WinShared.Editor
             DoBuildUniversal(string.Empty);
         }
 
+        [MenuItem("Tools/Marker Metro/Build/Windows Universal 10", priority = 2)]
+        public static void BuildUniversal10FromMenu()
+        {
+            DoBuildUniversal10(string.Empty);
+        }
+
         public static void BuildUniversal()
         {
             string outputPath = CommandLineReader.GetCustomArgument("outputPath");
@@ -28,24 +34,36 @@ namespace MarkerMetro.Unity.WinShared.Editor
             DoBuildUniversal(outputPath);
         }
 
+        public static void BuildUniversal10()
+        {
+            string outputPath = CommandLineReader.GetCustomArgument("outputPath");
+            if (String.IsNullOrEmpty(outputPath))
+            {
+                outputPath = CommandLineReader.GetCustomArgument("universalOutputPath");
+            }
+
+            DoBuildUniversal10(outputPath);
+        }
+
         public static void DoBuildUniversal(string outputPath)
         {
-#if UNITY_5
             Build(BuildTarget.WSAPlayer,
-#else
-            Build(BuildTarget.MetroPlayer,
-#endif
- outputPath,
+                outputPath,
                 () =>
                 {
-#if UNITY_5
                     EditorUserBuildSettings.selectedBuildTargetGroup = BuildTargetGroup.WSA;
                     EditorUserBuildSettings.wsaSDK = WSASDK.UniversalSDK81;
-#else
-                    EditorUserBuildSettings.selectedBuildTargetGroup = BuildTargetGroup.Metro;
-                    EditorUserBuildSettings.metroBuildType = MetroBuildType.VisualStudioCSharp;
-                    EditorUserBuildSettings.metroSDK = MetroSDK.UniversalSDK81;
-#endif
+                });
+        }
+
+        public static void DoBuildUniversal10(string outputPath)
+        {
+            Build(BuildTarget.WSAPlayer,
+                outputPath,
+                () =>
+                {
+                    EditorUserBuildSettings.selectedBuildTargetGroup = BuildTargetGroup.WSA;
+                    EditorUserBuildSettings.wsaSDK = WSASDK.UWP;
                 });
         }
 
@@ -66,25 +84,35 @@ namespace MarkerMetro.Unity.WinShared.Editor
                 .Select(s => s.path)
                 .ToArray();
 
-            if (string.IsNullOrEmpty(outputPath))
-            {
-                outputPath = GetPath(target);
-            }
-
             if (beforeBuild != null)
             {
                 beforeBuild();
             }
 
-            var error = BuildPipeline.BuildPlayer(scenes, outputPath, target, BuildOptions.None);
-            if (error != "")
+            if (string.IsNullOrEmpty(outputPath))
             {
-                throw new Exception(error); // ensures exit code != 0.
+                outputPath = GetPath(target);
+            }
+
+            if (!string.IsNullOrEmpty(outputPath))
+            {
+                var error = BuildPipeline.BuildPlayer(scenes, outputPath, target, BuildOptions.None);
+                if (error != "")
+                {
+                    throw new Exception(error); // ensures exit code != 0.
+                }
+            }
+            else
+            {
+                throw new Exception("No output path specified.");
             }
 
             //Unity creates unused assets no matter what
             //this hack removes those assets after the compilation
-            RemoveIncorrectAssets(outputPath);
+            if (EditorUserBuildSettings.wsaSDK == WSASDK.UniversalSDK81)
+            {
+                RemoveIncorrectAssets(outputPath);
+            }
         }
 
         static void RemoveIncorrectAssets(string outputPath)
@@ -110,14 +138,21 @@ namespace MarkerMetro.Unity.WinShared.Editor
 
         static string GetPath(BuildTarget target)
         {
-            string projectName = "Universal";
-            string defaultDir = Path.GetFullPath(Path.Combine(Application.dataPath, "../WindowsSolutionUniversal"));
+            string projectName;
+            string defaultDir;
+
+            if (EditorUserBuildSettings.wsaSDK == WSASDK.UniversalSDK81)
+            {
+                projectName = "Universal";
+                defaultDir = Path.GetFullPath(Path.Combine(Application.dataPath, "../WindowsSolutionUniversal"));
+            }
+            else
+            {
+                projectName = "Universal 10";
+                defaultDir = Path.GetFullPath(Path.Combine(Application.dataPath, "../Windows10"));
+            }
 
             string outputPath = EditorUtility.OpenFolderPanel("Choose Folder (" + projectName + ")", defaultDir, "");
-            if (string.IsNullOrEmpty(outputPath))
-            {
-                outputPath = defaultDir;
-            }
             return outputPath;
         }
     }
