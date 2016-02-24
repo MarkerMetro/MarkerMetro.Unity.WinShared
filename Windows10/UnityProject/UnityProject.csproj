@@ -19,6 +19,21 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <PackageCertificateKeyFile>WSATestCertificate.pfx</PackageCertificateKeyFile>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxBundle>Always</AppxBundle>
+    <AppxBundlePlatforms>x86|arm</AppxBundlePlatforms>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <UnityConfig>Debug</UnityConfig>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <UnityConfig>Release</UnityConfig>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Master'">
+    <UnityConfig>Master</UnityConfig>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'QA'">
+    <UnityConfig>Master</UnityConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
@@ -228,23 +243,23 @@
   <ItemGroup>
     <Reference Include="UnityPlayer">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Players\UAP\$(PlatformTarget)\$(Configuration)\UnityPlayer.winmd</HintPath>
+      <HintPath>..\Players\UAP\$(PlatformTarget)\$(UnityConfig)\UnityPlayer.winmd</HintPath>
     </Reference>
     <Reference Include="WinRTBridge">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Players\UAP\$(PlatformTarget)\$(Configuration)\WinRTBridge.winmd</HintPath>
+      <HintPath>..\Players\UAP\$(PlatformTarget)\$(UnityConfig)\WinRTBridge.winmd</HintPath>
     </Reference>
     <Reference Include="BridgeInterface">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Players\UAP\$(PlatformTarget)\$(Configuration)\BridgeInterface.winmd</HintPath>
+      <HintPath>..\Players\UAP\$(PlatformTarget)\$(UnityConfig)\BridgeInterface.winmd</HintPath>
     </Reference>
     <Reference Include="UnityEngineDelegates">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Players\UAP\$(PlatformTarget)\$(Configuration)\UnityEngineDelegates.winmd</HintPath>
+      <HintPath>..\Players\UAP\$(PlatformTarget)\$(UnityConfig)\UnityEngineDelegates.winmd</HintPath>
     </Reference>
     <Reference Include="UnityEngineProxy">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Players\UAP\$(PlatformTarget)\$(Configuration)\UnityEngineProxy.dll</HintPath>
+      <HintPath>..\Players\UAP\$(PlatformTarget)\$(UnityConfig)\UnityEngineProxy.dll</HintPath>
     </Reference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
@@ -316,7 +331,7 @@
   </Target>
   <Target Name="BeforeCompile" Condition="'$(BuildingProject)' == 'true'">
     <Message Importance="high" Text="Running AssemblyConverter..." />
-    <Exec Command="&quot;$(UnityWSAToolsDir)\AssemblyConverter.exe&quot; -platform=uap -lock=&quot;$(ProjectDir)project.lock.json&quot; -bits=$(UnityBits) -path=&quot;.&quot; -path=&quot;..\Players\UAP\$(PlatformTarget)\$(Configuration)&quot; &quot;$(ProjectDir)Assembly-CSharp-firstpass.dll&quot; &quot;$(ProjectDir)Assembly-CSharp.dll&quot; &quot;$(ProjectDir)UnityEngine.dll&quot; &quot;$(ProjectDir)UnityEngine.UI.dll&quot; &quot;$(ProjectDir)UnityEngine.Networking.dll&quot;" />
+    <Exec Command="&quot;$(UnityWSAToolsDir)\AssemblyConverter.exe&quot; -platform=uap -lock=&quot;$(ProjectDir)project.lock.json&quot; -bits=$(UnityBits) -path=&quot;.&quot; -path=&quot;..\Players\UAP\$(PlatformTarget)\$(UnityConfig)&quot; &quot;$(ProjectDir)Assembly-CSharp-firstpass.dll&quot; &quot;$(ProjectDir)Assembly-CSharp.dll&quot; &quot;$(ProjectDir)UnityEngine.dll&quot; &quot;$(ProjectDir)UnityEngine.UI.dll&quot; &quot;$(ProjectDir)UnityEngine.Networking.dll&quot;" />
     <Message Importance="high" Text="AssemblyConverter done." />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
