@@ -149,7 +149,7 @@ namespace MarkerMetro.Unity.WinShared.Editor
             else
             {
                 projectName = "Universal 10";
-                defaultDir = Path.GetFullPath(Path.Combine(Application.dataPath, "../Windows10"));
+                defaultDir = Path.GetFullPath(Path.Combine(Application.dataPath, "../Windows10Solution"));
             }
 
             string outputPath = EditorUtility.OpenFolderPanel("Choose Folder (" + projectName + ")", defaultDir, "");
