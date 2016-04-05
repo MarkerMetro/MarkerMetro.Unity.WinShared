@@ -58,7 +58,7 @@
       <Output TaskParameter="Include" ItemName="Dlls"/>
     </CreateItem>
     <CreateItem Include="$(WorkingPath)\$(LitJson)*\lib\netcore45\*.dll">
-      <Output TaskParameter="Include" ItemName="MetroDlls"/>
+      <Output TaskParameter="Include" ItemName="CommonDlls"/>
     </CreateItem>
   </Target>
 
@@ -90,6 +90,7 @@
   
   <Target Name="Deploy" DependsOnTargets="IncludeWinLegacy;IncludeLitJson;IncludeJsonFx;IncludeIonicZip;IncludePoly2Tri;IncludeWinIntegration">
     <Copy SourceFiles="@(Dlls)" DestinationFolder="$(DestinationFolder)\Assets\Plugins" />
+    <Copy SourceFiles="@(CommonDlls)" DestinationFolder="$(DestinationFolder)\Assets\Plugins\Metro" />
     <Copy SourceFiles="@(MetroDlls)" DestinationFolder="$(DestinationFolder)\Assets\Plugins\Metro\WSA8.1" />
     <Copy SourceFiles="@(WP81Dlls)" DestinationFolder="$(DestinationFolder)\Assets\Plugins\Metro\WindowsPhone81" />
     <Copy SourceFiles="@(WIN10Dlls)" DestinationFolder="$(DestinationFolder)\Assets\Plugins\Metro\WSA10" />

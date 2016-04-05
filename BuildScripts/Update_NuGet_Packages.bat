@@ -28,6 +28,10 @@ if exist "%unityPluginDir%\%winLegacy%.pdb" (
     del "%unityPluginDir%\%winLegacy%.pdb"
     del "%unityPluginDir%\%winLegacy%.pdb.meta"
 )
+if exist "%unityPluginDir%\%winLegacy%.mdb" (
+    del "%unityPluginDir%\%winLegacy%.mdb"
+    del "%unityPluginDir%\%winLegacy%.mdb.meta"
+)
 
 if exist "%unityPluginDir%\Metro\WSA8.1\%winIntegration%.pdb" (
     del "%unityPluginDir%\Metro\WSA8.1\%winIntegration%.pdb"
@@ -45,7 +49,10 @@ if exist "%unityPluginDir%\%winIntegration%.pdb" (
     del "%unityPluginDir%\%winIntegration%.pdb"
     del "%unityPluginDir%\%winIntegration%.pdb.meta"
 )
-
+if exist "%unityPluginDir%\%winIntegration%.mdb" (
+    del "%unityPluginDir%\%winIntegration%.mdb"
+    del "%unityPluginDir%\%winIntegration%.mdb.meta"
+)
 
 call %vsCommonToolsDir%\vsvars32.bat
 echo progress 0
