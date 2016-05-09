@@ -259,63 +259,63 @@
     <Delete Files="$(ProjectDir)Facebook.pdb" Condition="Exists('$(ProjectDir)Facebook.pdb')" />
     <Delete Files="$(ProjectDir)Facebook.dll.mdb" Condition="Exists('$(ProjectDir)Facebook.dll.mdb')" />
     <Copy SourceFiles="$(ProjectDir)Plugins\PhoneSDK81\Facebook.pdb" DestinationFiles="$(ProjectDir)Facebook.pdb" Condition="Exists('$(ProjectDir)Plugins\PhoneSDK81\Facebook.pdb')" />
+    <Message Importance="high" Text="UnityInstallationDir &quot;$(UnityInstallationDir)&quot;." />
+    <Message Importance="high" Text="UnityWSAPlayerDir &quot;$(UnityWSAPlayerDir)&quot;." />
+    <Message Importance="high" Text="UnityProjectDir &quot;$(UnityProjectDir)&quot;." />
+    <Message Importance="high" Text="Copying unprocessed assemblies..." />
+    <Copy SourceFiles="@(UnprocessedFile)" DestinationFolder="$(ProjectDir)" />
   </Target>
  <Target Name="ModifyAppXPackage" Condition="'$(BuildingProject)' == 'true'" > 
-        <Message Importance="high" Text="UnityInstallationDir &quot;$(UnityInstallationDir)&quot;." />
-        <Message Importance="high" Text="UnityWSAPlayerDir &quot;$(UnityWSAPlayerDir)&quot;." />
-        <Message Importance="high" Text="UnityProjectDir &quot;$(UnityProjectDir)&quot;." />
-        <Message Importance="high" Text="Copying unprocessed assemblies..." />
-        <Copy SourceFiles="@(UnprocessedFile)" DestinationFolder="$(ProjectDir)" />
-        <PropertyGroup Condition=" '$(Configuration)' == 'Master' ">
-           <RemoveDebuggableAttribute>True</RemoveDebuggableAttribute>
-        </PropertyGroup>
-        <PropertyGroup Condition=" '$(Configuration)' != 'Master' ">
-           <RemoveDebuggableAttribute>False</RemoveDebuggableAttribute>
-        </PropertyGroup>
-        <Message Importance="high" Text="Running AssemblyConverter..." />
-        <Exec Command="&quot;$(UnityWSAToolsDir)\AssemblyConverter.exe&quot; -platform=wp81 -path=&quot;.&quot; -path=&quot;..\..\Players\WindowsPhone81\$(PlatformTarget)\$(Configuration)&quot; &quot;$(ProjectDir)Assembly-CSharp-firstpass.dll&quot; &quot;$(ProjectDir)Assembly-CSharp.dll&quot; &quot;$(ProjectDir)UnityEngine.dll&quot; &quot;$(ProjectDir)Facebook.Client.dll&quot; &quot;$(ProjectDir)MarkerMetro.Unity.WinLegacy.dll&quot; &quot;$(ProjectDir)MarkerMetro.Unity.WinIntegration.dll&quot; &quot;$(ProjectDir)UnityEngine.UI.dll&quot; &quot;$(ProjectDir)Facebook.dll&quot; &quot;$(ProjectDir)UnityEngine.Networking.dll&quot;" />
-        <Message Importance="high" Text="AssemblyConverter done." />
-        <Message Importance="high" Text="Modifying AppxPackagePayload" />
-        <ItemGroup>
-            <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(TargetPath)' == 'Assembly-CSharp-firstpass.dll'" />
-            <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(TargetPath)' == 'Assembly-CSharp.dll'" />
-            <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(TargetPath)' == 'UnityEngine.dll'" />
-            <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(TargetPath)' == 'Facebook.Client.dll'" />
-            <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(TargetPath)' == 'MarkerMetro.Unity.WinLegacy.dll'" />
-            <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(TargetPath)' == 'MarkerMetro.Unity.WinIntegration.dll'" />
-            <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(TargetPath)' == 'UnityEngine.UI.dll'" />
-            <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(TargetPath)' == 'Facebook.dll'" />
-            <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(TargetPath)' == 'UnityEngine.Networking.dll'" />
-        </ItemGroup>
-        <ItemGroup>
-            <AppxPackagePayload Include="$(ProjectDir)Assembly-CSharp-firstpass.dll">
-                <TargetPath>Assembly-CSharp-firstpass.dll</TargetPath>
-            </AppxPackagePayload>
-            <AppxPackagePayload Include="$(ProjectDir)Assembly-CSharp.dll">
-                <TargetPath>Assembly-CSharp.dll</TargetPath>
-            </AppxPackagePayload>
-            <AppxPackagePayload Include="$(ProjectDir)UnityEngine.dll">
-                <TargetPath>UnityEngine.dll</TargetPath>
-            </AppxPackagePayload>
-            <AppxPackagePayload Include="$(ProjectDir)Facebook.Client.dll">
-                <TargetPath>Facebook.Client.dll</TargetPath>
-            </AppxPackagePayload>
-            <AppxPackagePayload Include="$(ProjectDir)MarkerMetro.Unity.WinLegacy.dll">
-                <TargetPath>MarkerMetro.Unity.WinLegacy.dll</TargetPath>
-            </AppxPackagePayload>
-            <AppxPackagePayload Include="$(ProjectDir)MarkerMetro.Unity.WinIntegration.dll">
-                <TargetPath>MarkerMetro.Unity.WinIntegration.dll</TargetPath>
-            </AppxPackagePayload>
-            <AppxPackagePayload Include="$(ProjectDir)UnityEngine.UI.dll">
-                <TargetPath>UnityEngine.UI.dll</TargetPath>
-            </AppxPackagePayload>
-            <AppxPackagePayload Include="$(ProjectDir)Facebook.dll">
-                <TargetPath>Facebook.dll</TargetPath>
-            </AppxPackagePayload>
-            <AppxPackagePayload Include="$(ProjectDir)UnityEngine.Networking.dll">
-                <TargetPath>UnityEngine.Networking.dll</TargetPath>
-            </AppxPackagePayload>
-        </ItemGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Master' ">
+       <RemoveDebuggableAttribute>True</RemoveDebuggableAttribute>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' != 'Master' ">
+       <RemoveDebuggableAttribute>False</RemoveDebuggableAttribute>
+    </PropertyGroup>
+    <Message Importance="high" Text="Running AssemblyConverter..." />
+    <Exec Command="&quot;$(UnityWSAToolsDir)\AssemblyConverter.exe&quot; -platform=wp81 -path=&quot;.&quot; -path=&quot;..\..\Players\WindowsPhone81\$(PlatformTarget)\$(Configuration)&quot; &quot;$(ProjectDir)Assembly-CSharp-firstpass.dll&quot; &quot;$(ProjectDir)Assembly-CSharp.dll&quot; &quot;$(ProjectDir)UnityEngine.dll&quot; &quot;$(ProjectDir)Facebook.Client.dll&quot; &quot;$(ProjectDir)MarkerMetro.Unity.WinLegacy.dll&quot; &quot;$(ProjectDir)MarkerMetro.Unity.WinIntegration.dll&quot; &quot;$(ProjectDir)UnityEngine.UI.dll&quot; &quot;$(ProjectDir)Facebook.dll&quot; &quot;$(ProjectDir)UnityEngine.Networking.dll&quot;" />
+    <Message Importance="high" Text="AssemblyConverter done." />
+    <Message Importance="high" Text="Modifying AppxPackagePayload" />
+    <ItemGroup>
+        <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(TargetPath)' == 'Assembly-CSharp-firstpass.dll'" />
+        <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(TargetPath)' == 'Assembly-CSharp.dll'" />
+        <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(TargetPath)' == 'UnityEngine.dll'" />
+        <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(TargetPath)' == 'Facebook.Client.dll'" />
+        <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(TargetPath)' == 'MarkerMetro.Unity.WinLegacy.dll'" />
+        <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(TargetPath)' == 'MarkerMetro.Unity.WinIntegration.dll'" />
+        <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(TargetPath)' == 'UnityEngine.UI.dll'" />
+        <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(TargetPath)' == 'Facebook.dll'" />
+        <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(TargetPath)' == 'UnityEngine.Networking.dll'" />
+    </ItemGroup>
+    <ItemGroup>
+        <AppxPackagePayload Include="$(ProjectDir)Assembly-CSharp-firstpass.dll">
+            <TargetPath>Assembly-CSharp-firstpass.dll</TargetPath>
+        </AppxPackagePayload>
+        <AppxPackagePayload Include="$(ProjectDir)Assembly-CSharp.dll">
+            <TargetPath>Assembly-CSharp.dll</TargetPath>
+        </AppxPackagePayload>
+        <AppxPackagePayload Include="$(ProjectDir)UnityEngine.dll">
+            <TargetPath>UnityEngine.dll</TargetPath>
+        </AppxPackagePayload>
+        <AppxPackagePayload Include="$(ProjectDir)Facebook.Client.dll">
+            <TargetPath>Facebook.Client.dll</TargetPath>
+        </AppxPackagePayload>
+        <AppxPackagePayload Include="$(ProjectDir)MarkerMetro.Unity.WinLegacy.dll">
+            <TargetPath>MarkerMetro.Unity.WinLegacy.dll</TargetPath>
+        </AppxPackagePayload>
+        <AppxPackagePayload Include="$(ProjectDir)MarkerMetro.Unity.WinIntegration.dll">
+            <TargetPath>MarkerMetro.Unity.WinIntegration.dll</TargetPath>
+        </AppxPackagePayload>
+        <AppxPackagePayload Include="$(ProjectDir)UnityEngine.UI.dll">
+            <TargetPath>UnityEngine.UI.dll</TargetPath>
+        </AppxPackagePayload>
+        <AppxPackagePayload Include="$(ProjectDir)Facebook.dll">
+            <TargetPath>Facebook.dll</TargetPath>
+        </AppxPackagePayload>
+        <AppxPackagePayload Include="$(ProjectDir)UnityEngine.Networking.dll">
+            <TargetPath>UnityEngine.Networking.dll</TargetPath>
+        </AppxPackagePayload>
+    </ItemGroup>
    </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
    Other similar extension points exist, see Microsoft.Common.targets.
