@@ -268,11 +268,11 @@
     <Delete Files="$(ProjectDir)MarkerMetro.Unity.WinIntegration.pdb" Condition="Exists('$(ProjectDir)MarkerMetro.Unity.WinIntegration.pdb')" />
     <Delete Files="$(ProjectDir)MarkerMetro.Unity.WinIntegration.dll.mdb" Condition="Exists('$(ProjectDir)MarkerMetro.Unity.WinIntegration.dll.mdb')" />
     <Copy SourceFiles="$(ProjectDir)Plugins\SDK81\MarkerMetro.Unity.WinIntegration.pdb" DestinationFiles="$(ProjectDir)MarkerMetro.Unity.WinIntegration.pdb" Condition="Exists('$(ProjectDir)Plugins\SDK81\MarkerMetro.Unity.WinIntegration.pdb')" />
-        <Message Importance="high" Text="UnityInstallationDir &quot;$(UnityInstallationDir)&quot;." />
-        <Message Importance="high" Text="UnityWSAPlayerDir &quot;$(UnityWSAPlayerDir)&quot;." />
-        <Message Importance="high" Text="UnityProjectDir &quot;$(UnityProjectDir)&quot;." />
-        <Message Importance="high" Text="Copying unprocessed assemblies..." />
-        <Copy SourceFiles="@(UnprocessedFile)" DestinationFolder="$(ProjectDir)" />
+    <Message Importance="high" Text="UnityInstallationDir &quot;$(UnityInstallationDir)&quot;." />
+    <Message Importance="high" Text="UnityWSAPlayerDir &quot;$(UnityWSAPlayerDir)&quot;." />
+    <Message Importance="high" Text="UnityProjectDir &quot;$(UnityProjectDir)&quot;." />
+    <Message Importance="high" Text="Copying unprocessed assemblies..." />
+    <Copy SourceFiles="@(UnprocessedFile)" DestinationFolder="$(ProjectDir)" />
   </Target>
   <Target Name="ModifyAppXPackage" Condition="'$(BuildingProject)' == 'true'" > 
     <PropertyGroup Condition=" '$(Configuration)' == 'Master' ">
