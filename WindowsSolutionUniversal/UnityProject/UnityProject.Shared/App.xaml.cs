@@ -139,12 +139,17 @@ namespace UnityProject
             InitializeUnity(args.Arguments);
         }
 
-        private void InitializeUnity(string args)
-        {
-#if UNITY_WP_8_1
-            ApplicationView.GetForCurrentView().SuppressSystemOverlays = true;
+		private void InitializeUnity(string args)
+		{
+#if UNITY_WP_8_1 || UNITY_UWP
+			ApplicationView.GetForCurrentView().SuppressSystemOverlays = true;
+#if UNITY_UWP
+			if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+#endif
 #pragma warning disable 4014
-            StatusBar.GetForCurrentView().HideAsync();
+			{
+				StatusBar.GetForCurrentView().HideAsync();
+			}
 #pragma warning restore 4014
 #endif
             appCallbacks.SetAppArguments(args);
