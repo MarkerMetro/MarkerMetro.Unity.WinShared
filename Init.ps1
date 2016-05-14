@@ -13,16 +13,19 @@
 
 function Change-ProjectName([Parameter(Mandatory=$true)][String]$newPath, [Parameter(Mandatory=$true)][String]$name)
 {
-    $projectDir = $name + "Dir"
     Get-ChildItem $newPath -include *.xaml,*.*proj,*.cs,*.resw,*.resx,*.sln,*.appxmanifest,*StoreAssociation.xml,*AppManifest.xml -recurse | Where-Object {$_.Attributes -ne "Directory"} | ForEach-Object { (Get-Content $_ -Encoding UTF8) -replace "UnityProject",$name | Set-Content -path $_ -Encoding UTF8 }
+    
+    # Restore the "$(UnityProjectDir)" var because the previous step clobbered it
+    $projectDir = $name + "Dir"
     Get-ChildItem $newPath -include *.*proj -recurse | Where-Object {$_.Attributes -ne "Directory"} | ForEach-Object { (Get-Content $_ -Encoding UTF8) -replace $projectDir,"UnityProjectDir" | Set-Content -path $_ -Encoding UTF8}
+
     Get-ChildItem $newPath -recurse | % { if ( $_.Name.Contains("UnityProject")) { Rename-Item $_.FullName $_.Name.Replace("UnityProject",$name) } }
 }
 
 Write-Host 'Marker Metro script that allows you to add WinShared support to existing Unity project repository'
 Write-Host 'For this script you''l need to provide: '
 Write-Host '-TargetRepoPath: optional. path to a directory where Unity repository has been git-clonned to (example: C:\Code\TestProject\), if supplied WinShared will be copied to this directory.'
-Write-Host '-UnityProjectTargetDir: required. sub-directory under TargetRepoPath where Unity files are, can be empry (example: Unity\)'
+Write-Host '-UnityProjectTargetDir: required. sub-directory under TargetRepoPath where Unity files are, can be empty (example: Unity\)'
 Write-Host '-ProjectName: required. name for the project you are initializing matching Unity PlayerSettings (example: MyGame)'
 Write-Host '-IncludeExamples : optional. Boolean to indicate whether to include the example scene and game from Marker Metro to demonstrate WinIntegration features. Defaults to false'
 
@@ -71,6 +74,7 @@ try
     }
 
     $projectName = Read-Host 'ProjectName'
+    $projectName = $projectName -replace '\W+', ''
     if([System.String]::IsNullOrWhiteSpace($projectName))
     {
         # Critical error, a project name has to be specified.

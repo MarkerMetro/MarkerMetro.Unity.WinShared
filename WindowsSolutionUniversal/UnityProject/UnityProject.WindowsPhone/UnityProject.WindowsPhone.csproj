@@ -8,8 +8,8 @@
     <ProjectGuid>{D378C147-0ABA-4592-AB27-04F0DB138842}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Template</RootNamespace>
-    <AssemblyName>Template</AssemblyName>
+    <RootNamespace>UnityProject</RootNamespace>
+    <AssemblyName>UnityProject</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformVersion>8.1</TargetPlatformVersion>
     <MinimumVisualStudioVersion>12</MinimumVisualStudioVersion>
@@ -34,7 +34,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\ARM\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;UNITY_METRO;UNITY_WP_8_1</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;UNITY_METRO;UNITY_WSA;UNITY_WP_8_1</DefineConstants>
     <NoWarn>;2008</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>ARM</PlatformTarget>
@@ -44,7 +44,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
     <OutputPath>bin\ARM\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;UNITY_METRO;UNITY_WP_8_1</DefineConstants>
+    <DefineConstants>TRACE;NETFX_CORE;UNITY_METRO;UNITY_WSA;UNITY_WP_8_1</DefineConstants>
     <Optimize>true</Optimize>
     <NoWarn>;2008</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -56,7 +56,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;UNITY_METRO;UNITY_WP_8_1</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;UNITY_METRO;UNITY_WSA;UNITY_WP_8_1</DefineConstants>
     <NoWarn>;2008</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
@@ -66,7 +66,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;UNITY_METRO;UNITY_WP_8_1</DefineConstants>
+    <DefineConstants>TRACE;NETFX_CORE;UNITY_METRO;UNITY_WSA;UNITY_WP_8_1</DefineConstants>
     <Optimize>true</Optimize>
     <NoWarn>;2008</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -77,7 +77,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Master|ARM'">
     <OutputPath>bin\ARM\Master\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;UNITY_METRO;UNITY_WP_8_1</DefineConstants>
+    <DefineConstants>TRACE;NETFX_CORE;UNITY_METRO;UNITY_WSA;UNITY_WP_8_1</DefineConstants>
     <Optimize>true</Optimize>
     <NoWarn>;2008</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -88,7 +88,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Master|x86'">
     <OutputPath>bin\x86\Master\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;UNITY_METRO;UNITY_WP_8_1</DefineConstants>
+    <DefineConstants>TRACE;NETFX_CORE;UNITY_METRO;UNITY_WSA;UNITY_WP_8_1</DefineConstants>
     <Optimize>true</Optimize>
     <NoWarn>;2008</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -103,10 +103,10 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Assembly-CSharp-firstpass.dll">
+    <Reference Include="Assembly-CSharp-firstpass">
       <HintPath>.\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
-    <Reference Include="Assembly-CSharp.dll">
+    <Reference Include="Assembly-CSharp">
       <HintPath>.\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Content Include="Assets\AppIcon.scale-240.png" />
@@ -127,16 +127,16 @@
     <Content Include="Assets\WideLogo.scale-100.png" />
     <Content Include="Assets\WideLogo.scale-140.png" />
     <Content Include="Assets\WideLogo.scale-240.png" />
-    <Reference Include="Facebook.dll">
+    <Reference Include="Facebook">
       <HintPath>.\Facebook.dll</HintPath>
     </Reference>
-    <Reference Include="LitJson.dll">
+    <Reference Include="LitJson">
       <HintPath>.\LitJson.dll</HintPath>
     </Reference>
-    <Reference Include="MarkerMetro.Unity.WinIntegration.dll">
+    <Reference Include="MarkerMetro.Unity.WinIntegration">
       <HintPath>.\MarkerMetro.Unity.WinIntegration.dll</HintPath>
     </Reference>
-    <Reference Include="MarkerMetro.Unity.WinLegacy.dll">
+    <Reference Include="MarkerMetro.Unity.WinLegacy">
       <HintPath>.\MarkerMetro.Unity.WinLegacy.dll</HintPath>
     </Reference>
     <Reference Include="Mindscape.Raygun4Net.WindowsStore">
@@ -145,13 +145,13 @@
     <Reference Include="NotificationsExtensions">
       <HintPath>..\..\packages\NotificationsExtensions.Portable.1.0.3\lib\NotificationsExtensions.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.dll">
+    <Reference Include="UnityEngine">
       <HintPath>.\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Networking">
       <HintPath>.\UnityEngine.Networking.dll</HintPath>
     </Reference>
-    <Reference Include="WinRTLegacy.dll">
+    <Reference Include="WinRTLegacy">
       <HintPath>.\WinRTLegacy.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
@@ -207,7 +207,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'QA|ARM'">
     <OutputPath>bin\ARM\QA\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;UNITY_METRO;UNITY_WP_8_1;QA</DefineConstants>
+    <DefineConstants>TRACE;NETFX_CORE;UNITY_METRO;UNITY_WSA;UNITY_WP_8_1;QA</DefineConstants>
     <Optimize>true</Optimize>
     <NoWarn>;2008</NoWarn>
     <NoStdLib>true</NoStdLib>
@@ -220,7 +220,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'QA|x86'">
     <OutputPath>bin\x86\QA\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;UNITY_METRO;UNITY_WP_8_1;QA</DefineConstants>
+    <DefineConstants>TRACE;NETFX_CORE;UNITY_METRO;UNITY_WSA;UNITY_WP_8_1;QA</DefineConstants>
     <Optimize>true</Optimize>
     <NoWarn>;2008</NoWarn>
     <NoStdLib>true</NoStdLib>
@@ -236,8 +236,13 @@
   <ItemGroup>
     <UnprocessedFile Include="$(ProjectDir)Unprocessed\*" />
   </ItemGroup>
-  <ItemGroup />
-  <Target Name="BeforeResolveReferences">
+ <PropertyGroup>
+   <_GenerateAppxManifestDependsOn>
+    ModifyAppXPackage;
+    $(_GenerateAppxManifestDependsOn)
+   </_GenerateAppxManifestDependsOn>
+  </PropertyGroup>
+  <Target Name="BeforeResolveReferences" Condition="'$(BuildingProject)' == 'true'" >
     <Copy SourceFiles="$(ProjectDir)Plugins\PhoneSDK81\Facebook.Client.dll" DestinationFiles="$(ProjectDir)Facebook.Client.dll" />
     <Delete Files="$(ProjectDir)Facebook.Client.pdb" Condition="Exists('$(ProjectDir)Facebook.Client.pdb')" />
     <Delete Files="$(ProjectDir)Facebook.Client.dll.mdb" Condition="Exists('$(ProjectDir)Facebook.Client.dll.mdb')" />
@@ -260,11 +265,58 @@
     <Message Importance="high" Text="Copying unprocessed assemblies..." />
     <Copy SourceFiles="@(UnprocessedFile)" DestinationFolder="$(ProjectDir)" />
   </Target>
-  <Target Name="BeforeCompile">
+ <Target Name="ModifyAppXPackage" Condition="'$(BuildingProject)' == 'true'" > 
+    <PropertyGroup Condition=" '$(Configuration)' == 'Master' ">
+       <RemoveDebuggableAttribute>True</RemoveDebuggableAttribute>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' != 'Master' ">
+       <RemoveDebuggableAttribute>False</RemoveDebuggableAttribute>
+    </PropertyGroup>
     <Message Importance="high" Text="Running AssemblyConverter..." />
-    <Exec Command="&quot;$(UnityWSAToolsDir)\AssemblyConverter.exe&quot; -platform=wp81 -path=&quot;.&quot; -path=&quot;..\Players\WindowsPhone81\$(PlatformTarget)\$(Configuration)&quot; &quot;$(ProjectDir)Assembly-CSharp-firstpass.dll&quot; &quot;$(ProjectDir)Assembly-CSharp.dll&quot; &quot;$(ProjectDir)UnityEngine.dll&quot; &quot;$(ProjectDir)Facebook.Client.dll&quot; &quot;$(ProjectDir)MarkerMetro.Unity.WinLegacy.dll&quot; &quot;$(ProjectDir)MarkerMetro.Unity.WinIntegration.dll&quot; &quot;$(ProjectDir)UnityEngine.UI.dll&quot; &quot;$(ProjectDir)Facebook.dll&quot; &quot;$(ProjectDir)UnityEngine.Networking.dll&quot;" />
+    <Exec Command="&quot;$(UnityWSAToolsDir)\AssemblyConverter.exe&quot; -platform=wp81 -path=&quot;.&quot; -path=&quot;..\..\Players\WindowsPhone81\$(PlatformTarget)\$(Configuration)&quot; &quot;$(ProjectDir)Assembly-CSharp-firstpass.dll&quot; &quot;$(ProjectDir)Assembly-CSharp.dll&quot; &quot;$(ProjectDir)UnityEngine.dll&quot; &quot;$(ProjectDir)Facebook.Client.dll&quot; &quot;$(ProjectDir)MarkerMetro.Unity.WinLegacy.dll&quot; &quot;$(ProjectDir)MarkerMetro.Unity.WinIntegration.dll&quot; &quot;$(ProjectDir)UnityEngine.UI.dll&quot; &quot;$(ProjectDir)Facebook.dll&quot; &quot;$(ProjectDir)UnityEngine.Networking.dll&quot;" />
     <Message Importance="high" Text="AssemblyConverter done." />
-  </Target>
+    <Message Importance="high" Text="Modifying AppxPackagePayload" />
+    <ItemGroup>
+        <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(TargetPath)' == 'Assembly-CSharp-firstpass.dll'" />
+        <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(TargetPath)' == 'Assembly-CSharp.dll'" />
+        <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(TargetPath)' == 'UnityEngine.dll'" />
+        <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(TargetPath)' == 'Facebook.Client.dll'" />
+        <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(TargetPath)' == 'MarkerMetro.Unity.WinLegacy.dll'" />
+        <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(TargetPath)' == 'MarkerMetro.Unity.WinIntegration.dll'" />
+        <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(TargetPath)' == 'UnityEngine.UI.dll'" />
+        <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(TargetPath)' == 'Facebook.dll'" />
+        <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(TargetPath)' == 'UnityEngine.Networking.dll'" />
+    </ItemGroup>
+    <ItemGroup>
+        <AppxPackagePayload Include="$(ProjectDir)Assembly-CSharp-firstpass.dll">
+            <TargetPath>Assembly-CSharp-firstpass.dll</TargetPath>
+        </AppxPackagePayload>
+        <AppxPackagePayload Include="$(ProjectDir)Assembly-CSharp.dll">
+            <TargetPath>Assembly-CSharp.dll</TargetPath>
+        </AppxPackagePayload>
+        <AppxPackagePayload Include="$(ProjectDir)UnityEngine.dll">
+            <TargetPath>UnityEngine.dll</TargetPath>
+        </AppxPackagePayload>
+        <AppxPackagePayload Include="$(ProjectDir)Facebook.Client.dll">
+            <TargetPath>Facebook.Client.dll</TargetPath>
+        </AppxPackagePayload>
+        <AppxPackagePayload Include="$(ProjectDir)MarkerMetro.Unity.WinLegacy.dll">
+            <TargetPath>MarkerMetro.Unity.WinLegacy.dll</TargetPath>
+        </AppxPackagePayload>
+        <AppxPackagePayload Include="$(ProjectDir)MarkerMetro.Unity.WinIntegration.dll">
+            <TargetPath>MarkerMetro.Unity.WinIntegration.dll</TargetPath>
+        </AppxPackagePayload>
+        <AppxPackagePayload Include="$(ProjectDir)UnityEngine.UI.dll">
+            <TargetPath>UnityEngine.UI.dll</TargetPath>
+        </AppxPackagePayload>
+        <AppxPackagePayload Include="$(ProjectDir)Facebook.dll">
+            <TargetPath>Facebook.dll</TargetPath>
+        </AppxPackagePayload>
+        <AppxPackagePayload Include="$(ProjectDir)UnityEngine.Networking.dll">
+            <TargetPath>UnityEngine.Networking.dll</TargetPath>
+        </AppxPackagePayload>
+    </ItemGroup>
+   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
    Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
