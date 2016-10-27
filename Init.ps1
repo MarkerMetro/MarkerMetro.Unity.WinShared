@@ -24,6 +24,7 @@ Write-Host 'For this script you''l need to provide: '
 Write-Host '-TargetRepoPath: optional. path to a directory where Unity repository has been git-clonned to (example: C:\Code\TestProject\), if supplied WinShared will be copied to this directory.'
 Write-Host '-UnityProjectTargetDir: required. sub-directory under TargetRepoPath where Unity files are, can be empry (example: Unity\)'
 Write-Host '-ProjectName: required. name for the project you are initializing matching Unity PlayerSettings (example: MyGame)'
+Write-Host '-WindowsSolutionTargetDir: optional. sub-directory under TargetRepoPath where Windows Solution is built to. (e.g. defaults to ''WindowsSolutionUniversal'', for Win 10 use''Windows10Solution'')'
 Write-Host '-IncludeExamples : optional. Boolean to indicate whether to include the example scene and game from Marker Metro to demonstrate WinIntegration features. Defaults to false'
 
 try
@@ -77,8 +78,13 @@ try
         throw 'Invalid project name'
     }
 
-    # Set default winSolutionTargetDir to WindowsSolutionUniversal
-    $winSolutionTargetDir = 'WindowsSolutionUniversal'
+    $winSolutionTargetDir = Read-Host 'WindowsSolutionTargetDir'
+
+    if([System.String]::IsNullOrWhiteSpace($winSolutionTargetDir))
+    {
+        # Set default winSolutionTargetDir to WindowsSolutionUniversal
+        $winSolutionTargetDir = 'WindowsSolutionUniversal'
+    }
 
     # Ensure winSolutionTargetDir exists in WinShared
     if(!(Test-Path (Join-Path (split-path -parent $MyInvocation.MyCommand.Definition) $winSolutionTargetDir) -PathType Container))
@@ -131,7 +137,7 @@ try
         Copy-Item (ScriptSubDirectory '.gitignore') $unityProjectTargetPath -Force
     }
 
-    # Always copy universal solution over to the target project if it is not rename only
+    # Copy windows solution over to the target project if it is not rename only
     if (!$renameOnly)
     {
         Write-Host ('Copying Windows Solution files and folders to: ' + $targetRepoPath + '...')

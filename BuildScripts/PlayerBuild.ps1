@@ -59,13 +59,20 @@ Try
 			$buildTarget = "Metro"			
 		}
 		
+        "Windows10"
+		{
+			$methodName += "BuildUniversal10"
+			$displayName = "Windows 10"	
+			$buildTarget = "Metro"			
+		}
+
 		default
 		{
 			throw "Invalid platform"
 		}
 	}
 
-	& "$unityPath" -buildTarget $buildTarget -projectPath $projectPath -batchmode -quit -logFile $projectPath\logs\$methodName.log -executeMethod $methodName -CustomArgs:outputPath=$outputPath | Out-Null
+	& "$unityPath" -buildTarget $buildTarget -projectPath $projectPath -batchmode -nographics -quit -logFile $projectPath\logs\$methodName.log -executeMethod $methodName -CustomArgs:outputPath=$outputPath | Out-Null
 
 	$result = $?
 

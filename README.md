@@ -15,9 +15,9 @@ https://www.dropbox.com/s/w8wt0au5602vl57/MarkerMetro.Unity.WinShared.jpg
 Prerequisites
 ==================
 
-- Visual Studio 2013 with latest updates
+- Visual Studio 2015 with latest updates
 - Nuget Package Manager
-- Unity 5.2.0p1 or later (commit 0362f4e564f515047690331610d9975609a69e7a is the last one that supports Unity 5.0)
+- Unity 5.2.2p4 or later (commit 0362f4e564f515047690331610d9975609a69e7a is the last one that supports Unity 5.0)
 
 Using WinShared on an existing porting project
 ============================================
@@ -60,6 +60,7 @@ Provided here is guidance for working with WinShared (and projects based on WinS
 ## Windows Solution Build Output
 
 The WindowsSolutionUniversal folder contains the Windows Store and Windows Phone apps (Windows 8.1 and Windows Phone 8.1 Universal).
+The Windows10Solution folder contains the Windows 10 app.
 
 ### Building to Windows
 
@@ -68,6 +69,7 @@ You must build out from Unity for the Windows Solutions to work. You can do this
 Ensure that you build out to the correct output folders as follows:
 
 - Windows 8.1 Universal > /WindowsSolutionUniversal
+- Windows 10 Universal > /Windows10Solution
 
 ### Game Settings
 

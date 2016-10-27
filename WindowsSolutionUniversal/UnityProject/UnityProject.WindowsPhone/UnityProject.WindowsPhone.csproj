@@ -262,7 +262,7 @@
   </Target>
   <Target Name="BeforeCompile">
     <Message Importance="high" Text="Running AssemblyConverter..." />
-    <Exec Command="&quot;$(UnityWSAToolsDir)\AssemblyConverter.exe&quot; -platform=wp81 -path=&quot;.&quot; -path=&quot;..\Players\WindowsPhone81\$(PlatformTarget)\$(Configuration)&quot; &quot;$(ProjectDir)Assembly-CSharp-firstpass.dll&quot; &quot;$(ProjectDir)Assembly-CSharp.dll&quot; &quot;$(ProjectDir)UnityEngine.dll&quot; &quot;$(ProjectDir)Facebook.Client.dll&quot; &quot;$(ProjectDir)MarkerMetro.Unity.WinLegacy.dll&quot; &quot;$(ProjectDir)MarkerMetro.Unity.WinIntegration.dll&quot; &quot;$(ProjectDir)UnityEngine.UI.dll&quot; &quot;$(ProjectDir)Facebook.dll&quot; &quot;$(ProjectDir)UnityEngine.Networking.dll&quot;" />
+    <Exec Command="&quot;$(UnityWSAToolsDir)\AssemblyConverter.exe&quot; -platform=wp81 -path=&quot;.&quot; -path=&quot;..\Players\WindowsPhone81\$(PlatformTarget)\$(UnityConfig)&quot; &quot;$(ProjectDir)Assembly-CSharp-firstpass.dll&quot; &quot;$(ProjectDir)Assembly-CSharp.dll&quot; &quot;$(ProjectDir)UnityEngine.dll&quot; &quot;$(ProjectDir)Facebook.Client.dll&quot; &quot;$(ProjectDir)MarkerMetro.Unity.WinLegacy.dll&quot; &quot;$(ProjectDir)MarkerMetro.Unity.WinIntegration.dll&quot; &quot;$(ProjectDir)UnityEngine.UI.dll&quot; &quot;$(ProjectDir)Facebook.dll&quot; &quot;$(ProjectDir)UnityEngine.Networking.dll&quot;" />
     <Message Importance="high" Text="AssemblyConverter done." />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

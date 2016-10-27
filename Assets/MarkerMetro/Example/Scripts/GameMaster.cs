@@ -13,8 +13,10 @@ using LitJson;
 using MarkerMetro.Unity.WinShared;
 using MarkerMetro.Unity.WinIntegration.Logging;
 
-#if (UNITY_WP_8_1) && !UNITY_EDITOR
+#if UNITY_WP_8_1 && !UNITY_EDITOR
 using FBWin = MarkerMetro.Unity.WinIntegration.Facebook.FBNative;
+#elif UNITY_WSA_10_0
+using FBWin = MarkerMetro.Unity.WinIntegration.Facebook.FBUWP;
 #else
 using FBWin = MarkerMetro.Unity.WinIntegration.Facebook.FB;
 #endif
@@ -25,7 +27,7 @@ namespace MarkerMetro.Unity.WinShared.Example
     {
         bool _soundEnabled = true;
         bool _musicEnabled = true;
-#if UNITY_EDITOR || !UNITY_WINRT_8_1
+#if UNITY_EDITOR || !(UNITY_WSA_10_0 || UNITY_WINRT_8_1)
         bool _reminderEnabled = true;
 #endif
 
@@ -78,7 +80,7 @@ namespace MarkerMetro.Unity.WinShared.Example
         {
             get
             {
-#if !UNITY_EDITOR && UNITY_WINRT_8_1
+#if !UNITY_EDITOR && (UNITY_WSA_10_0 || UNITY_WINRT_8_1)
                 return ReminderManager.AreRemindersEnabled();
 #else
                 return _reminderEnabled;
@@ -86,7 +88,7 @@ namespace MarkerMetro.Unity.WinShared.Example
             }
             set
             {
-#if !UNITY_EDITOR && UNITY_WINRT_8_1
+#if !UNITY_EDITOR && (UNITY_WSA_10_0 || UNITY_WINRT_8_1)
                 ReminderManager.SetRemindersStatus(value);
 #else
                 _reminderEnabled = value;
@@ -184,7 +186,7 @@ namespace MarkerMetro.Unity.WinShared.Example
             _musicAudioSource = GetComponents<AudioSource>()[1];
 
             // Reminder and Facebook aren't supported in Unity Editor.
-#if !UNITY_EDITOR && UNITY_WINRT_8_1
+#if !UNITY_EDITOR && (UNITY_WSA_10_0 || UNITY_WINRT_8_1)
             if (ReminderManager.AreRemindersEnabled() && DateTime.TryParse(PlayerPrefs.GetString("_reminderStartTime", string.Empty), out _reminderStartTime))
             {
                 CheckReminder();
@@ -208,7 +210,7 @@ namespace MarkerMetro.Unity.WinShared.Example
             CreateTiles();
             DoChangeState(GAME_STATE.GS_START);
 
-#if !UNITY_EDITOR && UNITY_WINRT_8_1
+#if !UNITY_EDITOR && (UNITY_WSA_10_0 || UNITY_WINRT_8_1)
             FBWin.Init(SetFBInit, GameController.Instance.GameConfig.FacebookAppId, null);
 #endif
         }
@@ -218,7 +220,7 @@ namespace MarkerMetro.Unity.WinShared.Example
             _remainingMoves = _maxMoves;
             _numberMatches = 0;
 
-#if !UNITY_EDITOR && UNITY_WINRT_8_1
+#if !UNITY_EDITOR && (UNITY_WSA_10_0 || UNITY_WINRT_8_1)
             AppVersion = "AppVersion: " + Helper.Instance.GetAppVersion();
             Language = "Language: " + Helper.Instance.GetAppLanguage();
             try
@@ -250,7 +252,7 @@ namespace MarkerMetro.Unity.WinShared.Example
 
         void Update()
         {
-#if !UNITY_EDITOR && UNITY_WINRT_8_1
+#if !UNITY_EDITOR && (UNITY_WSA_10_0 || UNITY_WINRT_8_1)
             // Update Info.
             Language = "Language: " + Helper.Instance.GetAppLanguage();
             Internet = "Is Online: " + Helper.Instance.HasInternetConnection;
@@ -540,11 +542,11 @@ namespace MarkerMetro.Unity.WinShared.Example
                 {
                     StartCoroutine(SetFBStatus(user));
                 });
-#elif (UNITY_WSA_8_1 && !UNITY_EDITOR)
-                FacebookName = FB.UserName; 
+#elif (UNITY_WSA_10_0 || UNITY_WSA_8_1) && !UNITY_EDITOR
+                FacebookName = FBWin.UserName; 
                 PopulateFriends();
                 FacebookImage = new Texture2D(128, 128, TextureFormat.DXT1, false);
-                yield return StartCoroutine(GetFBPicture(FB.UserId, FacebookImage));
+                yield return StartCoroutine(GetFBPicture(FBWin.UserId, FacebookImage));
 #else
                 FacebookName = "Logged In (picture and name to do!)";
                 yield break;
@@ -577,7 +579,7 @@ namespace MarkerMetro.Unity.WinShared.Example
         public void PopulateFriends()
         {
             Debug.Log("Populate Friends.");
-#if !UNITY_EDITOR && UNITY_WINRT_8_1
+#if !UNITY_EDITOR && (UNITY_WSA_10_0 || UNITY_WINRT_8_1)
             if (FBWin.IsLoggedIn)
             {
                 // Get the friends
@@ -589,15 +591,17 @@ namespace MarkerMetro.Unity.WinShared.Example
         public void InviteFriends()
         {
             Debug.Log("Invite Friends.");
-#if !UNITY_EDITOR && UNITY_WINRT_8_1
+#if !UNITY_EDITOR && (UNITY_WSA_10_0 || UNITY_WINRT_8_1)
             if (FBWin.IsLoggedIn)
             {
                 // title param only supported in WP8 (FBNative) at the moment.
                 FBWin.AppRequest(message: "Come Play FaceFlip!", callback: (result) =>
                 {
                     Debug.Log("AppRequest result: " + result.Text);
+#if !UNITY_WSA_10_0
                     if (result.Json != null)
                         Debug.Log("AppRequest Json: " + result.Json.ToString());
+#endif
 #if UNITY_WP_8_1
                 }, title: "FaceFlip Invite");
 #else
@@ -610,7 +614,7 @@ namespace MarkerMetro.Unity.WinShared.Example
         public void PostFeed()
         {
             Debug.Log("Post to Feed.");
-#if !UNITY_EDITOR && UNITY_WINRT_8_1
+#if !UNITY_EDITOR && (UNITY_WSA_10_0 || UNITY_WINRT_8_1)
             if (FBWin.IsLoggedIn)
             {
                 FBWin.Feed(
@@ -622,8 +626,10 @@ namespace MarkerMetro.Unity.WinShared.Example
                     callback: (result) =>
                 {
                     Debug.Log("Feed result: " + result.Text);
+#if !UNITY_WSA_10_0
                     if (result.Json != null)
                         Debug.Log("Feed Json: " + result.Json.ToString());
+#endif
                 });
             }
 #endif
@@ -686,7 +692,7 @@ namespace MarkerMetro.Unity.WinShared.Example
 
             Debug.Log("Set Reminder.");
 
-#if !UNITY_EDITOR && UNITY_WINRT_8_1
+#if !UNITY_EDITOR && (UNITY_WSA_10_0 || UNITY_WINRT_8_1)
             ReminderManager.SetRemindersStatus(true);
             ReminderManager.RegisterReminder("testID", "Face Flip", "This is a reminder.", DateTime.Now.AddSeconds(ReminderTime));
 #endif
@@ -724,7 +730,7 @@ namespace MarkerMetro.Unity.WinShared.Example
             }
 
             Debug.Log("Remove Reminder.");
-#if !UNITY_EDITOR && UNITY_WINRT_8_1
+#if !UNITY_EDITOR && (UNITY_WSA_10_0 || UNITY_WINRT_8_1)
             ReminderManager.RemoveReminder("testID");
 #endif
         }
@@ -732,7 +738,7 @@ namespace MarkerMetro.Unity.WinShared.Example
         public void SendEmail()
         {
             Debug.Log("Send Email.");
-#if !UNITY_EDITOR && UNITY_WINRT_8_1
+#if !UNITY_EDITOR && (UNITY_WSA_10_0 || UNITY_WINRT_8_1)
             Helper.Instance.SendEmail("test@example.com;test2@example.com", "Hello!",
                 "This is a test mail.\nBye!");
 #endif
@@ -741,7 +747,7 @@ namespace MarkerMetro.Unity.WinShared.Example
         public void RetrieveProducts()
         {
             Debug.Log("Retrieve Products.");
-#if !UNITY_EDITOR && UNITY_WINRT_8_1
+#if !UNITY_EDITOR && (UNITY_WSA_10_0 || UNITY_WINRT_8_1)
             // retrieve store products.
             StoreManager.Instance.RetrieveProducts((products) =>
             {
@@ -761,7 +767,7 @@ namespace MarkerMetro.Unity.WinShared.Example
         public void PurchaseMove(Product product)
         {
             Debug.Log("Purchase Move.");
-#if !UNITY_EDITOR && UNITY_WINRT_8_1
+#if !UNITY_EDITOR && (UNITY_WSA_10_0 || UNITY_WINRT_8_1)
             StoreManager.Instance.PurchaseProduct(product, (receipt) =>
             {
                 if (receipt.Success)
@@ -792,7 +798,7 @@ namespace MarkerMetro.Unity.WinShared.Example
         public void ShowShareUI()
         {
             Debug.Log("Show Share UI.");
-#if !UNITY_EDITOR && UNITY_WINRT_8_1
+#if !UNITY_EDITOR && (UNITY_WSA_10_0 || UNITY_WINRT_8_1)
 #if UNITY_METRO
             Helper.Instance.ShowShareUI();
 #else
@@ -812,7 +818,7 @@ namespace MarkerMetro.Unity.WinShared.Example
         public void PlayVideo()
         {
             Debug.Log("PlayVideo.");
-#if !UNITY_EDITOR && UNITY_WINRT_8_1
+#if !UNITY_EDITOR && (UNITY_WSA_10_0 || UNITY_WINRT_8_1)
             string path = Application.streamingAssetsPath + "/MarkerMetro/Example/ExampleVideo.mp4";
             VideoPlayer.PlayVideo(path, () =>
             {
